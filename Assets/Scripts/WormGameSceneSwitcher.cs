@@ -42,4 +42,9 @@ public class WormGameSceneSwitcher : MonoBehaviour
     {
         SceneManager.LoadScene("GameScene");
     }
+    
+    public void LoadGameEndScene()
+    {
+        SceneManager.LoadScene("GameEndScene");
+    }
 }
