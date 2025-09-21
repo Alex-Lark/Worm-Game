@@ -24,12 +24,21 @@ public class InputHandler : MonoBehaviour
             OptionsMenu.Instance.TryToToggleOptionsMenu();
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
+            print("w pressed");
             if (SceneManager.GetActiveScene().name == "GameScene")
             {
                 Player.Instance.MoveForward();
             }
         }
+
+        // if (SceneManager.GetActiveScene().name == "GameScene")
+        // {
+        //     float h = Input.GetAxisRaw("Horizontal");
+        //     float v = Input.GetAxisRaw("Vertical");
+        //
+        //     Player.Instance.Move(h, v);
+        // }
     }
 }
