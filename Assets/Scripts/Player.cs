@@ -12,11 +12,10 @@ public class Player : MonoBehaviour
     public Transform wormHead;
     public List<Transform> wormParts;
 
-    private int wormSegmentCount = 10;
-    private float moveSpeed = 5f;
-    private float rotationSpeed = 10f;
-    private float maxPartDistance = 0.5f;
-
+    private int wormSegmentCount = GameParameters.WormSegmentCount;
+    private float moveSpeed = GameParameters.WormMoveSpeed;
+    private float rotationSpeed = GameParameters.WormRotationSpeed;
+    private float maxPartDistance = GameParameters.SegmentMaxPartDistance;
     private float maxAngle = GameParameters.MaxWormTurnAngle;
 
     void Awake()
