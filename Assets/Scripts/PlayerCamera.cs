@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 
-public class FreeLookClampCine3 : MonoBehaviour
+public class PlayerCamera : MonoBehaviour
 {
     public CinemachineCamera cineCam;
     private CinemachineOrbitalFollow orbitalFollow;
@@ -16,18 +16,19 @@ public class FreeLookClampCine3 : MonoBehaviour
 
     void LateUpdate()
     {
-        if (orbitalFollow == null || Player.Instance == null) return;
+        if (orbitalFollow == null || Player.Instance == null || Player.Instance.wormHead == null) return;
 
-        float playerYaw = Player.Instance.transform.eulerAngles.y;
+        // Use the head's yaw instead of the parent
+        float headYaw = Player.Instance.wormHead.eulerAngles.y;
         float camYaw = orbitalFollow.HorizontalAxis.Value;
 
-        // Compute signed difference between camera and player yaw
-        float angle = Mathf.DeltaAngle(playerYaw, camYaw);
+        // Compute signed difference between camera and head yaw
+        float angle = Mathf.DeltaAngle(headYaw, camYaw);
 
-        // Clamp relative to player's forward
+        // Clamp relative to head's forward
         float clampedAngle = Mathf.Clamp(angle, -maxAngle, maxAngle);
 
         // Apply correction
-        orbitalFollow.HorizontalAxis.Value = playerYaw + clampedAngle;
+        orbitalFollow.HorizontalAxis.Value = headYaw + clampedAngle;
     }
 }

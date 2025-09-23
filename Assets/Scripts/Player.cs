@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     
     private float moveSpeed = 5f;
     private float rotationSpeed = 10f;
-    private float maxPartDistance = 1f;
+    private float maxPartDistance = 0.5f;
     
     void Awake()
     {
@@ -61,9 +61,40 @@ public class Player : MonoBehaviour
         if (camForward.sqrMagnitude > 0.01f)
         {
             Quaternion targetRot = Quaternion.LookRotation(camForward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+            wormHead.rotation = Quaternion.Slerp(wormHead.rotation, targetRot, rotationSpeed * Time.deltaTime);
         }
         
         controller.Move(camForward * moveSpeed * Time.deltaTime);
+
+        //MoveWormBody();
+    }
+
+    private void MoveWormBody() 
+    {
+        Vector3 previousPosition = wormHead.transform.position;
+        float maxMovePerFrame = moveSpeed * Time.deltaTime; // Limit body movement speed
+    
+        for (int i = 0; i < wormParts.Count; i++)
+        {
+            Transform part = wormParts[i];
+            Vector3 toPrev = previousPosition - part.position;
+            float distance = toPrev.magnitude;
+        
+            if (distance > maxPartDistance)
+            {
+                float moveDistance = distance - maxPartDistance;
+                // Clamp the movement to prevent excessive speed
+                moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
+            
+                part.position += toPrev.normalized * moveDistance;
+            
+                if (toPrev.sqrMagnitude > 0.001f)
+                    part.rotation = Quaternion.Slerp(part.rotation,
+                        Quaternion.LookRotation(toPrev),
+                        rotationSpeed * Time.deltaTime);
+            }
+        
+            previousPosition = part.position;
+        }
     }
 }
