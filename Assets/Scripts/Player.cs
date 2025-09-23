@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -6,9 +7,13 @@ public class Player : MonoBehaviour
     
     public GameObject thirdPersonCamera;
     public CharacterController controller;
+
+    public Transform wormHead;
+    public List<Transform> wormParts;
     
     private float moveSpeed = 5f;
     private float rotationSpeed = 10f;
+    private float maxPartDistance = 1f;
     
     void Awake()
     {
@@ -20,6 +25,30 @@ public class Player : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    void Start()
+    {
+        ConstructWorm();
+    }
+
+    private void ConstructWorm()
+    {
+        // Start from the head
+        Vector3 currentPos = wormHead.position;
+        Vector3 backDir = -wormHead.forward; // opposite of head's facing direction
+
+        for (int i = 0; i < wormParts.Count; i++)
+        {
+            // Position each part maxPartDistance behind the previous one
+            currentPos += backDir * maxPartDistance;
+
+            Transform part = wormParts[i];
+            part.position = currentPos;
+
+            // Optional: align rotation with head
+            part.rotation = wormHead.rotation;
         }
     }
 
@@ -35,12 +64,6 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
         }
         
-        print("moving forward: " + (camForward * moveSpeed * Time.deltaTime));
         controller.Move(camForward * moveSpeed * Time.deltaTime);
-    }
-
-    public void Move(float horizontalInput, float verticalInput)
-    {
-        
     }
 }
