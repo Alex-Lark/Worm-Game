@@ -6,11 +6,13 @@ public class Player : MonoBehaviour
     public static Player Instance;
 
     public GameObject thirdPersonCamera;
+    public GameObject wormSegmentPrefab;
     public CharacterController controller;
 
     public Transform wormHead;
     public List<Transform> wormParts;
 
+    private int wormSegmentCount = 10;
     private float moveSpeed = 5f;
     private float rotationSpeed = 10f;
     private float maxPartDistance = 0.5f;
@@ -32,7 +34,18 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        wormParts.Clear();
+        CreateWormSegments();
         ConstructWorm();
+    }
+
+    private void CreateWormSegments()
+    {
+        for (int i = 0; i < wormSegmentCount; i++)
+        {
+            GameObject newWormSegment = Instantiate(wormSegmentPrefab);
+            wormParts.Add(newWormSegment.transform);
+        }
     }
 
     private void ConstructWorm()
