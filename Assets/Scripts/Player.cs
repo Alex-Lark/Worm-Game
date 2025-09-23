@@ -4,17 +4,19 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static Player Instance;
-    
+
     public GameObject thirdPersonCamera;
     public CharacterController controller;
 
     public Transform wormHead;
     public List<Transform> wormParts;
-    
+
     private float moveSpeed = 5f;
     private float rotationSpeed = 10f;
     private float maxPartDistance = 0.5f;
-    
+
+    private float maxAngle = GameParameters.MaxWormTurnAngle;
+
     void Awake()
     {
         if (Instance == null)
@@ -57,44 +59,71 @@ public class Player : MonoBehaviour
         Vector3 camForward = thirdPersonCamera.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
-        
-        if (camForward.sqrMagnitude > 0.01f)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(camForward);
-            wormHead.rotation = Quaternion.Slerp(wormHead.rotation, targetRot, rotationSpeed * Time.deltaTime);
-        }
-        
-        controller.Move(camForward * moveSpeed * Time.deltaTime);
 
-        //MoveWormBody();
+        // Calculate the desired rotation
+        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
+
+        // Apply angle constraint to prevent sharp turns
+        Quaternion constrainedRotation = ApplyTurnConstraint(wormHead.rotation, desiredRotation);
+
+        // Smoothly rotate toward the constrained target
+        wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
+
+        // Move in the direction the worm head is actually facing (not camera direction)
+        Vector3 wormForward = wormHead.forward;
+        controller.Move(wormForward * moveSpeed * Time.deltaTime);
+
+        MoveWormBody();
     }
 
-    private void MoveWormBody() 
+    private Quaternion ApplyTurnConstraint(Quaternion currentRotation, Quaternion desiredRotation)
+    {
+        // Calculate the angle between current and desired rotation
+        float angle = Quaternion.Angle(currentRotation, desiredRotation);
+
+        // If the angle is within our constraint, return the desired rotation
+        if (angle <= maxAngle)
+        {
+            return desiredRotation;
+        }
+
+        // Otherwise, limit the rotation to maxAngle degrees from current rotation
+        float t = maxAngle / angle; // This gives us the fraction of rotation we can apply
+        return Quaternion.Slerp(currentRotation, desiredRotation, t);
+    }
+
+    private void MoveWormBody()
     {
         Vector3 previousPosition = wormHead.transform.position;
-        float maxMovePerFrame = moveSpeed * Time.deltaTime; // Limit body movement speed
-    
+        float maxMovePerFrame = moveSpeed * Time.deltaTime;
+
         for (int i = 0; i < wormParts.Count; i++)
         {
             Transform part = wormParts[i];
             Vector3 toPrev = previousPosition - part.position;
             float distance = toPrev.magnitude;
-        
+
             if (distance > maxPartDistance)
             {
                 float moveDistance = distance - maxPartDistance;
-                // Clamp the movement to prevent excessive speed
                 moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
-            
+
                 part.position += toPrev.normalized * moveDistance;
-            
+
+                // Apply the same turn constraint to body parts
                 if (toPrev.sqrMagnitude > 0.001f)
+                {
+                    Quaternion desiredBodyRotation = Quaternion.LookRotation(toPrev);
+                    Quaternion constrainedBodyRotation = ApplyTurnConstraint(part.rotation, desiredBodyRotation);
+
                     part.rotation = Quaternion.Slerp(part.rotation,
-                        Quaternion.LookRotation(toPrev),
+                        constrainedBodyRotation,
                         rotationSpeed * Time.deltaTime);
+                }
             }
-        
+
             previousPosition = part.position;
         }
     }
 }
+
