@@ -58,7 +58,10 @@ public class Player : MonoBehaviour
         
         Vector3 wormForward = wormHead.forward;
         
-        controller.Move(wormForward * moveSpeed * Time.deltaTime);
+        //controller.Move(wormForward * moveSpeed * Time.deltaTime);
+
+        ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
+        articulationBody.AddForce(moveSpeed * camForward);
     }
     
     private void CreateWormSegments()

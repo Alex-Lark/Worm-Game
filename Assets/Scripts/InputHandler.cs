@@ -26,7 +26,6 @@ public class InputHandler : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            print("w pressed");
             if (SceneManager.GetActiveScene().name == "GameScene")
             {
                 Player.Instance.MoveForward();
