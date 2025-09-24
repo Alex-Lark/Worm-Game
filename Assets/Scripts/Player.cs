@@ -36,13 +36,37 @@ public class Player : MonoBehaviour
         wormParts.Clear();
         CreateWormSegments();
         ConstructWorm();
+        GetComponent<WormPhysics>().AddCollidersToSegments();
     }
 
+    void Update()
+    {
+        MoveWormBody();
+    }
+
+    public void MoveForward()
+    {
+        Vector3 camForward = thirdPersonCamera.transform.forward;
+        camForward.y = 0f;
+        camForward.Normalize();
+        
+        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
+        
+        Quaternion constrainedRotation = ApplyTurnConstraint(wormHead.rotation, desiredRotation);
+        
+        wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
+        
+        Vector3 wormForward = wormHead.forward;
+        controller.Move(wormForward * moveSpeed * Time.deltaTime);
+
+        //MoveWormBody();
+    }
+    
     private void CreateWormSegments()
     {
         for (int i = 0; i < wormSegmentCount; i++)
         {
-            GameObject newWormSegment = Instantiate(wormSegmentPrefab);
+            GameObject newWormSegment = Instantiate(wormSegmentPrefab, transform);
             wormParts.Add(newWormSegment.transform);
         }
     }
@@ -62,24 +86,6 @@ public class Player : MonoBehaviour
             
             part.rotation = wormHead.rotation;
         }
-    }
-
-    public void MoveForward()
-    {
-        Vector3 camForward = thirdPersonCamera.transform.forward;
-        camForward.y = 0f;
-        camForward.Normalize();
-        
-        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
-        
-        Quaternion constrainedRotation = ApplyTurnConstraint(wormHead.rotation, desiredRotation);
-        
-        wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
-        
-        Vector3 wormForward = wormHead.forward;
-        controller.Move(wormForward * moveSpeed * Time.deltaTime);
-
-        MoveWormBody();
     }
 
     private Quaternion ApplyTurnConstraint(Quaternion currentRotation, Quaternion desiredRotation)
