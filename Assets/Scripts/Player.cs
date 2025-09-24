@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
         wormParts.Clear();
         CreateWormSegments();
         ConstructWorm();
-        GetComponent<WormPhysics>().AddCollidersToSegments();
+        //GetComponent<WormPhysics>().AddCollidersToSegments();
     }
 
     void Update()
@@ -57,9 +57,8 @@ public class Player : MonoBehaviour
         wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
         
         Vector3 wormForward = wormHead.forward;
+        
         controller.Move(wormForward * moveSpeed * Time.deltaTime);
-
-        //MoveWormBody();
     }
     
     private void CreateWormSegments()
