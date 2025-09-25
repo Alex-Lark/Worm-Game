@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     public GameObject thirdPersonCamera;
     public GameObject wormSegmentPrefab;
     public Transform wormHead;
+    public Transform wormVisualHead;
     public List<Transform> wormParts;
 
     private int wormSegmentCount = GameParameters.WormSegmentCount;
@@ -41,7 +43,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MoveWormBody();
+        //MoveWormBody();
         
         Vector3 camForward = thirdPersonCamera.transform.forward;
         camForward.y = 0f;
@@ -51,35 +53,27 @@ public class Player : MonoBehaviour
         if (camForward.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(camForward);
-            wormHead.rotation = targetRotation;
+            wormVisualHead.rotation = targetRotation;
         }
     }
 
-    public void MoveForward()
+    public void MoveForward() 
     {
         Vector3 camForward = thirdPersonCamera.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
-        
-        //Quaternion desiredRotation = Quaternion.LookRotation(camForward);
-        
-        //Quaternion constrainedRotation = ApplyTurnConstraint(wormHead.rotation, desiredRotation);
-        
-        //wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
-        
-        //Vector3 wormForward = wormHead.forward;
-        
-        //controller.Move(wormForward * moveSpeed * Time.deltaTime);
 
         Rigidbody rigidbody = wormHead.GetComponent<Rigidbody>();
-        rigidbody.AddForce(moveSpeed * camForward);
-        //ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
-        //articulationBody.AddForce(moveSpeed * camForward);
-
-        // Keep yaw rotation, but kill pitch/roll drift
-        //Vector3 angVel = articulationBody.angularVelocity;
-        //articulationBody.angularVelocity = new Vector3(0f, angVel.y, 0f);
-
+    
+        // Calculate target rotation: move towards camForward from current rotation by MaxAngle
+        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
+        Quaternion currentRotation = wormHead.rotation;
+        Quaternion targetRotation = ApplyTurnConstraint(currentRotation, desiredRotation);
+        
+        wormHead.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+    
+        // Move forward towards new orientation
+        rigidbody.AddForce(moveSpeed * wormHead.forward);
     }
     
     private void CreateWormSegments()
@@ -95,7 +89,9 @@ public class Player : MonoBehaviour
     {
         
         Vector3 currentPos = wormHead.position;
-        Vector3 backDir = -wormHead.forward; 
+        Vector3 backDir = -wormHead.forward;
+
+        Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
 
         for (int i = 0; i < wormParts.Count; i++)
         {
@@ -105,6 +101,10 @@ public class Player : MonoBehaviour
             part.position = currentPos;
             
             part.rotation = wormHead.rotation;
+
+            wormParts[i].AddComponent<FixedJoint>();
+            wormParts[i].GetComponent<FixedJoint>().connectedBody = previousSegmentRigidBody;
+            previousSegmentRigidBody = wormParts[i].GetComponent<Rigidbody>();
         }
     }
 
