@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,12 +40,22 @@ public class Player : MonoBehaviour
         //GetComponent<WormPhysics>().AddCollidersToSegments();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         MoveWormBody();
         ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
         Debug.Log($"Angular Velocity: {articulationBody.angularVelocity}");
         Debug.Log($"Velocity: {articulationBody.linearVelocity}");
+        Vector3 camForward = thirdPersonCamera.transform.forward;
+        
+        if (camForward.magnitude > 0.1f) // Only rotate if there's a clear direction
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(camForward);
+            wormHead.rotation = targetRotation; // Direct assignment
+        
+            // OR for smooth rotation:
+            // wormHead.rotation = Quaternion.Slerp(wormHead.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+        }
     }
 
     public void MoveForward()
