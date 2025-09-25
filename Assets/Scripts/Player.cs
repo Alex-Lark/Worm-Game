@@ -35,7 +35,8 @@ public class Player : MonoBehaviour
         wormParts.Clear();
         CreateWormSegments();
         ConstructWorm();
-        //GetComponent<WormPhysics>().AddCollidersToSegments();
+        GetComponent<WormPhysics>().AddCollidersToSegments();
+        GetComponent<WormPhysics>().SetupWormCollisions();
     }
 
     private void FixedUpdate()

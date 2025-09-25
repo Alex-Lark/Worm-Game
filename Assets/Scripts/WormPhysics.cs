@@ -69,4 +69,34 @@ public class WormPhysics : MonoBehaviour
             }
         }
     }
+    
+    public void SetupWormCollisions()
+    {
+        List<Collider> wormColliders = new List<Collider>();
+    
+        // Get all colliders (same as above)
+        Collider headCollider = Player.Instance.wormHead.GetComponent<Collider>();
+        if (headCollider != null) wormColliders.Add(headCollider);
+    
+        foreach (Transform segment in Player.Instance.wormParts)
+        {
+            Collider segmentCollider = segment.GetComponent<Collider>();
+            if (segmentCollider != null) wormColliders.Add(segmentCollider);
+        }
+    
+        // Ignore collisions between segments that are close to each other
+        int ignoreDistance = 3; // How many segments apart before they can collide
+    
+        for (int i = 0; i < wormColliders.Count; i++)
+        {
+            for (int j = i + 1; j < wormColliders.Count; j++)
+            {
+                // If segments are within ignoreDistance of each other, ignore collision
+                if (Mathf.Abs(i - j) <= ignoreDistance)
+                {
+                    Physics.IgnoreCollision(wormColliders[i], wormColliders[j]);
+                }
+            }
+        }
+    }
 }
