@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
 
     public GameObject thirdPersonCamera;
     public GameObject wormSegmentPrefab;
-    public CharacterController controller;
-
     public Transform wormHead;
     public List<Transform> wormParts;
 
@@ -43,18 +41,16 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         MoveWormBody();
-        ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
-        Debug.Log($"Angular Velocity: {articulationBody.angularVelocity}");
-        Debug.Log($"Velocity: {articulationBody.linearVelocity}");
-        Vector3 camForward = thirdPersonCamera.transform.forward;
         
-        if (camForward.magnitude > 0.1f) // Only rotate if there's a clear direction
+        Vector3 camForward = thirdPersonCamera.transform.forward;
+        camForward.y = 0f;
+        camForward.Normalize();
+    
+        // Set rotation directly (freezeRotation allows this)
+        if (camForward.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(camForward);
-            wormHead.rotation = targetRotation; // Direct assignment
-        
-            // OR for smooth rotation:
-            // wormHead.rotation = Quaternion.Slerp(wormHead.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            wormHead.rotation = targetRotation;
         }
     }
 
@@ -74,13 +70,15 @@ public class Player : MonoBehaviour
         
         //controller.Move(wormForward * moveSpeed * Time.deltaTime);
 
-        ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
-        articulationBody.AddForce(moveSpeed * camForward);
-        
+        Rigidbody rigidbody = wormHead.GetComponent<Rigidbody>();
+        rigidbody.AddForce(moveSpeed * camForward);
+        //ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
+        //articulationBody.AddForce(moveSpeed * camForward);
+
         // Keep yaw rotation, but kill pitch/roll drift
         //Vector3 angVel = articulationBody.angularVelocity;
         //articulationBody.angularVelocity = new Vector3(0f, angVel.y, 0f);
-        
+
     }
     
     private void CreateWormSegments()
