@@ -8,7 +8,7 @@ public static class GameParameters
     [Header("Worm Movement")]
     public static readonly float MaxWormTurnAngle = 30f;
     public static readonly float SegmentMaxPartDistance = 0.3f;
-    public static readonly float WormMoveSpeed = 5f;
+    public static readonly float WormMoveSpeed = 15f;
     public static readonly float WormRotationSpeed = 10f;
 
     [Header("Player Camera")]
