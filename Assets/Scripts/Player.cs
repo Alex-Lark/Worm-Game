@@ -42,6 +42,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         MoveWormBody();
+        ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
+        Debug.Log($"Angular Velocity: {articulationBody.angularVelocity}");
+        Debug.Log($"Velocity: {articulationBody.linearVelocity}");
     }
 
     public void MoveForward()
@@ -50,18 +53,23 @@ public class Player : MonoBehaviour
         camForward.y = 0f;
         camForward.Normalize();
         
-        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
+        //Quaternion desiredRotation = Quaternion.LookRotation(camForward);
         
-        Quaternion constrainedRotation = ApplyTurnConstraint(wormHead.rotation, desiredRotation);
+        //Quaternion constrainedRotation = ApplyTurnConstraint(wormHead.rotation, desiredRotation);
         
-        wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
+        //wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
         
-        Vector3 wormForward = wormHead.forward;
+        //Vector3 wormForward = wormHead.forward;
         
         //controller.Move(wormForward * moveSpeed * Time.deltaTime);
 
         ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
         articulationBody.AddForce(moveSpeed * camForward);
+        
+        // Keep yaw rotation, but kill pitch/roll drift
+        //Vector3 angVel = articulationBody.angularVelocity;
+        //articulationBody.angularVelocity = new Vector3(0f, angVel.y, 0f);
+        
     }
     
     private void CreateWormSegments()
