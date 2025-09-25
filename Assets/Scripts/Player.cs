@@ -102,10 +102,33 @@ public class Player : MonoBehaviour
             
             part.rotation = wormHead.rotation;
 
-            wormParts[i].AddComponent<FixedJoint>();
-            wormParts[i].GetComponent<FixedJoint>().connectedBody = previousSegmentRigidBody;
-            previousSegmentRigidBody = wormParts[i].GetComponent<Rigidbody>();
+            previousSegmentRigidBody =  AddJoint(wormParts[i], previousSegmentRigidBody);
         }
+    }
+
+    private Rigidbody AddJoint(Transform wormPart, Rigidbody previousSegmentRigidBody) 
+    {
+        ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
+        joint.connectedBody = previousSegmentRigidBody;
+    
+        // Lock all motion to replicate FixedJoint behavior
+        joint.xMotion = ConfigurableJointMotion.Locked;
+        joint.yMotion = ConfigurableJointMotion.Locked;
+        joint.zMotion = ConfigurableJointMotion.Locked;
+    
+        // Set angular limits to MaxTurnAngle
+        SoftJointLimit angularLimit = new SoftJointLimit();
+        angularLimit.limit = maxAngle; // MaxTurnAngle in degrees
+        angularLimit.bounciness = 0f; // No bouncing at limits
+    
+        joint.lowAngularXLimit = angularLimit;
+        joint.highAngularXLimit = angularLimit;
+        joint.angularYLimit = angularLimit;
+        joint.angularZLimit = angularLimit;
+    
+        previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
+    
+        return previousSegmentRigidBody;
     }
 
     private Quaternion ApplyTurnConstraint(Quaternion currentRotation, Quaternion desiredRotation)
