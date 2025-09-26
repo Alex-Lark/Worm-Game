@@ -40,9 +40,35 @@ public class Player : MonoBehaviour
         GetComponent<WormPhysics>().AddCollidersToSegments();
         GetComponent<WormPhysics>().SetupWormCollisions();
     }
+    
+    void Update()
+    {
+        Rigidbody headRb = wormHead.GetComponent<Rigidbody>();
+        if (headRb.angularVelocity.magnitude > 0.01f)
+        {
+            Debug.Log($"HEAD IS ROTATING when it shouldn't! Angular velocity: {headRb.angularVelocity}");
+        }
+    }
 
     private void FixedUpdate()
     {
+            Rigidbody rb = wormParts[0].GetComponent<Rigidbody>();
+            Rigidbody headRB = wormHead.GetComponent<Rigidbody>();
+            ConfigurableJoint conJoint = wormParts[0].GetComponent<ConfigurableJoint>();
+            
+            Debug.Log($"Segment 0 Angular Velocity: {rb.angularVelocity.magnitude:F3}");
+            Debug.Log($"Segment 0 Velocity: {rb.linearVelocity.magnitude:F3}");
+            
+                Vector3 headAngularVel = headRB.angularVelocity;
+                Debug.Log($"Head Angular Velocity: {headAngularVel.magnitude:F3}");
+            
+                // Check if head is actually stationary
+                Debug.Log($"Head Velocity: {headRB.linearVelocity.magnitude:F3}");
+            
+            // Check for external forces
+            Debug.Log($"Segment 0 Joint Current Force: {conJoint.currentForce.magnitude:F3}");
+            Debug.Log($"Segment 0 Joint Current Torque: {conJoint.currentTorque.magnitude:F3}");
+        
         //MoveWormBody();
         
         Vector3 camForward = thirdPersonCamera.transform.forward;
@@ -111,23 +137,43 @@ public class Player : MonoBehaviour
         ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
         joint.connectedBody = previousSegmentRigidBody;
     
-        // Lock all motion to replicate FixedJoint behavior
+        // Lock linear motion to maintain exact distance
         joint.xMotion = ConfigurableJointMotion.Locked;
         joint.yMotion = ConfigurableJointMotion.Locked;
         joint.zMotion = ConfigurableJointMotion.Locked;
     
-        // Set angular limits to MaxTurnAngle
+        // Set the anchor point to be maxPartDistance behind the previous segment
+        joint.anchor = Vector3.back * maxPartDistance; // Local space offset
+        joint.connectedAnchor = Vector3.zero; // Previous segment's center
+    
+        // Limited angular motion within maxAngle cone
+        joint.angularXMotion = ConfigurableJointMotion.Limited;
+        joint.angularYMotion = ConfigurableJointMotion.Limited;
+        joint.angularZMotion = ConfigurableJointMotion.Limited;
+    
+        // Set angular limits to maxAngle
         SoftJointLimit angularLimit = new SoftJointLimit();
-        angularLimit.limit = maxAngle; // MaxTurnAngle in degrees
-        angularLimit.bounciness = 0f; // No bouncing at limits
+        angularLimit.limit = maxAngle; // Cone angle from directly behind
+        angularLimit.bounciness = 0f;
     
         joint.lowAngularXLimit = angularLimit;
         joint.highAngularXLimit = angularLimit;
         joint.angularYLimit = angularLimit;
         joint.angularZLimit = angularLimit;
     
-        previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
+        // Strong damping to prevent free rotation
+        JointDrive angularDrive = new JointDrive();
+        angularDrive.positionSpring = 500f; // Spring force to keep segments aligned
+        angularDrive.positionDamper = 10000f; // Damping to stop oscillation
+        angularDrive.maximumForce = 2000f;
     
+        joint.angularXDrive = angularDrive;
+        joint.angularYZDrive = angularDrive;
+    
+        // Set target rotation to be aligned with previous segment
+        joint.targetRotation = Quaternion.identity; // Try to stay aligned
+    
+        previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
         return previousSegmentRigidBody;
     }
 
