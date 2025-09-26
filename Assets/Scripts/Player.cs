@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
 
         Rigidbody rigidbody = wormHead.GetComponent<Rigidbody>();
     
-        // Calculate target rotation: move towards camForward from current rotation by MaxAngle
+        // Calculate target rotation: move towards camForward from current rotation by MaxWromHeadAngle
         Quaternion desiredRotation = Quaternion.LookRotation(camForward);
         Quaternion currentRotation = wormHead.rotation;
         Quaternion targetRotation = ApplyTurnConstraint(currentRotation, desiredRotation);
@@ -181,12 +181,12 @@ public class Player : MonoBehaviour
     {
         float angle = Quaternion.Angle(currentRotation, desiredRotation);
         
-        if (angle <= maxAngle)
+        if (angle <= GameParameters.MaxWormHeadTurnAngle)
         {
             return desiredRotation;
         }
         
-        float t = maxAngle / angle; 
+        float t = GameParameters.MaxWormHeadTurnAngle / angle; 
         return Quaternion.Slerp(currentRotation, desiredRotation, t);
     }
 
