@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
     public GameObject thirdPersonCamera;
     public GameObject wormSegmentPrefab;
     public Transform wormHead;
+    public Transform wormVisualHead;
     public List<Transform> wormParts;
 
     private int wormSegmentCount = GameParameters.WormSegmentCount;
@@ -38,10 +40,36 @@ public class Player : MonoBehaviour
         GetComponent<WormPhysics>().AddCollidersToSegments();
         GetComponent<WormPhysics>().SetupWormCollisions();
     }
+    
+    void Update()
+    {
+        Rigidbody headRb = wormHead.GetComponent<Rigidbody>();
+        if (headRb.angularVelocity.magnitude > 0.01f)
+        {
+            Debug.Log($"HEAD IS ROTATING when it shouldn't! Angular velocity: {headRb.angularVelocity}");
+        }
+    }
 
     private void FixedUpdate()
     {
-        MoveWormBody();
+            Rigidbody rb = wormParts[0].GetComponent<Rigidbody>();
+            Rigidbody headRB = wormHead.GetComponent<Rigidbody>();
+            ConfigurableJoint conJoint = wormParts[0].GetComponent<ConfigurableJoint>();
+            
+            Debug.Log($"Segment 0 Angular Velocity: {rb.angularVelocity.magnitude:F3}");
+            Debug.Log($"Segment 0 Velocity: {rb.linearVelocity.magnitude:F3}");
+            
+                Vector3 headAngularVel = headRB.angularVelocity;
+                Debug.Log($"Head Angular Velocity: {headAngularVel.magnitude:F3}");
+            
+                // Check if head is actually stationary
+                Debug.Log($"Head Velocity: {headRB.linearVelocity.magnitude:F3}");
+            
+            // Check for external forces
+            Debug.Log($"Segment 0 Joint Current Force: {conJoint.currentForce.magnitude:F3}");
+            Debug.Log($"Segment 0 Joint Current Torque: {conJoint.currentTorque.magnitude:F3}");
+        
+        //MoveWormBody();
         
         Vector3 camForward = thirdPersonCamera.transform.forward;
         camForward.y = 0f;
@@ -51,35 +79,27 @@ public class Player : MonoBehaviour
         if (camForward.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(camForward);
-            wormHead.rotation = targetRotation;
+            wormVisualHead.rotation = targetRotation;
         }
     }
 
-    public void MoveForward()
+    public void MoveForward() 
     {
         Vector3 camForward = thirdPersonCamera.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
-        
-        //Quaternion desiredRotation = Quaternion.LookRotation(camForward);
-        
-        //Quaternion constrainedRotation = ApplyTurnConstraint(wormHead.rotation, desiredRotation);
-        
-        //wormHead.rotation = Quaternion.Slerp(wormHead.rotation, constrainedRotation, rotationSpeed * Time.deltaTime);
-        
-        //Vector3 wormForward = wormHead.forward;
-        
-        //controller.Move(wormForward * moveSpeed * Time.deltaTime);
 
         Rigidbody rigidbody = wormHead.GetComponent<Rigidbody>();
-        rigidbody.AddForce(moveSpeed * camForward);
-        //ArticulationBody articulationBody = wormHead.GetComponent<ArticulationBody>();
-        //articulationBody.AddForce(moveSpeed * camForward);
-
-        // Keep yaw rotation, but kill pitch/roll drift
-        //Vector3 angVel = articulationBody.angularVelocity;
-        //articulationBody.angularVelocity = new Vector3(0f, angVel.y, 0f);
-
+    
+        // Calculate target rotation: move towards camForward from current rotation by MaxWromHeadAngle
+        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
+        Quaternion currentRotation = wormHead.rotation;
+        Quaternion targetRotation = ApplyTurnConstraint(currentRotation, desiredRotation);
+        
+        wormHead.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+    
+        // Move forward towards new orientation
+        rigidbody.AddForce(moveSpeed * wormHead.forward);
     }
     
     private void CreateWormSegments()
@@ -95,7 +115,9 @@ public class Player : MonoBehaviour
     {
         
         Vector3 currentPos = wormHead.position;
-        Vector3 backDir = -wormHead.forward; 
+        Vector3 backDir = -wormHead.forward;
+
+        Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
 
         for (int i = 0; i < wormParts.Count; i++)
         {
@@ -105,19 +127,66 @@ public class Player : MonoBehaviour
             part.position = currentPos;
             
             part.rotation = wormHead.rotation;
+
+            previousSegmentRigidBody =  AddJoint(wormParts[i], previousSegmentRigidBody);
         }
+    }
+
+    private Rigidbody AddJoint(Transform wormPart, Rigidbody previousSegmentRigidBody) 
+    {
+        ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
+        joint.connectedBody = previousSegmentRigidBody;
+    
+        // Lock linear motion to maintain exact distance
+        joint.xMotion = ConfigurableJointMotion.Locked;
+        joint.yMotion = ConfigurableJointMotion.Locked;
+        joint.zMotion = ConfigurableJointMotion.Locked;
+    
+        // Set the anchor point to be maxPartDistance behind the previous segment
+        joint.anchor = Vector3.back * maxPartDistance; // Local space offset
+        joint.connectedAnchor = Vector3.zero; // Previous segment's center
+    
+        // Limited angular motion within maxAngle cone
+        joint.angularXMotion = ConfigurableJointMotion.Limited;
+        joint.angularYMotion = ConfigurableJointMotion.Limited;
+        joint.angularZMotion = ConfigurableJointMotion.Limited;
+    
+        // Set angular limits to maxAngle
+        SoftJointLimit angularLimit = new SoftJointLimit();
+        angularLimit.limit = maxAngle; // Cone angle from directly behind
+        angularLimit.bounciness = 0f;
+    
+        joint.lowAngularXLimit = angularLimit;
+        joint.highAngularXLimit = angularLimit;
+        joint.angularYLimit = angularLimit;
+        joint.angularZLimit = angularLimit;
+    
+        // Strong damping to prevent free rotation
+        JointDrive angularDrive = new JointDrive();
+        angularDrive.positionSpring = 500f; // Spring force to keep segments aligned
+        angularDrive.positionDamper = 10000f; // Damping to stop oscillation
+        angularDrive.maximumForce = 2000f;
+    
+        joint.angularXDrive = angularDrive;
+        joint.angularYZDrive = angularDrive;
+    
+        // Set target rotation to be aligned with previous segment
+        joint.targetRotation = Quaternion.identity; // Try to stay aligned
+    
+        previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
+        return previousSegmentRigidBody;
     }
 
     private Quaternion ApplyTurnConstraint(Quaternion currentRotation, Quaternion desiredRotation)
     {
         float angle = Quaternion.Angle(currentRotation, desiredRotation);
         
-        if (angle <= maxAngle)
+        if (angle <= GameParameters.MaxWormHeadTurnAngle)
         {
             return desiredRotation;
         }
         
-        float t = maxAngle / angle; 
+        float t = GameParameters.MaxWormHeadTurnAngle / angle; 
         return Quaternion.Slerp(currentRotation, desiredRotation, t);
     }
 
