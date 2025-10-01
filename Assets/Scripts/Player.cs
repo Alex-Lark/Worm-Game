@@ -131,6 +131,8 @@ public class Player : MonoBehaviour
                 forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir * 2), 0f, GameParameters.WormMoveSpeed);
                 part.GetComponent<Rigidbody>().AddForce(correctionForce);
             }
+            
+            //should only work while grounded
             if (_isWormMoving)
             {
                 part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveSpeed - forceMagnitude) * previousPart.forward);
@@ -139,6 +141,21 @@ public class Player : MonoBehaviour
             previousPosition = part.position;
             previousPart = part;
         }
+    }
+
+    public void Jump()
+    {
+        print("applying jump");
+        
+        //if worm part on ground
+        wormHead.GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+
+        for (int i = 0; i < wormParts.Count; i++)
+        {
+            //if part is on ground
+            wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+        }
+        
     }
     
     private void CreateWormSegments()
@@ -224,7 +241,7 @@ public class Player : MonoBehaviour
         // Add damping to the joint itself
         JointDrive drive = new JointDrive();
         drive.positionSpring = 1000f;
-        drive.positionDamper = 100f;
+        drive.positionDamper = 10000f;
         drive.maximumForce = Mathf.Infinity;
     
         joint.xDrive = drive;

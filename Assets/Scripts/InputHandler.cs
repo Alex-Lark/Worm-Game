@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class InputHandler : MonoBehaviour
 {
     public static InputHandler Instance;
-    public bool isMovingForward;
+    public bool isJumping = false;
     
     void Awake()
     {
@@ -42,6 +42,14 @@ public class InputHandler : MonoBehaviour
                 Player.Instance.StopWormMoving();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                isJumping = true;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -54,5 +62,17 @@ public class InputHandler : MonoBehaviour
                 Player.Instance.MoveForward();
             }
         }
+
+        if (isJumping)
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.Jump();
+                print("calling jump");
+            }
+
+            isJumping = false;
+        }
+        
     }
 }
