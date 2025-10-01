@@ -57,18 +57,18 @@ public class Player : MonoBehaviour
             Rigidbody headRB = wormHead.GetComponent<Rigidbody>();
             ConfigurableJoint conJoint = wormParts[0].GetComponent<ConfigurableJoint>();
             
-            Debug.Log($"Segment 0 Angular Velocity: {rb.angularVelocity.magnitude:F3}");
-            Debug.Log($"Segment 0 Velocity: {rb.linearVelocity.magnitude:F3}");
-            
-                Vector3 headAngularVel = headRB.angularVelocity;
-                Debug.Log($"Head Angular Velocity: {headAngularVel.magnitude:F3}");
-            
-                // Check if head is actually stationary
-                Debug.Log($"Head Velocity: {headRB.linearVelocity.magnitude:F3}");
-            
-            // Check for external forces
-            Debug.Log($"Segment 0 Joint Current Force: {conJoint.currentForce.magnitude:F3}");
-            Debug.Log($"Segment 0 Joint Current Torque: {conJoint.currentTorque.magnitude:F3}");
+            // Debug.Log($"Segment 0 Angular Velocity: {rb.angularVelocity.magnitude:F3}");
+            // Debug.Log($"Segment 0 Velocity: {rb.linearVelocity.magnitude:F3}");
+            //
+            //     Vector3 headAngularVel = headRB.angularVelocity;
+            //     Debug.Log($"Head Angular Velocity: {headAngularVel.magnitude:F3}");
+            //
+            //     // Check if head is actually stationary
+            //     Debug.Log($"Head Velocity: {headRB.linearVelocity.magnitude:F3}");
+            //
+            // // Check for external forces
+            // Debug.Log($"Segment 0 Joint Current Force: {conJoint.currentForce.magnitude:F3}");
+            // Debug.Log($"Segment 0 Joint Current Torque: {conJoint.currentTorque.magnitude:F3}");
         
         //MoveWormBody();
         
@@ -148,6 +148,10 @@ public class Player : MonoBehaviour
             part.rotation = wormHead.rotation;
 
             previousSegmentRigidBody =  AddJoint(wormParts[i], previousSegmentRigidBody);
+            
+            Debug.Log("Head forward: " + wormHead.forward);
+            Debug.Log("PrevPart forward: " + previousSegmentRigidBody.gameObject.transform.forward);
+            Debug.Log("BackDir: " + backDir);
         }
     }
 
@@ -218,31 +222,54 @@ public class Player : MonoBehaviour
         {
                 
             Transform part = wormParts[i];
-            Rigidbody rb = part.GetComponent<Rigidbody>();
+            //Rigidbody rb = part.GetComponent<Rigidbody>();
             Vector3 toPrev = previousPosition - part.position;
             float distance = toPrev.magnitude;
             
             //calculating angle
-            Vector3 radiusBackPoint = previousPosition + (-previousPart.forward * maxPartDistance);
             Vector3 partToPreviousPartVector = (part.position - previousPosition).normalized;
-            Vector3 radiusBackPointToPreviousPartVector = (radiusBackPoint - previousPosition).normalized;
-            Vector3 axis = previousPart.up;  
+            Vector3 backVector = (-previousPart.forward).normalized;
+            Vector3 axis = previousPart.up;
             
-            float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, radiusBackPoint, axis);
+            float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, backVector, axis);
 
             if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
             {
-                print("Segment " + i + " angle: " + signedAngle);
+                Debug.Log("Segment " + i + " angle: " + signedAngle);
+                //TODO: use GameParameter.WormMoveSpeed as max force to constrain part to within angle
+                // how far past the limit
+                float excess = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
+
+                // scale factor 0..1, capped
+                float t = Mathf.Clamp01(excess / 90f); // 90° overshoot = full force
+
+                // correction direction = rotate backVector toward current offset
+                Vector3 correctionDir = Vector3.RotateTowards(
+                    partToPreviousPartVector,
+                    backVector,
+                    Mathf.Deg2Rad * excess,
+                    0f
+                ).normalized;
+
+                // correction force, up to WormMoveSpeed
+                Vector3 correctionForce = correctionDir * (t * GameParameters.WormMoveSpeed);
+
+                // apply to the rigidbody of this segment
+                Rigidbody rb = part.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.AddForce(correctionForce, ForceMode.Acceleration);
+                }
             }
             
             if (distance > maxPartDistance)
             {
-                float moveDistance = distance - maxPartDistance;
-                moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
-
-                Vector3 CenteringForce = ((moveDistance * moveDistance) * 500) * toPrev.normalized;
-                
-                part.GetComponent<Rigidbody>().AddForce(CenteringForce);
+                // float moveDistance = distance - maxPartDistance;
+                // moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
+                //
+                // Vector3 CenteringForce = ((moveDistance * moveDistance) * 500) * toPrev.normalized;
+                //
+                // part.GetComponent<Rigidbody>().AddForce(CenteringForce);
                 //part.position += toPrev.normalized * moveDistance;
             }
             if (isWormMoving)
