@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class InputHandler : MonoBehaviour
 {
     public static InputHandler Instance;
+    public bool isMovingForward;
+    
     void Awake()
     {
         if (Instance == null)
@@ -25,17 +27,6 @@ public class InputHandler : MonoBehaviour
             OptionsMenu.Instance.TryToToggleOptionsMenu();
         }
 
-        // if (SceneManager.GetActiveScene().name == "GameScene")
-        // {
-        //     float h = Input.GetAxisRaw("Horizontal");
-        //     float v = Input.GetAxisRaw("Vertical");
-        //
-        //     Player.Instance.Move(h, v);
-        // }
-    }
-
-    private void FixedUpdate()
-    {
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (SceneManager.GetActiveScene().name == "GameScene")
@@ -51,6 +42,10 @@ public class InputHandler : MonoBehaviour
                 Player.Instance.StopWormMoving();
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
         
         if (Input.GetKey(KeyCode.W))
         {
