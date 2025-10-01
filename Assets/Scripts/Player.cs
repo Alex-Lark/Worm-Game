@@ -53,25 +53,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-            Rigidbody rb = wormParts[0].GetComponent<Rigidbody>();
-            Rigidbody headRB = wormHead.GetComponent<Rigidbody>();
-            ConfigurableJoint conJoint = wormParts[0].GetComponent<ConfigurableJoint>();
-            
-            // Debug.Log($"Segment 0 Angular Velocity: {rb.angularVelocity.magnitude:F3}");
-            // Debug.Log($"Segment 0 Velocity: {rb.linearVelocity.magnitude:F3}");
-            //
-            //     Vector3 headAngularVel = headRB.angularVelocity;
-            //     Debug.Log($"Head Angular Velocity: {headAngularVel.magnitude:F3}");
-            //
-            //     // Check if head is actually stationary
-            //     Debug.Log($"Head Velocity: {headRB.linearVelocity.magnitude:F3}");
-            //
-            // // Check for external forces
-            // Debug.Log($"Segment 0 Joint Current Force: {conJoint.currentForce.magnitude:F3}");
-            // Debug.Log($"Segment 0 Joint Current Torque: {conJoint.currentTorque.magnitude:F3}");
-        
-        //MoveWormBody();
-        
         Vector3 camForward = thirdPersonCamera.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
@@ -82,6 +63,7 @@ public class Player : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(camForward);
             wormVisualHead.rotation = targetRotation;
         }
+        
         MoveWormBody();
     }
 
@@ -113,12 +95,48 @@ public class Player : MonoBehaviour
     
         // Move forward towards new orientation
         rigidbody.AddForce(moveSpeed * wormHead.forward);
+    }
+    
+    private void MoveWormBody()
+    {
+        Vector3 previousPosition = wormHead.transform.position;
+        Transform previousPart = wormHead;
+        
+        for (int i = 0; i < wormParts.Count; i++)
+        {
+            Transform part = wormParts[i];
+            
+            //calculating angle
+            Vector3 partToPreviousPartVector = (part.position - previousPosition).normalized;
+            Vector3 backVector = (-previousPart.forward).normalized;
+            Vector3 axis = previousPart.up;
+            float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, backVector, axis);
 
-        //MoveWormBody();
-        // for (int i = 0; i < wormParts.Count; i++)
-        // {
-        //     wormParts[i].GetComponent<Rigidbody>().AddForce(moveSpeed * wormHead.forward);
-        // }
+            float forceMagnitude = 0;
+
+            if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
+            {
+                Debug.Log("Segment " + i + " angle: " + signedAngle);
+                
+                float excessAngle = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
+                float t = Mathf.Clamp01(excessAngle / 90f);
+                forceMagnitude = t * GameParameters.WormMoveSpeed;
+                
+                Vector3 correctionDir = Vector3.RotateTowards(partToPreviousPartVector, backVector, Mathf.Deg2Rad * excessAngle, 0f).normalized;
+                
+                Vector3 correctionForce = correctionDir * (forceMagnitude);
+                Debug.Log("Applying force magnitude" + (forceMagnitude) + " to segment " + i);
+                
+                part.GetComponent<Rigidbody>().AddForce(correctionForce);
+            }
+            if (isWormMoving)
+            {
+                part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveSpeed - forceMagnitude) * previousPart.forward);
+            }
+            
+            previousPosition = part.position;
+            previousPart = part;
+        }
     }
     
     private void CreateWormSegments()
@@ -211,105 +229,6 @@ public class Player : MonoBehaviour
         
         float t = GameParameters.MaxWormHeadTurnAngle / angle; 
         return Quaternion.Slerp(currentRotation, desiredRotation, t);
-    }
-
-    private void MoveWormBody()
-    {
-        Vector3 previousPosition = wormHead.transform.position;
-        float maxMovePerFrame = moveSpeed * Time.deltaTime;
-        Transform previousPart = wormHead;
-        for (int i = 0; i < wormParts.Count; i++)
-        {
-                
-            Transform part = wormParts[i];
-            //Rigidbody rb = part.GetComponent<Rigidbody>();
-            Vector3 toPrev = previousPosition - part.position;
-            float distance = toPrev.magnitude;
-            
-            //calculating angle
-            Vector3 partToPreviousPartVector = (part.position - previousPosition).normalized;
-            Vector3 backVector = (-previousPart.forward).normalized;
-            Vector3 axis = previousPart.up;
-            
-            float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, backVector, axis);
-
-            if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
-            {
-                Debug.Log("Segment " + i + " angle: " + signedAngle);
-                //TODO: use GameParameter.WormMoveSpeed as max force to constrain part to within angle
-                // how far past the limit
-                float excess = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
-
-                // scale factor 0..1, capped
-                float t = Mathf.Clamp01(excess / 90f); // 90° overshoot = full force
-
-                // correction direction = rotate backVector toward current offset
-                Vector3 correctionDir = Vector3.RotateTowards(
-                    partToPreviousPartVector,
-                    backVector,
-                    Mathf.Deg2Rad * excess,
-                    0f
-                ).normalized;
-
-                // correction force, up to WormMoveSpeed
-                Vector3 correctionForce = correctionDir * (t * GameParameters.WormMoveSpeed);
-
-                // apply to the rigidbody of this segment
-                Rigidbody rb = part.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.AddForce(correctionForce, ForceMode.Acceleration);
-                }
-            }
-            
-            if (distance > maxPartDistance)
-            {
-                // float moveDistance = distance - maxPartDistance;
-                // moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
-                //
-                // Vector3 CenteringForce = ((moveDistance * moveDistance) * 500) * toPrev.normalized;
-                //
-                // part.GetComponent<Rigidbody>().AddForce(CenteringForce);
-                //part.position += toPrev.normalized * moveDistance;
-            }
-            if (isWormMoving)
-            {
-                part.GetComponent<Rigidbody>().AddForce(moveSpeed * previousPart.forward);
-            }
-            
-            previousPosition = part.position;
-            previousPart = part;
-        }
-        
-        // Vector3 previousPosition = wormHead.transform.position;
-        // float maxMovePerFrame = moveSpeed * Time.deltaTime;
-        //
-        // for (int i = 0; i < wormParts.Count; i++)
-        // {
-        //     Transform part = wormParts[i];
-        //     Vector3 toPrev = previousPosition - part.position;
-        //     float distance = toPrev.magnitude;
-        //
-        //     if (distance > maxPartDistance)
-        //     {
-        //         float moveDistance = distance - maxPartDistance;
-        //         moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
-        //
-        //         part.position += toPrev.normalized * moveDistance;
-        //         
-        //         if (toPrev.sqrMagnitude > 0.001f)
-        //         {
-        //             Quaternion desiredBodyRotation = Quaternion.LookRotation(toPrev);
-        //             Quaternion constrainedBodyRotation = ApplyTurnConstraint(part.rotation, desiredBodyRotation);
-        //
-        //             part.rotation = Quaternion.Slerp(part.rotation,
-        //                 constrainedBodyRotation,
-        //                 rotationSpeed * Time.deltaTime);
-        //         }
-        //     }
-        //
-        //     previousPosition = part.position;
-        // }
     }
 }
 
