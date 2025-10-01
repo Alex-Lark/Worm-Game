@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
     private bool _isWormMoving = false;
 
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
-    private readonly float _moveSpeed = GameParameters.WormMoveSpeed;
-    private readonly float _rotationSpeed = GameParameters.WormRotationSpeed;
+    private readonly float _moveForce = GameParameters.WormMoveForce;
+    private readonly float _wormHeadRotationSpeed = GameParameters.WormHeadRotationSpeed;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
     private readonly float _maxAngle = GameParameters.MaxWormTurnAngle;
 
@@ -39,29 +39,10 @@ public class Player : MonoBehaviour
         CreateWormSegments();
         ConstructWorm();
     }
-    
-    void Update()
-    {
-        Rigidbody headRb = wormHead.GetComponent<Rigidbody>();
-        if (headRb.angularVelocity.magnitude > 0.01f)
-        {
-            Debug.Log($"HEAD IS ROTATING when it shouldn't! Angular velocity: {headRb.angularVelocity}");
-        }
-    }
 
     private void FixedUpdate()
     {
-        Vector3 camForward = thirdPersonCamera.transform.forward;
-        camForward.y = 0f;
-        camForward.Normalize();
-    
-        // Set rotation directly (freezeRotation allows this)
-        if (camForward.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(camForward);
-            wormVisualHead.rotation = targetRotation;
-        }
-        
+        RotateVisualHead();
         MoveWormBody();
     }
 
@@ -78,21 +59,42 @@ public class Player : MonoBehaviour
 
     public void MoveForward() 
     {
+        //TODO: only if grounded
+        //TODO: head can exert some vertical control if not grounded
+        //TODO: add max speed
+        
+        Vector3 cameraForwardRotation = GetCameraForwardRotation();
+        Rigidbody wormHeadRigidbody = wormHead.GetComponent<Rigidbody>();
+        
+        Quaternion desiredRotation = Quaternion.LookRotation(cameraForwardRotation);
+        Quaternion currentRotation = wormHead.rotation;
+        
+        wormHead.rotation = Quaternion.Slerp(currentRotation, desiredRotation, _wormHeadRotationSpeed * Time.deltaTime);
+        
+        wormHeadRigidbody.AddForce(_moveForce * wormHead.forward);
+    }
+    
+    private void RotateVisualHead()
+    {
+        //TODO: allow vertical rotation
+        
+        Vector3 cameraForwardRotation = GetCameraForwardRotation();
+        
+        if (cameraForwardRotation.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(cameraForwardRotation);
+            wormVisualHead.rotation = targetRotation;
+        }
+        
+    }
+
+    private Vector3 GetCameraForwardRotation()
+    {
         Vector3 camForward = thirdPersonCamera.transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
 
-        Rigidbody rigidbody = wormHead.GetComponent<Rigidbody>();
-    
-        // Calculate target rotation: move towards camForward from current rotation by MaxWromHeadAngle
-        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
-        Quaternion currentRotation = wormHead.rotation;
-        Quaternion targetRotation = ApplyTurnConstraint(currentRotation, desiredRotation);
-        
-        wormHead.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationSpeed * Time.deltaTime);
-    
-        // Move forward towards new orientation
-        rigidbody.AddForce(_moveSpeed * wormHead.forward);
+        return camForward;
     }
     
     private void MoveWormBody()
@@ -110,17 +112,18 @@ public class Player : MonoBehaviour
             Vector3 backVector = (-previousPart.forward).normalized;
             Vector3 axis = previousPart.up;
             float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, backVector, axis);
-
-            float baseForceMagnitude = 0;
+            
             float forceMagnitude = 0;
 
             if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
             {
                 Debug.Log("Segment " + i + " angle: " + signedAngle);
                 
+                float baseForceMagnitude = 0;
+                
                 float excessAngle = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
                 float t = Mathf.Clamp01(excessAngle / 90f);
-                baseForceMagnitude = t * t * GameParameters.WormMoveSpeed;
+                baseForceMagnitude = t * t * GameParameters.WormMoveForce;
                 
                 Vector3 correctionDir = Vector3.RotateTowards(partToPreviousPartVector, backVector, Mathf.Deg2Rad * excessAngle, 0f).normalized;
                 float velocityInCorrectionDir = Vector3.Dot(partRigigBody.linearVelocity, correctionDir);
@@ -128,15 +131,18 @@ public class Player : MonoBehaviour
                 Vector3 correctionForce = correctionDir * (forceMagnitude);
                 Debug.Log("Applying force magnitude" + (forceMagnitude) + " to segment " + i + " it's current velocity in the correct direction is: " + velocityInCorrectionDir);
                 
-                forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir * 2), 0f, GameParameters.WormMoveSpeed);
+                forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir * 2), 0f, GameParameters.WormMoveForce);
                 part.GetComponent<Rigidbody>().AddForce(correctionForce);
             }
             
-            //should only work while grounded
+            //TODO: only works while grounded
+            
             if (_isWormMoving)
             {
-                part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveSpeed - forceMagnitude) * previousPart.forward);
+                part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveForce - forceMagnitude) * previousPart.forward);
             }
+            
+            //TODO: apply "sticky" force downwards if not moving
             
             previousPosition = part.position;
             previousPart = part;
@@ -145,14 +151,12 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        print("applying jump");
+        //TODO: only works if part is on ground
         
-        //if worm part on ground
         wormHead.GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
 
         for (int i = 0; i < wormParts.Count; i++)
         {
-            //if part is on ground
             wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
         }
         
@@ -169,7 +173,6 @@ public class Player : MonoBehaviour
 
     private void ConstructWorm()
     {
-        
         Vector3 currentPos = wormHead.position;
         Vector3 backDir = -wormHead.forward;
 
@@ -185,10 +188,6 @@ public class Player : MonoBehaviour
             part.rotation = wormHead.rotation;
 
             previousSegmentRigidBody =  AddJoint(wormParts[i], previousSegmentRigidBody);
-            
-            Debug.Log("Head forward: " + wormHead.forward);
-            Debug.Log("PrevPart forward: " + previousSegmentRigidBody.gameObject.transform.forward);
-            Debug.Log("BackDir: " + backDir);
         }
     }
 
@@ -253,19 +252,6 @@ public class Player : MonoBehaviour
     
         previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
         return previousSegmentRigidBody;
-    }
-
-    private Quaternion ApplyTurnConstraint(Quaternion currentRotation, Quaternion desiredRotation)
-    {
-        float angle = Quaternion.Angle(currentRotation, desiredRotation);
-        
-        if (angle <= GameParameters.MaxWormHeadTurnAngle)
-        {
-            return desiredRotation;
-        }
-        
-        float t = GameParameters.MaxWormHeadTurnAngle / angle; 
-        return Quaternion.Slerp(currentRotation, desiredRotation, t);
     }
 }
 

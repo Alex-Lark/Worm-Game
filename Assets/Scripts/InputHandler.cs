@@ -68,7 +68,6 @@ public class InputHandler : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "GameScene")
             {
                 Player.Instance.Jump();
-                print("calling jump");
             }
 
             isJumping = false;
