@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private float rotationSpeed = GameParameters.WormRotationSpeed;
     private float maxPartDistance = GameParameters.SegmentMaxPartDistance;
     private float maxAngle = GameParameters.MaxWormTurnAngle;
+    private bool isWormMoving = false;
 
     void Awake()
     {
@@ -37,8 +38,8 @@ public class Player : MonoBehaviour
         wormParts.Clear();
         CreateWormSegments();
         ConstructWorm();
-        GetComponent<WormPhysics>().AddCollidersToSegments();
-        GetComponent<WormPhysics>().SetupWormCollisions();
+        //GetComponent<WormPhysics>().AddCollidersToSegments();
+        //GetComponent<WormPhysics>().SetupWormCollisions();
     }
     
     void Update()
@@ -81,6 +82,18 @@ public class Player : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(camForward);
             wormVisualHead.rotation = targetRotation;
         }
+        MoveWormBody();
+    }
+
+    public void StartWormMoving()
+    {
+        isWormMoving = true;
+    }
+
+    public void StopWormMoving()
+    {
+        isWormMoving = false;
+        
     }
 
     public void MoveForward() 
@@ -100,6 +113,12 @@ public class Player : MonoBehaviour
     
         // Move forward towards new orientation
         rigidbody.AddForce(moveSpeed * wormHead.forward);
+
+        //MoveWormBody();
+        // for (int i = 0; i < wormParts.Count; i++)
+        // {
+        //     wormParts[i].GetComponent<Rigidbody>().AddForce(moveSpeed * wormHead.forward);
+        // }
     }
     
     private void CreateWormSegments()
@@ -194,33 +213,76 @@ public class Player : MonoBehaviour
     {
         Vector3 previousPosition = wormHead.transform.position;
         float maxMovePerFrame = moveSpeed * Time.deltaTime;
-
+        Transform previousPart = wormHead;
         for (int i = 0; i < wormParts.Count; i++)
         {
+                
             Transform part = wormParts[i];
+            Rigidbody rb = part.GetComponent<Rigidbody>();
             Vector3 toPrev = previousPosition - part.position;
             float distance = toPrev.magnitude;
+            
+            //calculating angle
+            Vector3 radiusBackPoint = previousPosition + (-previousPart.forward * maxPartDistance);
+            Vector3 partToPreviousPartVector = (part.position - previousPosition).normalized;
+            Vector3 radiusBackPointToPreviousPartVector = (radiusBackPoint - previousPosition).normalized;
+            Vector3 axis = previousPart.up;  
+            
+            float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, radiusBackPoint, axis);
 
+            if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
+            {
+                print("Segment " + i + " angle: " + signedAngle);
+            }
+            
             if (distance > maxPartDistance)
             {
                 float moveDistance = distance - maxPartDistance;
                 moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
 
-                part.position += toPrev.normalized * moveDistance;
+                Vector3 CenteringForce = ((moveDistance * moveDistance) * 500) * toPrev.normalized;
                 
-                if (toPrev.sqrMagnitude > 0.001f)
-                {
-                    Quaternion desiredBodyRotation = Quaternion.LookRotation(toPrev);
-                    Quaternion constrainedBodyRotation = ApplyTurnConstraint(part.rotation, desiredBodyRotation);
-
-                    part.rotation = Quaternion.Slerp(part.rotation,
-                        constrainedBodyRotation,
-                        rotationSpeed * Time.deltaTime);
-                }
+                part.GetComponent<Rigidbody>().AddForce(CenteringForce);
+                //part.position += toPrev.normalized * moveDistance;
             }
-
+            if (isWormMoving)
+            {
+                part.GetComponent<Rigidbody>().AddForce(moveSpeed * previousPart.forward);
+            }
+            
             previousPosition = part.position;
+            previousPart = part;
         }
+        
+        // Vector3 previousPosition = wormHead.transform.position;
+        // float maxMovePerFrame = moveSpeed * Time.deltaTime;
+        //
+        // for (int i = 0; i < wormParts.Count; i++)
+        // {
+        //     Transform part = wormParts[i];
+        //     Vector3 toPrev = previousPosition - part.position;
+        //     float distance = toPrev.magnitude;
+        //
+        //     if (distance > maxPartDistance)
+        //     {
+        //         float moveDistance = distance - maxPartDistance;
+        //         moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
+        //
+        //         part.position += toPrev.normalized * moveDistance;
+        //         
+        //         if (toPrev.sqrMagnitude > 0.001f)
+        //         {
+        //             Quaternion desiredBodyRotation = Quaternion.LookRotation(toPrev);
+        //             Quaternion constrainedBodyRotation = ApplyTurnConstraint(part.rotation, desiredBodyRotation);
+        //
+        //             part.rotation = Quaternion.Slerp(part.rotation,
+        //                 constrainedBodyRotation,
+        //                 rotationSpeed * Time.deltaTime);
+        //         }
+        //     }
+        //
+        //     previousPosition = part.position;
+        // }
     }
 }
 

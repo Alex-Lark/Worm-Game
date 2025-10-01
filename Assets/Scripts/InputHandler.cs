@@ -36,6 +36,22 @@ public class InputHandler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.StartWormMoving();
+            }
+        }
+        
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.StopWormMoving();
+            }
+        }
+        
         if (Input.GetKey(KeyCode.W))
         {
             if (SceneManager.GetActiveScene().name == "GameScene")
