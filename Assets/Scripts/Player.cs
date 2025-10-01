@@ -103,6 +103,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < wormParts.Count; i++)
         {
             Transform part = wormParts[i];
+            Rigidbody partRigigBody = part.gameObject.GetComponent<Rigidbody>();
             
             //calculating angle
             Vector3 partToPreviousPartVector = (part.position - previousPosition).normalized;
@@ -110,6 +111,7 @@ public class Player : MonoBehaviour
             Vector3 axis = previousPart.up;
             float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, backVector, axis);
 
+            float baseForceMagnitude = 0;
             float forceMagnitude = 0;
 
             if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
@@ -118,13 +120,15 @@ public class Player : MonoBehaviour
                 
                 float excessAngle = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
                 float t = Mathf.Clamp01(excessAngle / 90f);
-                forceMagnitude = t * GameParameters.WormMoveSpeed;
+                baseForceMagnitude = t * t * GameParameters.WormMoveSpeed;
                 
                 Vector3 correctionDir = Vector3.RotateTowards(partToPreviousPartVector, backVector, Mathf.Deg2Rad * excessAngle, 0f).normalized;
+                float velocityInCorrectionDir = Vector3.Dot(partRigigBody.linearVelocity, correctionDir);
                 
                 Vector3 correctionForce = correctionDir * (forceMagnitude);
-                Debug.Log("Applying force magnitude" + (forceMagnitude) + " to segment " + i);
+                Debug.Log("Applying force magnitude" + (forceMagnitude) + " to segment " + i + " it's current velocity in the correct direction is: " + velocityInCorrectionDir);
                 
+                forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir * 2), 0f, GameParameters.WormMoveSpeed);
                 part.GetComponent<Rigidbody>().AddForce(correctionForce);
             }
             if (_isWormMoving)
