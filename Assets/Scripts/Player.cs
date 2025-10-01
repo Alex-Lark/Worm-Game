@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,13 +11,14 @@ public class Player : MonoBehaviour
     public Transform wormHead;
     public Transform wormVisualHead;
     public List<Transform> wormParts;
+    
+    private bool _isWormMoving = false;
 
-    private int wormSegmentCount = GameParameters.WormSegmentCount;
-    private float moveSpeed = GameParameters.WormMoveSpeed;
-    private float rotationSpeed = GameParameters.WormRotationSpeed;
-    private float maxPartDistance = GameParameters.SegmentMaxPartDistance;
-    private float maxAngle = GameParameters.MaxWormTurnAngle;
-    private bool isWormMoving = false;
+    private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
+    private readonly float _moveSpeed = GameParameters.WormMoveSpeed;
+    private readonly float _rotationSpeed = GameParameters.WormRotationSpeed;
+    private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
+    private readonly float _maxAngle = GameParameters.MaxWormTurnAngle;
 
     void Awake()
     {
@@ -38,8 +38,6 @@ public class Player : MonoBehaviour
         wormParts.Clear();
         CreateWormSegments();
         ConstructWorm();
-        //GetComponent<WormPhysics>().AddCollidersToSegments();
-        //GetComponent<WormPhysics>().SetupWormCollisions();
     }
     
     void Update()
@@ -69,12 +67,12 @@ public class Player : MonoBehaviour
 
     public void StartWormMoving()
     {
-        isWormMoving = true;
+        _isWormMoving = true;
     }
 
     public void StopWormMoving()
     {
-        isWormMoving = false;
+        _isWormMoving = false;
         
     }
 
@@ -91,10 +89,10 @@ public class Player : MonoBehaviour
         Quaternion currentRotation = wormHead.rotation;
         Quaternion targetRotation = ApplyTurnConstraint(currentRotation, desiredRotation);
         
-        wormHead.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+        wormHead.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationSpeed * Time.deltaTime);
     
         // Move forward towards new orientation
-        rigidbody.AddForce(moveSpeed * wormHead.forward);
+        rigidbody.AddForce(_moveSpeed * wormHead.forward);
     }
     
     private void MoveWormBody()
@@ -129,7 +127,7 @@ public class Player : MonoBehaviour
                 
                 part.GetComponent<Rigidbody>().AddForce(correctionForce);
             }
-            if (isWormMoving)
+            if (_isWormMoving)
             {
                 part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveSpeed - forceMagnitude) * previousPart.forward);
             }
@@ -141,7 +139,7 @@ public class Player : MonoBehaviour
     
     private void CreateWormSegments()
     {
-        for (int i = 0; i < wormSegmentCount; i++)
+        for (int i = 0; i < _wormSegmentCount; i++)
         {
             GameObject newWormSegment = Instantiate(wormSegmentPrefab, transform);
             wormParts.Add(newWormSegment.transform);
@@ -158,7 +156,7 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < wormParts.Count; i++)
         {
-            currentPos += backDir * maxPartDistance;
+            currentPos += backDir * _maxPartDistance;
 
             Transform part = wormParts[i];
             part.position = currentPos;
@@ -184,7 +182,7 @@ public class Player : MonoBehaviour
         joint.zMotion = ConfigurableJointMotion.Locked;
     
         // Set the anchor point to be maxPartDistance behind the previous segment
-        joint.anchor = Vector3.back * maxPartDistance; // Local space offset
+        joint.anchor = Vector3.back * _maxPartDistance; // Local space offset
         joint.connectedAnchor = Vector3.zero; // Previous segment's center
     
         // Limited angular motion within maxAngle cone
@@ -194,7 +192,7 @@ public class Player : MonoBehaviour
     
         // Set angular limits to maxAngle
         SoftJointLimit angularLimit = new SoftJointLimit();
-        angularLimit.limit = maxAngle; // Cone angle from directly behind
+        angularLimit.limit = _maxAngle; // Cone angle from directly behind
         angularLimit.bounciness = 0f;
     
         joint.lowAngularXLimit = angularLimit;
@@ -210,6 +208,24 @@ public class Player : MonoBehaviour
     
         joint.angularXDrive = angularDrive;
         joint.angularYZDrive = angularDrive;
+        
+        // Add soft limits with spring/damper
+        SoftJointLimit limit = new SoftJointLimit();
+        limit.limit = 0.1f;
+        limit.bounciness = 0f;
+        limit.contactDistance = 0.01f;
+    
+        joint.linearLimit = limit;
+    
+        // Add damping to the joint itself
+        JointDrive drive = new JointDrive();
+        drive.positionSpring = 1000f;
+        drive.positionDamper = 100f;
+        drive.maximumForce = Mathf.Infinity;
+    
+        joint.xDrive = drive;
+        joint.yDrive = drive;
+        joint.zDrive = drive;
     
         // Set target rotation to be aligned with previous segment
         joint.targetRotation = Quaternion.identity; // Try to stay aligned
