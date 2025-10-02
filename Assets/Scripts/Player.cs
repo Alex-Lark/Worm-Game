@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,7 +17,6 @@ public class Player : MonoBehaviour
     private readonly float _moveForce = GameParameters.WormMoveForce;
     private readonly float _wormHeadRotationSpeed = GameParameters.WormHeadRotationSpeed;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
-    private readonly float _maxAngle = GameParameters.MaxWormTurnAngle;
 
     void Awake()
     {
@@ -165,7 +163,6 @@ public class Player : MonoBehaviour
                 wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
             }
         }
-        
     }
     
     private void CreateWormSegments()

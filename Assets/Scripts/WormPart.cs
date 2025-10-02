@@ -6,6 +6,7 @@ public class WormPart : MonoBehaviour
     public bool IsGrounded { get; private set; }
 
     private SphereCollider _partCollider;
+    
     private readonly Collider[] _results = new Collider[GameParameters.GroundColliderMaxHeldCollisions];
     private readonly float _verticalDetectionOffset = GameParameters.GroundingColliderVerticalDetectionOffset;
     private readonly float _detectionRadiusScale = GameParameters.GroundColliderDetectionRadiusScale;
@@ -32,7 +33,7 @@ public class WormPart : MonoBehaviour
         for (int i = 0; i < hitCount; i++)
         {
             Collider hit = _results[i];
-            if (hit != _partCollider)
+            if (hit.transform.root != transform.root)
             {
                 IsGrounded = true;
                 break;

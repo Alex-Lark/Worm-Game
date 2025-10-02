@@ -13,7 +13,7 @@ public static class GameParameters
     public static readonly float WormJumpForce = 500f;
     
     [Header("Worm Part Ground Detection")]
-    public static readonly float GroundingColliderVerticalDetectionOffset = 0.15f;
+    public static readonly float GroundingColliderVerticalDetectionOffset = 0.05f;
     public static readonly float GroundColliderDetectionRadiusScale = 0.5f;
     public static readonly int GroundColliderMaxHeldCollisions = 8;
 

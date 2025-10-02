@@ -2380,7 +2380,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998093806}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 871a106618149ed448ded3503497bdd1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4182,6 +4182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e94c54ab3ea2f4cbaa3ed3d624aa62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormPartGizmos
+  showGroundCollider: 1
 --- !u!1 &1407992508
 GameObject:
   m_ObjectHideFlags: 0
