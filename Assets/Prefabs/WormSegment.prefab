@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: -8523573033121363168}
   - component: {fileID: -5379520731326263687}
   - component: {fileID: -2877105027961612759}
-  - component: {fileID: -952231757593462774}
   - component: {fileID: 8151722010977918196}
+  - component: {fileID: 3191980782223653350}
   m_Layer: 0
   m_Name: WormSegment
   m_TagString: Untagged
@@ -244,18 +244,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &-952231757593462774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7684568371119374336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WormPart
 --- !u!114 &8151722010977918196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,3 +256,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e94c54ab3ea2f4cbaa3ed3d624aa62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormPartGizmos
+  showGroundCollider: 1
+--- !u!114 &3191980782223653350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684568371119374336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f37c1d747845f75488f350baea6781eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WormBodySegment
