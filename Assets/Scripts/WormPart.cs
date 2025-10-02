@@ -4,13 +4,14 @@ public class WormPart : MonoBehaviour
 {
     public bool IsGrounded { get; private set; }
 
-    private SphereCollider partCollider;
-    [SerializeField] private float verticalDetectionOffset = 0.15f; // Increased offset
-    [SerializeField] private float detectionRadiusScale = 0.5f; // Smaller radius
+    private SphereCollider _partCollider;
+    private readonly Collider[] _results = new Collider[GameParameters.GroundColliderMaxHeldCollisions];
+    private readonly float _verticalDetectionOffset = GameParameters.GroundingColliderVerticalDetectionOffset;
+    private readonly float _detectionRadiusScale = GameParameters.GroundColliderDetectionRadiusScale;
 
     private void Awake()
     {
-        partCollider = GetComponent<SphereCollider>();
+        _partCollider = GetComponent<SphereCollider>();
     }
 
     private void FixedUpdate()
@@ -20,38 +21,21 @@ public class WormPart : MonoBehaviour
 
     private void CheckGrounded()
     {
-        Vector3 bottom = partCollider.bounds.center - new Vector3(0, partCollider.bounds.extents.y, 0);
-        Vector3 checkPos = bottom + Vector3.down * verticalDetectionOffset;
-        float radius = partCollider.bounds.extents.x * detectionRadiusScale; // Much smaller
-
-        Collider[] hits = Physics.OverlapSphere(checkPos, radius, ~0, QueryTriggerInteraction.Ignore);
-        IsGrounded = false;
+        Vector3 bottom = _partCollider.bounds.center - new Vector3(0, _partCollider.bounds.extents.y, 0);
+        Vector3 checkPos = bottom + Vector3.down * _verticalDetectionOffset;
+        float radius = _partCollider.bounds.extents.x * _detectionRadiusScale;
         
-        foreach (var hit in hits)
+        int hitCount = Physics.OverlapSphereNonAlloc(checkPos, radius, _results, ~0, QueryTriggerInteraction.Ignore);
+
+        IsGrounded = false;
+        for (int i = 0; i < hitCount; i++)
         {
-            if (hit != partCollider)
+            Collider hit = _results[i];
+            if (hit != _partCollider)
             {
                 IsGrounded = true;
-                Debug.Log($"{gameObject.name}: GROUNDED by {hit.gameObject.name}");
                 break;
             }
         }
-        
-        if (!IsGrounded)
-        {
-            Debug.Log($"{gameObject.name}: AIRBORNE");
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (partCollider == null) partCollider = GetComponent<SphereCollider>();
-
-        Vector3 bottom = partCollider.bounds.center - new Vector3(0, partCollider.bounds.extents.y, 0);
-        Vector3 checkPos = bottom + Vector3.down * verticalDetectionOffset;
-        float radius = partCollider.bounds.extents.x * detectionRadiusScale;
-
-        Gizmos.color = IsGrounded ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(checkPos, radius);
     }
 }

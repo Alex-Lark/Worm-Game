@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
 
     public void MoveForward() 
     {
-        //TODO: only if grounded
+        //TODO: implement better slope/step control
         //TODO: head can exert some vertical control if not grounded
         //TODO: add max speed
         
@@ -70,8 +70,11 @@ public class Player : MonoBehaviour
         Quaternion currentRotation = wormHead.rotation;
         
         wormHead.rotation = Quaternion.Slerp(currentRotation, desiredRotation, _wormHeadRotationSpeed * Time.deltaTime);
-        
-        wormHeadRigidbody.AddForce(_moveForce * wormHead.forward);
+
+        if (wormHeadRigidbody.GetComponent<WormPart>().IsGrounded)
+        {
+            wormHeadRigidbody.AddForce(_moveForce * wormHead.forward);
+        }
     }
     
     private void RotateVisualHead()
@@ -135,14 +138,13 @@ public class Player : MonoBehaviour
                 part.GetComponent<Rigidbody>().AddForce(correctionForce);
             }
             
-            //TODO: only works while grounded
-            
             if (_isWormMoving)
             {
-                part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveForce - forceMagnitude) * previousPart.forward);
+                if (part.GetComponent<WormPart>().IsGrounded)
+                {
+                    part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveForce - forceMagnitude) * previousPart.forward);
+                }
             }
-            
-            //TODO: apply "sticky" force downwards if not moving
             
             previousPosition = part.position;
             previousPart = part;
@@ -151,13 +153,17 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        //TODO: only works if part is on ground
-        
-        wormHead.GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+        if (wormHead.GetComponent<WormPart>().IsGrounded)
+        {
+            wormHead.GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+        }
 
         for (int i = 0; i < wormParts.Count; i++)
         {
-            wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+            if (wormParts[i].GetComponent<WormPart>().IsGrounded)
+            {
+                wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+            }
         }
         
     }

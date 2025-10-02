@@ -4019,6 +4019,7 @@ GameObject:
   - component: {fileID: 1146512592}
   - component: {fileID: 1146512591}
   - component: {fileID: 1146512595}
+  - component: {fileID: 1146512596}
   m_Layer: 0
   m_Name: Sphere - head
   m_TagString: Untagged
@@ -4169,6 +4170,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormPart
+--- !u!114 &1146512596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146512589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e94c54ab3ea2f4cbaa3ed3d624aa62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WormPartGizmos
 --- !u!1 &1407992508
 GameObject:
   m_ObjectHideFlags: 0
