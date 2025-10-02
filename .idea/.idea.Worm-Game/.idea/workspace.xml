@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="some worm segmnt adjustments, working on updating to using angles.">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormPartGizmos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormPartGizmos.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,16 +19,12 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="0083cbaf70c3df232a2da8451a16fddd1dac0838" />
+        <entry key="$PROJECT_DIR$" value="worm-movement" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Prefabs/WormSegment.prefab" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Prefabs/WormSegment.prefab" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scenes/GameScene.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -41,7 +40,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "396ed4c5",
+    "git-widget-placeholder": "worm-movement-2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

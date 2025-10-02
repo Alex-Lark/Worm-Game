@@ -256,7 +256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e94c54ab3ea2f4cbaa3ed3d624aa62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormPartGizmos
-  showGroundCollider: 1
+  showGroundCollider: 0
+  showVelocity: 1
+  showForces: 1
+  velocityScale: 1
+  forceScale: 0.1
 --- !u!114 &3191980782223653350
 MonoBehaviour:
   m_ObjectHideFlags: 0

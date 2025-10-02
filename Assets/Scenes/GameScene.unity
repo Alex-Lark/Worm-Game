@@ -4183,6 +4183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormPartGizmos
   showGroundCollider: 1
+  showVelocity: 1
+  velocityScale: 1
 --- !u!1 &1407992508
 GameObject:
   m_ObjectHideFlags: 0
@@ -4702,7 +4704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1648451649
 Transform:
   m_ObjectHideFlags: 0

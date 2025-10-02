@@ -16,6 +16,10 @@ public static class GameParameters
     public static readonly float GroundingColliderVerticalDetectionOffset = 0.05f;
     public static readonly float GroundColliderDetectionRadiusScale = 0.5f;
     public static readonly int GroundColliderMaxHeldCollisions = 8;
+    
+    [Header("Worm Part Gizmos")]
+    public static readonly float GizmoVelocityScale = 1f;
+    public static readonly float GizmoForceScale = 0.1f;
 
     [Header("Player Camera")]
     public static readonly float MaxCameraTurnAngle = 90f;
