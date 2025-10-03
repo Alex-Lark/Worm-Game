@@ -28,8 +28,8 @@ public class WormRenderer : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.material = wormMaterial;
-        lineRenderer.startWidth = GameParameters.SegmentMaxPartDistance * 2f;
-        lineRenderer.endWidth = GameParameters.SegmentMaxPartDistance * 1.6f;
+        lineRenderer.startWidth = GameParameters.WormBodyWidth;
+        lineRenderer.endWidth = GameParameters.WormBodyWidth;
         lineRenderer.useWorldSpace = true;
         lineRenderer.enabled = false;
 
