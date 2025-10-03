@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="some worm segmnt adjustments, working on updating to using angles.">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="added gizmos for velocity and force vectors">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormPartGizmos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormPartGizmos.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +156,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759287458351</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added gizmos for velocity and force vectors">
+      <option name="closed" value="true" />
+      <created>1759449579672</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1759449579674</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,6 +193,7 @@
     <MESSAGE value="improvements in worm physics" />
     <MESSAGE value="current working version" />
     <MESSAGE value="some worm segmnt adjustments, working on updating to using angles." />
-    <option name="LAST_COMMIT_MESSAGE" value="some worm segmnt adjustments, working on updating to using angles." />
+    <MESSAGE value="added gizmos for velocity and force vectors" />
+    <option name="LAST_COMMIT_MESSAGE" value="added gizmos for velocity and force vectors" />
   </component>
 </project>

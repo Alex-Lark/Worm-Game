@@ -77,16 +77,26 @@ public class Player : MonoBehaviour
     
     private void RotateVisualHead()
     {
-        //TODO: allow vertical rotation
+        var forward = thirdPersonCamera.transform.forward;
         
-        Vector3 cameraForwardRotation = GetCameraForwardRotation();
-        
-        if (cameraForwardRotation.magnitude > 0.1f)
+        Vector3 cameraForward = new Vector3(forward.x, forward.y + GameParameters.VisualHeadVerticalOffset, forward.z);
+        cameraForward.Normalize();
+
+        if (cameraForward.magnitude > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(cameraForwardRotation);
-            wormVisualHead.rotation = targetRotation;
+            float angle = Vector3.Angle(wormHead.forward, cameraForward);
+            
+            if (angle > 90f)
+            {
+                Vector3 clampedDirection = Vector3.RotateTowards(wormHead.forward, cameraForward, 90f * Mathf.Deg2Rad, 0f);
+                wormVisualHead.rotation = Quaternion.LookRotation(clampedDirection);
+            }
+            else
+            {
+                wormVisualHead.rotation = Quaternion.LookRotation(cameraForward);
+            }
         }
-        
+
     }
 
     private Vector3 GetCameraForwardRotation()
