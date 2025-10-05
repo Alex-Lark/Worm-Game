@@ -12,12 +12,13 @@ public static class GameParameters
     public static readonly float WormMoveForce = 25f;
     public static readonly float WormHeadRotationSpeed = 2f;
     public static readonly float WormJumpForce = 500f;
+    public static readonly float WormMaxVelocity = 4f;
 
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
 
     [Header("Worm Physics")] 
-    public static int NumSegmentCollisionsIgnored = 2;
+    public static readonly int NumSegmentCollisionsIgnored = 2;
     
     [Header("Worm Part Ground Detection")]
     public static readonly float GroundingColliderVerticalDetectionOffset = 0.05f;

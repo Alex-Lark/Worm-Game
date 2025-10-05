@@ -72,9 +72,10 @@ public class Player : MonoBehaviour
 
         if (wormHeadRigidbody.GetComponent<WormPart>().IsGrounded)
         {
-            GameObject groundObject = wormHeadRigidbody.GetComponent<WormPart>().GroundObject;
-            if (groundObject != null)
+            print("Worm head velocity = " + wormHeadRigidbody.linearVelocity.magnitude);
+            if (!(wormHeadRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
             {
+                GameObject groundObject = wormHeadRigidbody.GetComponent<WormPart>().GroundObject;
                 Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
                 if (groundRb != null)
                 {
@@ -158,27 +159,29 @@ public class Player : MonoBehaviour
         
         if (_isWormMoving)
         {
-            WormPart wormPart = part.GetComponent<WormPart>();
-            if (wormPart.IsGrounded)
+            if (!(partRigigBody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
             {
-                GameObject groundObject = wormPart.GroundObject;
-                float moveForce = GameParameters.WormMoveForce - forceMagnitude;
-                
-                if (groundObject != null)
+                WormPart wormPart = part.GetComponent<WormPart>();
+                if (wormPart.IsGrounded)
                 {
-                    Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
-                    if (groundRb != null)
+                    GameObject groundObject = wormPart.GroundObject;
+                    float moveForce = GameParameters.WormMoveForce - forceMagnitude;
+                
+                    if (groundObject != null)
                     {
-                        groundRb.AddForceAtPosition(-moveForce * previousPart.forward, part.position);
-                    }
-                    else
-                    {
-                        part.GetComponent<Rigidbody>().AddForce(moveForce * previousPart.forward);
+                        Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                        if (groundRb != null)
+                        {
+                            groundRb.AddForceAtPosition(-moveForce * previousPart.forward, part.position);
+                        }
+                        else
+                        {
+                            part.GetComponent<Rigidbody>().AddForce(moveForce * previousPart.forward);
+                        }
                     }
                 }
             }
         }
-        
         previousPosition = part.position;
         previousPart = part;
     }
