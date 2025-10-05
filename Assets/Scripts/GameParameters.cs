@@ -15,6 +15,9 @@ public static class GameParameters
 
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
+
+    [Header("Worm Physics")] 
+    public static int NumSegmentCollisionsIgnored = 2;
     
     [Header("Worm Part Ground Detection")]
     public static readonly float GroundingColliderVerticalDetectionOffset = 0.05f;
