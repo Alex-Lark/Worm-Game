@@ -4,6 +4,7 @@ using UnityEngine;
 public class WormPart : MonoBehaviour
 {
     public bool IsGrounded { get; private set; }
+    public GameObject GroundObject { get; private set; }
 
     private SphereCollider _partCollider;
     
@@ -14,6 +15,7 @@ public class WormPart : MonoBehaviour
     private void Awake()
     {
         _partCollider = GetComponent<SphereCollider>();
+        GroundObject = null;
     }
 
     private void FixedUpdate()
@@ -30,12 +32,16 @@ public class WormPart : MonoBehaviour
         int hitCount = Physics.OverlapSphereNonAlloc(checkPos, radius, _results, ~0, QueryTriggerInteraction.Ignore);
 
         IsGrounded = false;
+        GroundObject = null;
+        
         for (int i = 0; i < hitCount; i++)
         {
             Collider hit = _results[i];
             if (hit.transform.root != transform.root)
             {
                 IsGrounded = true;
+                GroundObject = hit.gameObject;
+                
                 break;
             }
         }

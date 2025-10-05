@@ -3883,6 +3883,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  smoothingStrength: 0.5
+  useAdaptiveSubdivision: 1
+  minSegmentDistance: 0.1
 --- !u!120 &1128421394
 LineRenderer:
   serializedVersion: 2
@@ -4184,7 +4187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WormPartGizmos
   showGroundCollider: 1
   showVelocity: 1
-  velocityScale: 1
+  showForces: 1
 --- !u!1 &1407992508
 GameObject:
   m_ObjectHideFlags: 0

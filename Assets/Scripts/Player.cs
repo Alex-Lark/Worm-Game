@@ -72,7 +72,19 @@ public class Player : MonoBehaviour
 
         if (wormHeadRigidbody.GetComponent<WormPart>().IsGrounded)
         {
-            wormHeadRigidbody.AddForce(_moveForce * wormHead.forward);
+            GameObject groundObject = wormHeadRigidbody.GetComponent<WormPart>().GroundObject;
+            if (groundObject != null)
+            {
+                Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                if (groundRb != null)
+                {
+                    groundRb.AddForceAtPosition(-GameParameters.WormMoveForce * wormHead.forward, wormHead.position);
+                }
+                else
+                {
+                    wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * wormHead.forward);
+                }
+            }
         }
     }
     
@@ -110,71 +122,109 @@ public class Player : MonoBehaviour
     }
     
     private void MoveWormBody()
+{
+    Vector3 previousPosition = wormHead.transform.position;
+    Transform previousPart = wormHead;
+    
+    for (int i = 0; i < wormParts.Count; i++)
     {
-        Vector3 previousPosition = wormHead.transform.position;
-        Transform previousPart = wormHead;
+        Transform part = wormParts[i];
+        Rigidbody partRigigBody = part.gameObject.GetComponent<Rigidbody>();
         
-        for (int i = 0; i < wormParts.Count; i++)
-        {
-            Transform part = wormParts[i];
-            Rigidbody partRigigBody = part.gameObject.GetComponent<Rigidbody>();
-            
-            //calculating angle
-            Vector3 partToPreviousPartVector = (part.position - previousPosition).normalized;
-            Vector3 backVector = (-previousPart.forward).normalized;
-            Vector3 axis = previousPart.up;
-            float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, backVector, axis);
-            
-            float forceMagnitude = 0;
+        //calculating angle
+        Vector3 partToPreviousPartVector = (part.position - previousPosition).normalized;
+        Vector3 backVector = (-previousPart.forward).normalized;
+        Vector3 axis = previousPart.up;
+        float signedAngle = Vector3.SignedAngle(partToPreviousPartVector, backVector, axis);
+        
+        float forceMagnitude = 0;
 
-            if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
-            {
-                Debug.Log("Segment " + i + " angle: " + signedAngle);
-                
-                float baseForceMagnitude = 0;
-                
-                float excessAngle = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
-                float t = Mathf.Clamp01(excessAngle / 90f);
-                baseForceMagnitude = t * t * GameParameters.WormMoveForce;
-                
-                Vector3 correctionDir = Vector3.RotateTowards(partToPreviousPartVector, backVector, Mathf.Deg2Rad * excessAngle, 0f).normalized;
-                float velocityInCorrectionDir = Vector3.Dot(partRigigBody.linearVelocity, correctionDir);
-                
-                Vector3 correctionForce = correctionDir * (forceMagnitude);
-                Debug.Log("Applying force magnitude" + (forceMagnitude) + " to segment " + i + " it's current velocity in the correct direction is: " + velocityInCorrectionDir);
-                
-                forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir * 2), 0f, GameParameters.WormMoveForce);
-                part.GetComponent<Rigidbody>().AddForce(correctionForce);
-            }
+        if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
+        {
+            float baseForceMagnitude = 0;
             
-            if (_isWormMoving)
+            float excessAngle = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
+            float t = Mathf.Clamp01(excessAngle / 90f);
+            baseForceMagnitude = t * t * GameParameters.WormMoveForce;
+            
+            Vector3 correctionDir = Vector3.RotateTowards(partToPreviousPartVector, backVector, Mathf.Deg2Rad * excessAngle, 0f).normalized;
+            float velocityInCorrectionDir = Vector3.Dot(partRigigBody.linearVelocity, correctionDir);
+            
+            Vector3 correctionForce = correctionDir * (forceMagnitude);
+            
+            forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir * 2), 0f, GameParameters.WormMoveForce);
+            part.GetComponent<Rigidbody>().AddForce(correctionForce);
+        }
+        
+        if (_isWormMoving)
+        {
+            WormPart wormPart = part.GetComponent<WormPart>();
+            if (wormPart.IsGrounded)
             {
-                if (part.GetComponent<WormPart>().IsGrounded)
+                GameObject groundObject = wormPart.GroundObject;
+                float moveForce = GameParameters.WormMoveForce - forceMagnitude;
+                
+                if (groundObject != null)
                 {
-                    part.GetComponent<Rigidbody>().AddForce((GameParameters.WormMoveForce - forceMagnitude) * previousPart.forward);
+                    Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                    if (groundRb != null)
+                    {
+                        groundRb.AddForceAtPosition(-moveForce * previousPart.forward, part.position);
+                    }
+                    else
+                    {
+                        part.GetComponent<Rigidbody>().AddForce(moveForce * previousPart.forward);
+                    }
                 }
             }
-            
-            previousPosition = part.position;
-            previousPart = part;
         }
+        
+        previousPosition = part.position;
+        previousPart = part;
     }
+}
 
     public void Jump()
+{
+    if (wormHead.GetComponent<WormPart>().IsGrounded)
     {
-        if (wormHead.GetComponent<WormPart>().IsGrounded)
+        GameObject groundObject = wormHead.GetComponent<WormPart>().GroundObject;
+        if (groundObject != null)
         {
-            wormHead.GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
-        }
-
-        for (int i = 0; i < wormParts.Count; i++)
-        {
-            if (wormParts[i].GetComponent<WormPart>().IsGrounded)
+            Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+            if (groundRb != null)
             {
-                wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+                Vector3 forceToApply = -GameParameters.WormJumpForce * wormHead.up;
+
+                groundRb.AddForceAtPosition(forceToApply, wormHead.position);
+            }
+            else
+            {
+                wormHead.GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
             }
         }
     }
+    
+    for (int i = 0; i < wormParts.Count; i++)
+    {
+        if (wormParts[i].GetComponent<WormPart>().IsGrounded)
+        {
+            GameObject groundObject = wormParts[i].GetComponent<WormPart>().GroundObject;
+            if (groundObject != null)
+            {
+                Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                if (groundRb != null)
+                {
+                    groundRb.AddForceAtPosition(-GameParameters.WormJumpForce * wormHead.up, wormParts[i].position);
+                }
+                else
+                {
+                    wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
+                }
+            }
+        }
+    }
+}
     
     private void CreateWormSegments()
     {
