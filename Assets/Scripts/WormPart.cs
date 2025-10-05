@@ -5,6 +5,7 @@ public class WormPart : MonoBehaviour
 {
     public bool IsGrounded { get; private set; }
     public GameObject GroundObject { get; private set; }
+    public Vector3 GroundNormal { get; private set; }
 
     private SphereCollider _partCollider;
     
@@ -33,6 +34,7 @@ public class WormPart : MonoBehaviour
 
         IsGrounded = false;
         GroundObject = null;
+        GroundNormal = Vector3.up;
         
         for (int i = 0; i < hitCount; i++)
         {
@@ -41,9 +43,22 @@ public class WormPart : MonoBehaviour
             {
                 IsGrounded = true;
                 GroundObject = hit.gameObject;
+                GroundNormal = GetGroundNormal(hit);
                 
                 break;
             }
         }
+    }
+    
+    private Vector3 GetGroundNormal(Collider groundCollider)
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f))
+        {
+            if (hit.collider == groundCollider)
+            {
+                return hit.normal;
+            }
+        }
+        return Vector3.up;
     }
 }

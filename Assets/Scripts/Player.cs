@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     private bool _isWormMoving = false;
 
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
-    private readonly float _moveForce = GameParameters.WormMoveForce;
     private readonly float _wormHeadRotationSpeed = GameParameters.WormHeadRotationSpeed;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
 
@@ -75,16 +74,34 @@ public class Player : MonoBehaviour
             {
                 GameObject groundObject = wormHeadRigidbody.GetComponent<WormPart>().GroundObject;
                 Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                
+                Vector3 moveDirection = GetSlopeAlignedDirection(wormHead.forward, wormHead.GetComponent<WormPart>().GroundNormal);
+                
                 if (groundRb != null)
                 {
-                    groundRb.AddForceAtPosition(-GameParameters.WormMoveForce * wormHead.forward, wormHead.position);
+                    groundRb.AddForceAtPosition(-GameParameters.WormMoveForce * moveDirection, wormHead.position);
                 }
                 else
                 {
-                    wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * wormHead.forward);
+                    wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
                 }
             }
         }
+    }
+    
+    private Vector3 GetSlopeAlignedDirection(Vector3 forward, Vector3 groundNormal)
+    {
+        Vector3 slopeDirection = Vector3.ProjectOnPlane(forward, groundNormal).normalized;
+    
+        // If on a steep slope, blend with horizontal direction to maintain some control
+        float slopeAngle = Vector3.Angle(Vector3.up, groundNormal);
+        if (slopeAngle > GameParameters.MaxSlopeAngle)
+        {
+            float blendFactor = Mathf.InverseLerp(GameParameters.MaxSlopeAngle, 90f, slopeAngle);
+            slopeDirection = Vector3.Lerp(slopeDirection, forward, blendFactor).normalized;
+        }
+    
+        return slopeDirection;
     }
     
     private void RotateVisualHead()
@@ -165,16 +182,17 @@ public class Player : MonoBehaviour
                     GameObject groundObject = wormPart.GroundObject;
                     float moveForce = GameParameters.WormMoveForce - forceMagnitude;
                 
+                    Vector3 moveDirection = GetSlopeAlignedDirection(previousPart.forward, wormPart.GroundNormal);
                     if (groundObject != null)
                     {
                         Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
                         if (groundRb != null)
                         {
-                            groundRb.AddForceAtPosition(-moveForce * previousPart.forward, part.position);
+                            groundRb.AddForceAtPosition(-moveForce * moveDirection, part.position);
                         }
                         else
                         {
-                            part.GetComponent<Rigidbody>().AddForce(moveForce * previousPart.forward);
+                            part.GetComponent<Rigidbody>().AddForce(moveForce * moveDirection);
                         }
                     }
                 }

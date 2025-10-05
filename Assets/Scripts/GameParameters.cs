@@ -11,8 +11,9 @@ public static class GameParameters
     public static readonly float MaxWormTurnAngle = 5f;
     public static readonly float WormMoveForce = 100f;
     public static readonly float WormHeadRotationSpeed = 1.5f;
-    public static readonly float WormJumpForce = 1000f;
+    public static readonly float WormJumpForce = 2000f;
     public static readonly float WormMaxVelocity = 4f;
+    public static float MaxSlopeAngle = 45f;
 
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
