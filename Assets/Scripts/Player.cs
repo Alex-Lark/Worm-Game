@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
         Quaternion desiredRotation = Quaternion.LookRotation(cameraForwardRotation);
         Quaternion currentRotation = wormHead.rotation;
         
-        wormHead.rotation = Quaternion.Slerp(currentRotation, desiredRotation, _wormHeadRotationSpeed * Time.deltaTime);
+        wormHead.rotation = Quaternion.Slerp(currentRotation, desiredRotation, _wormHeadRotationSpeed * Time.fixedDeltaTime);
 
         if (wormHeadRigidbody.GetComponent<WormPart>().IsGrounded)
         {
