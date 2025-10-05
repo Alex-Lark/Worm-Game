@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
     private readonly float _wormHeadRotationSpeed = GameParameters.WormHeadRotationSpeed;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
+    
+    private readonly RaycastHit[] _stepDetectionHits = new RaycastHit[10];
+
 
     void Awake()
     {
@@ -75,6 +78,12 @@ public class Player : MonoBehaviour
                 GameObject groundObject = wormHeadRigidbody.GetComponent<WormPart>().GroundObject;
                 Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
                 
+                if (DetectStep(wormHead.position, wormHead.forward, wormHead.GetComponent<Collider>(), out float stepHeight))
+                {
+                    float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
+                    wormHeadRigidbody.AddForce(Vector3.up * climbForce);
+                }
+                
                 Vector3 moveDirection = GetSlopeAlignedDirection(wormHead.forward, wormHead.GetComponent<WormPart>().GroundNormal);
                 
                 if (groundRb != null)
@@ -87,6 +96,52 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private bool DetectStep(Vector3 position, Vector3 forward, Collider partCollider, out float stepHeight)
+    {
+        stepHeight = 0f;
+    
+        // Use horizontal forward direction for step detection, ignore vertical component
+        Vector3 horizontalForward = new Vector3(forward.x, 0f, forward.z).normalized;
+        
+        if (horizontalForward.magnitude < 0.1f)
+            return false;
+    
+        // Start raycast slightly forward and down from segment center to avoid hitting self/neighbors
+        Vector3 footLevelOrigin = position + horizontalForward * (partCollider.bounds.extents.x * 1.2f) 
+                                  - Vector3.up * (partCollider.bounds.extents.y * 0.5f);
+
+        // Cast multiple rays to avoid missing steps between segments
+        int hitCount = Physics.RaycastNonAlloc(footLevelOrigin, horizontalForward, _stepDetectionHits, GameParameters.StepDetectionDistance);
+    
+        for (int i = 0; i < hitCount; i++)
+        {
+            RaycastHit footHit = _stepDetectionHits[i];
+        
+            // Skip ALL worm parts, not just from same root
+            if (footHit.collider.transform.root == transform.root)
+                continue;
+    
+            // Check if there's walkable space above the obstacle
+            Vector3 topCheckOrigin = footLevelOrigin + horizontalForward * GameParameters.StepDetectionDistance 
+                                                     + Vector3.up * GameParameters.MaxStepHeight;
+        
+            if (!Physics.Raycast(topCheckOrigin, Vector3.down, out RaycastHit topHit, GameParameters.MaxStepHeight * 1.5f))
+                continue;
+        
+            if (topHit.collider.transform.root == transform.root)
+                continue;
+        
+            stepHeight = topHit.point.y - (position.y - partCollider.bounds.extents.y);
+        
+            if (stepHeight > 0.05f && stepHeight <= GameParameters.MaxStepHeight)
+            {
+                return true;
+            }
+        }
+    
+        return false;
     }
     
     private Vector3 GetSlopeAlignedDirection(Vector3 forward, Vector3 groundNormal)
@@ -157,11 +212,9 @@ public class Player : MonoBehaviour
 
         if (Mathf.Abs(signedAngle) > GameParameters.MaxWormTurnAngle)
         {
-            float baseForceMagnitude = 0;
-            
             float excessAngle = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
             float t = Mathf.Clamp01(excessAngle / 90f);
-            baseForceMagnitude = t * t * GameParameters.WormMoveForce;
+            float baseForceMagnitude = t * t * GameParameters.WormMoveForce;
             
             Vector3 correctionDir = Vector3.RotateTowards(partToPreviousPartVector, backVector, Mathf.Deg2Rad * excessAngle, 0f).normalized;
             float velocityInCorrectionDir = Vector3.Dot(partRigigBody.linearVelocity, correctionDir);
@@ -181,6 +234,12 @@ public class Player : MonoBehaviour
                 {
                     GameObject groundObject = wormPart.GroundObject;
                     float moveForce = GameParameters.WormMoveForce - forceMagnitude;
+                    
+                    if (DetectStep(part.position, previousPart.forward, part.GetComponent<Collider>(), out float stepHeight))
+                    {
+                        float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
+                        partRigigBody.AddForce(Vector3.up * climbForce);
+                    }
                 
                     Vector3 moveDirection = GetSlopeAlignedDirection(previousPart.forward, wormPart.GroundNormal);
                     if (groundObject != null)
