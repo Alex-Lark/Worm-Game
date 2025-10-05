@@ -60,7 +60,6 @@ public class Player : MonoBehaviour
     {
         //TODO: implement better slope/step control
         //TODO: head can exert some vertical control if not grounded
-        //TODO: add max speed
         
         Vector3 cameraForwardRotation = GetCameraForwardRotation();
         Rigidbody wormHeadRigidbody = wormHead.GetComponent<Rigidbody>();
@@ -72,7 +71,6 @@ public class Player : MonoBehaviour
 
         if (wormHeadRigidbody.GetComponent<WormPart>().IsGrounded)
         {
-            print("Worm head velocity = " + wormHeadRigidbody.linearVelocity.magnitude);
             if (!(wormHeadRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
             {
                 GameObject groundObject = wormHeadRigidbody.GetComponent<WormPart>().GroundObject;
@@ -153,7 +151,7 @@ public class Player : MonoBehaviour
             
             Vector3 correctionForce = correctionDir * (forceMagnitude);
             
-            forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir * 2), 0f, GameParameters.WormMoveForce);
+            forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir), 0f, GameParameters.WormMoveForce);
             part.GetComponent<Rigidbody>().AddForce(correctionForce);
         }
         
