@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public List<Transform> wormParts;
     
     private bool _isWormMoving = false;
+    private bool _isWormGrounded = false;
 
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
     private readonly float _wormHeadRotationSpeed = GameParameters.WormHeadRotationSpeed;
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        setWormGrounding();
         RotateVisualHead();
         MoveWormBody();
     }
@@ -60,16 +62,23 @@ public class Player : MonoBehaviour
 
     public void MoveForward() 
     {
-        //TODO: implement better slope/step control
         //TODO: head can exert some vertical control if not grounded
+        print("worm head rotation: " + wormHead.rotation);
         
         Vector3 cameraForwardRotation = GetCameraForwardRotation();
         Rigidbody wormHeadRigidbody = wormHead.GetComponent<Rigidbody>();
         
-        Quaternion desiredRotation = Quaternion.LookRotation(cameraForwardRotation);
-        Quaternion currentRotation = wormHead.rotation;
+        Vector3 forward = wormHead.forward;
+        forward.y = 0f;
+        forward.Normalize();
         
-        wormHead.rotation = Quaternion.Slerp(currentRotation, desiredRotation, _wormHeadRotationSpeed * Time.fixedDeltaTime);
+        Quaternion desiredRotation = Quaternion.LookRotation(cameraForwardRotation);
+        Quaternion currentRotation = Quaternion.LookRotation(forward);
+        
+        float currentSpeed = wormHeadRigidbody.linearVelocity.magnitude;
+        float velocityScaledRotationSpeed = _wormHeadRotationSpeed * (1f + currentSpeed / GameParameters.WormMoveForce);
+        
+        wormHead.rotation = Quaternion.Slerp(currentRotation, desiredRotation, velocityScaledRotationSpeed * Time.fixedDeltaTime);
 
         if (wormHeadRigidbody.GetComponent<WormPart>().IsGrounded)
         {
@@ -95,6 +104,27 @@ public class Player : MonoBehaviour
                     wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
                 }
             }
+        }
+        else if (_isWormGrounded)
+        {
+            // Head is ungrounded but worm body is grounded - allow vertical control
+            // Use full camera direction including vertical component
+            Vector3 fullCameraDirection = thirdPersonCamera.transform.forward;
+            fullCameraDirection.Normalize();
+            
+            wormHead.rotation = Quaternion.Slerp(wormHead.rotation, Quaternion.LookRotation(fullCameraDirection), _wormHeadRotationSpeed * Time.fixedDeltaTime);
+        
+            // Apply force in the direction the head is facing (includes vertical)
+            Vector3 moveDirection = wormHead.forward;
+            wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
+        
+            // // Optional: Add extra vertical force based on camera pitch
+            // float verticalInput = fullCameraDirection.y;
+            // if (Mathf.Abs(verticalInput) > 0.1f)
+            // {
+            //     float verticalForce = GameParameters.WormMoveForce * verticalInput * 0.5f; // 50% of normal force for vertical
+            //     wormHeadRigidbody.AddForce(Vector3.up * verticalForce);
+            // }
         }
     }
     
@@ -330,6 +360,19 @@ public class Player : MonoBehaviour
             part.rotation = wormHead.rotation;
 
             previousSegmentRigidBody = part.GetComponent<WormBodySegment>().AddJoint(wormParts[i], previousSegmentRigidBody);
+        }
+    }
+
+    private void setWormGrounding()
+    {
+        _isWormGrounded = false; 
+        
+        foreach (var part in wormParts)
+        {
+            if (part.GetComponent<WormPart>().IsGrounded)
+            {
+                _isWormGrounded = true;
+            }
         }
     }
 }
