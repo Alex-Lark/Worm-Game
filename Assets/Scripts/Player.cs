@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     
     private bool _isWormMoving = false;
     private bool _isWormGrounded = false;
+    private float _movementPhase = 0f;
 
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
     private readonly float _wormHeadRotationSpeed = GameParameters.WormHeadRotationSpeed;
@@ -62,7 +63,6 @@ public class Player : MonoBehaviour
 
     public void MoveForward() 
     {
-        
         Vector3 cameraForwardRotation = GetCameraForwardRotation();
         Rigidbody wormHeadRigidbody = wormHead.GetComponent<Rigidbody>();
         
@@ -104,84 +104,84 @@ public class Player : MonoBehaviour
             }
         }
         else if (_isWormGrounded)
-{
-    // Head is ungrounded but worm body is grounded - allow vertical control
-    Vector3 fullCameraDirection = thirdPersonCamera.transform.forward.normalized;
-    Vector3 currentForward = wormHead.forward;
+        {
+            // Head is ungrounded but worm body is grounded - allow vertical control
+            Vector3 fullCameraDirection = thirdPersonCamera.transform.forward.normalized;
+            Vector3 currentForward = wormHead.forward;
 
-    // --- Horizontal (yaw) ---
-    Vector3 horizontalCameraDir = fullCameraDirection;
-    horizontalCameraDir.y = 0f;
-    if (horizontalCameraDir.sqrMagnitude < 1e-6f) horizontalCameraDir = Vector3.forward;
-    horizontalCameraDir.Normalize();
+            // --- Horizontal (yaw) ---
+            Vector3 horizontalCameraDir = fullCameraDirection;
+            horizontalCameraDir.y = 0f;
+            if (horizontalCameraDir.sqrMagnitude < 1e-6f) horizontalCameraDir = Vector3.forward;
+            horizontalCameraDir.Normalize();
 
-    Vector3 horizontalCurrentDir = currentForward;
-    horizontalCurrentDir.y = 0f;
-    if (horizontalCurrentDir.sqrMagnitude < 1e-6f) horizontalCurrentDir = Vector3.forward;
-    horizontalCurrentDir.Normalize();
+            Vector3 horizontalCurrentDir = currentForward;
+            horizontalCurrentDir.y = 0f;
+            if (horizontalCurrentDir.sqrMagnitude < 1e-6f) horizontalCurrentDir = Vector3.forward;
+            horizontalCurrentDir.Normalize();
 
-    Quaternion qHorizCurrent = Quaternion.LookRotation(horizontalCurrentDir);
-    Quaternion qHorizTarget = Quaternion.LookRotation(horizontalCameraDir);
-    Quaternion qHorizNew = Quaternion.Slerp(
-        qHorizCurrent,
-        qHorizTarget,
-        velocityScaledRotationSpeed * Time.fixedDeltaTime
-    );
+            Quaternion qHorizCurrent = Quaternion.LookRotation(horizontalCurrentDir);
+            Quaternion qHorizTarget = Quaternion.LookRotation(horizontalCameraDir);
+            Quaternion qHorizNew = Quaternion.Slerp(
+                qHorizCurrent,
+                qHorizTarget,
+                velocityScaledRotationSpeed * Time.fixedDeltaTime
+            );
 
-    // --- Camera pitch (signed) ---
-    // Use SignedAngle so we get negative for looking down, positive for looking up
-    float cameraPitchDeg = Vector3.SignedAngle(
-        Vector3.ProjectOnPlane(fullCameraDirection, Vector3.up),
-        fullCameraDirection,
-        thirdPersonCamera.transform.right
-    );
+            // --- Camera pitch (signed) ---
+            // Use SignedAngle so we get negative for looking down, positive for looking up
+            float cameraPitchDeg = Vector3.SignedAngle(
+                Vector3.ProjectOnPlane(fullCameraDirection, Vector3.up),
+                fullCameraDirection,
+                thirdPersonCamera.transform.right
+            );
 
-    // Match these to your camera vertical limits (FreeLook Y axis limits)
-    float minCameraPitch = -10f;   // camera looking down limit (degrees)
-    float maxCameraPitch = 45f;    // camera looking up limit (degrees)
+            // Match these to your camera vertical limits (FreeLook Y axis limits)
+            float minCameraPitch = -10f;   // camera looking down limit (degrees)
+            float maxCameraPitch = 45f;    // camera looking up limit (degrees)
 
-    // Remap camera pitch -> 0..1
-    float normalizedInput = Mathf.InverseLerp(minCameraPitch, maxCameraPitch, cameraPitchDeg);
-    normalizedInput = Mathf.Clamp01(normalizedInput);
+            // Remap camera pitch -> 0..1
+            float normalizedInput = Mathf.InverseLerp(minCameraPitch, maxCameraPitch, cameraPitchDeg);
+            normalizedInput = Mathf.Clamp01(normalizedInput);
 
-    // If mapping feels inverted, uncomment the next line:
-    normalizedInput = 1f - normalizedInput;
+            // If mapping feels inverted, uncomment the next line:
+            normalizedInput = 1f - normalizedInput;
 
-    // Map to worm full pitch range
-    float wormMinPitch = -85f;
-    float wormMaxPitch = 85f;
-    float targetPitch = Mathf.Lerp(wormMinPitch, wormMaxPitch, normalizedInput);
+            // Map to worm full pitch range
+            float wormMinPitch = -85f;
+            float wormMaxPitch = 85f;
+            float targetPitch = Mathf.Lerp(wormMinPitch, wormMaxPitch, normalizedInput);
 
-    // --- Current worm pitch and smoothing ---
-    float currentPitch = Mathf.Asin(Mathf.Clamp(currentForward.y, -1f, 1f)) * Mathf.Rad2Deg;
-    float velocityScaledVerticalRotationSpeed = GameParameters.WormHeadVerticalRotationSpeed *
-                                                (1f + currentSpeed / GameParameters.WormMoveForce);
-    float newPitch = Mathf.LerpAngle(currentPitch, targetPitch, velocityScaledVerticalRotationSpeed * Time.fixedDeltaTime);
+            // --- Current worm pitch and smoothing ---
+            float currentPitch = Mathf.Asin(Mathf.Clamp(currentForward.y, -1f, 1f)) * Mathf.Rad2Deg;
+            float velocityScaledVerticalRotationSpeed = GameParameters.WormHeadVerticalRotationSpeed *
+                                                        (1f + currentSpeed / GameParameters.WormMoveForce);
+            float newPitch = Mathf.LerpAngle(currentPitch, targetPitch, velocityScaledVerticalRotationSpeed * Time.fixedDeltaTime);
 
-    // --- Compose final rotation: yaw then pitch about local right ---
-    Vector3 horizontalForward = qHorizNew * Vector3.forward;
-    float yaw = Mathf.Atan2(horizontalForward.x, horizontalForward.z) * Mathf.Rad2Deg;
-    Quaternion qYaw = Quaternion.AngleAxis(yaw, Vector3.up);
+            // --- Compose final rotation: yaw then pitch about local right ---
+            Vector3 horizontalForward = qHorizNew * Vector3.forward;
+            float yaw = Mathf.Atan2(horizontalForward.x, horizontalForward.z) * Mathf.Rad2Deg;
+            Quaternion qYaw = Quaternion.AngleAxis(yaw, Vector3.up);
 
-    // local right AFTER yaw
-    Vector3 localRight = qYaw * Vector3.right;
+            // local right AFTER yaw
+            Vector3 localRight = qYaw * Vector3.right;
 
-    // IMPORTANT: positive pitch should make the head look UP.
-    // Quaternion.AngleAxis rotates the forward vector DOWN for positive angles around the right axis,
-    // so we invert the pitch angle here.
-    Quaternion qPitchLocal = Quaternion.AngleAxis(-newPitch, localRight);
+            // IMPORTANT: positive pitch should make the head look UP.
+            // Quaternion.AngleAxis rotates the forward vector DOWN for positive angles around the right axis,
+            // so we invert the pitch angle here.
+            Quaternion qPitchLocal = Quaternion.AngleAxis(-newPitch, localRight);
 
-    wormHead.rotation = qPitchLocal * qYaw;
+            wormHead.rotation = qPitchLocal * qYaw;
 
-    // --- Movement ---
-    Vector3 moveDirection = wormHead.forward;
-    wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
+            // --- Movement ---
+            Vector3 moveDirection = wormHead.forward;
+            wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
 
-#if UNITY_EDITOR
-    // Debug help: uncomment while fiddling
-    // Debug.Log($"camPitch={cameraPitchDeg:F1} norm={normalizedInput:F2} targetPitch={targetPitch:F1} currPitch={currentPitch:F1} newPitch={newPitch:F1}");
-#endif
-}
+        #if UNITY_EDITOR
+            // Debug help: uncomment while fiddling
+            // Debug.Log($"camPitch={cameraPitchDeg:F1} norm={normalizedInput:F2} targetPitch={targetPitch:F1} currPitch={currentPitch:F1} newPitch={newPitch:F1}");
+        #endif
+        }
     }
     
     private bool DetectStep(Vector3 position, Vector3 forward, Collider partCollider, out float stepHeight)
@@ -283,6 +283,11 @@ public class Player : MonoBehaviour
     Vector3 previousPosition = wormHead.transform.position;
     Transform previousPart = wormHead;
     
+    if (_isWormMoving)
+    {
+        AdvancedWormMove();
+    }
+    
     for (int i = 0; i < wormParts.Count; i++)
     {
         Transform part = wormParts[i];
@@ -313,38 +318,218 @@ public class Player : MonoBehaviour
         
         if (_isWormMoving)
         {
-            if (!(partRigigBody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
+            // if (!(partRigigBody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
+            // {
+            //     WormPart wormPart = part.GetComponent<WormPart>();
+            //     if (wormPart.IsGrounded)
+            //     {
+            //         GameObject groundObject = wormPart.GroundObject;
+            //         float moveForce = GameParameters.WormMoveForce - forceMagnitude;
+            //         
+            //         if (DetectStep(part.position, previousPart.forward, part.GetComponent<Collider>(), out float stepHeight))
+            //         {
+            //             float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
+            //             partRigigBody.AddForce(Vector3.up * climbForce);
+            //         }
+            //     
+            //         Vector3 moveDirection = GetSlopeAlignedDirection(previousPart.forward, wormPart.GroundNormal);
+            //         if (groundObject != null)
+            //         {
+            //             Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+            //             if (groundRb != null)
+            //             {
+            //                 groundRb.AddForceAtPosition(-moveForce * moveDirection, part.position);
+            //             }
+            //             else
+            //             {
+            //                 part.GetComponent<Rigidbody>().AddForce(moveForce * moveDirection);
+            //             }
+            //         }
+            //     }
+            //}
+        }
+        previousPosition = part.position;
+        previousPart = part;
+    }
+}
+
+private void AdvancedWormMove()
+{
+    if (!_isWormMoving)
+    {
+        _movementPhase = 0f;
+        return; // Pause in place when not moving
+    }
+    
+    List<Transform> wormGroundedParts = new List<Transform>();
+    
+    foreach (var part in wormParts)
+    {
+        if (part.GetComponent<WormPart>().IsGrounded)
+        {
+            wormGroundedParts.Add(part);
+        }
+    }
+    
+    int largestStartIndex = -1;
+    int largestCount = 0;
+    
+    int currentStartIndex = -1;
+    int currentCount = 0;
+    
+    for (int i = 0; i < wormParts.Count; i++)
+    {
+        var part = wormParts[i].GetComponent<WormPart>();
+        
+        if (part.IsGrounded)
+        {
+            if (currentStartIndex == -1)
+                currentStartIndex = i;
+            
+            currentCount++;
+        }
+        else
+        {
+            if (currentCount > largestCount)
             {
+                largestCount = currentCount;
+                largestStartIndex = currentStartIndex;
+            }
+            
+            currentStartIndex = -1;
+            currentCount = 0;
+        }
+    }
+    
+    // Edge case: sequence ends at last element
+    if (currentCount > largestCount)
+    {
+        largestCount = currentCount;
+        largestStartIndex = currentStartIndex;
+    }
+    
+    // Find the middle point of the largest consecutive grounded group
+    if (largestStartIndex != -1)
+    {
+        int middleIndex = largestStartIndex + (largestCount / 2);
+        Transform middlePart = wormParts[middleIndex];
+        
+        float maxMiddleHeight = GameParameters.WormMiddleMaxHeight;
+        float movementLoopLength = GameParameters.WormForwardMovementLoopLength;
+        
+        // Update movement phase (0 to 1 cycle)
+        _movementPhase += Time.fixedDeltaTime / movementLoopLength;
+        if (_movementPhase > 1f)
+            _movementPhase = 0f;
+        
+        // Phase 1 (0-0.33): Parts behind middle move forward and scrunch up
+        if (_movementPhase < 0.33f)
+        {
+            // Move rear segments forward toward the segment in front of them
+            for (int i = middleIndex + 1; i < wormParts.Count; i++)
+            {
+                Transform part = wormParts[i];
+                Rigidbody partRb = part.GetComponent<Rigidbody>();
                 WormPart wormPart = part.GetComponent<WormPart>();
+                
                 if (wormPart.IsGrounded)
                 {
-                    GameObject groundObject = wormPart.GroundObject;
-                    float moveForce = GameParameters.WormMoveForce - forceMagnitude;
+                    // Get the part in front (toward head)
+                    Transform targetPart = (i > 0) ? wormParts[i - 1] : wormHead;
+                    Vector3 directionToTarget = (targetPart.position - part.position).normalized;
                     
-                    if (DetectStep(part.position, previousPart.forward, part.GetComponent<Collider>(), out float stepHeight))
-                    {
-                        float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
-                        partRigigBody.AddForce(Vector3.up * climbForce);
-                    }
-                
-                    Vector3 moveDirection = GetSlopeAlignedDirection(previousPart.forward, wormPart.GroundNormal);
+                    // Project direction onto ground plane
+                    Vector3 moveDir = GetSlopeAlignedDirection(directionToTarget, wormPart.GroundNormal);
+                    GameObject groundObject = wormPart.GroundObject;
+                    
                     if (groundObject != null)
                     {
                         Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
                         if (groundRb != null)
                         {
-                            groundRb.AddForceAtPosition(-moveForce * moveDirection, part.position);
+                            groundRb.AddForceAtPosition(-GameParameters.WormMoveForce * moveDir, part.position);
                         }
                         else
                         {
-                            part.GetComponent<Rigidbody>().AddForce(moveForce * moveDirection);
+                            partRb.AddForce(GameParameters.WormMoveForce * moveDir);
                         }
                     }
                 }
             }
         }
-        previousPosition = part.position;
-        previousPart = part;
+        
+        // Phase 2 (0.33-0.66): Middle segment scrunches upward
+        else if (_movementPhase < 0.66f)
+        {
+            Rigidbody middleRb = middlePart.GetComponent<Rigidbody>();
+            float currentHeight = middlePart.position.y;
+            
+            // Apply upward force if below max height
+            if (currentHeight < maxMiddleHeight)
+            {
+                float heightDiff = maxMiddleHeight - currentHeight;
+                float upwardForce = Mathf.Clamp(heightDiff * GameParameters.WormScrunchForceMultiplier, 0f, GameParameters.WormJumpForce);
+                middleRb.AddForce(Vector3.up * upwardForce);
+            }
+        }
+        
+        // Phase 3 (0.66-1.0): Front of worm moves forward
+        else
+        {
+            // Move head toward camera forward direction
+            if (wormHead.GetComponent<WormPart>().IsGrounded)
+            {
+                WormPart headPart = wormHead.GetComponent<WormPart>();
+                Vector3 moveDir = GetSlopeAlignedDirection(wormHead.forward, headPart.GroundNormal);
+                GameObject groundObject = headPart.GroundObject;
+                Rigidbody headRb = wormHead.GetComponent<Rigidbody>();
+                
+                if (groundObject != null)
+                {
+                    Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                    if (groundRb != null)
+                    {
+                        groundRb.AddForceAtPosition(-GameParameters.WormMoveForce * moveDir, wormHead.position);
+                    }
+                    else
+                    {
+                        headRb.AddForce(GameParameters.WormMoveForce * moveDir);
+                    }
+                }
+            }
+            
+            // Move front segments toward the segment in front of them
+            for (int i = 0; i < middleIndex; i++)
+            {
+                Transform part = wormParts[i];
+                Rigidbody partRb = part.GetComponent<Rigidbody>();
+                WormPart wormPart = part.GetComponent<WormPart>();
+                
+                if (wormPart.IsGrounded)
+                {
+                    // Get the part in front (closer to head)
+                    Transform targetPart = (i > 0) ? wormParts[i - 1] : wormHead;
+                    Vector3 directionToTarget = (targetPart.position - part.position).normalized;
+                    
+                    // Project direction onto ground plane
+                    Vector3 moveDir = GetSlopeAlignedDirection(directionToTarget, wormPart.GroundNormal);
+                    GameObject groundObject = wormPart.GroundObject;
+                    
+                    if (groundObject != null)
+                    {
+                        Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                        if (groundRb != null)
+                        {
+                            groundRb.AddForceAtPosition(-GameParameters.WormMoveForce * moveDir, part.position);
+                        }
+                        else
+                        {
+                            partRb.AddForce(GameParameters.WormMoveForce * moveDir);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
