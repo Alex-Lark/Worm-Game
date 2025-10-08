@@ -59,7 +59,7 @@ public class InputHandler : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name == "GameScene")
             {
-                Player.Instance.MoveForward();
+                //Player.Instance.MoveForward();
             }
         }
 
