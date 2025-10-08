@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     
-    public bool IsWormMoving { get; private set; }
+    public bool IsWormMovingForward { get; private set; }
     public bool IsWormGrounded { get; private set; }
 
     public GameObject thirdPersonCamera;
@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public List<Transform> wormParts;
 
     private WormForwardMovement _wormForwardMovement;
+    private WormJump _wormJump;
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
     
@@ -33,10 +34,11 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        IsWormMoving = false;
+        IsWormMovingForward = false;
         IsWormGrounded = false;
 
         _wormForwardMovement = gameObject.GetComponent<WormForwardMovement>();
+        _wormJump = gameObject.GetComponent<WormJump>();
         
         wormParts.Clear();
         CreateWormSegments();
@@ -52,12 +54,12 @@ public class Player : MonoBehaviour
 
     public void StartWormMoving()
     {
-        IsWormMoving = true;
+        IsWormMovingForward = true;
     }
 
     public void StopWormMoving()
     {
-        IsWormMoving = false;
+        IsWormMovingForward = false;
     }
 
     public void MoveForward()
@@ -91,46 +93,9 @@ public class Player : MonoBehaviour
     }
 
     public void Jump()
-{
-    if (wormHead.GetComponent<WormPart>().IsGrounded)
     {
-        GameObject groundObject = wormHead.GetComponent<WormPart>().GroundObject;
-        if (groundObject != null)
-        {
-            Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
-            if (groundRb != null)
-            {
-                Vector3 forceToApply = -GameParameters.WormJumpForce * wormHead.up;
-
-                groundRb.AddForceAtPosition(forceToApply, wormHead.position);
-            }
-            else
-            {
-                wormHead.GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
-            }
-        }
+        _wormJump.Jump();
     }
-    
-    for (int i = 0; i < wormParts.Count; i++)
-    {
-        if (wormParts[i].GetComponent<WormPart>().IsGrounded)
-        {
-            GameObject groundObject = wormParts[i].GetComponent<WormPart>().GroundObject;
-            if (groundObject != null)
-            {
-                Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
-                if (groundRb != null)
-                {
-                    groundRb.AddForceAtPosition(-GameParameters.WormJumpForce * wormHead.up, wormParts[i].position);
-                }
-                else
-                {
-                    wormParts[i].GetComponent<Rigidbody>().AddForce(GameParameters.WormJumpForce * wormHead.up);
-                }
-            }
-        }
-    }
-}
     
     private void CreateWormSegments()
     {

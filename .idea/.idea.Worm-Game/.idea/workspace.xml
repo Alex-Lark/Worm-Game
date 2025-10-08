@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="worm movement refactored to worm forward movement">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="movement tweaks/updates wip">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +24,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/InputHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/Player.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -109,7 +109,7 @@
       <workItem from="1758798146415" duration="2674000" />
       <workItem from="1758800927701" duration="11138000" />
       <workItem from="1759188637788" duration="17237000" />
-      <workItem from="1759877082190" duration="18120000" />
+      <workItem from="1759877082190" duration="19381000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -215,7 +215,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759963790709</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="movement tweaks/updates wip">
+      <option name="closed" value="true" />
+      <created>1759965495271</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1759965495271</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,6 +259,7 @@
     <MESSAGE value="worm head verticle movement wip" />
     <MESSAGE value="head has vertical control when ungrounded" />
     <MESSAGE value="worm movement refactored to worm forward movement" />
-    <option name="LAST_COMMIT_MESSAGE" value="worm movement refactored to worm forward movement" />
+    <MESSAGE value="movement tweaks/updates wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="movement tweaks/updates wip" />
   </component>
 </project>
