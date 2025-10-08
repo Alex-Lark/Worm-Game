@@ -62,8 +62,6 @@ public class Player : MonoBehaviour
 
     public void MoveForward() 
     {
-        //TODO: head can exert some vertical control if not grounded
-        print("worm head rotation: " + wormHead.rotation);
         
         Vector3 cameraForwardRotation = GetCameraForwardRotation();
         Rigidbody wormHeadRigidbody = wormHead.GetComponent<Rigidbody>();
@@ -105,45 +103,84 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        else if (_isWormGrounded) 
+        else if (_isWormGrounded)
 {
     // Head is ungrounded but worm body is grounded - allow vertical control
-    Vector3 fullCameraDirection = thirdPersonCamera.transform.forward;
-    fullCameraDirection.Normalize();
-    
-    // Get current forward direction
+    Vector3 fullCameraDirection = thirdPersonCamera.transform.forward.normalized;
     Vector3 currentForward = wormHead.forward;
-    
-    // Horizontal component (yaw)
+
+    // --- Horizontal (yaw) ---
     Vector3 horizontalCameraDir = fullCameraDirection;
     horizontalCameraDir.y = 0f;
+    if (horizontalCameraDir.sqrMagnitude < 1e-6f) horizontalCameraDir = Vector3.forward;
     horizontalCameraDir.Normalize();
-    
+
     Vector3 horizontalCurrentDir = currentForward;
     horizontalCurrentDir.y = 0f;
+    if (horizontalCurrentDir.sqrMagnitude < 1e-6f) horizontalCurrentDir = Vector3.forward;
     horizontalCurrentDir.Normalize();
-    
-    // Vertical component (pitch) - calculate angle from horizontal plane
-    float targetPitch = Mathf.Asin(fullCameraDirection.y) * Mathf.Rad2Deg;
-    float currentPitch = Mathf.Asin(currentForward.y) * Mathf.Rad2Deg;
-    
-    // Interpolate horizontal rotation with velocityScaledRotationSpeed
-    Quaternion horizontalRotation = Quaternion.LookRotation(horizontalCurrentDir);
-    Quaternion targetHorizontalRotation = Quaternion.LookRotation(horizontalCameraDir);
-    Quaternion newHorizontalRotation = Quaternion.Slerp(horizontalRotation, targetHorizontalRotation, velocityScaledRotationSpeed * Time.fixedDeltaTime);
-    
-    // Interpolate vertical rotation with velocityScaledVerticalRotationSpeed
-    float velocityScaledVerticalRotationSpeed = GameParameters.WormHeadVerticalRotationSpeed * (1f + currentSpeed / GameParameters.WormMoveForce);
-    float newPitch = Mathf.Lerp(currentPitch, targetPitch, velocityScaledVerticalRotationSpeed * Time.fixedDeltaTime);
-    
-    // Combine horizontal yaw with vertical pitch
-    Vector3 horizontalForward = newHorizontalRotation * Vector3.forward;
-    float pitchRotation = -newPitch;
-    wormHead.rotation = Quaternion.LookRotation(horizontalForward) * Quaternion.Euler(pitchRotation, 0f, 0f);
-    
-    // Apply force in the direction the head is facing (includes vertical)
+
+    Quaternion qHorizCurrent = Quaternion.LookRotation(horizontalCurrentDir);
+    Quaternion qHorizTarget = Quaternion.LookRotation(horizontalCameraDir);
+    Quaternion qHorizNew = Quaternion.Slerp(
+        qHorizCurrent,
+        qHorizTarget,
+        velocityScaledRotationSpeed * Time.fixedDeltaTime
+    );
+
+    // --- Camera pitch (signed) ---
+    // Use SignedAngle so we get negative for looking down, positive for looking up
+    float cameraPitchDeg = Vector3.SignedAngle(
+        Vector3.ProjectOnPlane(fullCameraDirection, Vector3.up),
+        fullCameraDirection,
+        thirdPersonCamera.transform.right
+    );
+
+    // Match these to your camera vertical limits (FreeLook Y axis limits)
+    float minCameraPitch = -10f;   // camera looking down limit (degrees)
+    float maxCameraPitch = 45f;    // camera looking up limit (degrees)
+
+    // Remap camera pitch -> 0..1
+    float normalizedInput = Mathf.InverseLerp(minCameraPitch, maxCameraPitch, cameraPitchDeg);
+    normalizedInput = Mathf.Clamp01(normalizedInput);
+
+    // If mapping feels inverted, uncomment the next line:
+    normalizedInput = 1f - normalizedInput;
+
+    // Map to worm full pitch range
+    float wormMinPitch = -85f;
+    float wormMaxPitch = 85f;
+    float targetPitch = Mathf.Lerp(wormMinPitch, wormMaxPitch, normalizedInput);
+
+    // --- Current worm pitch and smoothing ---
+    float currentPitch = Mathf.Asin(Mathf.Clamp(currentForward.y, -1f, 1f)) * Mathf.Rad2Deg;
+    float velocityScaledVerticalRotationSpeed = GameParameters.WormHeadVerticalRotationSpeed *
+                                                (1f + currentSpeed / GameParameters.WormMoveForce);
+    float newPitch = Mathf.LerpAngle(currentPitch, targetPitch, velocityScaledVerticalRotationSpeed * Time.fixedDeltaTime);
+
+    // --- Compose final rotation: yaw then pitch about local right ---
+    Vector3 horizontalForward = qHorizNew * Vector3.forward;
+    float yaw = Mathf.Atan2(horizontalForward.x, horizontalForward.z) * Mathf.Rad2Deg;
+    Quaternion qYaw = Quaternion.AngleAxis(yaw, Vector3.up);
+
+    // local right AFTER yaw
+    Vector3 localRight = qYaw * Vector3.right;
+
+    // IMPORTANT: positive pitch should make the head look UP.
+    // Quaternion.AngleAxis rotates the forward vector DOWN for positive angles around the right axis,
+    // so we invert the pitch angle here.
+    Quaternion qPitchLocal = Quaternion.AngleAxis(-newPitch, localRight);
+
+    wormHead.rotation = qPitchLocal * qYaw;
+
+    // --- Movement ---
     Vector3 moveDirection = wormHead.forward;
     wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
+
+#if UNITY_EDITOR
+    // Debug help: uncomment while fiddling
+    // Debug.Log($"camPitch={cameraPitchDeg:F1} norm={normalizedInput:F2} targetPitch={targetPitch:F1} currPitch={currentPitch:F1} newPitch={newPitch:F1}");
+#endif
 }
     }
     
