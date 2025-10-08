@@ -21,7 +21,9 @@ public class WormForwardMovement : MonoBehaviour
     void FixedUpdate()
     {
         if (Player.Instance.IsWormMoving)
+        {
             MoveHead();
+        }
     }
 
     private void MoveHead()
