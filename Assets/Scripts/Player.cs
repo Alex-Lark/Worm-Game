@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public Transform wormVisualHead;
     public List<Transform> wormParts;
 
+    private WormForwardMovement _wormForwardMovement;
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
     
@@ -33,13 +34,14 @@ public class Player : MonoBehaviour
     void Start()
     {
         IsWormMoving = false;
-        IsWormGrounded = false; 
+        IsWormGrounded = false;
+
+        _wormForwardMovement = gameObject.GetComponent<WormForwardMovement>();
         
         wormParts.Clear();
         CreateWormSegments();
         ConstructWorm();
         gameObject.GetComponent<WormPhysics>().AddCollidersToSegments();
-        gameObject.GetComponent<WormForwardMovement>().CreateSegmentMaxForwardForceList(_wormSegmentCount);
     }
 
     private void FixedUpdate()
@@ -56,6 +58,12 @@ public class Player : MonoBehaviour
     public void StopWormMoving()
     {
         IsWormMoving = false;
+    }
+
+    public void MoveForward()
+    {
+        _wormForwardMovement.MoveHead();
+        _wormForwardMovement.MoveWormBody();
     }
     
     private void RotateVisualHead()

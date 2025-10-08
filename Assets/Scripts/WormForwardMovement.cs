@@ -17,26 +17,18 @@ public class WormForwardMovement : MonoBehaviour
         _camera = player.thirdPersonCamera;
         _wormHead = player.wormHead;
         _wormHeadRb = _wormHead.GetComponent<Rigidbody>();
+        CreateSegmentMaxForwardForceList();
     }
-
-    void FixedUpdate()
+    
+    public void CreateSegmentMaxForwardForceList()
     {
-        if (Player.Instance.IsWormMoving)
-        {
-            MoveHead();
-            MoveWormBody();
-        }
-    }
-
-    public void CreateSegmentMaxForwardForceList(int numSegments)
-    {
-        for (int i = 0; i < numSegments; i++)
+        for (int i = 0; i < GameParameters.WormSegmentCount; i++)
         {
             SegmentMaxForwardForce.Add(0);
         }
     }
 
-    private void MoveHead()
+    public void MoveHead()
     {
         float speedFactor = 1f + _wormHeadRb.linearVelocity.magnitude / GameParameters.WormMoveForce;
         float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
@@ -54,7 +46,7 @@ public class WormForwardMovement : MonoBehaviour
         }
     }
     
-    private void MoveWormBody()
+    public void MoveWormBody()
     {
         Vector3 previousPosition = _wormHead.transform.position;
         Transform previousPart = _wormHead;
@@ -88,51 +80,11 @@ public class WormForwardMovement : MonoBehaviour
             }
             else if (_movementPhase < 0.66)
             {
-                MoveMiddleSegmentUp(middlePart);
+                MoveMiddleSegmentUp(middlePart, middleIndex);
             }
             else
             {
                 MoveFrontPartsForward(wormParts, middleIndex);
-            }
-        }
-    }
-
-    private void MoveFrontPartsForward(List<Transform> wormParts, int middleIndex)
-    {
-        for (int i = 0; i < middleIndex; i++)
-        {
-            Transform part = wormParts[i];
-            Rigidbody wormPartRigidbody = part.GetComponent<Rigidbody>();
-            WormPart wormPart = part.GetComponent<WormPart>();
-            if (wormPart.IsGrounded)
-            {
-                // Get the part in front (closer to head)
-                Transform targetPart = (i > 0) ? wormParts[i - 1] : _wormHead;
-                Vector3 directionToTarget = (targetPart.position - part.position).normalized;
-                
-                //step movement
-                if (DetectStep(part.position, targetPart.forward, part.GetComponent<Collider>(), out float stepHeight))
-                {
-                    float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
-                    wormPartRigidbody.AddForce(Vector3.up * climbForce);
-                }
-                
-                // Project direction onto ground plane
-                Vector3 moveDir = AlignToSlope(directionToTarget, wormPart.GroundNormal);
-                GameObject groundObject = wormPart.GroundObject;
-                
-                if (groundObject != null)
-                {
-                    Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
-                    if (groundRb != null)
-                    {
-                        groundRb.AddForceAtPosition(-SegmentMaxForwardForce[i] * moveDir, part.position);
-                    }
-                    else
-                    {
-                        wormPartRigidbody.AddForce(SegmentMaxForwardForce[i] * moveDir);
-                    }
-                }
             }
         }
     }
@@ -179,7 +131,7 @@ public class WormForwardMovement : MonoBehaviour
         }
     }
     
-    private void MoveMiddleSegmentUp(Transform middlePart)
+    private void MoveMiddleSegmentUp(Transform middlePart, int middleIndex)
     {
         Rigidbody middlePartRigidbody = middlePart.GetComponent<Rigidbody>();
         if (!(middlePartRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
@@ -191,6 +143,46 @@ public class WormForwardMovement : MonoBehaviour
                 float heightDiff = maxMiddleHeight - currentHeight;
                 float upwardForce = Mathf.Clamp(heightDiff * GameParameters.WormScrunchForceMultiplier, 0f, GameParameters.WormJumpForce);
                 middlePartRigidbody.AddForce(Vector3.up * upwardForce);
+            }
+        }
+    }
+    
+    private void MoveFrontPartsForward(List<Transform> wormParts, int middleIndex)
+    {
+        for (int i = 0; i < middleIndex; i++)
+        {
+            Transform part = wormParts[i];
+            Rigidbody wormPartRigidbody = part.GetComponent<Rigidbody>();
+            WormPart wormPart = part.GetComponent<WormPart>();
+            if (wormPart.IsGrounded)
+            {
+                // Get the part in front (closer to head)
+                Transform targetPart = (i > 0) ? wormParts[i - 1] : _wormHead;
+                Vector3 directionToTarget = (targetPart.position - part.position).normalized;
+                
+                //step movement
+                if (DetectStep(part.position, targetPart.forward, part.GetComponent<Collider>(), out float stepHeight))
+                {
+                    float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
+                    wormPartRigidbody.AddForce(Vector3.up * climbForce);
+                }
+                
+                // Project direction onto ground plane
+                Vector3 moveDir = AlignToSlope(directionToTarget, wormPart.GroundNormal);
+                GameObject groundObject = wormPart.GroundObject;
+                
+                if (groundObject != null)
+                {
+                    Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
+                    if (groundRb != null)
+                    {
+                        groundRb.AddForceAtPosition(-SegmentMaxForwardForce[i] * moveDir, part.position);
+                    }
+                    else
+                    {
+                        wormPartRigidbody.AddForce(SegmentMaxForwardForce[i] * moveDir);
+                    }
+                }
             }
         }
     }
