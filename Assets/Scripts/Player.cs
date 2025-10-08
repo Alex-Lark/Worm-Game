@@ -105,27 +105,46 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        else if (_isWormGrounded)
-        {
-            // Head is ungrounded but worm body is grounded - allow vertical control
-            // Use full camera direction including vertical component
-            Vector3 fullCameraDirection = thirdPersonCamera.transform.forward;
-            fullCameraDirection.Normalize();
-            
-            wormHead.rotation = Quaternion.Slerp(wormHead.rotation, Quaternion.LookRotation(fullCameraDirection), _wormHeadRotationSpeed * Time.fixedDeltaTime);
-        
-            // Apply force in the direction the head is facing (includes vertical)
-            Vector3 moveDirection = wormHead.forward;
-            wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
-        
-            // // Optional: Add extra vertical force based on camera pitch
-            // float verticalInput = fullCameraDirection.y;
-            // if (Mathf.Abs(verticalInput) > 0.1f)
-            // {
-            //     float verticalForce = GameParameters.WormMoveForce * verticalInput * 0.5f; // 50% of normal force for vertical
-            //     wormHeadRigidbody.AddForce(Vector3.up * verticalForce);
-            // }
-        }
+        else if (_isWormGrounded) 
+{
+    // Head is ungrounded but worm body is grounded - allow vertical control
+    Vector3 fullCameraDirection = thirdPersonCamera.transform.forward;
+    fullCameraDirection.Normalize();
+    
+    // Get current forward direction
+    Vector3 currentForward = wormHead.forward;
+    
+    // Horizontal component (yaw)
+    Vector3 horizontalCameraDir = fullCameraDirection;
+    horizontalCameraDir.y = 0f;
+    horizontalCameraDir.Normalize();
+    
+    Vector3 horizontalCurrentDir = currentForward;
+    horizontalCurrentDir.y = 0f;
+    horizontalCurrentDir.Normalize();
+    
+    // Vertical component (pitch) - calculate angle from horizontal plane
+    float targetPitch = Mathf.Asin(fullCameraDirection.y) * Mathf.Rad2Deg;
+    float currentPitch = Mathf.Asin(currentForward.y) * Mathf.Rad2Deg;
+    
+    // Interpolate horizontal rotation with velocityScaledRotationSpeed
+    Quaternion horizontalRotation = Quaternion.LookRotation(horizontalCurrentDir);
+    Quaternion targetHorizontalRotation = Quaternion.LookRotation(horizontalCameraDir);
+    Quaternion newHorizontalRotation = Quaternion.Slerp(horizontalRotation, targetHorizontalRotation, velocityScaledRotationSpeed * Time.fixedDeltaTime);
+    
+    // Interpolate vertical rotation with velocityScaledVerticalRotationSpeed
+    float velocityScaledVerticalRotationSpeed = GameParameters.WormHeadVerticalRotationSpeed * (1f + currentSpeed / GameParameters.WormMoveForce);
+    float newPitch = Mathf.Lerp(currentPitch, targetPitch, velocityScaledVerticalRotationSpeed * Time.fixedDeltaTime);
+    
+    // Combine horizontal yaw with vertical pitch
+    Vector3 horizontalForward = newHorizontalRotation * Vector3.forward;
+    float pitchRotation = -newPitch;
+    wormHead.rotation = Quaternion.LookRotation(horizontalForward) * Quaternion.Euler(pitchRotation, 0f, 0f);
+    
+    // Apply force in the direction the head is facing (includes vertical)
+    Vector3 moveDirection = wormHead.forward;
+    wormHeadRigidbody.AddForce(GameParameters.WormMoveForce * moveDirection);
+}
     }
     
     private bool DetectStep(Vector3 position, Vector3 forward, Collider partCollider, out float stepHeight)
