@@ -63,7 +63,7 @@ public class InputHandler : MonoBehaviour
             }
         }
 
-        if (isJumping)
+        if (isJumping == true)
         {
             if (SceneManager.GetActiveScene().name == "GameScene")
             {

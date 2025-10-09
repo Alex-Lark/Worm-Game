@@ -67,6 +67,18 @@ public class Player : MonoBehaviour
         IsWormMovingForward = false;
     }
 
+    public void StartJump()
+    {
+        IsWormJumping = true;
+        _wormJump.StartJump();
+    }
+
+    public void StopJump()
+    {
+        IsWormJumping = false;
+        _wormJump.StopJump();
+    }
+
     public void MoveForward()
     {
         if (!IsWormJumping)
@@ -78,19 +90,12 @@ public class Player : MonoBehaviour
     
     public void Jump()
     {
-        IsWormJumping = true;
-        if (_jumpCoroutine == null)
+        if (IsWormGrounded)
         {
+            IsWormJumping = true;
             _wormJump.Jump();
-            _jumpCoroutine = StartCoroutine(JumpTimer());
         }
-    }
-    
-    private IEnumerator JumpTimer()
-    {
-        yield return new WaitForSeconds(GameParameters.WormJumpChargeTime);
         IsWormJumping = false;
-        _jumpCoroutine = null;
     }
 
     private void RotateVisualHead()
