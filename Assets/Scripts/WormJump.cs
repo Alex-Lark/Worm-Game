@@ -48,17 +48,25 @@ public class WormJump : MonoBehaviour
         //     _wormParts[middleIndex].GetComponent<WormBodySegment>().SetIsScrunched();
         // }
 
+        Transform previousPart = _wormHead;
+        
         for (int i = 0; i < _wormParts.Count; i++)
         {
-            if (middleIndices != null && !(middleIndices.Contains(i)))
+            Transform wormPart = _wormParts[i];
+            if (middleIndices != null && (middleIndices.Contains(i)))
             {
-                Transform wormPart = _wormParts[i];
+                wormPart.GetComponent<Rigidbody>().AddForce(Vector3.down * GameParameters.WormMiddleSegmentScrunchForce);
+            }
+            else
+            {
                 if (wormPart.GetComponent<WormBodySegment>().IsGrounded || wormPart.GetComponent<WormBodySegment>().IsScrunched || (wormPart.GetComponent<WormBodySegment>().TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded))
                 {
-                    Vector3 jumpDirection = Vector3.Slerp(_wormHead.forward, Vector3.up, GameParameters.WormJumpAngle).normalized;
+                    Vector3 forwardDirection = Vector3.Slerp(previousPart.forward, _wormHead.forward, 0.5f);
+                    Vector3 jumpDirection = Vector3.Slerp(forwardDirection, Vector3.up, GameParameters.WormJumpAngle).normalized;
                     wormPart.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.WormJumpForce);
                 }
             }
+            previousPart = _wormParts[i];
         }
     }
 

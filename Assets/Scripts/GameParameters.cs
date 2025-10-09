@@ -26,7 +26,7 @@ public static class GameParameters
     public static readonly float maxTimeSinceLastGrounded = 0.02f;
 
     [Header("Worm Jumping")] 
-    public static float WormMiddleSegmentScrunchForce = 10000f;
+    public static float WormMiddleSegmentScrunchForce = 2500f;
     public static float WormScrunchMaxHeight = 500f;
     public static readonly float WormJumpForce = 2500f;
     public static readonly float WormJumpMaxChargeTime = 0.25f;
