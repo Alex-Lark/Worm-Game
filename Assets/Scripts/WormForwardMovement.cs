@@ -34,7 +34,6 @@ public class WormForwardMovement : MonoBehaviour
         float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
 
         var part = _wormHead.GetComponent<WormPart>();
-        print(_wormHead.GetComponent<WormPart>().TimeSinceLastGrounded);
         if (part.IsGrounded)
         {
             RotateHeadGrounded(rotationSpeed);
