@@ -16,13 +16,14 @@ public static class GameParameters
     public static readonly float MaxSlopeAngle = 45f;
     public static readonly float MaxStepHeight = 0.5f;
     public static readonly float StepDetectionDistance = 0.3f;
-    public static readonly float WormStepClimbForce = 1000f;
+    public static readonly float WormStepClimbForce = 2000f;
     public static readonly float WormMiddleMaxHeight = 300f;
-    public static readonly float WormForwardMovementLoopLength = 0.75f;
+    public static readonly float WormForwardMovementLoopLength = 0.67f;
     public static readonly float WormScrunchForceMultiplier = 50f;
     public static readonly float WormSegmentScrunchTime = 0.15f;
     public static readonly float WormScrunchForce = 1750f;
     public static readonly float WormGroundPinForce = 1000f;
+    public static readonly float maxTimeSinceLastGrounded = 0.02f;
 
     [Header("Worm Jumping")] 
     public static float WormMiddleSegmentScrunchForce = 10000f;

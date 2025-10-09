@@ -34,6 +34,7 @@ public class WormForwardMovement : MonoBehaviour
         float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
 
         var part = _wormHead.GetComponent<WormPart>();
+        print(_wormHead.GetComponent<WormPart>().TimeSinceLastGrounded);
         if (part.IsGrounded)
         {
             RotateHeadGrounded(rotationSpeed);
@@ -99,7 +100,7 @@ public class WormForwardMovement : MonoBehaviour
             Rigidbody wormPartRigidbody = part.GetComponent<Rigidbody>();
             WormPart wormPart = part.GetComponent<WormPart>();
 
-            if (wormPart.IsGrounded && !(wormPartRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
+            if ((wormPart.IsGrounded || wormPart.TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded) && !(wormPartRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
             {
                 // Get the part in front (toward head)
                 Transform targetPart = (i > 0) ? wormParts[i - 1] : _wormHead;
@@ -113,6 +114,7 @@ public class WormForwardMovement : MonoBehaviour
                 {
                     float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
                     wormPartRigidbody.AddForce(Vector3.up * climbForce);
+                    wormPartRigidbody.AddForce(previousPart.forward * climbForce);
                 }
                     
                 if (groundObject != null)
@@ -155,7 +157,7 @@ public class WormForwardMovement : MonoBehaviour
             Transform part = wormParts[i];
             Rigidbody wormPartRigidbody = part.GetComponent<Rigidbody>();
             WormPart wormPart = part.GetComponent<WormPart>();
-            if (wormPart.IsGrounded)
+            if ((wormPart.IsGrounded || wormPart.TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded) && !(wormPartRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
             {
                 // Get the part in front (closer to head)
                 Transform targetPart = (i > 0) ? wormParts[i - 1] : _wormHead;
@@ -166,6 +168,7 @@ public class WormForwardMovement : MonoBehaviour
                 {
                     float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
                     wormPartRigidbody.AddForce(Vector3.up * climbForce);
+                    wormPartRigidbody.AddForce(targetPart.forward * climbForce);
                 }
                 
                 // Project direction onto ground plane
@@ -286,8 +289,11 @@ public class WormForwardMovement : MonoBehaviour
             speed * Time.fixedDeltaTime
         );
 
-        float pitch = CalculatePitch(camDir);
-        ApplyYawPitch(yawRot, pitch);
+        if (_wormHead.GetComponent<WormPart>().TimeSinceLastGrounded > GameParameters.maxTimeSinceLastGrounded)
+        {
+            float pitch = CalculatePitch(camDir);
+            ApplyYawPitch(yawRot, pitch);
+        }
     }
 
     private float CalculatePitch(Vector3 camDir)
@@ -342,6 +348,7 @@ public class WormForwardMovement : MonoBehaviour
         {
             float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
             _wormHeadRb.AddForce(Vector3.up * climbForce);
+            _wormHeadRb.AddForce(_wormHead.forward * climbForce);
         }
     }
 

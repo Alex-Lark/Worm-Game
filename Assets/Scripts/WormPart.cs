@@ -6,6 +6,8 @@ public class WormPart : MonoBehaviour
     public bool IsGrounded { get; private set; }
     public GameObject GroundObject { get; private set; }
     public Vector3 GroundNormal { get; private set; }
+    
+    public float TimeSinceLastGrounded { get; private set; }
 
     private SphereCollider _partCollider;
     
@@ -56,9 +58,12 @@ public class WormPart : MonoBehaviour
         {
             if (hit.collider == groundCollider)
             {
+                TimeSinceLastGrounded = 0f;
                 return hit.normal;
             }
         }
+
+        TimeSinceLastGrounded += Time.fixedDeltaTime;
         return Vector3.up;
     }
 }

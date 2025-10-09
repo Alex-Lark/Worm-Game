@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static Player Instance;
-    
     public bool IsWormMovingForward { get; private set; }
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }
@@ -160,6 +159,7 @@ public class Player : MonoBehaviour
             if (part.GetComponent<WormPart>().IsGrounded)
             {
                 IsWormGrounded = true;
+                break;
             }
         }
     }
