@@ -34,6 +34,11 @@ public static class GameParameters
     public static readonly float JumpingSegmentDivisionThreshold = 2.0f; // if a segment is this number or greater than another, it gets split in 2
     public static readonly float WormJumpAngle = 0.75f;
     public static readonly float WormMaxScrunchVelocity = 2f;
+
+    [Header("Worm Attack")]
+    public static readonly float WormHeadbutTime = 0.5f;
+
+    public static readonly float WormHeadbutGroundingForce = 3000f;
     
     
 

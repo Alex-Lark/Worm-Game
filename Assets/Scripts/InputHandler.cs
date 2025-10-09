@@ -6,6 +6,7 @@ public class InputHandler : MonoBehaviour
 {
     public static InputHandler Instance;
     public bool isJumping = false;
+    public bool isAttacking = false;
     
     void Awake()
     {
@@ -50,6 +51,14 @@ public class InputHandler : MonoBehaviour
                 isJumping = true;
             }
         }
+        
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                isAttacking = true;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -73,5 +82,13 @@ public class InputHandler : MonoBehaviour
             isJumping = false;
         }
         
+        if (isAttacking == true)
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.Attack();
+            }
+            isAttacking = false;
+        }
     }
 }

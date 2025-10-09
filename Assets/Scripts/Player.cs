@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }
     
+    public bool IsWormAttacking { get; private set; }
+    
     public GameObject thirdPersonCamera;
     public GameObject wormSegmentPrefab;
     public Transform wormHead;
@@ -17,11 +19,12 @@ public class Player : MonoBehaviour
 
     private WormForwardMovement _wormForwardMovement;
     private WormJump _wormJump;
+    private WormHeadBut _wormHeadBut;
     
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
     
-    private Coroutine _jumpCoroutine;
+    private Coroutine _attackCoroutine;
     
     void Awake()
     {
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
 
         _wormForwardMovement = gameObject.GetComponent<WormForwardMovement>();
         _wormJump = gameObject.GetComponent<WormJump>();
+        _wormHeadBut = gameObject.GetComponent<WormHeadBut>();
         
         wormParts.Clear();
         CreateWormSegments();
@@ -54,6 +58,11 @@ public class Player : MonoBehaviour
     {
         setWormGrounding();
         RotateVisualHead();
+
+        if (IsWormAttacking)
+        {
+            _wormHeadBut.ReadyHeadbut();
+        }
     }
 
     public void StartWormMoving()
@@ -80,7 +89,7 @@ public class Player : MonoBehaviour
 
     public void MoveForward()
     {
-        if (!IsWormJumping)
+        if (!IsWormJumping && !IsWormAttacking)
         {
             _wormForwardMovement.MoveHead();
             _wormForwardMovement.MoveWormBody();
@@ -89,12 +98,35 @@ public class Player : MonoBehaviour
     
     public void Jump()
     {
-        if (IsWormGrounded)
+        if (IsWormGrounded  && !IsWormAttacking)
         {
             IsWormJumping = true;
             _wormJump.Jump();
         }
         IsWormJumping = false;
+    }
+
+    public void Attack()
+    {
+        if (IsWormGrounded)
+        {
+            if (!IsWormAttacking)
+            {
+                IsWormAttacking = true;
+            }
+
+            if (_attackCoroutine == null)
+            {
+                _attackCoroutine =  StartCoroutine(WormAttackTimer());
+            }
+        }
+    }
+
+    private IEnumerator WormAttackTimer()
+    {
+        yield return new WaitForSeconds(GameParameters.WormHeadbutTime); 
+        IsWormAttacking = false;
+        _attackCoroutine =  null;
     }
 
     private void RotateVisualHead()
