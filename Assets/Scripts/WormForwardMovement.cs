@@ -8,7 +8,7 @@ public class WormForwardMovement : MonoBehaviour
     private Rigidbody _wormHeadRb;
 
     private readonly RaycastHit[] _stepHits = new RaycastHit[10];
-    private List<float> SegmentMaxForwardForce = new List<float>();
+    private readonly List<float> _segmentMaxForwardForce = new List<float>();
     private float _movementPhase;
 
     void Start()
@@ -24,7 +24,7 @@ public class WormForwardMovement : MonoBehaviour
     {
         for (int i = 0; i < GameParameters.WormSegmentCount; i++)
         {
-            SegmentMaxForwardForce.Add(0);
+            _segmentMaxForwardForce.Add(0);
         }
     }
 
@@ -55,14 +55,14 @@ public class WormForwardMovement : MonoBehaviour
 
         for (int i = 0; i < Player.Instance.wormParts.Count; i++)
         {
-            SegmentMaxForwardForce[i] = GameParameters.WormMoveForce - TryToConstrainWormAngle(wormParts[i], previousPart, previousPosition);
+            _segmentMaxForwardForce[i] = GameParameters.WormMoveForce - TryToConstrainWormAngle(wormParts[i], previousPart, previousPosition);
         }
 
-        (int GroundedSegmentStartIndex, int GroundedSegmentCount) = GetGroundedMiddleSegment(wormParts);
+        (int groundedSegmentStartIndex, int groundedSegmentCount) = GetGroundedMiddleSegment(wormParts);
 
-        if (GroundedSegmentStartIndex != -1)
+        if (groundedSegmentStartIndex != -1)
         {
-            int middleIndex = GroundedSegmentStartIndex + (GroundedSegmentCount / 2);
+            int middleIndex = groundedSegmentStartIndex + (groundedSegmentCount / 2);
             Transform middlePart = wormParts[middleIndex];
             
             float movementLoopLength = GameParameters.WormForwardMovementLoopLength;
@@ -120,11 +120,11 @@ public class WormForwardMovement : MonoBehaviour
                     Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
                     if (groundRb != null)
                     {
-                        groundRb.AddForceAtPosition(-SegmentMaxForwardForce[i] * moveDir, part.position);
+                        groundRb.AddForceAtPosition(-_segmentMaxForwardForce[i] * moveDir, part.position);
                     }
                     else
                     {
-                        wormPartRigidbody.AddForce(SegmentMaxForwardForce[i] * moveDir);
+                        wormPartRigidbody.AddForce(_segmentMaxForwardForce[i] * moveDir);
                     }
                 }
             }
@@ -143,6 +143,7 @@ public class WormForwardMovement : MonoBehaviour
                 float heightDiff = maxMiddleHeight - currentHeight;
                 float upwardForce = Mathf.Clamp(heightDiff * GameParameters.WormScrunchForceMultiplier, 0f, GameParameters.WormJumpForce);
                 middlePartRigidbody.AddForce(Vector3.up * upwardForce);
+                middlePart.gameObject.GetComponent<WormBodySegment>().SetIsScrunched();
             }
         }
     }
@@ -176,11 +177,11 @@ public class WormForwardMovement : MonoBehaviour
                     Rigidbody groundRb = groundObject.GetComponent<Rigidbody>();
                     if (groundRb != null)
                     {
-                        groundRb.AddForceAtPosition(-SegmentMaxForwardForce[i] * moveDir, part.position);
+                        groundRb.AddForceAtPosition(-_segmentMaxForwardForce[i] * moveDir, part.position);
                     }
                     else
                     {
-                        wormPartRigidbody.AddForce(SegmentMaxForwardForce[i] * moveDir);
+                        wormPartRigidbody.AddForce(_segmentMaxForwardForce[i] * moveDir);
                     }
                 }
             }

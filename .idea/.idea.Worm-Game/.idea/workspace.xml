@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="movement tweaks/updates wip">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormBodySegment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormBodySegment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +25,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scenes/GameScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/InputHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/Player.cs" root0="SKIP_HIGHLIGHTING" />
@@ -109,7 +112,8 @@
       <workItem from="1758798146415" duration="2674000" />
       <workItem from="1758800927701" duration="11138000" />
       <workItem from="1759188637788" duration="17237000" />
-      <workItem from="1759877082190" duration="19381000" />
+      <workItem from="1759877082190" duration="20427000" />
+      <workItem from="1759968277865" duration="509000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -223,7 +227,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759965495271</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Moved jump to seperate class">
+      <option name="closed" value="true" />
+      <created>1759966577050</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1759966577052</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,6 +272,7 @@
     <MESSAGE value="head has vertical control when ungrounded" />
     <MESSAGE value="worm movement refactored to worm forward movement" />
     <MESSAGE value="movement tweaks/updates wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="movement tweaks/updates wip" />
+    <MESSAGE value="Moved jump to seperate class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved jump to seperate class" />
   </component>
 </project>

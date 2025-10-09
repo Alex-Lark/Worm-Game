@@ -1,8 +1,30 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class WormBodySegment : WormPart
 {
+    public bool isScrunched = false;
+    private Coroutine _scrunchCoroutine;
+
+    public void SetIsScrunched()
+    {
+        isScrunched = true;
+        if (_scrunchCoroutine != null)
+        {
+            StopCoroutine(_scrunchCoroutine);
+        }
+
+        _scrunchCoroutine = StartCoroutine(ScrunchTimer());
+    }
+    
+    private IEnumerator ScrunchTimer()
+    {
+        yield return new WaitForSeconds(GameParameters.WormSegmentScrunchTime);
+        isScrunched = false;
+        _scrunchCoroutine = null;
+    }
+    
     public Rigidbody AddJoint(Transform wormPart, Rigidbody previousSegmentRigidBody) 
     {
         ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();

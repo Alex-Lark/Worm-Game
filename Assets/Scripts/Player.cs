@@ -89,7 +89,6 @@ public class Player : MonoBehaviour
                 wormVisualHead.rotation = Quaternion.LookRotation(cameraForward);
             }
         }
-
     }
 
     public void Jump()

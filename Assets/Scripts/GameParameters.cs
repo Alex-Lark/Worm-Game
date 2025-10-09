@@ -21,6 +21,7 @@ public static class GameParameters
     public static readonly float WormMiddleMaxHeight = 300f;
     public static readonly float WormForwardMovementLoopLength = 0.75f;
     public static readonly float WormScrunchForceMultiplier = 50f;
+    public static readonly float WormSegmentScrunchTime = 0.15f;
 
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
