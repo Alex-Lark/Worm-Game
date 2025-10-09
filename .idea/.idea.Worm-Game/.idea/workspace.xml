@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="added scrunching boolean for worm body segments">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="improved jumping wip">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormBodySegment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormBodySegment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormJump.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormJump.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +23,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -111,7 +108,7 @@
       <workItem from="1758800927701" duration="11138000" />
       <workItem from="1759188637788" duration="17237000" />
       <workItem from="1759877082190" duration="20427000" />
-      <workItem from="1759968277865" duration="3713000" />
+      <workItem from="1759968277865" duration="3879000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -241,7 +238,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759971127434</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="improved jumping wip">
+      <option name="closed" value="true" />
+      <created>1759974403271</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1759974403271</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,6 +285,7 @@
     <MESSAGE value="movement tweaks/updates wip" />
     <MESSAGE value="Moved jump to seperate class" />
     <MESSAGE value="added scrunching boolean for worm body segments" />
-    <option name="LAST_COMMIT_MESSAGE" value="added scrunching boolean for worm body segments" />
+    <MESSAGE value="improved jumping wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved jumping wip" />
   </component>
 </project>
