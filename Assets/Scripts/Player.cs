@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,9 @@ public class Player : MonoBehaviour
     public static Player Instance;
     
     public bool IsWormMovingForward { get; private set; }
+    public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }
-
+    
     public GameObject thirdPersonCamera;
     public GameObject wormSegmentPrefab;
     public Transform wormHead;
@@ -16,8 +18,11 @@ public class Player : MonoBehaviour
 
     private WormForwardMovement _wormForwardMovement;
     private WormJump _wormJump;
+    
     private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
     private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
+    
+    private Coroutine _jumpCoroutine;
     
     void Awake()
     {
@@ -64,24 +69,45 @@ public class Player : MonoBehaviour
 
     public void MoveForward()
     {
-        _wormForwardMovement.MoveHead();
-        _wormForwardMovement.MoveWormBody();
+        if (!IsWormJumping)
+        {
+            _wormForwardMovement.MoveHead();
+            _wormForwardMovement.MoveWormBody();
+        }
     }
     
+    public void Jump()
+    {
+        IsWormJumping = true;
+        if (_jumpCoroutine == null)
+        {
+            _wormJump.Jump();
+            _jumpCoroutine = StartCoroutine(JumpTimer());
+        }
+    }
+    
+    private IEnumerator JumpTimer()
+    {
+        yield return new WaitForSeconds(GameParameters.WormJumpChargeTime);
+        IsWormJumping = false;
+        _jumpCoroutine = null;
+    }
+
     private void RotateVisualHead()
     {
         var forward = thirdPersonCamera.transform.forward;
-        
+
         Vector3 cameraForward = new Vector3(forward.x, forward.y + GameParameters.VisualHeadVerticalOffset, forward.z);
         cameraForward.Normalize();
 
         if (cameraForward.magnitude > 0.1f)
         {
             float angle = Vector3.Angle(wormHead.forward, cameraForward);
-            
+
             if (angle > 90f)
             {
-                Vector3 clampedDirection = Vector3.RotateTowards(wormHead.forward, cameraForward, 90f * Mathf.Deg2Rad, 0f);
+                Vector3 clampedDirection =
+                    Vector3.RotateTowards(wormHead.forward, cameraForward, 90f * Mathf.Deg2Rad, 0f);
                 wormVisualHead.rotation = Quaternion.LookRotation(clampedDirection);
             }
             else
@@ -91,11 +117,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Jump()
-    {
-        _wormJump.Jump();
-    }
-    
     private void CreateWormSegments()
     {
         for (int i = 0; i < _wormSegmentCount; i++)

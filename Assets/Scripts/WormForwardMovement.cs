@@ -141,7 +141,7 @@ public class WormForwardMovement : MonoBehaviour
             if (currentHeight < maxMiddleHeight)
             {
                 float heightDiff = maxMiddleHeight - currentHeight;
-                float upwardForce = Mathf.Clamp(heightDiff * GameParameters.WormScrunchForceMultiplier, 0f, GameParameters.WormJumpForce);
+                float upwardForce = Mathf.Clamp(heightDiff * GameParameters.WormScrunchForceMultiplier, 0f, GameParameters.WormScrunchForce);
                 middlePartRigidbody.AddForce(Vector3.up * upwardForce);
                 middlePart.gameObject.GetComponent<WormBodySegment>().SetIsScrunched();
             }

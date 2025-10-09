@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class WormBodySegment : WormPart
 {
-    public bool isScrunched = false;
+    public bool IsScrunched { get; private set; }
     private Coroutine _scrunchCoroutine;
 
+    void Start()
+    {
+        IsScrunched = true;
+    }
+    
     public void SetIsScrunched()
     {
-        isScrunched = true;
+        IsScrunched = true;
         if (_scrunchCoroutine != null)
         {
             StopCoroutine(_scrunchCoroutine);
@@ -21,7 +26,7 @@ public class WormBodySegment : WormPart
     private IEnumerator ScrunchTimer()
     {
         yield return new WaitForSeconds(GameParameters.WormSegmentScrunchTime);
-        isScrunched = false;
+        IsScrunched = false;
         _scrunchCoroutine = null;
     }
     

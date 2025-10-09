@@ -12,7 +12,6 @@ public static class GameParameters
     public static readonly float WormMoveForce = 300f;
     public static readonly float WormHeadRotationSpeed = 1.5f;
     public static readonly float WormHeadVerticalRotationSpeed = 5f;
-    public static readonly float WormJumpForce = 2000f;
     public static readonly float WormMaxVelocity = 4f;
     public static readonly float MaxSlopeAngle = 45f;
     public static readonly float MaxStepHeight = 0.5f;
@@ -22,6 +21,13 @@ public static class GameParameters
     public static readonly float WormForwardMovementLoopLength = 0.75f;
     public static readonly float WormScrunchForceMultiplier = 50f;
     public static readonly float WormSegmentScrunchTime = 0.15f;
+    public static readonly float WormScrunchForce = 1750f;
+    
+    [Header("Worm Jumping")]
+    public static readonly float WormJumpForce = 3000f;
+    public static readonly float WormJumpChargeTime = 0.15f;
+    public static readonly int WormJumpSegments = 2;
+    public static readonly float JumpingSegmentDivisionThreshold = 2.0f; // if a segment is this number or greater than another, it gets split in 2
 
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
