@@ -61,6 +61,7 @@ public static class GameParameters
     public static readonly float minCameraPitch = -10f;
     public static readonly float maxCameraPitch = 40f;
     public static readonly float MaxCameraTurnAngle = 90f;
-    
-    
+
+    [Header("Jump Pad")] 
+    public static readonly float JumpPadForce = 5000f;
 }
