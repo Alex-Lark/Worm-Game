@@ -65,6 +65,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetWormInGameScene()
+    {
+        print("set worm in game scene");
+        thirdPersonCamera = Camera.main.gameObject;
+        wormHead.transform.position = new Vector3(0, 1, 0);
+        wormHead.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
+    }
+
     public void StartWormMoving()
     {
         IsWormMovingForward = true;
