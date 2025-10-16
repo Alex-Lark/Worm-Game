@@ -4,10 +4,59 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="jump pad wip">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Demo Stones.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Demo Stones.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Material.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Material/Ground.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Material/Ground.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Material/M_Stones.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Material/M_Stones.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Material/M_StonesV1.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Material/M_StonesV1.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone1.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone1.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone2.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone2.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone3.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone3.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone4.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone4.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone5.fbx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Mesh/ST_Stone5.fbx.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone1.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone1.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone2.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone2.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone3.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone3.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone4.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone4.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone5.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/Prefabs/ST_Stone5.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/HDRP URP ARM.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/HDRP URP ARM/T_Stones_MaskMap.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/HDRP URP ARM/T_Stones_MaskMap.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/HDRP URP ARM/T_Stones_MetallicSmoothness.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/HDRP URP ARM/T_Stones_MetallicSmoothness.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_AO.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_AO.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Albedo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Albedo.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Albedo_V2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Albedo_V2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Metalic.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Metalic.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Normal.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets/Low Poly Stones/TexturesStones/T_Stones_Normal.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,10 +85,9 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scenes/CreatureBuilderScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilderPartInventory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/Player.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -137,7 +185,7 @@
       <workItem from="1759968277865" duration="4062000" />
       <workItem from="1760063651482" duration="2106000" />
       <workItem from="1760570875624" duration="211000" />
-      <workItem from="1760571181598" duration="1082000" />
+      <workItem from="1760571181598" duration="2214000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -299,7 +347,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760068423976</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="jump pad wip">
+      <option name="closed" value="true" />
+      <created>1760572739256</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1760572739258</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -347,6 +403,7 @@
     <MESSAGE value="added debug helper" />
     <MESSAGE value="wip" />
     <MESSAGE value="part builder inventory system wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="part builder inventory system wip" />
+    <MESSAGE value="jump pad wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="jump pad wip" />
   </component>
 </project>
