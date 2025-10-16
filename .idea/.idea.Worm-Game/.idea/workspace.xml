@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="creature builder window wip">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilderPartInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilderPartInventory.cs" afterDir="false" />
-    </list>
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="inventory system wip" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,8 +32,11 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/CreatureBuilderPartInventory.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilderPartInventory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventoryItem.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventorySlot.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -135,7 +135,7 @@
       <workItem from="1759968277865" duration="4062000" />
       <workItem from="1760063651482" duration="2106000" />
       <workItem from="1760570875624" duration="211000" />
-      <workItem from="1760571181598" duration="3040000" />
+      <workItem from="1760571181598" duration="4197000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -313,7 +313,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760580426870</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="inventory system wip">
+      <option name="closed" value="true" />
+      <created>1760582339058</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1760582339059</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -363,6 +371,7 @@
     <MESSAGE value="part builder inventory system wip" />
     <MESSAGE value="jump pad wip" />
     <MESSAGE value="creature builder window wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="creature builder window wip" />
+    <MESSAGE value="inventory system wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="inventory system wip" />
   </component>
 </project>
