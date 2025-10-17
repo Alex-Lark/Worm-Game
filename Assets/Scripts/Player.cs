@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public static Player Instance;
+    public static Player Instance { get; private set; }
     public bool IsWormMovingForward { get; private set; }
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }
-    
     public bool IsWormAttacking { get; private set; }
     
     public GameObject thirdPersonCamera;
@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public Transform wormVisualHead;
     public List<Transform> wormParts;
 
+    private bool _isPlayerActive = false;
     private WormForwardMovement _wormForwardMovement;
     private WormJump _wormJump;
     private WormHeadBut _wormHeadBut;
@@ -56,21 +57,67 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        setWormGrounding();
-        RotateVisualHead();
-
-        if (IsWormAttacking)
+        if (_isPlayerActive)
         {
-            _wormHeadBut.ReadyHeadbut();
+            setWormGrounding();
+            RotateVisualHead();
+
+            if (IsWormAttacking)
+            {
+                _wormHeadBut.ReadyHeadbut();
+            }
         }
     }
 
     public void SetWormInGameScene()
     {
         print("set worm in game scene");
-        thirdPersonCamera = Camera.main.gameObject;
-        wormHead.transform.position = new Vector3(0, 1, 0);
-        wormHead.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
+        StartCoroutine(SetupAfterSceneLoad());
+        ActivatePlayer();
+    }
+
+    private IEnumerator SetupAfterSceneLoad()
+    {
+        // Wait until GameScene has loaded fully
+        yield return null;
+
+        // Move the Player object (and its hierarchy) into the active GameScene
+        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+        print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
+
+        // Assign the camera properly
+        var cam = Camera.main;
+        if (cam != null)
+        {
+            thirdPersonCamera = cam.gameObject;
+            print($"Camera set to {thirdPersonCamera.name}");
+        }
+        else
+        {
+            Debug.LogWarning("No MainCamera found in GameScene!");
+        }
+
+        // Reset worm position safely
+        if (wormHead != null)
+        {
+            wormHead.position = new Vector3(0, 1, 0);
+            var rb = wormHead.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+        }
+    }
+
+    public void ActivatePlayer()
+    {
+        _isPlayerActive = true;
+    }
+
+    public void DeactivatePlayer()
+    {
+        _isPlayerActive = false;
     }
 
     public void StartWormMoving()

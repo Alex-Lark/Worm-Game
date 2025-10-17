@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class WormGameSceneSwitcher : MonoBehaviour
@@ -6,6 +7,7 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenuScene");
+        Player.Instance.DeactivatePlayer();
     }
 
     public void LoadSettingsScene()
@@ -47,6 +49,7 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadGameEndScene()
     {
         SceneManager.LoadScene("GameEndScene");
+        Player.Instance.DeactivatePlayer();
     }
 
     public void QuitGame()

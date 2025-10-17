@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 62629976}
   - component: {fileID: 62629977}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: GameCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -851,6 +851,18 @@ MonoBehaviour:
       - m_Target: {fileID: 317191393}
         m_TargetAssemblyTypeName: WormGameSceneSwitcher, Assembly-CSharp
         m_MethodName: LoadGameEndScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1128421392}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: DeactivatePlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
