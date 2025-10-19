@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="trying to get worm to persist between scenes">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/TestHeadMaterial.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/TestHeadMaterial.mat.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RenderTexture/CreatureBuilder.renderTexture" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderTexture/CreatureBuilder.renderTexture" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -364,7 +359,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760585933663</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="fixed jumping, changed head to blue">
+      <option name="closed" value="true" />
+      <created>1760851257433</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1760851257433</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -391,7 +394,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="current version with fixed joints, kind of working but body orientation is static towards one direction" />
     <MESSAGE value="worm head rotation constrained by maxangle" />
     <MESSAGE value="worm uses configurable joint, messing with MaxAngle" />
     <MESSAGE value="improvements in worm physics" />
@@ -416,6 +418,7 @@
     <MESSAGE value="inventory system wip" />
     <MESSAGE value="inventory system kinda working, sprites don't work though??" />
     <MESSAGE value="trying to get worm to persist between scenes" />
-    <option name="LAST_COMMIT_MESSAGE" value="trying to get worm to persist between scenes" />
+    <MESSAGE value="fixed jumping, changed head to blue" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed jumping, changed head to blue" />
   </component>
 </project>

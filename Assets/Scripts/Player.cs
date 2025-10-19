@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            _isPlayerActive = true;
+            SetWormInGameScene();
         }
     }
 
@@ -111,6 +111,24 @@ public class Player : MonoBehaviour
             {
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
+            }
+
+            Vector3 currentPos = wormHead.position;
+            Vector3 backDir = -wormHead.forward;
+
+            Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
+
+            for (int i = 0; i < wormParts.Count; i++)
+            {
+                currentPos += backDir * _maxPartDistance;
+
+                Transform part = wormParts[i];
+                part.position = currentPos;
+
+                part.rotation = wormHead.rotation;
+                Rigidbody partRigidbody = wormHead.GetComponent<Rigidbody>();
+                partRigidbody.angularVelocity = Vector3.zero;
+                partRigidbody.linearVelocity = Vector3.zero;
             }
         }
     }
