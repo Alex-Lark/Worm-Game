@@ -53,6 +53,11 @@ public class Player : MonoBehaviour
         CreateWormSegments();
         ConstructWorm();
         gameObject.GetComponent<WormPhysics>().AddCollidersToSegments();
+
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            _isPlayerActive = true;
+        }
     }
 
     private void FixedUpdate()
@@ -144,7 +149,7 @@ public class Player : MonoBehaviour
 
     public void MoveForward()
     {
-        if (!IsWormJumping && !IsWormAttacking)
+        if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking)
         {
             _wormForwardMovement.MoveHead();
             _wormForwardMovement.MoveWormBody();
