@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isPlayerActive)
+        if (_isPlayerActive && thirdPersonCamera != null)
         {
             setWormGrounding();
             RotateVisualHead();
@@ -77,6 +77,13 @@ public class Player : MonoBehaviour
     public void SetWormInGameScene()
     {
         print("set worm in game scene");
+        
+        wormHead.GetComponent<Rigidbody>().isKinematic = false;
+        foreach (Transform wormPart in wormParts)
+        {
+            wormPart.GetComponent<Rigidbody>().isKinematic = false;
+        }
+            
         StartCoroutine(SetupAfterSceneLoad());
         ActivatePlayer();
     }

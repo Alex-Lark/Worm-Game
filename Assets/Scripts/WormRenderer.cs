@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +30,15 @@ public class WormRenderer : MonoBehaviour
     {
         player = GetComponent<Player>();
         SetupWormRenderer();
+    
+        // Force an initial update after a frame to ensure positions are set
+        StartCoroutine(DelayedInitialUpdate());
+    }
+    
+    IEnumerator DelayedInitialUpdate()
+    {
+        yield return new WaitForEndOfFrame();
+        UpdateWormVisual();
     }
 
     void SetupWormRenderer()
