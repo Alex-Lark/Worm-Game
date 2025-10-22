@@ -40,8 +40,6 @@ public static class GameParameters
 
     public static readonly float WormHeadbutGroundingForce = 3000f;
     
-    
-
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
 

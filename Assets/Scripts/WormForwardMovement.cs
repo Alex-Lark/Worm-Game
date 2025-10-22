@@ -13,6 +13,11 @@ public class WormForwardMovement : MonoBehaviour
 
     void Start()
     {
+        SetVariables();
+    }
+
+    public void SetVariables()
+    {
         var player = Player.Instance;
         _camera = player.thirdPersonCamera;
         _wormHead = player.wormHead;

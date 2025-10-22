@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isPlayerActive && thirdPersonCamera != null)
+        if (_isPlayerActive)
         {
             setWormGrounding();
             RotateVisualHead();
@@ -97,16 +97,41 @@ public class Player : MonoBehaviour
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
         print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
 
-        // Assign the camera properly
-        var cam = Camera.main;
-        if (cam != null)
+        // Wait extra frames to ensure scene is fully initialized
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+    
+        // Get the active scene
+        Scene activeScene = SceneManager.GetActiveScene();
+        Debug.Log($"Searching for camera in scene: {activeScene.name}");
+    
+        // Search for camera specifically in the active scene
+        GameObject foundCamera = null;
+        GameObject[] rootObjects = activeScene.GetRootGameObjects();
+    
+        foreach (GameObject rootObj in rootObjects)
         {
-            thirdPersonCamera = cam.gameObject;
-            print($"Camera set to {thirdPersonCamera.name}");
+            Debug.Log($"Checking root object: {rootObj.name}");
+        
+            // Check this object and all children for a Camera component
+            Camera cam = rootObj.GetComponentInChildren<Camera>();
+            if (cam != null)
+            {
+                foundCamera = cam.gameObject;
+                Debug.Log($"Found camera: {foundCamera.name}");
+                break;
+            }
+        }
+    
+        if (foundCamera != null)
+        {
+            thirdPersonCamera = foundCamera;
+            Debug.Log($"Camera successfully set to {thirdPersonCamera.name}");
         }
         else
         {
-            Debug.LogWarning("No MainCamera found in GameScene!");
+            Debug.LogError($"Could not find any camera in scene {activeScene.name}!");
+            Debug.Log($"Total root objects in scene: {rootObjects.Length}");
         }
 
         // Reset worm position safely
@@ -138,6 +163,7 @@ public class Player : MonoBehaviour
                 partRigidbody.linearVelocity = Vector3.zero;
             }
         }
+        _wormForwardMovement.SetVariables();
     }
 
     public void ActivatePlayer()
@@ -174,6 +200,23 @@ public class Player : MonoBehaviour
 
     public void MoveForward()
     {
+        if (_isPlayerActive && !IsWormJumping && !IsWormAttacking)
+        {
+            // Add this debug check
+            if (thirdPersonCamera == null)
+            {
+                Debug.LogError("thirdPersonCamera is NULL in MoveForward!");
+            }
+            else if (!thirdPersonCamera.activeInHierarchy)
+            {
+                Debug.LogError($"thirdPersonCamera {thirdPersonCamera.name} exists but is not active!");
+            }
+            else
+            {
+                Debug.Log($"thirdPersonCamera is valid: {thirdPersonCamera.name}");
+            }
+        }
+
         if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking)
         {
             _wormForwardMovement.MoveHead();
