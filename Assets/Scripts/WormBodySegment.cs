@@ -34,81 +34,61 @@ public class WormBodySegment : WormPart
     {
         ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
         joint.connectedBody = previousSegmentRigidBody;
+    
+        joint.anchor = new Vector3(0, 0, -GameParameters.SegmentMaxPartDistance);
+        float maxAngle = GameParameters.MaxJointAngle; // Degrees is correct
         
-        // CRITICAL: Set solver iterations for stability
-        Rigidbody rb = wormPart.GetComponent<Rigidbody>();
-        rb.solverIterations = 20; // Default is 6, increase for stability
-        rb.solverVelocityIterations = 10; // Default is 1, increase for stability
-        
-        // Also increase on the connected body if not already set
-        if (previousSegmentRigidBody.solverIterations < 20)
-        {
-            previousSegmentRigidBody.solverIterations = 20;
-            previousSegmentRigidBody.solverVelocityIterations = 10;
-        }
-
-        // Lock linear motion to maintain exact distance
+        // Lock all position axes so it stays in place
         joint.xMotion = ConfigurableJointMotion.Locked;
         joint.yMotion = ConfigurableJointMotion.Locked;
         joint.zMotion = ConfigurableJointMotion.Locked;
-
-        // Set the anchor point to be maxPartDistance behind the previous segment
-        joint.anchor = Vector3.back * GameParameters.SegmentMaxPartDistance; // Local space offset
-        joint.connectedAnchor = Vector3.zero; // Previous segment's center
-
-        // Limited angular motion within maxAngle cone
+        
+        // Set angular motion to Limited
         joint.angularXMotion = ConfigurableJointMotion.Limited;
         joint.angularYMotion = ConfigurableJointMotion.Limited;
         joint.angularZMotion = ConfigurableJointMotion.Limited;
-
-        // Set angular limits to maxAngle
-        SoftJointLimit angularLimit = new SoftJointLimit();
-        angularLimit.limit = GameParameters.MaxWormTurnAngle; // Cone angle from directly behind
-        angularLimit.bounciness = 0f;
-
-        joint.lowAngularXLimit = angularLimit;
-        joint.highAngularXLimit = angularLimit;
-        joint.angularYLimit = angularLimit;
-        joint.angularZLimit = angularLimit;
-
-        // REDUCED spring values to prevent oscillation/jitter
-        // The key issue: springs that are too strong cause instability at high framerates
+        
+        // Configure angle limits with spring to smoothly return
+        SoftJointLimit lowXLimit = new SoftJointLimit { 
+            limit = -maxAngle,
+            bounciness = 0f,
+            contactDistance = 1f // Start applying spring force 1 degree before limit
+        };
+        SoftJointLimit highXLimit = new SoftJointLimit { 
+            limit = maxAngle,
+            bounciness = 0f,
+            contactDistance = 1f
+        };
+        SoftJointLimit yzLimit = new SoftJointLimit { 
+            limit = maxAngle,
+            bounciness = 0f,
+            contactDistance = 1f
+        };
+        
+        joint.lowAngularXLimit = lowXLimit;
+        joint.highAngularXLimit = highXLimit;
+        joint.angularYLimit = yzLimit;
+        joint.angularZLimit = yzLimit;
+        
+        // Configure spring and damper on limits
+        SoftJointLimitSpring limitSpring = new SoftJointLimitSpring {
+            spring = 100f,  // Spring force to return to valid range
+            damper = 10f    // Damping to smooth the return motion
+        };
+        
+        joint.angularXLimitSpring = limitSpring;
+        joint.angularYZLimitSpring = limitSpring;
+        
+        // Disable the angular drive - only use limit springs
         JointDrive angularDrive = new JointDrive();
-        angularDrive.positionSpring = 200f; // Reduced from 500
-        angularDrive.positionDamper = 50f; // Reduced from 10000 (this was way too high!)
-        angularDrive.maximumForce = 1000f; // Reduced from 2000
-
+        angularDrive.positionSpring = 0f;  // No spring to center
+        angularDrive.positionDamper = 20f;  // Keep damping to reduce rotation
+        angularDrive.maximumForce = 1000f;
+        
         joint.angularXDrive = angularDrive;
         joint.angularYZDrive = angularDrive;
-            
-        // Add soft limits with spring/damper
-        SoftJointLimit limit = new SoftJointLimit();
-        limit.limit = 0.1f;
-        limit.bounciness = 0f;
-        limit.contactDistance = 0.01f;
-
-        joint.linearLimit = limit;
-
-        // REDUCED linear drive values
-        JointDrive drive = new JointDrive();
-        drive.positionSpring = 500f; // Reduced from 1000
-        drive.positionDamper = 100f; // Reduced from 10000
-        drive.maximumForce = 5000f; // Changed from Infinity - infinity can cause instability
-
-        joint.xDrive = drive;
-        joint.yDrive = drive;
-        joint.zDrive = drive;
-
-        // Set target rotation to be aligned with previous segment
-        joint.targetRotation = Quaternion.identity; // Try to stay aligned
         
-        // IMPORTANT: Enable preprocessing for more stable joints
-        joint.enablePreprocessing = true;
-        
-        // Set projection settings to handle errors
-        joint.projectionMode = JointProjectionMode.PositionAndRotation;
-        joint.projectionDistance = 0.01f; // Snap back if drifts more than this
-        joint.projectionAngle = 2f; // Snap back if rotates more than this
+        joint.rotationDriveMode = RotationDriveMode.XYAndZ;
 
         previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
         return previousSegmentRigidBody;
