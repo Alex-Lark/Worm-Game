@@ -52,17 +52,17 @@ public class WormBodySegment : WormPart
         SoftJointLimit lowXLimit = new SoftJointLimit { 
             limit = -maxAngle,
             bounciness = 0f,
-            contactDistance = 1f // Start applying spring force 1 degree before limit
+            contactDistance = 0f // Start applying spring force 1 degree before limit
         };
         SoftJointLimit highXLimit = new SoftJointLimit { 
             limit = maxAngle,
             bounciness = 0f,
-            contactDistance = 1f
+            contactDistance = 0f
         };
         SoftJointLimit yzLimit = new SoftJointLimit { 
             limit = maxAngle,
             bounciness = 0f,
-            contactDistance = 1f
+            contactDistance = 0f
         };
         
         joint.lowAngularXLimit = lowXLimit;
@@ -82,7 +82,7 @@ public class WormBodySegment : WormPart
         // Disable the angular drive - only use limit springs
         JointDrive angularDrive = new JointDrive();
         angularDrive.positionSpring = 0f;  // No spring to center
-        angularDrive.positionDamper = 20f;  // Keep damping to reduce rotation
+        angularDrive.positionDamper = 100f;  // Keep damping to reduce rotation
         angularDrive.maximumForce = 1000f;
         
         joint.angularXDrive = angularDrive;
