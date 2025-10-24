@@ -64,5 +64,5 @@ public static class GameParameters
     public static readonly float JumpPadForce = 5000f;
 
     [Header("Configurable Joint")] 
-    public static readonly float MaxJointAngle = 5f;
+    public static readonly float MaxJointAngle = 3f;
 }

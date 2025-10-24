@@ -51,17 +51,17 @@ public class WormBodySegment : WormPart
         // Configure angle limits with spring to smoothly return
         SoftJointLimit lowXLimit = new SoftJointLimit { 
             limit = -maxAngle,
-            bounciness = 0f,
+            bounciness = 0.1f,
             contactDistance = 0f // Start applying spring force 1 degree before limit
         };
         SoftJointLimit highXLimit = new SoftJointLimit { 
             limit = maxAngle,
-            bounciness = 0f,
+            bounciness = 0.1f,
             contactDistance = 0f
         };
         SoftJointLimit yzLimit = new SoftJointLimit { 
             limit = maxAngle,
-            bounciness = 0f,
+            bounciness = 0.1f,
             contactDistance = 0f
         };
         
@@ -72,8 +72,8 @@ public class WormBodySegment : WormPart
         
         // Configure spring and damper on limits
         SoftJointLimitSpring limitSpring = new SoftJointLimitSpring {
-            spring = 100f,  // Spring force to return to valid range
-            damper = 10f    // Damping to smooth the return motion
+            spring = 1000000f,  // Extremely high spring = virtually rigid limits
+            damper = 10000f     // High damping to prevent oscillation
         };
         
         joint.angularXLimitSpring = limitSpring;
