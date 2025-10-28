@@ -60,7 +60,7 @@ public class WormForwardMovement : MonoBehaviour
 
         for (int i = 0; i < Player.Instance.wormParts.Count; i++)
         {
-            _segmentMaxForwardForce[i] = GameParameters.WormMoveForce - TryToConstrainWormAngle(wormParts[i], previousPart, previousPosition);
+            _segmentMaxForwardForce[i] = GameParameters.WormMoveForce - TryToConstrainWormAngle(wormParts[i], _wormHead.transform, _wormHead.position);
         }
 
         (int groundedSegmentStartIndex, int groundedSegmentCount) = GetGroundedMiddleSegment(wormParts);
