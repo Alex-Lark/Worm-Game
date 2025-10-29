@@ -6,10 +6,14 @@ public static class GameParameters
     public static readonly int WormSegmentCount = 23;
     public static readonly float SegmentMaxPartDistance = 0.075f;
     public static readonly float WormBodyWidth = 0.25f;
+    
+    [Header("Configurable Joint")] 
+    public static readonly float MaxJointAngle = 1f;
 
     [Header("Worm Movement")]
     public static readonly float MaxWormTurnAngle = 5f;
     public static readonly float WormMoveForce = 300f;
+    public static readonly float WormCorrectionForceMultiplier = 1f;
     public static readonly float WormHeadRotationSpeed = 1.5f;
     public static readonly float WormHeadVerticalRotationSpeed = 5f;
     public static readonly float WormMaxVelocity = 4f;
@@ -28,12 +32,13 @@ public static class GameParameters
     [Header("Worm Jumping")] 
     public static float WormMiddleSegmentScrunchForce = 2500f;
     public static float WormScrunchMaxHeight = 500f;
-    public static readonly float WormJumpForce = 2750f;
+    public static readonly float WormJumpForce = 2250f;
     public static readonly float WormJumpMaxChargeTime = 0.25f;
     public static readonly int WormJumpSegments = 2;
     public static readonly float JumpingSegmentDivisionThreshold = 2.0f; // if a segment is this number or greater than another, it gets split in 2
-    public static readonly float WormJumpAngle = 0.75f;
+    public static readonly float WormJumpAngle = 0.85f;
     public static readonly float WormMaxScrunchVelocity = 2f;
+    public static float WormJumpPreviousPartVsHeadAngle = 0.9f; //1 for all head, 0 for all previouspart
 
     [Header("Worm Attack")]
     public static readonly float WormHeadbutTime = 0.5f;
@@ -62,7 +67,4 @@ public static class GameParameters
 
     [Header("Jump Pad")] 
     public static readonly float JumpPadForce = 5000f;
-
-    [Header("Configurable Joint")] 
-    public static readonly float MaxJointAngle = 3f;
 }

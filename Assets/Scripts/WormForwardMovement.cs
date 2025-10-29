@@ -225,7 +225,7 @@ public class WormForwardMovement : MonoBehaviour
         Vector3 correctionDir = Vector3.RotateTowards(partToPreviousPartVector, backVector, Mathf.Deg2Rad * excessAngle, 0f).normalized;
         float velocityInCorrectionDir = Vector3.Dot(partRigigBody.linearVelocity, correctionDir);
         
-        float forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir), 0f, GameParameters.WormMoveForce);
+        float forceMagnitude = Mathf.Clamp(baseForceMagnitude - (velocityInCorrectionDir), 0f, (GameParameters.WormMoveForce * GameParameters.WormCorrectionForceMultiplier));
         Vector3 correctionForce = correctionDir * (forceMagnitude);
         
         wormPart.GetComponent<Rigidbody>().AddForce(correctionForce);
