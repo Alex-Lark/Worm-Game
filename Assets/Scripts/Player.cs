@@ -257,6 +257,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(GameParameters.WormHeadbutTime); 
         IsWormAttacking = false;
         _attackCoroutine =  null;
+        _wormHeadBut.EndHeadBut();
     }
 
     private void RotateVisualHead()

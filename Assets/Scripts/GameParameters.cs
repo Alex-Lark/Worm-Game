@@ -41,9 +41,15 @@ public static class GameParameters
     public static float WormJumpPreviousPartVsHeadAngle = 0.9f; //1 for all head, 0 for all previouspart
 
     [Header("Worm Attack")]
-    public static readonly float WormHeadbutTime = 0.5f;
-
-    public static readonly float WormHeadbutGroundingForce = 3000f;
+    public static readonly float WormHeadbutTime = 0.75f;
+    public static readonly float WormHeadbutGroundingForce = 700f;
+    public static readonly float WormHeadButLiftingForce = 600f;
+    public static readonly float WormMaxHeightPerSegment = 400f;
+    public static readonly float WormHeightVariability = 200f;
+    public static readonly float WormHeadButForwardPercent = 0.1f;
+    public static readonly float WormHeadButForce = 7000f;
+    public static readonly float WormHeadButHeadForce = 20000f;
+    public static readonly float WormheadButMaxHeadVerticleAngle = 30f;
     
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
