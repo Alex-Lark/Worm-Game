@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }
     public bool IsWormAttacking { get; private set; }
+    public bool IsWormInAttackCooldown { get; private set; }
     
     public GameObject thirdPersonCamera;
     public GameObject wormSegmentPrefab;
@@ -70,6 +71,11 @@ public class Player : MonoBehaviour
             if (IsWormAttacking)
             {
                 _wormHeadBut.ReadyHeadbut();
+            }
+
+            if (IsWormInAttackCooldown)
+            {
+                _wormHeadBut.WormheadbutCoolDown();
             }
         }
     }
@@ -202,7 +208,7 @@ public class Player : MonoBehaviour
 
     public void MoveForward()
     {
-        if (_isPlayerActive && !IsWormJumping && !IsWormAttacking)
+        if (_isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
         {
             // Add this debug check
             if (thirdPersonCamera == null)
@@ -219,7 +225,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking)
+        if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
         {
             _wormForwardMovement.MoveHead();
             _wormForwardMovement.MoveWormBody();
@@ -228,7 +234,7 @@ public class Player : MonoBehaviour
     
     public void Jump()
     {
-        if (IsWormGrounded  && !IsWormAttacking)
+        if (IsWormGrounded  && !IsWormAttacking && !IsWormInAttackCooldown)
         {
             IsWormJumping = true;
             _wormJump.Jump();
@@ -240,14 +246,14 @@ public class Player : MonoBehaviour
     {
         if (IsWormGrounded)
         {
-            if (!IsWormAttacking)
+            if (!IsWormAttacking && !IsWormInAttackCooldown)
             {
                 IsWormAttacking = true;
-            }
-
-            if (_attackCoroutine == null)
-            {
-                _attackCoroutine =  StartCoroutine(WormAttackTimer());
+                
+                if (_attackCoroutine == null)
+                {
+                    _attackCoroutine =  StartCoroutine(WormAttackTimer());
+                }
             }
         }
     }
@@ -258,6 +264,15 @@ public class Player : MonoBehaviour
         IsWormAttacking = false;
         _attackCoroutine =  null;
         _wormHeadBut.EndHeadBut();
+        IsWormInAttackCooldown = true;
+        StartCoroutine(WormCoolDownTimer());
+
+    }
+
+    private IEnumerator WormCoolDownTimer()
+    {
+        yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
+        IsWormInAttackCooldown = false;
     }
 
     private void RotateVisualHead()

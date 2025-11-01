@@ -23,6 +23,9 @@ public class WormHeadBut : MonoBehaviour
             return;
         }
         
+        //TODO: fix lifting logic
+        LiftFrontSegments(_wormHead, segmentCount, segmentCount);
+        
         for (int i = 0; i < _wormParts.Count; i++)
         {
             Transform wormPart = _wormParts[i];
@@ -37,7 +40,6 @@ public class WormHeadBut : MonoBehaviour
                 LiftFrontSegments(wormPartRigidBody, liftedSegment, segmentCount);
             }
         }
-        LiftFrontSegments(_wormHead, segmentCount, segmentCount);
 
         MoveHead();
     }
@@ -60,31 +62,53 @@ public class WormHeadBut : MonoBehaviour
         }
     }
 
+    public void WormheadbutCoolDown()
+    {
+        for (int i = 0; i < _wormParts.Count; i++)
+        {
+            if (i > ((GameParameters.WormSegmentCount + 1) / 2))
+            {
+                Rigidbody wormPartRigidBody = _wormParts[i].GetComponent<Rigidbody>();
+                GroundBackSegment(wormPartRigidBody);
+            }
+        }
+        
+    }
+
     private void LiftFrontSegments(Rigidbody wormPart, int liftedSegment, int segmentCount)
     {
         float maxSegmentHeight = GameParameters.WormMaxHeightPerSegment / liftedSegment;
 
         if (wormPart.position.y < maxSegmentHeight)
         {
-            float forceMutliplier = liftedSegment / (segmentCount/2);
-            wormPart.AddForce((Vector3.up + (wormPart.transform.forward * GameParameters.WormHeadButForwardPercent)) * (GameParameters.WormHeadButLiftingForce * forceMutliplier));
+            float forceMultiplier = liftedSegment / (segmentCount/2);
+            wormPart.AddForce((Vector3.up + (wormPart.transform.forward * GameParameters.WormHeadButForwardPercent)) * (GameParameters.WormHeadButLiftingForce * forceMultiplier));
         }
         
     }
 
-    private void GroundBackSegment(Rigidbody wormPart)
-    {
+    private void GroundBackSegment(Rigidbody wormPart) {
         WormBodySegment segment = wormPart.GetComponent<WormBodySegment>();
         if (segment.IsGrounded)
         {
             Vector3 groundNormal = segment.GroundNormal;
+            Vector3 velocity = wormPart.velocity;
+        
+            // Remove velocity component moving away from ground
+            float normalVelocity = Vector3.Dot(velocity, groundNormal);
+            if (normalVelocity > 0)
+            {
+                wormPart.velocity = velocity - groundNormal * normalVelocity;
+            }
+        
+            // Optional: gentle downward force
             wormPart.AddForce(-groundNormal * GameParameters.WormHeadbutGroundingForce);
         }
     }
     
     private void MoveHead()
     {
-        RotateHeadUngrounded(GameParameters.WormHeadRotationSpeed);
+        RotateHeadUngrounded(GameParameters.WormHeadRotationSpeedWhileAttacking);
         _wormHead.AddForce(GameParameters.WormMoveForce * _wormHead.transform.forward);
     }
 
