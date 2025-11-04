@@ -92,13 +92,13 @@ public class WormHeadBut : MonoBehaviour
         if (segment.IsGrounded)
         {
             Vector3 groundNormal = segment.GroundNormal;
-            Vector3 velocity = wormPart.velocity;
+            Vector3 velocity = wormPart.linearVelocity;
         
             // Remove velocity component moving away from ground
             float normalVelocity = Vector3.Dot(velocity, groundNormal);
             if (normalVelocity > 0)
             {
-                wormPart.velocity = velocity - groundNormal * normalVelocity;
+                wormPart.linearVelocity = velocity - groundNormal * normalVelocity;
             }
         
             // Optional: gentle downward force
