@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class WormGameSceneSwitcher : MonoBehaviour
@@ -6,6 +7,7 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenuScene");
+        Player.Instance.DeactivatePlayer();
     }
 
     public void LoadSettingsScene()
@@ -41,10 +43,21 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadGameScene()
     {
         SceneManager.LoadScene("GameScene");
+        Player.Instance.SetWormInGameScene();
     }
     
     public void LoadGameEndScene()
     {
         SceneManager.LoadScene("GameEndScene");
+        Player.Instance.DeactivatePlayer();
+    }
+
+    public void QuitGame()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                Application.Quit();
+        #endif
     }
 }

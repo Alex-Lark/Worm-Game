@@ -1,0 +1,159 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WormHeadBut : MonoBehaviour
+{
+    private List<Transform> _wormParts;
+    private Rigidbody _wormHead;
+
+    private void Start()
+    {
+        _wormParts = Player.Instance.wormParts;
+        _wormHead = Player.Instance.wormHead.GetComponent<Rigidbody>();
+    }
+    
+
+    public void ReadyHeadbut()
+    {
+        int segmentCount = GameParameters.WormSegmentCount + 1; // head
+        int liftedSegment = 0;
+
+        if (!Player.Instance.IsWormGrounded)
+        {
+            return;
+        }
+        
+        //TODO: fix lifting logic
+        LiftFrontSegments(_wormHead, segmentCount, segmentCount);
+        
+        for (int i = 0; i < _wormParts.Count; i++)
+        {
+            Transform wormPart = _wormParts[i];
+            Rigidbody wormPartRigidBody = wormPart.GetComponent<Rigidbody>();
+            if (i > segmentCount / 2)
+            {
+                GroundBackSegment(wormPartRigidBody);
+            }
+            else
+            {
+                liftedSegment++;
+                LiftFrontSegments(wormPartRigidBody, liftedSegment, segmentCount);
+            }
+        }
+
+        MoveHead();
+    }
+
+    public void EndHeadBut()
+    {
+        SnapHeadRotation();
+        _wormHead.AddForce(_wormHead.transform.forward * GameParameters.WormHeadButHeadForce);
+        for (int i = 0; i < _wormParts.Count; i++)
+        {
+            Rigidbody wormPartRigidBody = _wormParts[i].GetComponent<Rigidbody>();
+            if (i < ((GameParameters.WormSegmentCount + 1) / 2))
+            {
+                wormPartRigidBody.AddForce(_wormHead.transform.forward * (GameParameters.WormHeadButForce/(i + 1)));
+            }
+            else
+            {
+                GroundBackSegment(wormPartRigidBody);
+            }
+        }
+    }
+
+    public void WormheadbutCoolDown()
+    {
+        for (int i = 0; i < _wormParts.Count; i++)
+        {
+            if (i > ((GameParameters.WormSegmentCount + 1) / 2))
+            {
+                Rigidbody wormPartRigidBody = _wormParts[i].GetComponent<Rigidbody>();
+                GroundBackSegment(wormPartRigidBody);
+            }
+        }
+        
+    }
+
+    private void LiftFrontSegments(Rigidbody wormPart, int liftedSegment, int segmentCount)
+    {
+        float maxSegmentHeight = GameParameters.WormMaxHeightPerSegment / liftedSegment;
+
+        if (wormPart.position.y < maxSegmentHeight)
+        {
+            float forceMultiplier = liftedSegment / (segmentCount/2);
+            wormPart.AddForce((Vector3.up + (wormPart.transform.forward * GameParameters.WormHeadButForwardPercent)) * (GameParameters.WormHeadButLiftingForce * forceMultiplier));
+        }
+        
+    }
+
+    private void GroundBackSegment(Rigidbody wormPart) {
+        WormBodySegment segment = wormPart.GetComponent<WormBodySegment>();
+        if (segment.IsGrounded)
+        {
+            Vector3 groundNormal = segment.GroundNormal;
+            Vector3 velocity = wormPart.velocity;
+        
+            // Remove velocity component moving away from ground
+            float normalVelocity = Vector3.Dot(velocity, groundNormal);
+            if (normalVelocity > 0)
+            {
+                wormPart.velocity = velocity - groundNormal * normalVelocity;
+            }
+        
+            // Optional: gentle downward force
+            wormPart.AddForce(-groundNormal * GameParameters.WormHeadbutGroundingForce);
+        }
+    }
+    
+    private void MoveHead()
+    {
+        RotateHeadUngrounded(GameParameters.WormHeadRotationSpeedWhileAttacking);
+        _wormHead.AddForce(GameParameters.WormMoveForce * _wormHead.transform.forward);
+    }
+
+    private void RotateHeadUngrounded(float speed) {
+        Vector3 camDirFlat = Flatten(Player.Instance.thirdPersonCamera.transform.forward);
+        Quaternion targetYaw = Quaternion.LookRotation(camDirFlat);
+    
+        _wormHead.rotation = Quaternion.Slerp(
+            _wormHead.rotation,
+            targetYaw,
+            speed * Time.fixedDeltaTime
+        );
+    }
+    
+    private static Vector3 Flatten(Vector3 v) {
+        v.y = 0f;
+        return v.normalized;
+    }
+    
+    private void SnapHeadRotation() {
+        Vector3 camDir = Player.Instance.thirdPersonCamera.transform.forward.normalized;
+        float pitch = CalculatePitch(camDir);
+    
+        // Clamp pitch to the allowed range
+        pitch = Mathf.Clamp(pitch, -GameParameters.WormheadButMaxHeadVerticleAngle, GameParameters.WormheadButMaxHeadVerticleAngle);
+    
+        // Keep current yaw, only apply new pitch
+        Vector3 currentForward = _wormHead.transform.forward;
+        Vector3 currentForwardFlat = Flatten(currentForward);
+        Quaternion currentYaw = Quaternion.LookRotation(currentForwardFlat);
+    
+        Quaternion pitchRot = Quaternion.AngleAxis(-pitch, currentYaw * Vector3.right);
+        _wormHead.rotation = pitchRot * currentYaw;
+    }
+
+    private float CalculatePitch(Vector3 camDir) {
+        float camPitch = Vector3.SignedAngle(
+            Vector3.ProjectOnPlane(camDir, Vector3.up),
+            camDir,
+            Player.Instance.thirdPersonCamera.transform.right
+        );
+    
+        float normalized = Mathf.InverseLerp(GameParameters.minCameraPitch, GameParameters.maxCameraPitch, camPitch);
+        normalized = 1f - Mathf.Clamp01(normalized);
+    
+        return Mathf.Lerp(-85f, 85f, normalized);
+    }
+}

@@ -3,56 +3,42 @@ using UnityEngine;
 
 public class WormPhysics : MonoBehaviour
 {
-    private List<CapsuleCollider> segmentColliders = new List<CapsuleCollider>();
-    
-    void Start()
-    {
-        //AddCollidersToSegments();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private List<SphereCollider> segmentColliders = new List<SphereCollider>();
     
     public void AddCollidersToSegments()
     {
-        // Add collider to head (if it doesn't already have one from CharacterController)
-        if (Player.Instance.wormHead.GetComponent<CapsuleCollider>() == null)
+        SphereCollider headCollider = Player.Instance.wormHead.GetComponent<SphereCollider>();
+        if (headCollider == null)
         {
-            CapsuleCollider headCollider = Player.Instance.wormHead.gameObject.AddComponent<CapsuleCollider>();
-            headCollider.radius = GameParameters.SegmentMaxPartDistance;
-            headCollider.height = GameParameters.SegmentMaxPartDistance * 2f;
-            // Don't set as trigger - we want solid collision
+            headCollider = Player.Instance.wormHead.gameObject.AddComponent<SphereCollider>();
         }
         
-        // Add colliders to body segments
+        headCollider.radius = GameParameters.WormBodyWidth * 4;
+        
         for (int i = 0; i < Player.Instance.wormParts.Count; i++)
         {
-            CapsuleCollider segmentCollider = Player.Instance.wormParts[i].gameObject.AddComponent<CapsuleCollider>();
-            segmentCollider.radius = GameParameters.SegmentMaxPartDistance * 0.9f; // Slightly smaller to prevent getting stuck
-            segmentCollider.height = GameParameters.SegmentMaxPartDistance * 2f;
-            // Don't set as trigger - we want solid collision
+            SphereCollider segmentCollider = Player.Instance.wormParts[i].GetComponent<SphereCollider>();
+            if (segmentCollider == null)
+            {
+                segmentCollider = Player.Instance.wormParts[i].gameObject.AddComponent<SphereCollider>();
+            }
+            segmentCollider.radius = GameParameters.WormBodyWidth * 4; 
             
-            segmentColliders.Add(segmentCollider);
+            if (!segmentColliders.Contains(segmentCollider))
+                segmentColliders.Add(segmentCollider);
         }
         
-        // Make sure worm segments don't collide with each other
         IgnoreWormSelfCollision();
     }
     
     void IgnoreWormSelfCollision()
     {
-        // Get all colliders on the worm
         List<Collider> allWormColliders = new List<Collider>();
         
-        // Add head collider
         Collider headCollider = Player.Instance.wormHead.GetComponent<Collider>();
         if (headCollider != null)
             allWormColliders.Add(headCollider);
         
-        // Add body colliders
         foreach (var segment in Player.Instance.wormParts)
         {
             Collider segmentCollider = segment.GetComponent<Collider>();
@@ -60,41 +46,15 @@ public class WormPhysics : MonoBehaviour
                 allWormColliders.Add(segmentCollider);
         }
         
-        // Make each collider ignore all other worm colliders
+        int ignoreDistance = GameParameters.NumSegmentCollisionsIgnored; 
+        
         for (int i = 0; i < allWormColliders.Count; i++)
         {
             for (int j = i + 1; j < allWormColliders.Count; j++)
             {
-                Physics.IgnoreCollision(allWormColliders[i], allWormColliders[j]);
-            }
-        }
-    }
-    
-    public void SetupWormCollisions()
-    {
-        List<Collider> wormColliders = new List<Collider>();
-    
-        // Get all colliders (same as above)
-        Collider headCollider = Player.Instance.wormHead.GetComponent<Collider>();
-        if (headCollider != null) wormColliders.Add(headCollider);
-    
-        foreach (Transform segment in Player.Instance.wormParts)
-        {
-            Collider segmentCollider = segment.GetComponent<Collider>();
-            if (segmentCollider != null) wormColliders.Add(segmentCollider);
-        }
-    
-        // Ignore collisions between segments that are close to each other
-        int ignoreDistance = 3; // How many segments apart before they can collide
-    
-        for (int i = 0; i < wormColliders.Count; i++)
-        {
-            for (int j = i + 1; j < wormColliders.Count; j++)
-            {
-                // If segments are within ignoreDistance of each other, ignore collision
                 if (Mathf.Abs(i - j) <= ignoreDistance)
                 {
-                    Physics.IgnoreCollision(wormColliders[i], wormColliders[j]);
+                    Physics.IgnoreCollision(allWormColliders[i], allWormColliders[j], true);
                 }
             }
         }

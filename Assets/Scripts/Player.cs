@@ -1,24 +1,33 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public static Player Instance;
-
+    public static Player Instance { get; private set; }
+    public bool IsWormMovingForward { get; private set; }
+    public bool IsWormJumping { get; private set; }
+    public bool IsWormGrounded { get; private set; }
+    public bool IsWormAttacking { get; private set; }
+    public bool IsWormInAttackCooldown { get; private set; }
+    
     public GameObject thirdPersonCamera;
     public GameObject wormSegmentPrefab;
     public Transform wormHead;
     public Transform wormVisualHead;
     public List<Transform> wormParts;
 
-    private int wormSegmentCount = GameParameters.WormSegmentCount;
-    private float moveSpeed = GameParameters.WormMoveSpeed;
-    private float rotationSpeed = GameParameters.WormRotationSpeed;
-    private float maxPartDistance = GameParameters.SegmentMaxPartDistance;
-    private float maxAngle = GameParameters.MaxWormTurnAngle;
-
+    private bool _isPlayerActive = false;
+    private WormForwardMovement _wormForwardMovement;
+    private WormJump _wormJump;
+    private WormHeadBut _wormHeadBut;
+    
+    private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
+    private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
+    
+    private Coroutine _attackCoroutine;
+    
     void Awake()
     {
         if (Instance == null)
@@ -34,77 +43,265 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        IsWormMovingForward = false;
+        IsWormGrounded = false;
+
+        _wormForwardMovement = gameObject.GetComponent<WormForwardMovement>();
+        _wormJump = gameObject.GetComponent<WormJump>();
+        _wormHeadBut = gameObject.GetComponent<WormHeadBut>();
+        
         wormParts.Clear();
         CreateWormSegments();
         ConstructWorm();
-        GetComponent<WormPhysics>().AddCollidersToSegments();
-        GetComponent<WormPhysics>().SetupWormCollisions();
-    }
-    
-    void Update()
-    {
-        Rigidbody headRb = wormHead.GetComponent<Rigidbody>();
-        if (headRb.angularVelocity.magnitude > 0.01f)
+        gameObject.GetComponent<WormPhysics>().AddCollidersToSegments();
+
+        if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            Debug.Log($"HEAD IS ROTATING when it shouldn't! Angular velocity: {headRb.angularVelocity}");
+            SetWormInGameScene();
         }
     }
 
     private void FixedUpdate()
     {
-            Rigidbody rb = wormParts[0].GetComponent<Rigidbody>();
-            Rigidbody headRB = wormHead.GetComponent<Rigidbody>();
-            ConfigurableJoint conJoint = wormParts[0].GetComponent<ConfigurableJoint>();
-            
-            Debug.Log($"Segment 0 Angular Velocity: {rb.angularVelocity.magnitude:F3}");
-            Debug.Log($"Segment 0 Velocity: {rb.linearVelocity.magnitude:F3}");
-            
-                Vector3 headAngularVel = headRB.angularVelocity;
-                Debug.Log($"Head Angular Velocity: {headAngularVel.magnitude:F3}");
-            
-                // Check if head is actually stationary
-                Debug.Log($"Head Velocity: {headRB.linearVelocity.magnitude:F3}");
-            
-            // Check for external forces
-            Debug.Log($"Segment 0 Joint Current Force: {conJoint.currentForce.magnitude:F3}");
-            Debug.Log($"Segment 0 Joint Current Torque: {conJoint.currentTorque.magnitude:F3}");
-        
-        //MoveWormBody();
-        
-        Vector3 camForward = thirdPersonCamera.transform.forward;
-        camForward.y = 0f;
-        camForward.Normalize();
-    
-        // Set rotation directly (freezeRotation allows this)
-        if (camForward.magnitude > 0.1f)
+        if (_isPlayerActive)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(camForward);
-            wormVisualHead.rotation = targetRotation;
+            setWormGrounding();
+            RotateVisualHead();
+
+            if (IsWormAttacking)
+            {
+                _wormHeadBut.ReadyHeadbut();
+            }
+
+            if (IsWormInAttackCooldown)
+            {
+                _wormHeadBut.WormheadbutCoolDown();
+            }
         }
     }
 
-    public void MoveForward() 
+    public void SetWormInGameScene()
     {
-        Vector3 camForward = thirdPersonCamera.transform.forward;
-        camForward.y = 0f;
-        camForward.Normalize();
-
-        Rigidbody rigidbody = wormHead.GetComponent<Rigidbody>();
-    
-        // Calculate target rotation: move towards camForward from current rotation by MaxWromHeadAngle
-        Quaternion desiredRotation = Quaternion.LookRotation(camForward);
-        Quaternion currentRotation = wormHead.rotation;
-        Quaternion targetRotation = ApplyTurnConstraint(currentRotation, desiredRotation);
+        print("set worm in game scene");
         
-        wormHead.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+        wormHead.GetComponent<Rigidbody>().isKinematic = false;
+        foreach (Transform wormPart in wormParts)
+        {
+            wormPart.GetComponent<Rigidbody>().isKinematic = false;
+        }
+            
+        StartCoroutine(SetupAfterSceneLoad());
+        ActivatePlayer();
+    }
+
+    private IEnumerator SetupAfterSceneLoad()
+    {
+        // Wait until GameScene has loaded fully
+        yield return null;
+
+        // Move the Player object (and its hierarchy) into the active GameScene
+        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+        print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
+
+        // Wait extra frames to ensure scene is fully initialized
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
     
-        // Move forward towards new orientation
-        rigidbody.AddForce(moveSpeed * wormHead.forward);
+        // Get the active scene
+        Scene activeScene = SceneManager.GetActiveScene();
+        Debug.Log($"Searching for camera in scene: {activeScene.name}");
+    
+        // Search for camera specifically in the active scene
+        GameObject foundCamera = null;
+        GameObject[] rootObjects = activeScene.GetRootGameObjects();
+    
+        foreach (GameObject rootObj in rootObjects)
+        {
+            Debug.Log($"Checking root object: {rootObj.name}");
+        
+            // Check this object and all children for a Camera component
+            Camera cam = rootObj.GetComponentInChildren<Camera>();
+            if (cam != null)
+            {
+                foundCamera = cam.gameObject;
+                Debug.Log($"Found camera: {foundCamera.name}");
+                break;
+            }
+        }
+    
+        if (foundCamera != null)
+        {
+            thirdPersonCamera = foundCamera;
+            Debug.Log($"Camera successfully set to {thirdPersonCamera.name}");
+        }
+        else
+        {
+            Debug.LogError($"Could not find any camera in scene {activeScene.name}!");
+            Debug.Log($"Total root objects in scene: {rootObjects.Length}");
+        }
+
+        // Reset worm position safely
+        if (wormHead != null)
+        {
+            wormHead.position = new Vector3(0, 1, 0);
+            var rb = wormHead.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
+            Vector3 currentPos = wormHead.position;
+            Vector3 backDir = -wormHead.forward;
+
+            Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
+
+            wormHead.GetComponent<Rigidbody>().useGravity = true;
+            for (int i = 0; i < wormParts.Count; i++)
+            {
+                currentPos += backDir * _maxPartDistance;
+
+                Transform part = wormParts[i];
+                part.position = currentPos;
+
+                part.rotation = wormHead.rotation;
+                Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
+                partRigidbody.useGravity = true;
+                partRigidbody.angularVelocity = Vector3.zero;
+                partRigidbody.linearVelocity = Vector3.zero;
+            }
+        }
+        _wormForwardMovement.SetVariables();
+    }
+
+    public void ActivatePlayer()
+    {
+        _isPlayerActive = true;
+    }
+
+    public void DeactivatePlayer()
+    {
+        _isPlayerActive = false;
+    }
+
+    public void StartWormMoving()
+    {
+        IsWormMovingForward = true;
+    }
+
+    public void StopWormMoving()
+    {
+        IsWormMovingForward = false;
+    }
+
+    public void StartJump()
+    {
+        IsWormJumping = true;
+        _wormJump.StartJump();
+    }
+
+    public void StopJump()
+    {
+        IsWormJumping = false;
+        _wormJump.StopJump();
+    }
+
+    public void MoveForward()
+    {
+        if (_isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
+        {
+            // Add this debug check
+            if (thirdPersonCamera == null)
+            {
+                Debug.LogError("thirdPersonCamera is NULL in MoveForward!");
+            }
+            else if (!thirdPersonCamera.activeInHierarchy)
+            {
+                Debug.LogError($"thirdPersonCamera {thirdPersonCamera.name} exists but is not active!");
+            }
+            else
+            {
+                Debug.Log($"thirdPersonCamera is valid: {thirdPersonCamera.name}");
+            }
+        }
+
+        if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
+        {
+            _wormForwardMovement.MoveHead();
+            _wormForwardMovement.MoveWormBody();
+        }
     }
     
+    public void Jump()
+    {
+        if (IsWormGrounded  && !IsWormAttacking && !IsWormInAttackCooldown)
+        {
+            IsWormJumping = true;
+            _wormJump.Jump();
+        }
+        IsWormJumping = false;
+    }
+
+    public void Attack()
+    {
+        if (IsWormGrounded)
+        {
+            if (!IsWormAttacking && !IsWormInAttackCooldown)
+            {
+                IsWormAttacking = true;
+                
+                if (_attackCoroutine == null)
+                {
+                    _attackCoroutine =  StartCoroutine(WormAttackTimer());
+                }
+            }
+        }
+    }
+
+    private IEnumerator WormAttackTimer()
+    {
+        yield return new WaitForSeconds(GameParameters.WormHeadbutTime); 
+        IsWormAttacking = false;
+        _attackCoroutine =  null;
+        _wormHeadBut.EndHeadBut();
+        IsWormInAttackCooldown = true;
+        StartCoroutine(WormCoolDownTimer());
+
+    }
+
+    private IEnumerator WormCoolDownTimer()
+    {
+        yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
+        IsWormInAttackCooldown = false;
+    }
+
+    private void RotateVisualHead()
+    {
+        var forward = thirdPersonCamera.transform.forward;
+
+        Vector3 cameraForward = new Vector3(forward.x, forward.y + GameParameters.VisualHeadVerticalOffset, forward.z);
+        cameraForward.Normalize();
+
+        if (cameraForward.magnitude > 0.1f)
+        {
+            float angle = Vector3.Angle(wormHead.forward, cameraForward);
+
+            if (angle > 90f)
+            {
+                Vector3 clampedDirection =
+                    Vector3.RotateTowards(wormHead.forward, cameraForward, 90f * Mathf.Deg2Rad, 0f);
+                wormVisualHead.rotation = Quaternion.LookRotation(clampedDirection);
+            }
+            else
+            {
+                wormVisualHead.rotation = Quaternion.LookRotation(cameraForward);
+            }
+        }
+    }
+
     private void CreateWormSegments()
     {
-        for (int i = 0; i < wormSegmentCount; i++)
+        for (int i = 0; i < _wormSegmentCount; i++)
         {
             GameObject newWormSegment = Instantiate(wormSegmentPrefab, transform);
             wormParts.Add(newWormSegment.transform);
@@ -113,7 +310,6 @@ public class Player : MonoBehaviour
 
     private void ConstructWorm()
     {
-        
         Vector3 currentPos = wormHead.position;
         Vector3 backDir = -wormHead.forward;
 
@@ -121,105 +317,28 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < wormParts.Count; i++)
         {
-            currentPos += backDir * maxPartDistance;
+            currentPos += backDir * _maxPartDistance;
 
             Transform part = wormParts[i];
             part.position = currentPos;
             
             part.rotation = wormHead.rotation;
 
-            previousSegmentRigidBody =  AddJoint(wormParts[i], previousSegmentRigidBody);
+            previousSegmentRigidBody = part.GetComponent<WormBodySegment>().AddJoint(wormParts[i], previousSegmentRigidBody);
         }
     }
 
-    private Rigidbody AddJoint(Transform wormPart, Rigidbody previousSegmentRigidBody) 
+    private void setWormGrounding()
     {
-        ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
-        joint.connectedBody = previousSegmentRigidBody;
-    
-        // Lock linear motion to maintain exact distance
-        joint.xMotion = ConfigurableJointMotion.Locked;
-        joint.yMotion = ConfigurableJointMotion.Locked;
-        joint.zMotion = ConfigurableJointMotion.Locked;
-    
-        // Set the anchor point to be maxPartDistance behind the previous segment
-        joint.anchor = Vector3.back * maxPartDistance; // Local space offset
-        joint.connectedAnchor = Vector3.zero; // Previous segment's center
-    
-        // Limited angular motion within maxAngle cone
-        joint.angularXMotion = ConfigurableJointMotion.Limited;
-        joint.angularYMotion = ConfigurableJointMotion.Limited;
-        joint.angularZMotion = ConfigurableJointMotion.Limited;
-    
-        // Set angular limits to maxAngle
-        SoftJointLimit angularLimit = new SoftJointLimit();
-        angularLimit.limit = maxAngle; // Cone angle from directly behind
-        angularLimit.bounciness = 0f;
-    
-        joint.lowAngularXLimit = angularLimit;
-        joint.highAngularXLimit = angularLimit;
-        joint.angularYLimit = angularLimit;
-        joint.angularZLimit = angularLimit;
-    
-        // Strong damping to prevent free rotation
-        JointDrive angularDrive = new JointDrive();
-        angularDrive.positionSpring = 500f; // Spring force to keep segments aligned
-        angularDrive.positionDamper = 10000f; // Damping to stop oscillation
-        angularDrive.maximumForce = 2000f;
-    
-        joint.angularXDrive = angularDrive;
-        joint.angularYZDrive = angularDrive;
-    
-        // Set target rotation to be aligned with previous segment
-        joint.targetRotation = Quaternion.identity; // Try to stay aligned
-    
-        previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
-        return previousSegmentRigidBody;
-    }
-
-    private Quaternion ApplyTurnConstraint(Quaternion currentRotation, Quaternion desiredRotation)
-    {
-        float angle = Quaternion.Angle(currentRotation, desiredRotation);
+        IsWormGrounded = false; 
         
-        if (angle <= GameParameters.MaxWormHeadTurnAngle)
+        foreach (var part in wormParts)
         {
-            return desiredRotation;
-        }
-        
-        float t = GameParameters.MaxWormHeadTurnAngle / angle; 
-        return Quaternion.Slerp(currentRotation, desiredRotation, t);
-    }
-
-    private void MoveWormBody()
-    {
-        Vector3 previousPosition = wormHead.transform.position;
-        float maxMovePerFrame = moveSpeed * Time.deltaTime;
-
-        for (int i = 0; i < wormParts.Count; i++)
-        {
-            Transform part = wormParts[i];
-            Vector3 toPrev = previousPosition - part.position;
-            float distance = toPrev.magnitude;
-
-            if (distance > maxPartDistance)
+            if (part.GetComponent<WormPart>().IsGrounded)
             {
-                float moveDistance = distance - maxPartDistance;
-                moveDistance = Mathf.Min(moveDistance, maxMovePerFrame);
-
-                part.position += toPrev.normalized * moveDistance;
-                
-                if (toPrev.sqrMagnitude > 0.001f)
-                {
-                    Quaternion desiredBodyRotation = Quaternion.LookRotation(toPrev);
-                    Quaternion constrainedBodyRotation = ApplyTurnConstraint(part.rotation, desiredBodyRotation);
-
-                    part.rotation = Quaternion.Slerp(part.rotation,
-                        constrainedBodyRotation,
-                        rotationSpeed * Time.deltaTime);
-                }
+                IsWormGrounded = true;
+                break;
             }
-
-            previousPosition = part.position;
         }
     }
 }

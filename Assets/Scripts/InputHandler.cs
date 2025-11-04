@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 public class InputHandler : MonoBehaviour
 {
     public static InputHandler Instance;
+    public bool isJumping = false;
+    public bool isAttacking = false;
+    
     void Awake()
     {
         if (Instance == null)
@@ -25,23 +28,67 @@ public class InputHandler : MonoBehaviour
             OptionsMenu.Instance.TryToToggleOptionsMenu();
         }
 
-        // if (SceneManager.GetActiveScene().name == "GameScene")
-        // {
-        //     float h = Input.GetAxisRaw("Horizontal");
-        //     float v = Input.GetAxisRaw("Vertical");
-        //
-        //     Player.Instance.Move(h, v);
-        // }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.StartWormMoving();
+            }
+        }
+        
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.StopWormMoving();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                isJumping = true;
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                isAttacking = true;
+            }
+        }
     }
 
     private void FixedUpdate()
     {
+        
         if (Input.GetKey(KeyCode.W))
         {
             if (SceneManager.GetActiveScene().name == "GameScene")
             {
                 Player.Instance.MoveForward();
             }
+        }
+
+        if (isJumping == true)
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.Jump();
+            }
+
+            isJumping = false;
+        }
+        
+        if (isAttacking == true)
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                Player.Instance.Attack();
+            }
+            isAttacking = false;
         }
     }
 }

@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="improvements in worm physics">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,17 +19,32 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="0083cbaf70c3df232a2da8451a16fddd1dac0838" />
+        <entry key="$PROJECT_DIR$" value="63b675281d5203ee039a2e9c8a4724ec2a052ff1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Alex-Lark&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Alex-Lark/Worm-Game&quot;,
+    &quot;accountId&quot;: &quot;21e9f881-245c-4a93-b8c5-2017031423b8&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Prefabs/WormSegment.prefab" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Prefabs/WormSegment.prefab" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scenes/GameScene.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/OneDrive/Desktop/CPSC 236/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilderPartInventory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventoryItem.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventorySlot.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (1).unity" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -39,41 +55,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "0240042d",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
-  },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\ahala\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\ahala\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\ahala\\AppData\\Local\\Symbols\\src"
-    ]
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;worm-movement-3&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Worm Game\Worm Game.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\WormGameBuilds" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.2.1f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.2.7f2\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.2.1f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.2.7f2\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -81,9 +111,13 @@
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -91,9 +125,16 @@
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Device" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
       <method v="2" />
     </configuration>
   </component>
@@ -111,6 +152,21 @@
       <workItem from="1758760197261" duration="859000" />
       <workItem from="1758798146415" duration="2674000" />
       <workItem from="1758800927701" duration="11138000" />
+      <workItem from="1759188637788" duration="17237000" />
+      <workItem from="1759877082190" duration="20427000" />
+      <workItem from="1759968277865" duration="4062000" />
+      <workItem from="1760063651482" duration="2106000" />
+      <workItem from="1760570875624" duration="211000" />
+      <workItem from="1760571181598" duration="5021000" />
+      <workItem from="1760584050315" duration="7385000" />
+      <workItem from="1761086515652" duration="732000" />
+      <workItem from="1761103449004" duration="1075000" />
+      <workItem from="1761254058675" duration="781000" />
+      <workItem from="1761257549543" duration="6587000" />
+      <workItem from="1761284989648" duration="2587000" />
+      <workItem from="1761687582529" duration="7570000" />
+      <workItem from="1761865116109" duration="5621000" />
+      <workItem from="1761876137588" duration="5954000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -144,7 +200,231 @@
       <option name="project" value="LOCAL" />
       <updated>1758854350866</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="current working version">
+      <option name="closed" value="true" />
+      <created>1758867598911</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1758867598911</updated>
+    </task>
+    <task id="LOCAL-00006" summary="some worm segmnt adjustments, working on updating to using angles.">
+      <option name="closed" value="true" />
+      <created>1759287458347</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759287458351</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added gizmos for velocity and force vectors">
+      <option name="closed" value="true" />
+      <created>1759449579672</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1759449579674</updated>
+    </task>
+    <task id="LOCAL-00008" summary="visual head now rotates vertically">
+      <option name="closed" value="true" />
+      <created>1759459447869</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1759459447871</updated>
+    </task>
+    <task id="LOCAL-00009" summary="visual head wip">
+      <option name="closed" value="true" />
+      <created>1759521802913</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1759521802914</updated>
+    </task>
+    <task id="LOCAL-00010" summary="worm turning speed increases with velocity so it doesn't slow when moving faster, vertical head control wip">
+      <option name="closed" value="true" />
+      <created>1759881985203</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1759881985205</updated>
+    </task>
+    <task id="LOCAL-00011" summary="worm head verticle movement wip">
+      <option name="closed" value="true" />
+      <created>1759892912394</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1759892912397</updated>
+    </task>
+    <task id="LOCAL-00012" summary="head has vertical control when ungrounded">
+      <option name="closed" value="true" />
+      <created>1759905852512</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1759905852512</updated>
+    </task>
+    <task id="LOCAL-00013" summary="worm movement refactored to worm forward movement">
+      <option name="closed" value="true" />
+      <created>1759963790707</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1759963790709</updated>
+    </task>
+    <task id="LOCAL-00014" summary="movement tweaks/updates wip">
+      <option name="closed" value="true" />
+      <created>1759965495271</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1759965495271</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Moved jump to seperate class">
+      <option name="closed" value="true" />
+      <created>1759966577050</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1759966577052</updated>
+    </task>
+    <task id="LOCAL-00016" summary="added scrunching boolean for worm body segments">
+      <option name="closed" value="true" />
+      <created>1759971127434</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1759971127434</updated>
+    </task>
+    <task id="LOCAL-00017" summary="improved jumping wip">
+      <option name="closed" value="true" />
+      <created>1759974403271</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1759974403271</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added debug helper">
+      <option name="closed" value="true" />
+      <created>1760044532514</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1760044532514</updated>
+    </task>
+    <task id="LOCAL-00019" summary="wip">
+      <option name="closed" value="true" />
+      <created>1760063708017</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1760063708017</updated>
+    </task>
+    <task id="LOCAL-00020" summary="part builder inventory system wip">
+      <option name="closed" value="true" />
+      <created>1760068423973</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1760068423976</updated>
+    </task>
+    <task id="LOCAL-00021" summary="jump pad wip">
+      <option name="closed" value="true" />
+      <created>1760572739256</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1760572739258</updated>
+    </task>
+    <task id="LOCAL-00022" summary="creature builder window wip">
+      <option name="closed" value="true" />
+      <created>1760580426870</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1760580426870</updated>
+    </task>
+    <task id="LOCAL-00023" summary="inventory system wip">
+      <option name="closed" value="true" />
+      <created>1760582339058</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1760582339059</updated>
+    </task>
+    <task id="LOCAL-00024" summary="inventory system kinda working, sprites don't work though??">
+      <option name="closed" value="true" />
+      <created>1760583193351</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1760583193352</updated>
+    </task>
+    <task id="LOCAL-00025" summary="trying to get worm to persist between scenes">
+      <option name="closed" value="true" />
+      <created>1760585933662</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1760585933663</updated>
+    </task>
+    <task id="LOCAL-00026" summary="fixed jumping, changed head to blue">
+      <option name="closed" value="true" />
+      <created>1760851257433</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1760851257433</updated>
+    </task>
+    <task id="LOCAL-00027" summary="worm physics fix wip">
+      <option name="closed" value="true" />
+      <created>1761258655582</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1761258655582</updated>
+    </task>
+    <task id="LOCAL-00028" summary="current version for sprint review, movement updates wip">
+      <option name="closed" value="true" />
+      <created>1761260915034</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1761260915034</updated>
+    </task>
+    <task id="LOCAL-00029" summary="movement updates wip">
+      <option name="closed" value="true" />
+      <created>1761285044043</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1761285044043</updated>
+    </task>
+    <task id="LOCAL-00030" summary="updated version, camera works here">
+      <option name="closed" value="true" />
+      <created>1761687669260</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1761687669260</updated>
+    </task>
+    <task id="LOCAL-00031" summary="worm movement improved, fixed gravity in partbuilder scene">
+      <option name="closed" value="true" />
+      <created>1761695996984</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1761695996984</updated>
+    </task>
+    <task id="LOCAL-00032" summary="worm movement feels pretty good with improved joint">
+      <option name="closed" value="true" />
+      <created>1761704995643</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1761704995643</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,6 +432,11 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityProjectDiscoverer">
+    <option name="hasUnityReference" value="true" />
+    <option name="unityProject" value="true" />
+    <option name="unityProjectFolder" value="true" />
+  </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -166,11 +451,49 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="using fixed joint to simulate movement, wormBody now has gravity" />
-    <MESSAGE value="current version with fixed joints, kind of working but body orientation is static towards one direction" />
-    <MESSAGE value="worm head rotation constrained by maxangle" />
-    <MESSAGE value="worm uses configurable joint, messing with MaxAngle" />
-    <MESSAGE value="improvements in worm physics" />
-    <option name="LAST_COMMIT_MESSAGE" value="improvements in worm physics" />
+    <MESSAGE value="visual head now rotates vertically" />
+    <MESSAGE value="visual head wip" />
+    <MESSAGE value="worm turning speed increases with velocity so it doesn't slow when moving faster, vertical head control wip" />
+    <MESSAGE value="worm head verticle movement wip" />
+    <MESSAGE value="head has vertical control when ungrounded" />
+    <MESSAGE value="worm movement refactored to worm forward movement" />
+    <MESSAGE value="movement tweaks/updates wip" />
+    <MESSAGE value="Moved jump to seperate class" />
+    <MESSAGE value="added scrunching boolean for worm body segments" />
+    <MESSAGE value="improved jumping wip" />
+    <MESSAGE value="added debug helper" />
+    <MESSAGE value="wip" />
+    <MESSAGE value="part builder inventory system wip" />
+    <MESSAGE value="jump pad wip" />
+    <MESSAGE value="creature builder window wip" />
+    <MESSAGE value="inventory system wip" />
+    <MESSAGE value="inventory system kinda working, sprites don't work though??" />
+    <MESSAGE value="trying to get worm to persist between scenes" />
+    <MESSAGE value="fixed jumping, changed head to blue" />
+    <MESSAGE value="worm physics fix wip" />
+    <MESSAGE value="current version for sprint review, movement updates wip" />
+    <MESSAGE value="movement updates wip" />
+    <MESSAGE value="updated version, camera works here" />
+    <MESSAGE value="worm movement improved, fixed gravity in partbuilder scene" />
+    <MESSAGE value="worm movement feels pretty good with improved joint" />
+    <option name="LAST_COMMIT_MESSAGE" value="worm movement feels pretty good with improved joint" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
