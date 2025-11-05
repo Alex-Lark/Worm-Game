@@ -157,6 +157,7 @@ public class Player : MonoBehaviour
             Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
 
             wormHead.GetComponent<Rigidbody>().useGravity = true;
+            wormHead.GetComponent<Rigidbody>().isKinematic = false;
             for (int i = 0; i < wormParts.Count; i++)
             {
                 currentPos += backDir * _maxPartDistance;
@@ -167,6 +168,7 @@ public class Player : MonoBehaviour
                 part.rotation = wormHead.rotation;
                 Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
                 partRigidbody.useGravity = true;
+                partRigidbody.isKinematic = false;
                 partRigidbody.angularVelocity = Vector3.zero;
                 partRigidbody.linearVelocity = Vector3.zero;
             }
