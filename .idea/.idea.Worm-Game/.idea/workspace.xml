@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Cards/leg part.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Cards/leg part.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RenderTexture/CreatureBuilder.renderTexture" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderTexture/CreatureBuilder.renderTexture" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/InventoryItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/InventoryItem.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,10 +36,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilderPartInventory.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventoryItem.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventorySlot.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (1).unity" root0="FORCE_HIGHLIGHTING" />
@@ -171,7 +163,8 @@
       <workItem from="1761865116109" duration="5621000" />
       <workItem from="1761876137588" duration="6894000" />
       <workItem from="1762292751893" duration="3739000" />
-      <workItem from="1762300876438" duration="782000" />
+      <workItem from="1762300876438" duration="2076000" />
+      <workItem from="1762303056253" duration="314000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -453,7 +446,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762293935812</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="can drag 3d objects into creaturebuilder window">
+      <option name="closed" value="true" />
+      <created>1762301733932</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1762301733932</updated>
+    </task>
+    <task id="LOCAL-00037" summary="can drag">
+      <option name="closed" value="true" />
+      <created>1762301752006</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1762301752006</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,8 +489,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="head has vertical control when ungrounded" />
-    <MESSAGE value="worm movement refactored to worm forward movement" />
     <MESSAGE value="movement tweaks/updates wip" />
     <MESSAGE value="Moved jump to seperate class" />
     <MESSAGE value="added scrunching boolean for worm body segments" />
@@ -505,7 +512,9 @@
     <MESSAGE value="worm headbut mostly working" />
     <MESSAGE value="inventory item code improved" />
     <MESSAGE value="fixed api issue in worm head but" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed api issue in worm head but" />
+    <MESSAGE value="can drag 3d objects into creaturebuilder window" />
+    <MESSAGE value="can drag" />
+    <option name="LAST_COMMIT_MESSAGE" value="can drag" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

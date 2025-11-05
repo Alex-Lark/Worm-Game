@@ -93,6 +93,8 @@ namespace CreatureBuilder
         {
             GameObject instance = Instantiate(prefab, position, Quaternion.identity);
             instance.name = prefab.name;
+            instance.GetComponent<CreaturePart>().targetCamera = targetCamera;
+            instance.GetComponent<CreaturePart>().creatureBuilderWindow = creatureBuilderWindow;
         }
     }
 }
