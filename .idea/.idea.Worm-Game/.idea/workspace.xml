@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Cards/leg part.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Cards/leg part.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RenderTexture/CreatureBuilder.renderTexture" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderTexture/CreatureBuilder.renderTexture" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/InventoryItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/InventoryItem.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,20 +58,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Creature-Builder",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Creature-Builder&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Worm Game\Worm Game.exe" />
@@ -164,7 +170,8 @@
       <workItem from="1761687582529" duration="7570000" />
       <workItem from="1761865116109" duration="5621000" />
       <workItem from="1761876137588" duration="6894000" />
-      <workItem from="1762292751893" duration="1051000" />
+      <workItem from="1762292751893" duration="3739000" />
+      <workItem from="1762300876438" duration="782000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -430,7 +437,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761890152782</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="inventory item code improved">
+      <option name="closed" value="true" />
+      <created>1762293822200</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1762293822200</updated>
+    </task>
+    <task id="LOCAL-00035" summary="fixed api issue in worm head but">
+      <option name="closed" value="true" />
+      <created>1762293935812</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1762293935812</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -457,8 +480,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm turning speed increases with velocity so it doesn't slow when moving faster, vertical head control wip" />
-    <MESSAGE value="worm head verticle movement wip" />
     <MESSAGE value="head has vertical control when ungrounded" />
     <MESSAGE value="worm movement refactored to worm forward movement" />
     <MESSAGE value="movement tweaks/updates wip" />
@@ -482,7 +503,9 @@
     <MESSAGE value="worm movement feels pretty good with improved joint" />
     <MESSAGE value="worm head but mostly working" />
     <MESSAGE value="worm headbut mostly working" />
-    <option name="LAST_COMMIT_MESSAGE" value="worm headbut mostly working" />
+    <MESSAGE value="inventory item code improved" />
+    <MESSAGE value="fixed api issue in worm head but" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed api issue in worm head but" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,7 +7,7 @@ namespace CreatureBuilder
 {
     public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public String partName;
+        public GameObject prefab;
         
         private GameObject _creatureBuilderWindow;
         private CreatureBuilder _creatureBuilder;
@@ -95,7 +96,8 @@ namespace CreatureBuilder
         private void OnEnterCreatureBuilder()
         {
             print("entered creature builder");
-            _creatureBuilder.SwitchTo3DPart(partName);
+            
+            _creatureBuilder.SwitchTo3DPart(prefab);
             Destroy(gameObject);
         }
 

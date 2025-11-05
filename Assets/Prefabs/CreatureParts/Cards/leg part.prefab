@@ -88,5 +88,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1f360e768f44c478a84dd808958ee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
-  partName: Leg
+  prefab: {fileID: 6895014049120698220}
   originalSlot: {fileID: 0}

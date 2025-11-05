@@ -7,14 +7,17 @@ namespace CreatureBuilder
     [Serializable]
     public class PartPair
     {
-        public string partName;          // The name of the part (from InventoryItem.partName)
-        public GameObject model3DPrefab; // The corresponding 3D model prefab
+        public GameObject cardPrefab;   // The card prefab GameObject
+        public GameObject part3DPrefab; // The corresponding 3D model prefab
     }
 
     public class CreatureBuilder : MonoBehaviour
     {
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
-        [SerializeField] private Camera targetCamera;
+        
+        public Camera targetCamera;
+        public RectTransform creatureBuilderWindow;
+        
         [SerializeField] private float spawnDistance = 5f;
 
         private Dictionary<string, GameObject> _prefabMapping = new Dictionary<string, GameObject>();
@@ -22,9 +25,6 @@ namespace CreatureBuilder
         private void Awake()
         {
             InitializePrefabMapping();
-
-            if (targetCamera == null)
-                targetCamera = Camera.main;
         }
 
         private void InitializePrefabMapping()
@@ -32,36 +32,63 @@ namespace CreatureBuilder
             _prefabMapping.Clear();
             foreach (var pair in partPairs)
             {
-                if (!string.IsNullOrEmpty(pair.partName) && pair.model3DPrefab != null)
-                    _prefabMapping[pair.partName] = pair.model3DPrefab;
+                if (pair.cardPrefab != null && pair.part3DPrefab != null)
+                {
+                    // Use the prefab's name as the key
+                    string keyName = pair.cardPrefab.name;
+                    _prefabMapping[keyName] = pair.part3DPrefab;
+                    Debug.Log($"Mapped: {keyName} -> {pair.part3DPrefab.name}");
+                }
             }
         }
 
-        public void SwitchTo3DPart(string partName)
+        public void SwitchTo3DPart(GameObject cardPrefab)
         {
-            if (string.IsNullOrEmpty(partName))
+            if (cardPrefab == null)
             {
-                Debug.LogWarning("Part name is null or empty");
+                Debug.LogWarning("Card prefab is null");
                 return;
             }
 
-            if (_prefabMapping.TryGetValue(partName, out GameObject prefab3D))
+            // Use the name for lookup
+            string keyName = cardPrefab.name.Replace("(Clone)", "").Trim();
+            
+            if (_prefabMapping.TryGetValue(keyName, out GameObject prefab3D))
             {
                 Vector3 spawnPosition = CalculateWorldSpawnPosition();
                 SpawnPartInWorld(prefab3D, spawnPosition);
             }
             else
             {
-                Debug.LogWarning($"No 3D prefab mapping found for part name: {partName}");
+                Debug.LogWarning($"No 3D prefab mapping found for card: {keyName}");
             }
         }
 
         private Vector3 CalculateWorldSpawnPosition()
         {
-            Ray ray = targetCamera.ScreenPointToRay(Input.mousePosition);
+            // Get the screen-space corners of the CreatureBuilderWindow
+            Vector3[] corners = new Vector3[4];
+            creatureBuilderWindow.GetWorldCorners(corners);
+    
+            // corners[0] = bottom-left, corners[1] = top-left, corners[2] = top-right, corners[3] = bottom-right
+            Vector2 mousePos = Input.mousePosition;
+    
+            Debug.Log($"Mouse: {mousePos}, BottomLeft: {corners[0]}, TopRight: {corners[2]}");
+    
+            // Calculate normalized position within the window (0-1 range)
+            float viewportX = Mathf.InverseLerp(corners[0].x, corners[2].x, mousePos.x);
+            float viewportY = Mathf.InverseLerp(corners[0].y, corners[2].y, mousePos.y);
+    
+            // Clamp to 0-1 range in case mouse is outside bounds
+            viewportX = Mathf.Clamp01(viewportX);
+            viewportY = Mathf.Clamp01(viewportY);
+    
+            Debug.Log($"ViewportX: {viewportX}, ViewportY: {viewportY}");
+
+            // Create a ray from the 3D camera through the viewport point
+            Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
             return ray.GetPoint(spawnDistance);
         }
-
         private void SpawnPartInWorld(GameObject prefab, Vector3 position)
         {
             GameObject instance = Instantiate(prefab, position, Quaternion.identity);
