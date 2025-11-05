@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CreaturePart : MonoBehaviour
@@ -7,14 +8,16 @@ public class CreaturePart : MonoBehaviour
     public Camera targetCamera;
     public RectTransform creatureBuilderWindow;
     
+    private List<GameObject> outlineObjects = new List<GameObject>();
+    private Color outlineColor = Color.cyan;
+    private float outlineWidth = 0.03f;
+    
     private bool isSelected;
     private bool isDragging;
     
     void Start()
     {
-        isSelected = true;
-        isDragging = true;
-        
+        StartDragging();
     }
     
     void Update()
@@ -27,6 +30,20 @@ public class CreaturePart : MonoBehaviour
         {
             StopDragging();
         }
+    }
+
+    public void StartDragging()
+    {
+        isSelected = true;
+        isDragging = true;
+        HighlightPart();
+    }
+    
+    public void StopDragging()
+    {
+        isSelected = false;
+        isDragging = false;
+        RemoveHighlight();
     }
 
     private void Drag()
@@ -50,10 +67,80 @@ public class CreaturePart : MonoBehaviour
         Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
         transform.position = ray.GetPoint(dragDistance);
     }
-    
-    private void StopDragging()
+
+    private void HighlightPart()
     {
-        isSelected = false;
-        isDragging = false;
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        
+        foreach (Renderer renderer in renderers)
+        {
+            MeshFilter meshFilter = renderer.GetComponent<MeshFilter>();
+            if (meshFilter != null)
+            {
+                GameObject outlineObj = new GameObject(renderer.name + "_Outline");
+                outlineObj.transform.SetParent(renderer.transform);
+                outlineObj.transform.localPosition = Vector3.zero;
+                outlineObj.transform.localRotation = Quaternion.identity;
+                outlineObj.transform.localScale = Vector3.one;
+                
+                MeshFilter outlineMF = outlineObj.AddComponent<MeshFilter>();
+                MeshRenderer outlineMR = outlineObj.AddComponent<MeshRenderer>();
+                
+                // Create inverted mesh for outline
+                Mesh outlineMesh = CreateInvertedMesh(meshFilter.mesh, outlineWidth);
+                outlineMF.mesh = outlineMesh;
+                
+                // Create unlit outline material
+                Material outlineMat = new Material(Shader.Find("Unlit/Color"));
+                outlineMat.color = outlineColor;
+                outlineMR.material = outlineMat;
+                
+                // Render behind the original mesh
+                outlineMR.sortingOrder = -1;
+                
+                outlineObjects.Add(outlineObj);
+            }
+        }
     }
+
+    private Mesh CreateInvertedMesh(Mesh originalMesh, float thickness)
+    {
+        Mesh mesh = new Mesh();
+        mesh.vertices = originalMesh.vertices;
+        mesh.normals = originalMesh.normals;
+        mesh.uv = originalMesh.uv;
+        
+        // Invert triangles to flip faces inward
+        int[] triangles = originalMesh.triangles;
+        for (int i = 0; i < triangles.Length; i += 3)
+        {
+            int temp = triangles[i];
+            triangles[i] = triangles[i + 2];
+            triangles[i + 2] = temp;
+        }
+        mesh.triangles = triangles;
+        
+        // Expand vertices along inverted normals
+        Vector3[] vertices = mesh.vertices;
+        Vector3[] normals = mesh.normals;
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] += normals[i] * thickness;
+        }
+        mesh.vertices = vertices;
+        
+        mesh.RecalculateBounds();
+        return mesh;
+    }
+
+    private void RemoveHighlight()
+    {
+        foreach (GameObject obj in outlineObjects)
+        {
+            if (obj != null)
+                Destroy(obj);
+        }
+        outlineObjects.Clear();
+    }
+    
 }
