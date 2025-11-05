@@ -64,6 +64,53 @@ namespace CreatureBuilder
             }
         }
 
+        public void SwitchTo2DCard(GameObject partPrefab)
+        {
+            if (partPrefab == null)
+            {
+                Debug.LogWarning("Part prefab is null");
+                return;
+            }
+
+            // Use the name for lookup
+            string keyName = partPrefab.name.Replace("(Clone)", "").Trim();
+    
+            // Find the matching pair by searching for the 3D prefab
+            foreach (var pair in partPairs)
+            {
+                if (pair.part3DPrefab != null && pair.part3DPrefab.name == keyName)
+                {
+                    // Found the matching card prefab
+                    SpawnCardInInventory(pair.cardPrefab);
+            
+                    // Destroy the 3D part
+                    Destroy(partPrefab);
+                    return;
+                }
+            }
+    
+            Debug.LogWarning($"No 2D card mapping found for part: {keyName}");
+        }
+        
+        private void SpawnCardInInventory(GameObject cardPrefab)
+        {
+            // Find the inventory to spawn the card back into
+            CreatureBuilderPartInventory inventory = FindObjectOfType<CreatureBuilderPartInventory>();
+    
+            if (inventory != null)
+            {
+                bool success = inventory.AddCardToInventory(cardPrefab);
+                if (!success)
+                {
+                    Debug.LogWarning("Failed to add card to inventory");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Inventory not found");
+            }
+        }
+
         private Vector3 CalculateWorldSpawnPosition()
         {
             // Get the screen-space corners of the CreatureBuilderWindow
