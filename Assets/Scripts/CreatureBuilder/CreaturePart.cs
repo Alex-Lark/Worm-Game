@@ -10,7 +10,10 @@ namespace CreatureBuilder
         public GameObject prefab;
         public Camera targetCamera;
         public RectTransform creatureBuilderWindow;
+        private float currentDragDistance;
     
+        private Vector3 lastValidPosition;
+        private Vector2 lastValidViewport;
         private CreatureBuilder _creatureBuilder;
         private List<GameObject> outlineObjects = new List<GameObject>();
         private Color outlineColor = Color.cyan;
@@ -50,6 +53,8 @@ namespace CreatureBuilder
         {
             isSelected = true;
             isDragging = true;
+            lastValidPosition = transform.position;
+            lastValidViewport = new Vector2(0.5f, 0.5f);
             HighlightPart();
         }
     
@@ -66,20 +71,65 @@ namespace CreatureBuilder
             RectTransform creatureBuilderWindow = GameObject.Find("Creature Builder Window").GetComponent<RectTransform>();
             Vector3[] corners = new Vector3[4];
             creatureBuilderWindow.GetWorldCorners(corners);
-    
+            
             Vector2 mousePos = Input.mousePosition;
-    
+            
             // Calculate normalized position within the window (0-1 range)
             float viewportX = Mathf.InverseLerp(corners[0].x, corners[2].x, mousePos.x);
             float viewportY = Mathf.InverseLerp(corners[0].y, corners[2].y, mousePos.y);
-    
+            
             // Clamp to 0-1 range
             viewportX = Mathf.Clamp01(viewportX);
             viewportY = Mathf.Clamp01(viewportY);
-
+            
             // Create a ray from the 3D camera through the viewport point
             Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
-            transform.position = ray.GetPoint(dragDistance);
+            Vector3 targetPosition = ray.GetPoint(dragDistance);
+            
+            // Check if we can move to the target position
+            if (CanMoveTo(targetPosition))
+            {
+                transform.position = targetPosition;
+                lastValidPosition = targetPosition;
+                lastValidViewport = new Vector2(viewportX, viewportY);
+            }
+            else
+            {
+                // Use last valid viewport coordinates instead
+                ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
+                transform.position = ray.GetPoint(dragDistance);
+            }
+        }
+
+        private bool CanMoveTo(Vector3 targetPosition)
+        {
+            // Get all colliders on this object
+            Collider[] colliders = GetComponentsInChildren<Collider>();
+            
+            foreach (Collider col in colliders)
+            {
+                // Calculate the offset from transform to collider
+                Vector3 offset = col.bounds.center - transform.position;
+                Vector3 newColliderCenter = targetPosition + offset;
+                
+                // Check for overlaps at the target position
+                Collider[] overlaps = Physics.OverlapBox(
+                    newColliderCenter,
+                    col.bounds.extents,
+                    transform.rotation
+                );
+                
+                // Check if any overlapping colliders aren't part of this object
+                foreach (Collider overlap in overlaps)
+                {
+                    if (!overlap.transform.IsChildOf(transform) && overlap.transform != transform)
+                    {
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
         }
 
         private void HighlightPart()

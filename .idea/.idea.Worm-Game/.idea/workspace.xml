@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +164,7 @@
       <workItem from="1761876137588" duration="6894000" />
       <workItem from="1762292751893" duration="3739000" />
       <workItem from="1762300876438" duration="2076000" />
-      <workItem from="1762303056253" duration="5775000" />
+      <workItem from="1762303056253" duration="6770000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -496,7 +494,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762314109846</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="worm is kinematic in creature builder scene.">
+      <option name="closed" value="true" />
+      <created>1762314455408</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1762314455408</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -523,7 +529,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="added debug helper" />
     <MESSAGE value="wip" />
     <MESSAGE value="part builder inventory system wip" />
     <MESSAGE value="jump pad wip" />
@@ -548,7 +553,8 @@
     <MESSAGE value="parts while dragging have outline" />
     <MESSAGE value="can drag parts around in gui" />
     <MESSAGE value="creature parts can be deleted and return to inventory slot" />
-    <option name="LAST_COMMIT_MESSAGE" value="creature parts can be deleted and return to inventory slot" />
+    <MESSAGE value="worm is kinematic in creature builder scene." />
+    <option name="LAST_COMMIT_MESSAGE" value="worm is kinematic in creature builder scene." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
