@@ -5,6 +5,9 @@ using Unity.Cinemachine;
 public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     public GameObject cinemachineCamera;
+    public GameObject targetCameraObject;
+    
+    private Camera targetCamera;
     private bool isMouseOver = false;
     private bool wasCameraEnabled = false;
     private bool isDragging = false;
@@ -26,6 +29,7 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
                 cinemachineCamera.SetActive(false);
             }
         }
+        targetCamera = targetCameraObject.GetComponent<Camera>();
     }
 
     void Update()
@@ -61,18 +65,25 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
         // Stop dragging if mouse leaves
         isDragging = false;
     }
-
-    // Called when mouse button is pressed down
+    
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isMouseOver)
         {
-            isDragging = true;
-            cinemachineCamera.SetActive(true);
-            Debug.Log("Started dragging");
+            if (IsOverCreaturePart(out GameObject hitPart))
+            {
+                Debug.Log($"Clicked on creature part: {hitPart.name}");
+                hitPart.GetComponent<CreaturePart>().StartDragging();
+            }
+            else
+            {
+                isDragging = true;
+                cinemachineCamera.SetActive(true);
+                Debug.Log("Started dragging");
+            }
         }
     }
-
+    
     // Called when mouse button is released
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -94,5 +105,38 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             inputProvider.enabled = false;
         }
+    }
+    
+    private bool IsOverCreaturePart(out GameObject hitObject)
+    {
+        hitObject = null;
+    
+        if (targetCamera == null || gameObject.GetComponent<RectTransform>() == null)
+            return false;
+    
+        Vector3[] corners = new Vector3[4];
+        gameObject.GetComponent<RectTransform>().GetWorldCorners(corners);
+    
+        Vector2 mousePos = Input.mousePosition;
+    
+        float viewportX = Mathf.InverseLerp(corners[0].x, corners[2].x, mousePos.x);
+        float viewportY = Mathf.InverseLerp(corners[0].y, corners[2].y, mousePos.y);
+    
+        viewportX = Mathf.Clamp01(viewportX);
+        viewportY = Mathf.Clamp01(viewportY);
+    
+        Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
+        RaycastHit hit;
+    
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.CompareTag("CreaturePart"))
+            {
+                hitObject = hit.collider.gameObject;
+                return true;
+            }
+        }
+    
+        return false;
     }
 }
