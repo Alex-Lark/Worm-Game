@@ -16,6 +16,9 @@ namespace CreatureBuilder
         
         private Vector3 lastValidPosition;
         private Vector2 lastValidViewport;
+        
+        private Vector3 dragOffset;
+        
         private CreatureBuilder _creatureBuilder;
         private List<GameObject> outlineObjects = new List<GameObject>();
         private Color outlineColor = Color.cyan;
@@ -79,44 +82,69 @@ namespace CreatureBuilder
             RemoveHighlight();
         }
 
-        private void Drag()
-        {
-            // Get the screen-space corners of the CreatureBuilderWindow
-            RectTransform creatureBuilderWindow = GameObject.Find("Creature Builder Window").GetComponent<RectTransform>();
-            Vector3[] corners = new Vector3[4];
-            creatureBuilderWindow.GetWorldCorners(corners);
-            
-            Vector2 mousePos = Input.mousePosition;
-            
-            // Calculate normalized position within the window (0-1 range)
-            float viewportX = Mathf.InverseLerp(corners[0].x, corners[2].x, mousePos.x);
-            float viewportY = Mathf.InverseLerp(corners[0].y, corners[2].y, mousePos.y);
-            
-            // Clamp to 0-1 range
-            viewportX = Mathf.Clamp01(viewportX);
-            viewportY = Mathf.Clamp01(viewportY);
-            
-            // Create a ray from the 3D camera through the viewport point
-            Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
-            Vector3 targetPosition = ray.GetPoint(dragDistance);
-            
-            RotateTowardWormBody();
-            
-            // Check if we can move to the target position
-            if (CanMoveTo(targetPosition))
-            {
-                transform.position = targetPosition;
-                lastValidPosition = targetPosition;
-                lastValidViewport = new Vector2(viewportX, viewportY);
-            }
-            else
-            {
-                // Use last valid viewport coordinates instead
-                ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
-                transform.position = ray.GetPoint(dragDistance);
-            }
-            TryToClampToWormBody();
-        }
+private void Drag() {
+    // Get the screen-space corners of the CreatureBuilderWindow
+    RectTransform creatureBuilderWindow = GameObject.Find("Creature Builder Window").GetComponent<RectTransform>();
+    Vector3[] corners = new Vector3[4];
+    creatureBuilderWindow.GetWorldCorners(corners);
+    
+    Vector2 mousePos = Input.mousePosition;
+    
+    // Calculate normalized position within the window (0-1 range)
+    float viewportX = Mathf.InverseLerp(corners[0].x, corners[2].x, mousePos.x);
+    float viewportY = Mathf.InverseLerp(corners[0].y, corners[2].y, mousePos.y);
+    
+    // Clamp to 0-1 range
+    viewportX = Mathf.Clamp01(viewportX);
+    viewportY = Mathf.Clamp01(viewportY);
+    
+    // Create a ray from the 3D camera through the viewport point
+    Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
+    
+    // If we just started dragging, calculate the offset
+    if (!isDragging) {
+        isDragging = true;
+        // Update dragDistance based on current object position
+        Vector3 cameraToObject = transform.position - targetCamera.transform.position;
+        dragDistance = Vector3.Dot(cameraToObject, targetCamera.transform.forward);
+        
+        // Find where the ray intersects the plane at the object's current distance
+        Vector3 rayPoint = ray.GetPoint(dragDistance);
+        dragOffset = transform.position - rayPoint;
+    }
+    
+    // Always use the current object's distance from camera, not a fixed dragDistance
+    Vector3 currentCameraToObject = transform.position - targetCamera.transform.position;
+    float currentDragDistance = Vector3.Dot(currentCameraToObject, targetCamera.transform.forward);
+    
+    // Calculate target position with the offset maintained
+    Vector3 targetPosition = ray.GetPoint(currentDragDistance) + dragOffset;
+    
+    // Apply smoothing when far from camera to reduce jitter
+    float distanceFromCamera = currentCameraToObject.magnitude;
+    float smoothingFactor = Mathf.Clamp01(distanceFromCamera / 50f); // Adjust 50f based on your scale
+    targetPosition = Vector3.Lerp(targetPosition, transform.position, smoothingFactor * 0.3f);
+    
+    // Rotate to falseCreatureBody
+    RotateTowardWormBody();
+    
+    // Check if we can move to the target position
+    if (CanMoveTo(targetPosition))
+    {
+        transform.position = targetPosition;
+        lastValidPosition = targetPosition;
+        lastValidViewport = new Vector2(viewportX, viewportY);
+    }
+    else
+    {
+        // Use last valid viewport coordinates instead
+        ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
+        transform.position = ray.GetPoint(currentDragDistance) + dragOffset;
+    }
+    
+    // Clamp to worm body if close enough
+    TryToClampToWormBody();
+}
 
         private void TryToClampToWormBody() {
             if (falseWormBody == null || endPoint == null) return;

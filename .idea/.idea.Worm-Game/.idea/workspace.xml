@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
     </list>
@@ -167,7 +165,7 @@
       <workItem from="1761876137588" duration="6894000" />
       <workItem from="1762292751893" duration="3739000" />
       <workItem from="1762300876438" duration="2076000" />
-      <workItem from="1762303056253" duration="16754000" />
+      <workItem from="1762303056253" duration="19991000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -521,7 +519,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762481967792</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="clamping improved">
+      <option name="closed" value="true" />
+      <created>1762485789973</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1762485789973</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,7 +554,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="jump pad wip" />
     <MESSAGE value="creature builder window wip" />
     <MESSAGE value="inventory system wip" />
     <MESSAGE value="inventory system kinda working, sprites don't work though??" />
@@ -573,7 +578,8 @@
     <MESSAGE value="worm is kinematic in creature builder scene." />
     <MESSAGE value="objects collide with eachother." />
     <MESSAGE value="wormPart orients towards creature." />
-    <option name="LAST_COMMIT_MESSAGE" value="wormPart orients towards creature." />
+    <MESSAGE value="clamping improved" />
+    <option name="LAST_COMMIT_MESSAGE" value="clamping improved" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

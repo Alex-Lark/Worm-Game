@@ -3,7 +3,7 @@ using UnityEngine;
 public static class GameParameters
 {
     [Header("Creature Builder")] 
-    public static float distanceToClampPart = 100f;
+    public static float distanceToClampPart = 2f;
     
     [Header("Worm")]
     public static readonly int WormSegmentCount = 23;
