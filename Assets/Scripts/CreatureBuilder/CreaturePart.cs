@@ -4,14 +4,16 @@ using UnityEngine;
 namespace CreatureBuilder
 {
     public class CreaturePart : MonoBehaviour
-    {
-        [SerializeField] private float dragDistance = 5f;
+    { 
+        public float dragDistance = 0f;
 
         public GameObject prefab;
         public Camera targetCamera;
         public RectTransform creatureBuilderWindow;
-        private float currentDragDistance;
-    
+        public Transform endPoint;
+
+        private GameObject falseWormBody;
+        
         private Vector3 lastValidPosition;
         private Vector2 lastValidViewport;
         private CreatureBuilder _creatureBuilder;
@@ -25,6 +27,7 @@ namespace CreatureBuilder
         void Start()
         {
             _creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder>();
+            falseWormBody = GameObject.Find("falseWormBody");
             StartDragging();
         }
     
@@ -53,8 +56,19 @@ namespace CreatureBuilder
         {
             isSelected = true;
             isDragging = true;
+    
+            // Calculate the initial drag distance from the camera
+            if (dragDistance == 0f)
+            {
+                dragDistance = Vector3.Distance(targetCamera.transform.position, transform.position);
+            }
+    
             lastValidPosition = transform.position;
-            lastValidViewport = new Vector2(0.5f, 0.5f);
+    
+            // Calculate initial viewport position based on current position
+            Vector3 viewportPos = targetCamera.WorldToViewportPoint(transform.position);
+            lastValidViewport = new Vector2(viewportPos.x, viewportPos.y);
+    
             HighlightPart();
         }
     
@@ -86,6 +100,10 @@ namespace CreatureBuilder
             Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
             Vector3 targetPosition = ray.GetPoint(dragDistance);
             
+            RotateTowardWormBody();
+
+            TryToClampToWormBody();
+            
             // Check if we can move to the target position
             if (CanMoveTo(targetPosition))
             {
@@ -99,6 +117,32 @@ namespace CreatureBuilder
                 ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
                 transform.position = ray.GetPoint(dragDistance);
             }
+        }
+
+        private void TryToClampToWormBody()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void RotateTowardWormBody() {
+            if (falseWormBody == null || endPoint == null) return;
+    
+            // Get the local direction from center to endPoint (in the part's local space)
+            Vector3 localEndDirection = transform.InverseTransformPoint(endPoint.position).normalized;
+    
+            // Calculate direction from this object's center to the worm body
+            Vector3 directionToTarget = (falseWormBody.transform.position - transform.position).normalized;
+    
+            if (directionToTarget.sqrMagnitude < 0.001f) return;
+    
+            // Calculate base rotation that points forward axis at target
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+    
+            // Calculate the offset needed to align the endPoint direction with forward
+            Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
+    
+            // Apply both rotations
+            transform.rotation = targetRotation * Quaternion.Inverse(offsetRotation);
         }
 
         private bool CanMoveTo(Vector3 targetPosition)

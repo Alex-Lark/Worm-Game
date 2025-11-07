@@ -140,8 +140,15 @@ namespace CreatureBuilder
         {
             GameObject instance = Instantiate(prefab, position, Quaternion.identity);
             instance.name = prefab.name;
-            instance.GetComponent<CreaturePart>().targetCamera = targetCamera;
-            instance.GetComponent<CreaturePart>().creatureBuilderWindow = creatureBuilderWindow;
+    
+            // Set up the creature part
+            CreaturePart part = instance.GetComponent<CreaturePart>();
+            if (part != null)
+            {
+                part.targetCamera = targetCamera;
+                part.creatureBuilderWindow = creatureBuilderWindow;
+                part.dragDistance = spawnDistance; // Pass the spawn distance
+            }
         }
     }
 }
