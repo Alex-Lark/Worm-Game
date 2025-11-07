@@ -2,6 +2,9 @@ using UnityEngine;
 
 public static class GameParameters
 {
+    [Header("Creature Builder")] 
+    public static float distanceToClampPart = 100f;
+    
     [Header("Worm")]
     public static readonly int WormSegmentCount = 23;
     public static readonly float SegmentMaxPartDistance = 0.075f;

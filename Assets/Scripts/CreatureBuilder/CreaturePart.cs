@@ -101,8 +101,6 @@ namespace CreatureBuilder
             Vector3 targetPosition = ray.GetPoint(dragDistance);
             
             RotateTowardWormBody();
-
-            TryToClampToWormBody();
             
             // Check if we can move to the target position
             if (CanMoveTo(targetPosition))
@@ -117,13 +115,40 @@ namespace CreatureBuilder
                 ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
                 transform.position = ray.GetPoint(dragDistance);
             }
+            TryToClampToWormBody();
         }
 
-        private void TryToClampToWormBody()
-        {
-            throw new System.NotImplementedException();
+        private void TryToClampToWormBody() {
+            if (falseWormBody == null || endPoint == null) return;
+    
+            float clampDistance = GameParameters.distanceToClampPart;
+    
+            // Cast a ray from the END of this part towards the worm body center
+            Vector3 directionToWorm = falseWormBody.transform.position - endPoint.position;
+            float distanceToCenter = directionToWorm.magnitude;
+    
+            if (distanceToCenter < 0.001f) return;
+    
+            Ray ray = new Ray(endPoint.position, directionToWorm.normalized);
+            RaycastHit hit;
+    
+            // Raycast towards the worm body
+            if (Physics.Raycast(ray, out hit, distanceToCenter)) {
+                // Check if we hit the worm body
+                if (hit.collider.gameObject == falseWormBody) {
+                    float distanceToSurface = hit.distance;
+            
+                    // If within clamp distance, move the part so endPoint touches the surface
+                    if (distanceToSurface <= clampDistance) {
+                        // Calculate offset: how far the endPoint is from transform center
+                        Vector3 offset = endPoint.position - transform.position;
+                
+                        // Move the part so the endPoint is at the hit point
+                        transform.position = hit.point - offset;
+                    }
+                }
+            }
         }
-
         private void RotateTowardWormBody() {
             if (falseWormBody == null || endPoint == null) return;
     
@@ -136,7 +161,7 @@ namespace CreatureBuilder
             if (directionToTarget.sqrMagnitude < 0.001f) return;
     
             // Calculate base rotation that points forward axis at target
-            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            Quaternion targetRotation = Quaternion.LookRotation(-directionToTarget);
     
             // Calculate the offset needed to align the endPoint direction with forward
             Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
