@@ -23,7 +23,8 @@ namespace CreatureBuilder
         private List<GameObject> outlineObjects = new List<GameObject>();
         private Color outlineColor = Color.cyan;
         private float outlineWidth = 0.03f;
-    
+
+        public bool isClamped;
         private bool isSelected;
         private bool isDragging;
     
@@ -173,6 +174,11 @@ private void Drag() {
                 
                         // Move the part so the endPoint is at the hit point
                         transform.position = hit.point - offset;
+                        isClamped = true;
+                    }
+                    else
+                    {
+                        isClamped = false;
                     }
                 }
             }

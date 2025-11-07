@@ -14,9 +14,11 @@ namespace CreatureBuilder
     public class CreatureBuilder : MonoBehaviour
     {
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
+        private List<GameObject> parts = new List<GameObject>();
         
         public Camera targetCamera;
         public RectTransform creatureBuilderWindow;
+        private Player _player;
         
         [SerializeField] private float spawnDistance = 5f;
 
@@ -25,6 +27,7 @@ namespace CreatureBuilder
         private void Awake()
         {
             InitializePrefabMapping();
+            _player = Player.Instance;
         }
 
         private void InitializePrefabMapping()
@@ -84,12 +87,32 @@ namespace CreatureBuilder
                     SpawnCardInInventory(pair.cardPrefab);
             
                     // Destroy the 3D part
+                    parts.Remove(partPrefab);
                     Destroy(partPrefab);
                     return;
                 }
             }
     
             Debug.LogWarning($"No 2D card mapping found for part: {keyName}");
+        }
+
+        public void AttackCreatureParts()
+        {
+            foreach (GameObject part in parts)
+            {
+                if (part.GetComponent<CreaturePart>().isClamped)
+                {
+                    //find nearest part
+                }
+            }
+        }
+
+        private void FindNearestCreaturePart(GameObject part)
+        {
+            foreach (Transform wormPart in _player.wormParts)
+            {
+                
+            }
         }
         
         private void SpawnCardInInventory(GameObject cardPrefab)
@@ -148,6 +171,7 @@ namespace CreatureBuilder
                 part.targetCamera = targetCamera;
                 part.creatureBuilderWindow = creatureBuilderWindow;
                 part.dragDistance = spawnDistance; // Pass the spawn distance
+                parts.Add(part.gameObject);
             }
         }
     }
