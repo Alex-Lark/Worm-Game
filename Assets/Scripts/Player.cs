@@ -102,10 +102,6 @@ public class Player : MonoBehaviour
         // Move the Player object (and its hierarchy) into the active GameScene
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
         print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
-
-        // Wait extra frames to ensure scene is fully initialized
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
     
         // Get the active scene
         Scene activeScene = SceneManager.GetActiveScene();

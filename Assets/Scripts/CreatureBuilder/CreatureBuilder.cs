@@ -13,6 +13,8 @@ namespace CreatureBuilder
 
     public class CreatureBuilder : MonoBehaviour
     {
+        public static CreatureBuilder Instance { get; private set; }
+        
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
         private List<GameObject> parts = new List<GameObject>();
         
@@ -26,6 +28,16 @@ namespace CreatureBuilder
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
             InitializePrefabMapping();
             _player = Player.Instance;
         }
@@ -96,23 +108,50 @@ namespace CreatureBuilder
             Debug.LogWarning($"No 2D card mapping found for part: {keyName}");
         }
 
-        public void AttackCreatureParts()
+        public void AttachCreatureParts()
         {
+            print("attach creature part called");
             foreach (GameObject part in parts)
             {
                 if (part.GetComponent<CreaturePart>().isClamped)
                 {
-                    //find nearest part
+                    print("found clamped part");
+                    Transform wormSegment = FindNearestWormSegment(part);
+                    AddPartToWorm(part, wormSegment);
+                }
+                else
+                {
+                    //add part back to inventory
                 }
             }
         }
 
-        private void FindNearestCreaturePart(GameObject part)
+        private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
         {
+            print("adding part to worm");
+            creaturePart.transform.parent = Player.Instance.transform;
+            FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
+            fixedJoint.connectedBody = wormSegment.GetComponent<Rigidbody>();
+            //attach part to segment with fixedJoint
+        }
+
+        private Transform FindNearestWormSegment(GameObject part) 
+        {
+            Transform nearestPart = null;
+            float shortestDistance = Mathf.Infinity;
+    
             foreach (Transform wormPart in _player.wormParts)
             {
-                
+                float distance = Vector3.Distance(part.transform.position, wormPart.position);
+        
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nearestPart = wormPart;
+                }
             }
+    
+            return nearestPart;
         }
         
         private void SpawnCardInInventory(GameObject cardPrefab)
