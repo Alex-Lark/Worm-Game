@@ -12,44 +12,54 @@ public class WormGameSceneSwitcher : MonoBehaviour
 
     public void LoadSettingsScene()
     {
-        SceneManager.LoadScene("SettingsScene");
+        SceneManager.LoadSceneAsync("SettingsScene");
     }
     
     public void LoadJoinGameScene()
     {
-        SceneManager.LoadScene("JoinGameScene");
+        SceneManager.LoadSceneAsync("JoinGameScene");
     }
 
     public void LoadCreateGameScene()
     {
-        SceneManager.LoadScene("CreateGameScene");
+        SceneManager.LoadSceneAsync("CreateGameScene");
     }
 
     public void LoadGameLobbyScene()
     {
-        SceneManager.LoadScene("GameLobbyScene");
+        SceneManager.LoadSceneAsync("GameLobbyScene");
     }
     
     public void LoadPartSelectionScene()
     {
-        SceneManager.LoadScene("PartSelectionScene");
+        SceneManager.LoadSceneAsync("PartSelectionScene");
     }
     
     public void LoadCreatureBuilderScene()
     {
-        SceneManager.LoadScene("CreatureBuilderScene");
+        SceneManager.LoadSceneAsync("CreatureBuilderScene");
     }
     
     public void LoadGameScene()
     {
-        CreatureBuilder.CreatureBuilder.Instance.AttachCreatureParts();
-        SceneManager.LoadScene("GameScene");
+        if (CreatureBuilder.CreatureBuilder.Instance != null)
+        {
+            Debug.Log("attaching creature parts");
+            CreatureBuilder.CreatureBuilder.Instance.AttachCreatureParts();
+        }
+        
+        SceneManager.LoadSceneAsync("GameScene");
         Player.Instance.SetWormInGameScene();
+    }
+    
+    public void LoadLeaderboardScene()
+    {
+        SceneManager.LoadSceneAsync("LeaderboardScene");
     }
     
     public void LoadGameEndScene()
     {
-        SceneManager.LoadScene("GameEndScene");
+        SceneManager.LoadSceneAsync("GameEndScene");
         Player.Instance.DeactivatePlayer();
     }
 

@@ -6,6 +6,8 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
     
+    public float TimeLeftInScene { get; private set; }
+    
     [Header("modifiable game loop settings")] 
     private int numberOfRounds;
     private int numberOfPartsPerRound;
@@ -44,7 +46,7 @@ public class GameLoop : MonoBehaviour
 
     private void Update()
     {
-        throw new NotImplementedException();
+        Debug.Log(TimeLeftInScene);
     }
 
     public void StartGame()
@@ -54,50 +56,71 @@ public class GameLoop : MonoBehaviour
 
     private IEnumerator RunGameLoop()
     {
+    
         for (int i = 0; i < numberOfRounds; i++)
         {
-            sceneSwitcher.LoadPartSelectionScene();
-            yield return StartCoroutine(PartSelectionTimer());
-
-            sceneSwitcher.LoadCreatureBuilderScene();
-            yield return StartCoroutine(CreatureBuilderTimer());
-
+            if (i > 0)
+            {
+                sceneSwitcher.LoadPartSelectionScene();
+                yield return StartCoroutine(PartSelectionTimer());
+                
+                sceneSwitcher.LoadCreatureBuilderScene();
+                yield return StartCoroutine(CreatureBuilderTimer());
+            }
+            
             sceneSwitcher.LoadGameScene();
+            
             yield return StartCoroutine(MinigameTimer());
-
-            // Switch to leaderboard scene
+            
+            sceneSwitcher.LoadLeaderboardScene();
             yield return StartCoroutine(LeaderboardTimer());
         }
-
-        Debug.Log("All rounds completed!");
+        
+        sceneSwitcher.LoadGameEndScene();
     }
 
     private IEnumerator PartSelectionTimer()
     {
-        // Switch to part selection scene
-        Debug.Log("Part Selection phase started");
-        yield return new WaitForSeconds(timePerPartSelection);
+        TimeLeftInScene = timePerPartSelection;
+
+        while (TimeLeftInScene > 0)
+        {
+            TimeLeftInScene -= Time.deltaTime;
+            yield return null;
+        }
     }
 
     private IEnumerator CreatureBuilderTimer()
     {
-        // Switch to creature builder
-        Debug.Log("Creature Builder phase started");
-        yield return new WaitForSeconds(timePerCreatureBuilding);
+        TimeLeftInScene = timePerCreatureBuilding;
+
+        while (TimeLeftInScene > 0)
+        {
+            TimeLeftInScene -= Time.deltaTime;
+            yield return null;
+        }
     }
 
     private IEnumerator MinigameTimer()
     {
-        // Switch to minigame
-        Debug.Log("Minigame phase started");
-        yield return new WaitForSeconds(timePerMinigame);
+        TimeLeftInScene = timePerMinigame;
+        
+        while (TimeLeftInScene > 0)
+        {
+            TimeLeftInScene -= Time.deltaTime;
+            yield return null;
+        }
+        
     }
 
     private IEnumerator LeaderboardTimer()
     {
-        // Switch to leaderboard
-        Debug.Log("Leaderboard phase started");
-        yield return new WaitForSeconds(timeForLeaderboard);
+        TimeLeftInScene = timeForLeaderboard;
+
+        while (TimeLeftInScene > 0)
+        {
+            TimeLeftInScene -= Time.deltaTime;
+            yield return null;
+        }
     }
-    
 }
