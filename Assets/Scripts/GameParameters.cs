@@ -2,8 +2,17 @@ using UnityEngine;
 
 public static class GameParameters
 {
+    [Header("Game loop default settings")] 
+    public static readonly int defaultNumberOfRounds = 5;
+    public static readonly int defaultNumberOfPartsPerRound = 1; //not including discarded card(s)
+    public static readonly int defaultTimePerPartSelection = 10;
+    public static readonly int defaultTimePerCreatureBuilding = 30;
+    public static readonly int defaultTimePerMinigame = 180;
+
+    public static readonly int timeForLeaderboard = 5;
+    
     [Header("Creature Builder")] 
-    public static float distanceToClampPart = 2f;
+    public static readonly float distanceToClampPart = 2f;
     
     [Header("Worm")]
     public static readonly int WormSegmentCount = 23;
