@@ -19,11 +19,12 @@ public class PartSelection : MonoBehaviour
     
     void Start()
     {
-        PickCardOptions();
+        //PickCardOptions();
     }
 
     public void PickCardOptions()
     {
+        Debug.Log("Picking card options");
         int card1Index = Random.Range(0, partCards.Count);
         int card2Index = Random.Range(0, partCards.Count);
         card1 = partCards[card1Index];
@@ -35,7 +36,7 @@ public class PartSelection : MonoBehaviour
         card2Name.text = card2.GetComponent<PartCard>().cardName;
     }
 
-    public void endCardSelection()
+    public void EndCardSelection()
     {
         if (currentCard == null)
         {
@@ -51,6 +52,18 @@ public class PartSelection : MonoBehaviour
         //fake discarded card
         int discardCardIndex = Random.Range(0, partCards.Count);
         Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
+        
+        //clear values
+        card1 = null;
+        card2 = null;
+        currentCard = null;
+        discardedCard = null;
+        card1Slot.sprite = null;
+        card2Slot.sprite = null;
+        card1Name.text = "";
+        card2Name.text = "";
+        card1Slot.transform.localScale = new Vector3(1f, 1f, 1f);
+        card2Slot.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
     public void selectCard1()

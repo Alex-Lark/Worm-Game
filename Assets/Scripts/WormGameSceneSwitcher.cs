@@ -1,9 +1,13 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class WormGameSceneSwitcher : MonoBehaviour
 {
+    public event Action OnSceneLoaded;
+    
     public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenuScene");
@@ -32,7 +36,7 @@ public class WormGameSceneSwitcher : MonoBehaviour
     
     public void LoadPartSelectionScene()
     {
-        SceneManager.LoadSceneAsync("PartSelectionScene");
+        StartCoroutine(LoadSceneCoroutine("PartSelectionScene"));
     }
     
     public void LoadCreatureBuilderScene()
@@ -70,5 +74,17 @@ public class WormGameSceneSwitcher : MonoBehaviour
         #else
                 Application.Quit();
         #endif
+    }
+    
+    private IEnumerator LoadSceneCoroutine(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        
+        OnSceneLoaded?.Invoke();
     }
 }

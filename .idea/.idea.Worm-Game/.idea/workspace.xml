@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PartSelection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,15 +173,7 @@
       <workItem from="1762303056253" duration="21558000" />
       <workItem from="1762498727490" duration="10669000" />
       <workItem from="1762901983213" duration="1664000" />
-      <workItem from="1762905598517" duration="7443000" />
-    </task>
-    <task id="LOCAL-00005" summary="current working version">
-      <option name="closed" value="true" />
-      <created>1758867598911</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1758867598911</updated>
+      <workItem from="1762905598517" duration="10929000" />
     </task>
     <task id="LOCAL-00006" summary="some worm segmnt adjustments, working on updating to using angles.">
       <option name="closed" value="true" />
@@ -563,7 +559,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762917226572</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="can select parts and they carry over to creature builder">
+      <option name="closed" value="true" />
+      <created>1762918919159</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1762918919159</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,7 +594,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="movement updates wip" />
     <MESSAGE value="updated version, camera works here" />
     <MESSAGE value="worm movement improved, fixed gravity in partbuilder scene" />
     <MESSAGE value="worm movement feels pretty good with improved joint" />
@@ -615,7 +618,8 @@
     <MESSAGE value="card images and names populate when entering part selection" />
     <MESSAGE value="fixed loop skipping first round" />
     <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
-    <option name="LAST_COMMIT_MESSAGE" value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
+    <MESSAGE value="can select parts and they carry over to creature builder" />
+    <option name="LAST_COMMIT_MESSAGE" value="can select parts and they carry over to creature builder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

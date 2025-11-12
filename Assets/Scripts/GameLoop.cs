@@ -17,6 +17,7 @@ public class GameLoop : MonoBehaviour
     private bool skipCreatureBuilding1stRound = false;
 
     private WormGameSceneSwitcher sceneSwitcher;
+    private bool sceneReady = false;
     private void Awake()
     {
         if (Instance == null)
@@ -41,6 +42,7 @@ public class GameLoop : MonoBehaviour
         timeForLeaderboard = GameParameters.timeForLeaderboard;
 
         sceneSwitcher = gameObject.GetComponent<WormGameSceneSwitcher>();
+        sceneSwitcher.OnSceneLoaded += HandleSceneLoaded;
     }
 
     public void StartGame()
@@ -55,10 +57,16 @@ public class GameLoop : MonoBehaviour
         {
             if (!skipCreatureBuilding1stRound || (i > 0))
             {
-                //TODO: multiple cards
+                sceneReady = false;
                 sceneSwitcher.LoadPartSelectionScene();
-                yield return StartCoroutine(PartSelectionTimer());
-                GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>().endCardSelection();
+                yield return new WaitUntil(() => sceneReady);
+                PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
+                for (int j = 0; j < numberOfPartsPerRound; j++)
+                {
+                    partSelection.PickCardOptions();
+                    yield return StartCoroutine(PartSelectionTimer());
+                    partSelection.EndCardSelection();
+                }
                 
                 sceneSwitcher.LoadCreatureBuilderScene();
                 yield return StartCoroutine(CreatureBuilderTimer());
@@ -118,5 +126,10 @@ public class GameLoop : MonoBehaviour
             TimeLeftInScene -= Time.deltaTime;
             yield return null;
         }
+    }
+    
+    private void HandleSceneLoaded()
+    {
+        sceneReady = true;
     }
 }
