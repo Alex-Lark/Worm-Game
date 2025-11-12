@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="" />
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -162,7 +169,8 @@
       <workItem from="1762292751893" duration="3739000" />
       <workItem from="1762300876438" duration="2076000" />
       <workItem from="1762303056253" duration="21558000" />
-      <workItem from="1762498727490" duration="1256000" />
+      <workItem from="1762498727490" duration="10669000" />
+      <workItem from="1762901983213" duration="1664000" />
     </task>
     <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
       <option name="closed" value="true" />
@@ -540,7 +548,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762498777345</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary=" pushing test object in scene">
+      <option name="closed" value="true" />
+      <created>1762500223819</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1762500223819</updated>
+    </task>
+    <task id="LOCAL-00049" summary="test2">
+      <option name="closed" value="true" />
+      <created>1762500445246</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1762500445246</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -567,8 +591,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="inventory system wip" />
-    <MESSAGE value="inventory system kinda working, sprites don't work though??" />
     <MESSAGE value="trying to get worm to persist between scenes" />
     <MESSAGE value="fixed jumping, changed head to blue" />
     <MESSAGE value="worm physics fix wip" />
@@ -592,7 +614,9 @@
     <MESSAGE value="wormPart orients towards creature." />
     <MESSAGE value="clamping improved" />
     <MESSAGE value="working on attaching parts" />
-    <option name="LAST_COMMIT_MESSAGE" value="working on attaching parts" />
+    <MESSAGE value=" pushing test object in scene" />
+    <MESSAGE value="test2" />
+    <option name="LAST_COMMIT_MESSAGE" value="test2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -171,6 +171,7 @@ public class Player : MonoBehaviour
         }
         _wormForwardMovement.SetVariables();
     }
+    
 
     public void ActivatePlayer()
     {

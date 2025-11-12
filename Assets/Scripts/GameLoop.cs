@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -16,6 +15,7 @@ public class GameLoop : MonoBehaviour
     private int timePerMinigame;
 
     private int timeForLeaderboard;
+    private bool skipCreatureBuilding1stRound = false;
 
     private WormGameSceneSwitcher sceneSwitcher;
     private void Awake()
@@ -59,7 +59,7 @@ public class GameLoop : MonoBehaviour
     
         for (int i = 0; i < numberOfRounds; i++)
         {
-            if (i > 0)
+            if (i > 0 && skipCreatureBuilding1stRound)
             {
                 sceneSwitcher.LoadPartSelectionScene();
                 yield return StartCoroutine(PartSelectionTimer());
