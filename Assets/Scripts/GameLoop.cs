@@ -4,7 +4,6 @@ using UnityEngine;
 public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
-    
     public float TimeLeftInScene { get; private set; }
     
     [Header("modifiable game loop settings")] 

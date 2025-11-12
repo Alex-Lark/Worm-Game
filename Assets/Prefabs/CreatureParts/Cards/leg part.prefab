@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 659343533641923300}
   - component: {fileID: 1255489230545679685}
   - component: {fileID: 2069264509531697715}
+  - component: {fileID: 2972389066813752137}
   m_Layer: 5
   m_Name: leg part
   m_TagString: Untagged
@@ -90,3 +91,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
   prefab: {fileID: 6895014049120698220}
   originalSlot: {fileID: 0}
+--- !u!114 &2972389066813752137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895014049120698220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097d5b15947b57f48a9722af3f617c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PartCard
+  sprite: {fileID: 21300000, guid: a244179cc3037f44cbb4ba7229816121, type: 3}
+  cardName: Leg
