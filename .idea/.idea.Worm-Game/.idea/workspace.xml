@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Cards/leg part.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Cards/leg part.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +38,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scenes/CreatureBuilderScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/GameLoop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (1).unity" root0="FORCE_HIGHLIGHTING" />
@@ -170,15 +169,7 @@
       <workItem from="1762303056253" duration="21558000" />
       <workItem from="1762498727490" duration="10669000" />
       <workItem from="1762901983213" duration="1664000" />
-      <workItem from="1762905598517" duration="3943000" />
-    </task>
-    <task id="LOCAL-00002" summary="worm head rotation constrained by maxangle">
-      <option name="closed" value="true" />
-      <created>1758838398529</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1758838398529</updated>
+      <workItem from="1762905598517" duration="4862000" />
     </task>
     <task id="LOCAL-00003" summary="worm uses configurable joint, messing with MaxAngle">
       <option name="closed" value="true" />
@@ -564,7 +555,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762905811750</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="card images and names populate when entering part selection">
+      <option name="closed" value="true" />
+      <created>1762914269056</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1762914269056</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -591,7 +590,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed jumping, changed head to blue" />
     <MESSAGE value="worm physics fix wip" />
     <MESSAGE value="current version for sprint review, movement updates wip" />
     <MESSAGE value="movement updates wip" />
@@ -616,7 +614,8 @@
     <MESSAGE value=" pushing test object in scene" />
     <MESSAGE value="test2" />
     <MESSAGE value="UI timer works" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI timer works" />
+    <MESSAGE value="card images and names populate when entering part selection" />
+    <option name="LAST_COMMIT_MESSAGE" value="card images and names populate when entering part selection" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

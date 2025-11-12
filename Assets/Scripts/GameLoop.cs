@@ -43,11 +43,6 @@ public class GameLoop : MonoBehaviour
         sceneSwitcher = gameObject.GetComponent<WormGameSceneSwitcher>();
     }
 
-    private void Update()
-    {
-        Debug.Log(TimeLeftInScene);
-    }
-
     public void StartGame()
     {
         StartCoroutine(RunGameLoop());
@@ -58,7 +53,7 @@ public class GameLoop : MonoBehaviour
     
         for (int i = 0; i < numberOfRounds; i++)
         {
-            if (i > 0 && skipCreatureBuilding1stRound)
+            if (!skipCreatureBuilding1stRound || (i > 0))
             {
                 sceneSwitcher.LoadPartSelectionScene();
                 yield return StartCoroutine(PartSelectionTimer());
