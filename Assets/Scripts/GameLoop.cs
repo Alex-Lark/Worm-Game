@@ -57,6 +57,7 @@ public class GameLoop : MonoBehaviour
             {
                 sceneSwitcher.LoadPartSelectionScene();
                 yield return StartCoroutine(PartSelectionTimer());
+                GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>().endCardSelection();
                 
                 sceneSwitcher.LoadCreatureBuilderScene();
                 yield return StartCoroutine(CreatureBuilderTimer());

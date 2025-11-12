@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CreaturePart
   - FalseCreatureBody
+  - PartSelection
   layers:
   - Default
   - TransparentFX

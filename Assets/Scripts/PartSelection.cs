@@ -10,6 +10,12 @@ public class PartSelection : MonoBehaviour
     public Image card2Slot;
     public TextMeshProUGUI card1Name;
     public TextMeshProUGUI card2Name;
+
+    private GameObject card1;
+    private GameObject card2;
+    
+    private GameObject currentCard;
+    private GameObject discardedCard;
     
     void Start()
     {
@@ -20,9 +26,46 @@ public class PartSelection : MonoBehaviour
     {
         int card1Index = Random.Range(0, partCards.Count);
         int card2Index = Random.Range(0, partCards.Count);
-        card1Slot.sprite = partCards[card1Index].GetComponent<PartCard>().sprite;
-        card2Slot.sprite = partCards[card2Index].GetComponent<PartCard>().sprite;
-        card1Name.text = partCards[card1Index].GetComponent<PartCard>().cardName;
-        card2Name.text = partCards[card2Index].GetComponent<PartCard>().cardName;
+        card1 = partCards[card1Index];
+        card2 = partCards[card2Index];
+        
+        card1Slot.sprite = card1.GetComponent<PartCard>().sprite;
+        card2Slot.sprite = card2.GetComponent<PartCard>().sprite;
+        card1Name.text = card1.GetComponent<PartCard>().cardName;
+        card2Name.text = card2.GetComponent<PartCard>().cardName;
+    }
+
+    public void endCardSelection()
+    {
+        if (currentCard == null)
+        {
+            currentCard = card1;
+        }
+        
+        Player.Instance.wormPartsInInventory.Add(currentCard);
+        
+        //discard discarded card to somoene else
+        
+        //get discarded card from somoene else and add it to player
+        
+        //fake discarded card
+        int discardCardIndex = Random.Range(0, partCards.Count);
+        Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
+    }
+
+    public void selectCard1()
+    {
+        card1Slot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        card2Slot.transform.localScale = new Vector3(1f, 1f, 1f);
+        currentCard = card1;
+        discardedCard = card2;
+    }
+
+    public void selectCard2()
+    {
+        card2Slot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        card1Slot.transform.localScale = new Vector3(1f, 1f, 1f);
+        currentCard = card2;
+        discardedCard = card1;
     }
 }

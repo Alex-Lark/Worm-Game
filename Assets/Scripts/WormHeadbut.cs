@@ -8,7 +8,7 @@ public class WormHeadBut : MonoBehaviour
 
     private void Start()
     {
-        _wormParts = Player.Instance.wormParts;
+        _wormParts = Player.Instance.wormBodySegments;
         _wormHead = Player.Instance.wormHead.GetComponent<Rigidbody>();
     }
     

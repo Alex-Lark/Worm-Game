@@ -15,12 +15,12 @@ public class WormPhysics : MonoBehaviour
         
         headCollider.radius = GameParameters.WormBodyWidth * 4;
         
-        for (int i = 0; i < Player.Instance.wormParts.Count; i++)
+        for (int i = 0; i < Player.Instance.wormBodySegments.Count; i++)
         {
-            SphereCollider segmentCollider = Player.Instance.wormParts[i].GetComponent<SphereCollider>();
+            SphereCollider segmentCollider = Player.Instance.wormBodySegments[i].GetComponent<SphereCollider>();
             if (segmentCollider == null)
             {
-                segmentCollider = Player.Instance.wormParts[i].gameObject.AddComponent<SphereCollider>();
+                segmentCollider = Player.Instance.wormBodySegments[i].gameObject.AddComponent<SphereCollider>();
             }
             segmentCollider.radius = GameParameters.WormBodyWidth * 4; 
             
@@ -39,7 +39,7 @@ public class WormPhysics : MonoBehaviour
         if (headCollider != null)
             allWormColliders.Add(headCollider);
         
-        foreach (var segment in Player.Instance.wormParts)
+        foreach (var segment in Player.Instance.wormBodySegments)
         {
             Collider segmentCollider = segment.GetComponent<Collider>();
             if (segmentCollider != null)

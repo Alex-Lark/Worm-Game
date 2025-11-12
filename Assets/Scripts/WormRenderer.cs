@@ -83,7 +83,7 @@ public class WormRenderer : MonoBehaviour
 
         // Original positions (head + segments)
         List<Vector3> originalPositions = new List<Vector3> { player.wormHead.position };
-        originalPositions.AddRange(player.wormParts.ConvertAll(p => p.position));
+        originalPositions.AddRange(player.wormBodySegments.ConvertAll(p => p.position));
 
         // Generate smooth curve with adaptive subdivision
         List<Vector3> wormPositions = GenerateSmoothCurve(originalPositions);
@@ -356,7 +356,7 @@ public class WormRenderer : MonoBehaviour
     void UpdateLineRenderer()
     {
         List<Vector3> positions = new List<Vector3> { player.wormHead.position };
-        positions.AddRange(player.wormParts.ConvertAll(p => p.position));
+        positions.AddRange(player.wormBodySegments.ConvertAll(p => p.position));
 
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());

@@ -56,9 +56,9 @@ public class WormForwardMovement : MonoBehaviour
         Vector3 previousPosition = _wormHead.transform.position;
         Transform previousPart = _wormHead;
         
-        List<Transform> wormParts = Player.Instance.wormParts;
+        List<Transform> wormParts = Player.Instance.wormBodySegments;
 
-        for (int i = 0; i < Player.Instance.wormParts.Count; i++)
+        for (int i = 0; i < Player.Instance.wormBodySegments.Count; i++)
         {
             _segmentMaxForwardForce[i] = GameParameters.WormMoveForce - TryToConstrainWormAngle(wormParts[i], _wormHead.transform, _wormHead.position);
         }

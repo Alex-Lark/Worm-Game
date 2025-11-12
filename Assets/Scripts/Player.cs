@@ -16,7 +16,8 @@ public class Player : MonoBehaviour
     public GameObject wormSegmentPrefab;
     public Transform wormHead;
     public Transform wormVisualHead;
-    public List<Transform> wormParts;
+    public List<Transform> wormBodySegments;
+    public List<GameObject> wormPartsInInventory;
 
     private bool _isPlayerActive = false;
     private WormForwardMovement _wormForwardMovement;
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
         _wormJump = gameObject.GetComponent<WormJump>();
         _wormHeadBut = gameObject.GetComponent<WormHeadBut>();
         
-        wormParts.Clear();
+        wormBodySegments.Clear();
         CreateWormSegments();
         ConstructWorm();
         gameObject.GetComponent<WormPhysics>().AddCollidersToSegments();
@@ -85,7 +86,7 @@ public class Player : MonoBehaviour
         print("set worm in game scene");
         
         wormHead.GetComponent<Rigidbody>().isKinematic = false;
-        foreach (Transform wormPart in wormParts)
+        foreach (Transform wormPart in wormBodySegments)
         {
             wormPart.GetComponent<Rigidbody>().isKinematic = false;
         }
@@ -154,11 +155,11 @@ public class Player : MonoBehaviour
 
             wormHead.GetComponent<Rigidbody>().useGravity = true;
             wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            for (int i = 0; i < wormParts.Count; i++)
+            for (int i = 0; i < wormBodySegments.Count; i++)
             {
                 currentPos += backDir * _maxPartDistance;
 
-                Transform part = wormParts[i];
+                Transform part = wormBodySegments[i];
                 part.position = currentPos;
 
                 part.rotation = wormHead.rotation;
@@ -303,7 +304,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < _wormSegmentCount; i++)
         {
             GameObject newWormSegment = Instantiate(wormSegmentPrefab, transform);
-            wormParts.Add(newWormSegment.transform);
+            wormBodySegments.Add(newWormSegment.transform);
         }
     }
 
@@ -314,16 +315,16 @@ public class Player : MonoBehaviour
 
         Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
 
-        for (int i = 0; i < wormParts.Count; i++)
+        for (int i = 0; i < wormBodySegments.Count; i++)
         {
             currentPos += backDir * _maxPartDistance;
 
-            Transform part = wormParts[i];
+            Transform part = wormBodySegments[i];
             part.position = currentPos;
             
             part.rotation = wormHead.rotation;
 
-            previousSegmentRigidBody = part.GetComponent<WormBodySegment>().AddJoint(wormParts[i], previousSegmentRigidBody);
+            previousSegmentRigidBody = part.GetComponent<WormBodySegment>().AddJoint(wormBodySegments[i], previousSegmentRigidBody);
         }
     }
 
@@ -331,7 +332,7 @@ public class Player : MonoBehaviour
     {
         IsWormGrounded = false; 
         
-        foreach (var part in wormParts)
+        foreach (var part in wormBodySegments)
         {
             if (part.GetComponent<WormPart>().IsGrounded)
             {

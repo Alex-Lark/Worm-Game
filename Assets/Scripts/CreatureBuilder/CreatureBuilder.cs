@@ -140,7 +140,7 @@ namespace CreatureBuilder
             Transform nearestPart = null;
             float shortestDistance = Mathf.Infinity;
     
-            foreach (Transform wormPart in _player.wormParts)
+            foreach (Transform wormPart in _player.wormBodySegments)
             {
                 float distance = Vector3.Distance(part.transform.position, wormPart.position);
         

@@ -6,7 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PartSelection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormForwardMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormJump.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormJump.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormPhysics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormPhysics.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,15 +179,7 @@
       <workItem from="1762303056253" duration="21558000" />
       <workItem from="1762498727490" duration="10669000" />
       <workItem from="1762901983213" duration="1664000" />
-      <workItem from="1762905598517" duration="4862000" />
-    </task>
-    <task id="LOCAL-00003" summary="worm uses configurable joint, messing with MaxAngle">
-      <option name="closed" value="true" />
-      <created>1758839636948</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1758839636949</updated>
+      <workItem from="1762905598517" duration="6747000" />
     </task>
     <task id="LOCAL-00004" summary="improvements in worm physics">
       <option name="closed" value="true" />
@@ -563,7 +565,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762914269056</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="fixed loop skipping first round">
+      <option name="closed" value="true" />
+      <created>1762915622267</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1762915622267</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,7 +600,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm physics fix wip" />
     <MESSAGE value="current version for sprint review, movement updates wip" />
     <MESSAGE value="movement updates wip" />
     <MESSAGE value="updated version, camera works here" />
@@ -615,7 +624,8 @@
     <MESSAGE value="test2" />
     <MESSAGE value="UI timer works" />
     <MESSAGE value="card images and names populate when entering part selection" />
-    <option name="LAST_COMMIT_MESSAGE" value="card images and names populate when entering part selection" />
+    <MESSAGE value="fixed loop skipping first round" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed loop skipping first round" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
