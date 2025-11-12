@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CreatureBuilder
@@ -10,31 +11,16 @@ namespace CreatureBuilder
         {
             // Get all child slots
             slots = GetComponentsInChildren<InventorySlot>();
-            
+
             // Initialize each slot
             foreach (var slot in slots)
             {
                 slot.Initialize(this);
             }
+            
+            AddStartingCardsToInventory();
         }
-
-        public InventorySlot[] GetSlots()
-        {
-            return slots;
-        }
-
-        public InventorySlot GetEmptySlot()
-        {
-            foreach (var slot in slots)
-            {
-                if (slot.currentItem == null)
-                {
-                    return slot;
-                }
-            }
-            return null;
-        }
-
+        
         public bool AddCardToInventory(GameObject cardPrefab)
         {
             InventorySlot emptySlot = GetEmptySlot();
@@ -73,5 +59,28 @@ namespace CreatureBuilder
                 return false;
             }
         }
+        
+        private void AddStartingCardsToInventory()
+        {
+            List<GameObject> partCards = Player.Instance.wormPartsInInventory;
+            foreach (var part in partCards)
+            {
+                AddCardToInventory(part);
+            }
+        }
+
+        private InventorySlot GetEmptySlot()
+        {
+            foreach (var slot in slots)
+            {
+                if (slot.currentItem == null)
+                {
+                    return slot;
+                }
+            }
+
+            return null;
+        }
+        
     }
 }

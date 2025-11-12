@@ -55,6 +55,7 @@ public class GameLoop : MonoBehaviour
         {
             if (!skipCreatureBuilding1stRound || (i > 0))
             {
+                //TODO: multiple cards
                 sceneSwitcher.LoadPartSelectionScene();
                 yield return StartCoroutine(PartSelectionTimer());
                 GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>().endCardSelection();
