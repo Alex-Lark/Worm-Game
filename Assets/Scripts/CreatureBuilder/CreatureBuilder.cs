@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace CreatureBuilder
@@ -19,6 +20,7 @@ namespace CreatureBuilder
         private List<GameObject> parts = new List<GameObject>();
         
         public Camera targetCamera;
+        public CinemachineCamera cinemachineCamera;
         public RectTransform creatureBuilderWindow;
         private Player _player;
         
@@ -40,6 +42,7 @@ namespace CreatureBuilder
             
             InitializePrefabMapping();
             _player = Player.Instance;
+            cinemachineCamera.Follow = _player.transform;
         }
 
         private void InitializePrefabMapping()
