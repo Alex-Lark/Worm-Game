@@ -1,19 +1,16 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace CreatureBuilder
 {
     public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public String partName;
+        public GameObject prefab;
         
         private GameObject _creatureBuilderWindow;
         private CreatureBuilder _creatureBuilder;
-        private bool _isOverCreatureBuilder = false;
     
         public InventorySlot originalSlot;
         private InventorySlot _currentSlot;
@@ -27,8 +24,7 @@ namespace CreatureBuilder
         {
             _rectTransform = GetComponent<RectTransform>();
             _canvas = GetComponentInParent<Canvas>();
-        
-            // Add CanvasGroup if not present
+            
             _canvasGroup = GetComponent<CanvasGroup>();
             if (_canvasGroup == null)
             {
@@ -50,44 +46,25 @@ namespace CreatureBuilder
             _startPosition = _rectTransform.position;
             _originalParent = transform.parent;
             originalSlot = _currentSlot;
-        
-            // Move to root canvas so it renders on top
+            
             transform.SetParent(_canvas.transform);
-        
-            // Make it semi-transparent and non-blocking
+            
             _canvasGroup.alpha = 0.6f;
             _canvasGroup.blocksRaycasts = false;
-            
-            _isOverCreatureBuilder = false;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             _rectTransform.position = eventData.position;
             
-            // Check if currently over the Creature Builder Window
-            bool wasOver = _isOverCreatureBuilder;
-            _isOverCreatureBuilder = IsOverCreatureBuilderWindow(eventData);
-            
-            // Detect when entering or leaving the window
-            if (_isOverCreatureBuilder && !wasOver)
-            {
-                Debug.Log("Entered Creature Builder Window");
-                OnEnterCreatureBuilder();
-            }
-            else if (!_isOverCreatureBuilder && wasOver)
-            {
-                Debug.Log("Left Creature Builder Window");
-                OnExitCreatureBuilder();
-            }
+            CheckIfOverCreatureBuilderWindow(eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             _canvasGroup.alpha = 1f;
             _canvasGroup.blocksRaycasts = true;
-
-            // Check if we dropped on a valid slot
+            
             bool droppedOnSlot = false;
             if (eventData.pointerEnter != null)
             {
@@ -97,69 +74,43 @@ namespace CreatureBuilder
                     droppedOnSlot = true;
                 }
             }
-
-            // If not dropped on a slot, snap back
+            
             if (!droppedOnSlot)
             {
                 transform.SetParent(originalSlot.transform);
                 _rectTransform.anchoredPosition = Vector2.zero;
             }
-            
-            _isOverCreatureBuilder = false;
         }
         
-        private bool IsOverCreatureBuilderWindow(PointerEventData eventData)
+        private void CheckIfOverCreatureBuilderWindow(PointerEventData eventData)
         {
-            if (_creatureBuilderWindow == null) return false;
-            
-            // Check if the pointer is over the Creature Builder Window
             foreach (var raycastResult in eventData.hovered)
             {
                 if (raycastResult == _creatureBuilderWindow || raycastResult.transform.IsChildOf(_creatureBuilderWindow.transform))
                 {
-                    return true;
+                    OnEnterCreatureBuilder();
                 }
             }
-            
-            return false;
         }
         
         private void OnEnterCreatureBuilder()
         {
-            // Get the prefab this instance was created from
-            GameObject prefabSource = UnityEditor.PrefabUtility.GetCorrespondingObjectFromSource(gameObject);
-    
-            if (prefabSource != null)
-            {
-                _creatureBuilder.SwitchTo3DPart(partName);
-            }
-            else
-            {
-                Debug.LogWarning($"Could not find prefab source for: {gameObject.name}");
-            }
+            print("entered creature builder");
             
-            //TODO: delete
-        }
-        
-        private void OnExitCreatureBuilder()
-        {
-            // Visual feedback when leaving the window
-            _canvasGroup.alpha = 0.6f;
+            _creatureBuilder.SwitchTo3DPart(prefab);
+            Destroy(gameObject);
         }
 
         public void SetNewSlot(InventorySlot newSlot)
         {
-            // Clear from current slot
             if (_currentSlot != null)
             {
                 _currentSlot.ClearItem();
             }
-
-            // Move to new slot
+            
             transform.SetParent(newSlot.transform);
             _rectTransform.anchoredPosition = Vector2.zero;
             
-            // Update references
             _currentSlot = newSlot;
             newSlot.SetItem(this);
         }

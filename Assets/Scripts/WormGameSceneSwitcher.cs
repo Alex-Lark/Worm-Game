@@ -1,9 +1,13 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class WormGameSceneSwitcher : MonoBehaviour
 {
+    public event Action OnSceneLoaded;
+    
     public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenuScene");
@@ -12,43 +16,54 @@ public class WormGameSceneSwitcher : MonoBehaviour
 
     public void LoadSettingsScene()
     {
-        SceneManager.LoadScene("SettingsScene");
+        SceneManager.LoadSceneAsync("SettingsScene");
     }
     
     public void LoadJoinGameScene()
     {
-        SceneManager.LoadScene("JoinGameScene");
+        SceneManager.LoadSceneAsync("JoinGameScene");
     }
 
     public void LoadCreateGameScene()
     {
-        SceneManager.LoadScene("CreateGameScene");
+        SceneManager.LoadSceneAsync("CreateGameScene");
     }
 
     public void LoadGameLobbyScene()
     {
-        SceneManager.LoadScene("GameLobbyScene");
+        SceneManager.LoadSceneAsync("GameLobbyScene");
     }
     
     public void LoadPartSelectionScene()
     {
-        SceneManager.LoadScene("PartSelectionScene");
+        StartCoroutine(LoadSceneCoroutine("PartSelectionScene"));
     }
     
     public void LoadCreatureBuilderScene()
     {
-        SceneManager.LoadScene("CreatureBuilderScene");
+        SceneManager.LoadSceneAsync("CreatureBuilderScene");
     }
     
     public void LoadGameScene()
     {
+        if (CreatureBuilder.CreatureBuilder.Instance != null)
+        {
+            Debug.Log("attaching creature parts");
+            CreatureBuilder.CreatureBuilder.Instance.AttachCreatureParts();
+        }
+        
         SceneManager.LoadScene("GameScene");
         Player.Instance.SetWormInGameScene();
     }
     
+    public void LoadLeaderboardScene()
+    {
+        SceneManager.LoadSceneAsync("LeaderboardScene");
+    }
+    
     public void LoadGameEndScene()
     {
-        SceneManager.LoadScene("GameEndScene");
+        SceneManager.LoadSceneAsync("GameEndScene");
         Player.Instance.DeactivatePlayer();
     }
 
@@ -59,5 +74,17 @@ public class WormGameSceneSwitcher : MonoBehaviour
         #else
                 Application.Quit();
         #endif
+    }
+    
+    private IEnumerator LoadSceneCoroutine(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        
+        OnSceneLoaded?.Invoke();
     }
 }

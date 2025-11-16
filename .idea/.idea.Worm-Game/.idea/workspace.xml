@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/WormSegment.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +16,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="63b675281d5203ee039a2e9c8a4724ec2a052ff1" />
+        <entry key="$PROJECT_DIR$" value="1a188f04cec74ae896c2d712a3d2f66bdf5f0875" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -38,11 +35,12 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilderPartInventory.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventoryItem.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventorySlot.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/PartCard.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/PartSelection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TimerText.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/WormHeadbut.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (1).unity" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -60,7 +58,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;worm-movement-3&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Creature-Builder&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -166,55 +164,15 @@
       <workItem from="1761284989648" duration="2587000" />
       <workItem from="1761687582529" duration="7570000" />
       <workItem from="1761865116109" duration="5621000" />
-      <workItem from="1761876137588" duration="5954000" />
-    </task>
-    <task id="LOCAL-00001" summary="using fixed joint to simulate movement, wormBody now has gravity">
-      <option name="closed" value="true" />
-      <created>1758800548719</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1758800548719</updated>
-    </task>
-    <task id="LOCAL-00002" summary="worm head rotation constrained by maxangle">
-      <option name="closed" value="true" />
-      <created>1758838398529</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1758838398529</updated>
-    </task>
-    <task id="LOCAL-00003" summary="worm uses configurable joint, messing with MaxAngle">
-      <option name="closed" value="true" />
-      <created>1758839636948</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1758839636949</updated>
-    </task>
-    <task id="LOCAL-00004" summary="improvements in worm physics">
-      <option name="closed" value="true" />
-      <created>1758854350866</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1758854350866</updated>
-    </task>
-    <task id="LOCAL-00005" summary="current working version">
-      <option name="closed" value="true" />
-      <created>1758867598911</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1758867598911</updated>
-    </task>
-    <task id="LOCAL-00006" summary="some worm segmnt adjustments, working on updating to using angles.">
-      <option name="closed" value="true" />
-      <created>1759287458347</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1759287458351</updated>
+      <workItem from="1761876137588" duration="6894000" />
+      <workItem from="1762292751893" duration="3739000" />
+      <workItem from="1762300876438" duration="2076000" />
+      <workItem from="1762303056253" duration="21558000" />
+      <workItem from="1762498727490" duration="10669000" />
+      <workItem from="1762901983213" duration="1664000" />
+      <workItem from="1762905598517" duration="11431000" />
+      <workItem from="1762989662864" duration="10000" />
+      <workItem from="1762989703275" duration="378000" />
     </task>
     <task id="LOCAL-00007" summary="added gizmos for velocity and force vectors">
       <option name="closed" value="true" />
@@ -424,7 +382,191 @@
       <option name="project" value="LOCAL" />
       <updated>1761704995643</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="worm headbut mostly working">
+      <option name="closed" value="true" />
+      <created>1761890152782</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1761890152782</updated>
+    </task>
+    <task id="LOCAL-00034" summary="inventory item code improved">
+      <option name="closed" value="true" />
+      <created>1762293822200</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1762293822200</updated>
+    </task>
+    <task id="LOCAL-00035" summary="fixed api issue in worm head but">
+      <option name="closed" value="true" />
+      <created>1762293935812</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1762293935812</updated>
+    </task>
+    <task id="LOCAL-00036" summary="can drag 3d objects into creaturebuilder window">
+      <option name="closed" value="true" />
+      <created>1762301733932</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1762301733932</updated>
+    </task>
+    <task id="LOCAL-00037" summary="can drag">
+      <option name="closed" value="true" />
+      <created>1762301752006</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1762301752006</updated>
+    </task>
+    <task id="LOCAL-00038" summary="can drag parts into creature builder window">
+      <option name="closed" value="true" />
+      <created>1762303639118</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1762303639119</updated>
+    </task>
+    <task id="LOCAL-00039" summary="parts while dragging have outline">
+      <option name="closed" value="true" />
+      <created>1762304566126</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1762304566126</updated>
+    </task>
+    <task id="LOCAL-00040" summary="can drag parts around in gui">
+      <option name="closed" value="true" />
+      <created>1762311511471</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1762311511471</updated>
+    </task>
+    <task id="LOCAL-00041" summary="creature parts can be deleted and return to inventory slot">
+      <option name="closed" value="true" />
+      <created>1762314109846</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1762314109846</updated>
+    </task>
+    <task id="LOCAL-00042" summary="worm is kinematic in creature builder scene.">
+      <option name="closed" value="true" />
+      <created>1762314455408</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1762314455408</updated>
+    </task>
+    <task id="LOCAL-00043" summary="objects collide with eachother.">
+      <option name="closed" value="true" />
+      <created>1762315493715</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1762315493715</updated>
+    </task>
+    <task id="LOCAL-00044" summary="wormPart orients towards creature.">
+      <option name="closed" value="true" />
+      <created>1762481967792</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1762481967792</updated>
+    </task>
+    <task id="LOCAL-00045" summary="clamping improved">
+      <option name="closed" value="true" />
+      <created>1762485789973</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1762485789973</updated>
+    </task>
+    <task id="LOCAL-00046" summary="clamping improved">
+      <option name="closed" value="true" />
+      <created>1762488966172</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1762488966172</updated>
+    </task>
+    <task id="LOCAL-00047" summary="working on attaching parts">
+      <option name="closed" value="true" />
+      <created>1762498777345</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1762498777345</updated>
+    </task>
+    <task id="LOCAL-00048" summary=" pushing test object in scene">
+      <option name="closed" value="true" />
+      <created>1762500223819</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1762500223819</updated>
+    </task>
+    <task id="LOCAL-00049" summary="test2">
+      <option name="closed" value="true" />
+      <created>1762500445246</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1762500445246</updated>
+    </task>
+    <task id="LOCAL-00050" summary="UI timer works">
+      <option name="closed" value="true" />
+      <created>1762905811749</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1762905811750</updated>
+    </task>
+    <task id="LOCAL-00051" summary="card images and names populate when entering part selection">
+      <option name="closed" value="true" />
+      <created>1762914269056</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1762914269056</updated>
+    </task>
+    <task id="LOCAL-00052" summary="fixed loop skipping first round">
+      <option name="closed" value="true" />
+      <created>1762915622267</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1762915622267</updated>
+    </task>
+    <task id="LOCAL-00053" summary="can select a card, should add it to player inventory, not yet connected to inventory in creature builder">
+      <option name="closed" value="true" />
+      <created>1762917226572</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1762917226572</updated>
+    </task>
+    <task id="LOCAL-00054" summary="can select parts and they carry over to creature builder">
+      <option name="closed" value="true" />
+      <created>1762918919159</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1762918919159</updated>
+    </task>
+    <task id="LOCAL-00055" summary="part selection handles multiple parts">
+      <option name="closed" value="true" />
+      <created>1762922351793</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1762922351793</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -451,32 +593,32 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="visual head now rotates vertically" />
-    <MESSAGE value="visual head wip" />
-    <MESSAGE value="worm turning speed increases with velocity so it doesn't slow when moving faster, vertical head control wip" />
-    <MESSAGE value="worm head verticle movement wip" />
-    <MESSAGE value="head has vertical control when ungrounded" />
-    <MESSAGE value="worm movement refactored to worm forward movement" />
-    <MESSAGE value="movement tweaks/updates wip" />
-    <MESSAGE value="Moved jump to seperate class" />
-    <MESSAGE value="added scrunching boolean for worm body segments" />
-    <MESSAGE value="improved jumping wip" />
-    <MESSAGE value="added debug helper" />
-    <MESSAGE value="wip" />
-    <MESSAGE value="part builder inventory system wip" />
-    <MESSAGE value="jump pad wip" />
-    <MESSAGE value="creature builder window wip" />
-    <MESSAGE value="inventory system wip" />
-    <MESSAGE value="inventory system kinda working, sprites don't work though??" />
-    <MESSAGE value="trying to get worm to persist between scenes" />
-    <MESSAGE value="fixed jumping, changed head to blue" />
-    <MESSAGE value="worm physics fix wip" />
-    <MESSAGE value="current version for sprint review, movement updates wip" />
-    <MESSAGE value="movement updates wip" />
-    <MESSAGE value="updated version, camera works here" />
     <MESSAGE value="worm movement improved, fixed gravity in partbuilder scene" />
     <MESSAGE value="worm movement feels pretty good with improved joint" />
-    <option name="LAST_COMMIT_MESSAGE" value="worm movement feels pretty good with improved joint" />
+    <MESSAGE value="worm head but mostly working" />
+    <MESSAGE value="worm headbut mostly working" />
+    <MESSAGE value="inventory item code improved" />
+    <MESSAGE value="fixed api issue in worm head but" />
+    <MESSAGE value="can drag 3d objects into creaturebuilder window" />
+    <MESSAGE value="can drag" />
+    <MESSAGE value="can drag parts into creature builder window" />
+    <MESSAGE value="parts while dragging have outline" />
+    <MESSAGE value="can drag parts around in gui" />
+    <MESSAGE value="creature parts can be deleted and return to inventory slot" />
+    <MESSAGE value="worm is kinematic in creature builder scene." />
+    <MESSAGE value="objects collide with eachother." />
+    <MESSAGE value="wormPart orients towards creature." />
+    <MESSAGE value="clamping improved" />
+    <MESSAGE value="working on attaching parts" />
+    <MESSAGE value=" pushing test object in scene" />
+    <MESSAGE value="test2" />
+    <MESSAGE value="UI timer works" />
+    <MESSAGE value="card images and names populate when entering part selection" />
+    <MESSAGE value="fixed loop skipping first round" />
+    <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
+    <MESSAGE value="can select parts and they carry over to creature builder" />
+    <MESSAGE value="part selection handles multiple parts" />
+    <option name="LAST_COMMIT_MESSAGE" value="part selection handles multiple parts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
