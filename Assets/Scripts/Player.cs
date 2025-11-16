@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         ConstructWorm();
         gameObject.GetComponent<WormPhysics>().AddCollidersToSegments();
 
-        if (SceneManager.GetActiveScene().name == "GameScene")
+        if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
         {
             SetWormInGameScene();
         }
