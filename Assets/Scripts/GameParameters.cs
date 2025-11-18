@@ -53,7 +53,7 @@ public static class GameParameters
     public static float WormJumpPreviousPartVsHeadAngle = 0.9f; //1 for all head, 0 for all previouspart
 
     [Header("Worm Attack")]
-    public static readonly float WormHeadbutTime = 0.75f;
+    public static readonly float WormHeadbutTime = 0.5f;
     public static readonly float WormHeadButCoolDown = 0.25f;
     
     public static readonly float WormHeadbutGroundingForce = 250f;

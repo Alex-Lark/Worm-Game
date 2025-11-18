@@ -627,6 +627,14 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5320974617486348736, guid: 067d767a8958b8246850a5fcf457e88a, type: 3}
+      propertyPath: m_LinearDamping
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320974617486348736, guid: 067d767a8958b8246850a5fcf457e88a, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7682171682574694321, guid: 067d767a8958b8246850a5fcf457e88a, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
