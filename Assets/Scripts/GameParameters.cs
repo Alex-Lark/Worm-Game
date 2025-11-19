@@ -13,6 +13,9 @@ public static class GameParameters
     
     [Header("Creature Builder")] 
     public static readonly float distanceToClampPart = 2f;
+
+    [Header("Worm League UI")]   
+    public static float titleShowTime = 3f;
     
     [Header("Worm")]
     public static readonly int WormSegmentCount = 23;
