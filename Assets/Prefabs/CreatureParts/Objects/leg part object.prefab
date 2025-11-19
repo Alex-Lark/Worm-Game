@@ -229,3 +229,4 @@ MonoBehaviour:
   targetCamera: {fileID: 0}
   creatureBuilderWindow: {fileID: 0}
   endPoint: {fileID: 3091684890137113386}
+  isClamped: 0

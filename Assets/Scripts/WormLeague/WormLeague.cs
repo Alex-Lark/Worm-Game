@@ -6,6 +6,8 @@ namespace WormLeague
     public class WormLeague : MonoBehaviour
     {
         public WormLeagueUI wormLeagueUI;
+
+        public Ball ball;
         
         private List<Player> teamBlue = new List<Player>();
         private List<Player> teamRed = new List<Player>();
@@ -31,7 +33,9 @@ namespace WormLeague
             {
                 OnBlueGoal();
             }
-            
+
+            Player scoringPlayer = ball.lastTouchingPlayer;
+            print(scoringPlayer.PlayerName + "scored");
             //get scoring player from ball
             //reset ball to center
             //update ui

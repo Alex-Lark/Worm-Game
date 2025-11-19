@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
+    
+    public string PlayerName { get; private set; }
+    
+    public int PlayerScore { get; private set; }
     public bool IsWormMovingForward { get; private set; }
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }
@@ -44,6 +48,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        PlayerName = "player1";
+        
         IsWormMovingForward = false;
         IsWormGrounded = false;
 
@@ -210,19 +216,7 @@ public class Player : MonoBehaviour
     {
         if (_isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
         {
-            // Add this debug check
-            if (thirdPersonCamera == null)
-            {
-                Debug.LogError("thirdPersonCamera is NULL in MoveForward!");
-            }
-            else if (!thirdPersonCamera.activeInHierarchy)
-            {
-                Debug.LogError($"thirdPersonCamera {thirdPersonCamera.name} exists but is not active!");
-            }
-            else
-            {
-                Debug.Log($"thirdPersonCamera is valid: {thirdPersonCamera.name}");
-            }
+            
         }
 
         if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)

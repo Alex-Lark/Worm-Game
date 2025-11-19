@@ -8,6 +8,7 @@ TagManager:
   - FalseCreatureBody
   - PartSelection
   - ball
+  - WormBodySegment
   layers:
   - Default
   - TransparentFX

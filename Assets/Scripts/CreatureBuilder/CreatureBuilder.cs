@@ -212,7 +212,7 @@ namespace CreatureBuilder
             {
                 part.targetCamera = targetCamera;
                 part.creatureBuilderWindow = creatureBuilderWindow;
-                part.dragDistance = spawnDistance; // Pass the spawn distance
+                part.dragDistance = spawnDistance;
                 parts.Add(part.gameObject);
             }
         }

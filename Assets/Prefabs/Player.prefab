@@ -178,17 +178,8 @@ MonoBehaviour:
   wormSegmentPrefab: {fileID: 7684568371119374336, guid: 90ca0af0a8270184f8d4d43014413c78, type: 3}
   wormHead: {fileID: 8071018323496679240}
   wormVisualHead: {fileID: 9022103432884987436}
-  wormParts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  wormBodySegments: []
+  wormPartsInInventory: []
 --- !u!120 &4146875160849447740
 LineRenderer:
   serializedVersion: 2
@@ -407,7 +398,7 @@ GameObject:
   - component: {fileID: 7238659562307412318}
   m_Layer: 0
   m_Name: Sphere - head
-  m_TagString: Untagged
+  m_TagString: WormBodySegment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
