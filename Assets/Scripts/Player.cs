@@ -87,6 +87,50 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetWormInCreatureBuilderScene()
+    {
+        wormHead.GetComponent<Rigidbody>().isKinematic = true;
+        foreach (Transform wormPart in wormBodySegments)
+        {
+            wormPart.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        
+        // Reset worm position safely
+        if (wormHead != null)
+        {
+            wormHead.position = new Vector3(0, 2, 0);
+            var rb = wormHead.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
+            Vector3 currentPos = wormHead.position;
+            Vector3 backDir = -wormHead.forward;
+
+            Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
+
+            wormHead.GetComponent<Rigidbody>().useGravity = false;
+            wormHead.GetComponent<Rigidbody>().isKinematic = true;
+            for (int i = 0; i < wormBodySegments.Count; i++)
+            {
+                currentPos += backDir * _maxPartDistance;
+
+                Transform part = wormBodySegments[i];
+                part.position = currentPos;
+
+                part.rotation = wormHead.rotation;
+                Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
+                partRigidbody.useGravity = false;
+                partRigidbody.isKinematic = true;
+                partRigidbody.angularVelocity = Vector3.zero;
+                partRigidbody.linearVelocity = Vector3.zero;
+            }
+        }
+        DeactivatePlayer();
+    }
+
     public void SetWormInGameScene()
     {
         print("set worm in game scene");
@@ -107,8 +151,8 @@ public class Player : MonoBehaviour
         yield return null;
 
         // Move the Player object (and its hierarchy) into the active GameScene
-        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-        print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
+        //SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+       //print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
     
         // Get the active scene
         Scene activeScene = SceneManager.GetActiveScene();

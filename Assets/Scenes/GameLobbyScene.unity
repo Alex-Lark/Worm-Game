@@ -816,6 +816,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameLoop
   players:
   - {fileID: 1194401405}
+  partCards:
+  - {fileID: 6895014049120698220, guid: 97f4ff1f42ccb87428513446a8b2c436, type: 3}
 --- !u!114 &1001892349
 MonoBehaviour:
   m_ObjectHideFlags: 0

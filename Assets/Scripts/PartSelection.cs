@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class PartSelection : MonoBehaviour
 {
-    public List<GameObject> partCards = new List<GameObject>();
     public Image card1Slot;
     public Image card2Slot;
     public TextMeshProUGUI card1Name;
     public TextMeshProUGUI card2Name;
 
+    private List<GameObject> partCards;
     private GameObject card1;
     private GameObject card2;
     
@@ -19,7 +19,8 @@ public class PartSelection : MonoBehaviour
     
     void Start()
     {
-        //PickCardOptions();
+        partCards = GameLoop.Instance.partCards;
+        PickCardOptions();
     }
 
     public void PickCardOptions()

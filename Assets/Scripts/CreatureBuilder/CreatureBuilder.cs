@@ -14,8 +14,6 @@ namespace CreatureBuilder
 
     public class CreatureBuilder : MonoBehaviour
     {
-        public static CreatureBuilder Instance { get; private set; }
-        
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
         private List<GameObject> parts = new List<GameObject>();
         
@@ -30,16 +28,6 @@ namespace CreatureBuilder
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-            
             InitializePrefabMapping();
             _player = Player.Instance;
             cinemachineCamera.Follow = _player.transform;
