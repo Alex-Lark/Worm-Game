@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     
     public string PlayerName { get; private set; }
     
-    public int PlayerScore { get; private set; }
+    public int PlayerScore { get; set; }
     public bool IsWormMovingForward { get; private set; }
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }

@@ -19,6 +19,8 @@ public static class GameParameters
     public static float titleShowTime = 1.5f;
     public static float teamFadeTime = 1f;
     public static float teamShowTime = 1f;
+    public static float scoreFadeTime = 1f;
+    public static float scoreShowTime = 1f;
     
     [Header("Worm")]
     public static readonly int WormSegmentCount = 23;

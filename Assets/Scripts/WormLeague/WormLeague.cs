@@ -8,6 +8,9 @@ namespace WormLeague
         public WormLeagueUI wormLeagueUI;
 
         public Ball ball;
+
+        public int teamRedScore = 0;
+        public int teamBlueScore = 0;
         
         private List<Player> teamBlue = new List<Player>();
         private List<Player> teamRed = new List<Player>();
@@ -17,38 +20,27 @@ namespace WormLeague
             AssignPlayerTeams();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
-
         public void OnGoalScored(string team)
         {
+            Player scoringPlayer = ball.lastTouchingPlayer;
+            scoringPlayer.PlayerScore += 1;
+            //give player goal
+            print(scoringPlayer.PlayerName + "scored");
+            ball.Reset();
+            
             if (team == "blue")
             {
-                OnRedGoal();
+                print("red scored");
+                teamRedScore++;
+                wormLeagueUI.GoalScored("red", scoringPlayer.PlayerName);
+
             }
             else if (team == "red")
             {
-                OnBlueGoal();
+                print("blue scored");
+                teamBlueScore++;
+                wormLeagueUI.GoalScored("blue", scoringPlayer.PlayerName);
             }
-
-            Player scoringPlayer = ball.lastTouchingPlayer;
-            print(scoringPlayer.PlayerName + "scored");
-            ball.Reset();
-            //reset ball to center
-            //update ui
-        }
-
-        public void OnRedGoal()
-        {
-            print("red scored");
-        }
-
-        public void OnBlueGoal()
-        {
-            print("blue scored");
         }
     
         private void AssignPlayerTeams()
