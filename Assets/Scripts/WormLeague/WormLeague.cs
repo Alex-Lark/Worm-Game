@@ -5,8 +5,10 @@ namespace WormLeague
 {
     public class WormLeague : MonoBehaviour
     {
-        public List<Player> teamBlue;
-        public List<Player> teamRed;
+        public WormLeagueUI wormLeagueUI;
+        
+        private List<Player> teamBlue = new List<Player>();
+        private List<Player> teamRed = new List<Player>();
     
         void Start()
         {
@@ -25,15 +27,16 @@ namespace WormLeague
 
             while (players.Count > 0)
             {
+                print("assigning player to red");
                 int random =  Random.Range(0, players.Count);
                 teamRed.Add(players[random]);
-                //display team
+                wormLeagueUI.SetTeam("red");
                 players.RemoveAt(random);
                 if (players.Count > 0)
                 {
                     random =  Random.Range(0, players.Count);
                     teamBlue.Add(players[random]);
-                    //display team
+                    wormLeagueUI.SetTeam("blue");
                     players.RemoveAt(random);
                 }
             }

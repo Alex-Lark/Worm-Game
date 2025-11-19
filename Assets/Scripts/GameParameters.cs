@@ -15,7 +15,10 @@ public static class GameParameters
     public static readonly float distanceToClampPart = 2f;
 
     [Header("Worm League UI")]   
-    public static float titleShowTime = 3f;
+    public static float titleFadeTime = 1f;
+    public static float titleShowTime = 1.5f;
+    public static float teamFadeTime = 1f;
+    public static float teamShowTime = 1f;
     
     [Header("Worm")]
     public static readonly int WormSegmentCount = 23;
