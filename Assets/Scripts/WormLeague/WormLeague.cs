@@ -20,6 +20,32 @@ namespace WormLeague
         {
         
         }
+
+        public void OnGoalScored(string team)
+        {
+            if (team == "blue")
+            {
+                OnRedGoal();
+            }
+            else if (team == "red")
+            {
+                OnBlueGoal();
+            }
+            
+            //get scoring player from ball
+            //reset ball to center
+            //update ui
+        }
+
+        public void OnRedGoal()
+        {
+            print("red scored");
+        }
+
+        public void OnBlueGoal()
+        {
+            print("blue scored");
+        }
     
         private void AssignPlayerTeams()
         {
