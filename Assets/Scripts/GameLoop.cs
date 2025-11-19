@@ -1,10 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
     public float TimeLeftInScene { get; private set; }
+    public List<Player> players;
     
     [Header("modifiable game loop settings")] 
     private int numberOfRounds;
