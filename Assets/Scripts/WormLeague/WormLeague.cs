@@ -36,7 +36,7 @@ namespace WormLeague
 
             Player scoringPlayer = ball.lastTouchingPlayer;
             print(scoringPlayer.PlayerName + "scored");
-            //get scoring player from ball
+            ball.Reset();
             //reset ball to center
             //update ui
         }
