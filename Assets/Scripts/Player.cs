@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
     
     public string PlayerName { get; private set; }
-    
-    public int PlayerScore { get; set; }
+
+    public int PlayerScore;
     public bool IsWormMovingForward { get; private set; }
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }

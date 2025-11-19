@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace WormLeague
 {
@@ -9,7 +11,7 @@ namespace WormLeague
 
         public Ball ball;
 
-        public int teamRedScore = 0;
+        public int teamRedScore = 1;
         public int teamBlueScore = 0;
         
         private List<Player> teamBlue = new List<Player>();
@@ -40,6 +42,29 @@ namespace WormLeague
                 print("blue scored");
                 teamBlueScore++;
                 wormLeagueUI.GoalScored("blue", scoringPlayer.PlayerName);
+            }
+        }
+
+        public void OnDestroy()
+        {
+            GameOver();
+        }
+
+        public void GameOver()
+        {
+            if (teamRedScore > teamBlueScore)
+            {
+                foreach (Player player in teamRed)
+                {
+                    player.PlayerScore += 10;
+                }
+            }
+            else
+            {
+                foreach (Player player in teamBlue)
+                {
+                    player.PlayerScore += 10;
+                }
             }
         }
     
