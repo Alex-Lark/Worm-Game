@@ -70,7 +70,8 @@ namespace WormLeague
     
         private void AssignPlayerTeams()
         {
-            List<Player> players = GameLoop.Instance.players;
+            List<Player> players = new List<Player>(GameLoop.Instance.players);
+
 
             while (players.Count > 0)
             {
