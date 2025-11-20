@@ -67,6 +67,7 @@ namespace CreatureBuilder
             {
                 AddCardToInventory(part);
             }
+            Player.Instance.wormPartsInInventory.Clear();
         }
 
         private InventorySlot GetEmptySlot()

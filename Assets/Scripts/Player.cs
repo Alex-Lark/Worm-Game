@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
+    
+    public string PlayerName { get; private set; }
+
+    public int PlayerScore;
     public bool IsWormMovingForward { get; private set; }
     public bool IsWormJumping { get; private set; }
     public bool IsWormGrounded { get; private set; }
@@ -17,6 +21,7 @@ public class Player : MonoBehaviour
     public Transform wormHead;
     public Transform wormVisualHead;
     public List<Transform> wormBodySegments;
+    public List<GameObject> attachedWormParts;
     public List<GameObject> wormPartsInInventory;
 
     private bool _isPlayerActive = false;
@@ -44,6 +49,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        PlayerName = "player1";
+        
         IsWormMovingForward = false;
         IsWormGrounded = false;
 
@@ -56,7 +63,7 @@ public class Player : MonoBehaviour
         ConstructWorm();
         gameObject.GetComponent<WormPhysics>().AddCollidersToSegments();
 
-        if (SceneManager.GetActiveScene().name == "GameScene")
+        if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
         {
             SetWormInGameScene();
         }
@@ -81,6 +88,62 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetWormInCreatureBuilderScene()
+    {
+        ResetWormPhysics();
+        ResetWormOrientation();
+        PositionWormSegments(new Vector3(0, 2, 0));
+        DeactivatePlayer();
+    }
+
+    private void ResetWormPhysics()
+    {
+        SetSegmentPhysics(wormHead, isKinematic: true, useGravity: false);
+    
+        foreach (Transform segment in wormBodySegments)
+        {
+            SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
+        }
+    }
+
+    private void ResetWormOrientation()
+    {
+        wormVisualHead.rotation = Quaternion.identity;
+        wormHead.rotation = Quaternion.identity;
+    
+        foreach (Transform segment in wormBodySegments)
+        {
+            segment.rotation = Quaternion.identity;
+        }
+    }
+
+    private void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
+    {
+        Rigidbody rb = segment.GetComponent<Rigidbody>();
+        if (rb == null) return;
+    
+        rb.isKinematic = isKinematic;
+        rb.useGravity = useGravity;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
+    private void PositionWormSegments(Vector3 headPosition)
+    {
+        wormHead.position = headPosition;
+        Vector3 currentPosition = headPosition;
+        Vector3 backDirection = -wormHead.forward;
+    
+        for (int i = 0; i < wormBodySegments.Count; i++)
+        {
+            currentPosition += backDirection * _maxPartDistance;
+            Transform segment = wormBodySegments[i];
+        
+            segment.position = currentPosition;
+            segment.rotation = wormHead.rotation;
+        }
+    }
+
     public void SetWormInGameScene()
     {
         print("set worm in game scene");
@@ -101,8 +164,8 @@ public class Player : MonoBehaviour
         yield return null;
 
         // Move the Player object (and its hierarchy) into the active GameScene
-        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-        print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
+        //SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+       //print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
     
         // Get the active scene
         Scene activeScene = SceneManager.GetActiveScene();
@@ -210,19 +273,7 @@ public class Player : MonoBehaviour
     {
         if (_isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
         {
-            // Add this debug check
-            if (thirdPersonCamera == null)
-            {
-                Debug.LogError("thirdPersonCamera is NULL in MoveForward!");
-            }
-            else if (!thirdPersonCamera.activeInHierarchy)
-            {
-                Debug.LogError($"thirdPersonCamera {thirdPersonCamera.name} exists but is not active!");
-            }
-            else
-            {
-                Debug.Log($"thirdPersonCamera is valid: {thirdPersonCamera.name}");
-            }
+            
         }
 
         if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)

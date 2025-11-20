@@ -7,7 +7,8 @@ namespace CreatureBuilder
     { 
         public float dragDistance = 0f;
 
-        public GameObject prefab;
+        public CreaturePartData partData;
+        public GameObject prefab => partData != null ? partData.prefab : null;
         public Camera targetCamera;
         public RectTransform creatureBuilderWindow;
         public Transform endPoint;
@@ -32,7 +33,10 @@ namespace CreatureBuilder
         {
             _creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder>();
             falseWormBody = GameObject.Find("falseWormBody");
-            StartDragging();
+            if (!isClamped)
+            {
+                StartDragging();
+            }
         }
     
         void Update()
@@ -56,34 +60,59 @@ namespace CreatureBuilder
             }
         }
 
-        public void StartDragging()
+        public void Clamp()
         {
-            isSelected = true;
-            isDragging = true;
-    
-            // Calculate the initial drag distance from the camera
-            if (dragDistance == 0f)
-            {
-                dragDistance = Vector3.Distance(targetCamera.transform.position, transform.position);
-            }
-    
-            lastValidPosition = transform.position;
-    
-            // Calculate initial viewport position based on current position
-            Vector3 viewportPos = targetCamera.WorldToViewportPoint(transform.position);
-            lastValidViewport = new Vector2(viewportPos.x, viewportPos.y);
-    
-            HighlightPart();
-        }
-    
-        public void StopDragging()
-        {
-            isSelected = false;
-            isDragging = false;
-            RemoveHighlight();
+            isClamped = true;
         }
 
-private void Drag() {
+        public void StartDragging()
+{
+    isSelected = true;
+    isDragging = true;
+    
+    isClamped = false;
+    
+    lastValidPosition = transform.position;
+    
+    // Calculate initial viewport position based on current position
+    Vector3 viewportPos = targetCamera.WorldToViewportPoint(transform.position);
+    lastValidViewport = new Vector2(viewportPos.x, viewportPos.y);
+    
+    // Calculate the initial drag distance from the camera ONCE at the start
+    Vector3 cameraToObject = transform.position - targetCamera.transform.position;
+    dragDistance = Vector3.Dot(cameraToObject, targetCamera.transform.forward);
+    
+    // Calculate the initial offset based on where the mouse actually is
+    RectTransform creatureBuilderWindow = GameObject.Find("Creature Builder Window").GetComponent<RectTransform>();
+    Vector3[] corners = new Vector3[4];
+    creatureBuilderWindow.GetWorldCorners(corners);
+    
+    Vector2 mousePos = Input.mousePosition;
+    
+    float viewportX = Mathf.InverseLerp(corners[0].x, corners[2].x, mousePos.x);
+    float viewportY = Mathf.InverseLerp(corners[0].y, corners[2].y, mousePos.y);
+    
+    viewportX = Mathf.Clamp01(viewportX);
+    viewportY = Mathf.Clamp01(viewportY);
+    
+    Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
+    Vector3 rayPoint = ray.GetPoint(dragDistance);
+    
+    // Store the offset from the ray point to the actual object position
+    dragOffset = transform.position - rayPoint;
+    
+    HighlightPart();
+}
+
+public void StopDragging()
+{
+    isSelected = false;
+    isDragging = false;
+    RemoveHighlight();
+}
+
+private void Drag() 
+{
     // Get the screen-space corners of the CreatureBuilderWindow
     RectTransform creatureBuilderWindow = GameObject.Find("Creature Builder Window").GetComponent<RectTransform>();
     Vector3[] corners = new Vector3[4];
@@ -102,29 +131,9 @@ private void Drag() {
     // Create a ray from the 3D camera through the viewport point
     Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
     
-    // If we just started dragging, calculate the offset
-    if (!isDragging) {
-        isDragging = true;
-        // Update dragDistance based on current object position
-        Vector3 cameraToObject = transform.position - targetCamera.transform.position;
-        dragDistance = Vector3.Dot(cameraToObject, targetCamera.transform.forward);
-        
-        // Find where the ray intersects the plane at the object's current distance
-        Vector3 rayPoint = ray.GetPoint(dragDistance);
-        dragOffset = transform.position - rayPoint;
-    }
-    
-    // Always use the current object's distance from camera, not a fixed dragDistance
-    Vector3 currentCameraToObject = transform.position - targetCamera.transform.position;
-    float currentDragDistance = Vector3.Dot(currentCameraToObject, targetCamera.transform.forward);
-    
-    // Calculate target position with the offset maintained
-    Vector3 targetPosition = ray.GetPoint(currentDragDistance) + dragOffset;
-    
-    // Apply smoothing when far from camera to reduce jitter
-    float distanceFromCamera = currentCameraToObject.magnitude;
-    float smoothingFactor = Mathf.Clamp01(distanceFromCamera / 50f); // Adjust 50f based on your scale
-    targetPosition = Vector3.Lerp(targetPosition, transform.position, smoothingFactor * 0.3f);
+    // Use the FIXED dragDistance calculated at StartDragging
+    // This maintains consistent depth throughout the drag
+    Vector3 targetPosition = ray.GetPoint(dragDistance) + dragOffset;
     
     // Rotate to falseCreatureBody
     RotateTowardWormBody();
@@ -138,102 +147,109 @@ private void Drag() {
     }
     else
     {
+        Debug.Log("invalid position");
         // Use last valid viewport coordinates instead
         ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
-        transform.position = ray.GetPoint(currentDragDistance) + dragOffset;
+        transform.position = ray.GetPoint(dragDistance) + dragOffset;
     }
     
     // Clamp to worm body if close enough
     TryToClampToWormBody();
 }
 
-        private void TryToClampToWormBody() {
-            if (falseWormBody == null || endPoint == null) return;
-    
-            float clampDistance = GameParameters.distanceToClampPart;
-    
-            // Cast a ray from the END of this part towards the worm body center
-            Vector3 directionToWorm = falseWormBody.transform.position - endPoint.position;
-            float distanceToCenter = directionToWorm.magnitude;
-    
-            if (distanceToCenter < 0.001f) return;
-    
-            Ray ray = new Ray(endPoint.position, directionToWorm.normalized);
-            RaycastHit hit;
-    
-            // Raycast towards the worm body
-            if (Physics.Raycast(ray, out hit, distanceToCenter)) {
-                // Check if we hit the worm body
-                if (hit.collider.gameObject == falseWormBody) {
-                    float distanceToSurface = hit.distance;
-            
-                    // If within clamp distance, move the part so endPoint touches the surface
-                    if (distanceToSurface <= clampDistance) {
-                        // Calculate offset: how far the endPoint is from transform center
-                        Vector3 offset = endPoint.position - transform.position;
-                
-                        // Move the part so the endPoint is at the hit point
-                        transform.position = hit.point - offset;
-                        isClamped = true;
-                    }
-                    else
-                    {
-                        isClamped = false;
-                    }
-                }
-            }
-        }
-        private void RotateTowardWormBody() {
-            if (falseWormBody == null || endPoint == null) return;
-    
-            // Get the local direction from center to endPoint (in the part's local space)
-            Vector3 localEndDirection = transform.InverseTransformPoint(endPoint.position).normalized;
-    
-            // Calculate direction from this object's center to the worm body
-            Vector3 directionToTarget = (falseWormBody.transform.position - transform.position).normalized;
-    
-            if (directionToTarget.sqrMagnitude < 0.001f) return;
-    
-            // Calculate base rotation that points forward axis at target
-            Quaternion targetRotation = Quaternion.LookRotation(-directionToTarget);
-    
-            // Calculate the offset needed to align the endPoint direction with forward
-            Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
-    
-            // Apply both rotations
-            transform.rotation = targetRotation * Quaternion.Inverse(offsetRotation);
-        }
+private void TryToClampToWormBody() 
+{
+    if (falseWormBody == null || endPoint == null) return;
 
-        private bool CanMoveTo(Vector3 targetPosition)
+    float clampDistance = GameParameters.distanceToClampPart;
+
+    // Cast a ray from the END of this part towards the worm body center
+    Vector3 directionToWorm = falseWormBody.transform.position - endPoint.position;
+    float distanceToCenter = directionToWorm.magnitude;
+
+    if (distanceToCenter < 0.001f) return;
+
+    Ray ray = new Ray(endPoint.position, directionToWorm.normalized);
+    RaycastHit hit;
+
+    // Raycast towards the worm body
+    if (Physics.Raycast(ray, out hit, distanceToCenter)) 
+    {
+        // Check if we hit the worm body
+        if (hit.collider.gameObject == falseWormBody) 
         {
-            // Get all colliders on this object
-            Collider[] colliders = GetComponentsInChildren<Collider>();
-            
-            foreach (Collider col in colliders)
+            float distanceToSurface = hit.distance;
+        
+            // If within clamp distance, move the part so endPoint touches the surface
+            if (distanceToSurface <= clampDistance) 
             {
-                // Calculate the offset from transform to collider
-                Vector3 offset = col.bounds.center - transform.position;
-                Vector3 newColliderCenter = targetPosition + offset;
-                
-                // Check for overlaps at the target position
-                Collider[] overlaps = Physics.OverlapBox(
-                    newColliderCenter,
-                    col.bounds.extents,
-                    transform.rotation
-                );
-                
-                // Check if any overlapping colliders aren't part of this object
-                foreach (Collider overlap in overlaps)
-                {
-                    if (!overlap.transform.IsChildOf(transform) && overlap.transform != transform)
-                    {
-                        return false;
-                    }
-                }
-            }
+                // Calculate offset: how far the endPoint is from transform center
+                Vector3 offset = endPoint.position - transform.position;
             
-            return true;
+                // Move the part so the endPoint is at the hit point
+                transform.position = hit.point - offset;
+                isClamped = true;
+            }
+            else
+            {
+                isClamped = false;
+            }
         }
+    }
+}
+
+private void RotateTowardWormBody() 
+{
+    if (falseWormBody == null || endPoint == null) return;
+
+    // Get the local direction from center to endPoint (in the part's local space)
+    Vector3 localEndDirection = transform.InverseTransformPoint(endPoint.position).normalized;
+
+    // Calculate direction from this object's center to the worm body
+    Vector3 directionToTarget = (falseWormBody.transform.position - transform.position).normalized;
+
+    if (directionToTarget.sqrMagnitude < 0.001f) return;
+
+    // Calculate base rotation that points forward axis at target
+    Quaternion targetRotation = Quaternion.LookRotation(-directionToTarget);
+
+    // Calculate the offset needed to align the endPoint direction with forward
+    Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
+
+    // Apply both rotations
+    transform.rotation = targetRotation * Quaternion.Inverse(offsetRotation);
+}
+
+private bool CanMoveTo(Vector3 targetPosition)
+{
+    // Get all colliders on this object
+    Collider[] colliders = GetComponentsInChildren<Collider>();
+    
+    foreach (Collider col in colliders)
+    {
+        // Calculate the offset from transform to collider
+        Vector3 offset = col.bounds.center - transform.position;
+        Vector3 newColliderCenter = targetPosition + offset;
+        
+        // Check for overlaps at the target position
+        Collider[] overlaps = Physics.OverlapBox(
+            newColliderCenter,
+            col.bounds.extents,
+            transform.rotation
+        );
+        
+        // Check if any overlapping colliders aren't part of this object
+        foreach (Collider overlap in overlaps)
+        {
+            if (!overlap.transform.IsChildOf(transform) && overlap.transform != transform)
+            {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
 
         private void HighlightPart()
         {

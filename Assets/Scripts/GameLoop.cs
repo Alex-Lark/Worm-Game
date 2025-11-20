@@ -1,10 +1,14 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
     public float TimeLeftInScene { get; private set; }
+    public List<Player> players;
+    public List<GameObject> partCards = new List<GameObject>();
     
     [Header("modifiable game loop settings")] 
     private int numberOfRounds;
@@ -59,17 +63,18 @@ public class GameLoop : MonoBehaviour
             {
                 sceneReady = false;
                 sceneSwitcher.LoadPartSelectionScene();
-                yield return new WaitUntil(() => sceneReady);
-                PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
                 for (int j = 0; j < numberOfPartsPerRound; j++)
                 {
-                    partSelection.PickCardOptions();
                     yield return StartCoroutine(PartSelectionTimer());
+                    PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
                     partSelection.EndCardSelection();
                 }
                 
                 sceneSwitcher.LoadCreatureBuilderScene();
+                Player.Instance.SetWormInCreatureBuilderScene();
                 yield return StartCoroutine(CreatureBuilderTimer());
+                CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
+                creatureBuilder.AttachCreatureParts();
             }
             
             sceneSwitcher.LoadGameScene();

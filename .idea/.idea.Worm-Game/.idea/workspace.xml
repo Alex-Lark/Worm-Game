@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,8 +34,11 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePartData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PartCard.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PartSelection.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
@@ -58,7 +60,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Creature-Builder&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Worm-League&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -173,30 +175,12 @@
       <workItem from="1762905598517" duration="11431000" />
       <workItem from="1762989662864" duration="10000" />
       <workItem from="1762989703275" duration="378000" />
-    </task>
-    <task id="LOCAL-00007" summary="added gizmos for velocity and force vectors">
-      <option name="closed" value="true" />
-      <created>1759449579672</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1759449579674</updated>
-    </task>
-    <task id="LOCAL-00008" summary="visual head now rotates vertically">
-      <option name="closed" value="true" />
-      <created>1759459447869</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1759459447871</updated>
-    </task>
-    <task id="LOCAL-00009" summary="visual head wip">
-      <option name="closed" value="true" />
-      <created>1759521802913</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1759521802914</updated>
+      <workItem from="1763522407556" duration="808000" />
+      <workItem from="1763532227890" duration="3240000" />
+      <workItem from="1763592895778" duration="3190000" />
+      <workItem from="1763596904446" duration="2329000" />
+      <workItem from="1763600674101" duration="5232000" />
+      <workItem from="1763607555554" duration="3312000" />
     </task>
     <task id="LOCAL-00010" summary="worm turning speed increases with velocity so it doesn't slow when moving faster, vertical head control wip">
       <option name="closed" value="true" />
@@ -566,7 +550,31 @@
       <option name="project" value="LOCAL" />
       <updated>1762922351793</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="wormLeague wip">
+      <option name="closed" value="true" />
+      <created>1763532540849</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1763532540850</updated>
+    </task>
+    <task id="LOCAL-00057" summary="worm orientation resets when going back to creature builder">
+      <option name="closed" value="true" />
+      <created>1763598112023</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1763598112023</updated>
+    </task>
+    <task id="LOCAL-00058" summary="can move parts from a previous round around">
+      <option name="closed" value="true" />
+      <created>1763610822506</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1763610822507</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -593,9 +601,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm movement improved, fixed gravity in partbuilder scene" />
-    <MESSAGE value="worm movement feels pretty good with improved joint" />
-    <MESSAGE value="worm head but mostly working" />
     <MESSAGE value="worm headbut mostly working" />
     <MESSAGE value="inventory item code improved" />
     <MESSAGE value="fixed api issue in worm head but" />
@@ -618,7 +623,10 @@
     <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
     <MESSAGE value="can select parts and they carry over to creature builder" />
     <MESSAGE value="part selection handles multiple parts" />
-    <option name="LAST_COMMIT_MESSAGE" value="part selection handles multiple parts" />
+    <MESSAGE value="wormLeague wip" />
+    <MESSAGE value="worm orientation resets when going back to creature builder" />
+    <MESSAGE value="can move parts from a previous round around" />
+    <option name="LAST_COMMIT_MESSAGE" value="can move parts from a previous round around" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

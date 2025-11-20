@@ -225,7 +225,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreaturePart
   dragDistance: 5
-  prefab: {fileID: 6294173655021920613}
+  partData: {fileID: 11400000, guid: 1c7d67e755ea30b4aa8b8d5e6ea35e44, type: 2}
   targetCamera: {fileID: 0}
   creatureBuilderWindow: {fileID: 0}
   endPoint: {fileID: 3091684890137113386}
+  isClamped: 0

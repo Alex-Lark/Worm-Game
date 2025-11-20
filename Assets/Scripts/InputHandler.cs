@@ -30,7 +30,7 @@ public class InputHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (SceneManager.GetActiveScene().name == "GameScene")
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 Player.Instance.StartWormMoving();
             }
@@ -38,7 +38,7 @@ public class InputHandler : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.W))
         {
-            if (SceneManager.GetActiveScene().name == "GameScene")
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 Player.Instance.StopWormMoving();
             }
@@ -46,7 +46,7 @@ public class InputHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (SceneManager.GetActiveScene().name == "GameScene")
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 isJumping = true;
             }
@@ -54,7 +54,7 @@ public class InputHandler : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (SceneManager.GetActiveScene().name == "GameScene")
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 isAttacking = true;
             }
@@ -66,7 +66,7 @@ public class InputHandler : MonoBehaviour
         
         if (Input.GetKey(KeyCode.W))
         {
-            if (SceneManager.GetActiveScene().name == "GameScene")
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 Player.Instance.MoveForward();
             }
@@ -74,7 +74,7 @@ public class InputHandler : MonoBehaviour
 
         if (isJumping == true)
         {
-            if (SceneManager.GetActiveScene().name == "GameScene")
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 Player.Instance.Jump();
             }
@@ -84,7 +84,7 @@ public class InputHandler : MonoBehaviour
         
         if (isAttacking == true)
         {
-            if (SceneManager.GetActiveScene().name == "GameScene")
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 Player.Instance.Attack();
             }

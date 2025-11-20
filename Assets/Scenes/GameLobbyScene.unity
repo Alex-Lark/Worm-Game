@@ -814,6 +814,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f03a2d27faa05e49962ae5c4f60bc15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameLoop
+  players:
+  - {fileID: 1194401405}
+  partCards:
+  - {fileID: 6895014049120698220, guid: 97f4ff1f42ccb87428513446a8b2c436, type: 3}
 --- !u!114 &1001892349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,11 +961,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9022103432884987436, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.64278764
+      objectReference: {fileID: 0}
+    - target: {fileID: 9022103432884987436, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9022103432884987436, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.76604444
+      objectReference: {fileID: 0}
+    - target: {fileID: 9022103432884987436, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9022103432884987436, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+--- !u!114 &1194401405 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7294720926454559192, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+  m_PrefabInstance: {fileID: 1194401404}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f48cc10eb3ef146910f0f8c45e5eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
 --- !u!1 &1407992508
 GameObject:
   m_ObjectHideFlags: 0
