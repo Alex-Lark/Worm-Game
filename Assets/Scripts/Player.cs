@@ -89,46 +89,58 @@ public class Player : MonoBehaviour
 
     public void SetWormInCreatureBuilderScene()
     {
-        wormHead.GetComponent<Rigidbody>().isKinematic = true;
-        foreach (Transform wormPart in wormBodySegments)
-        {
-            wormPart.GetComponent<Rigidbody>().isKinematic = true;
-        }
-        
-        // Reset worm position safely
-        if (wormHead != null)
-        {
-            wormHead.position = new Vector3(0, 2, 0);
-            var rb = wormHead.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-            }
-
-            Vector3 currentPos = wormHead.position;
-            Vector3 backDir = -wormHead.forward;
-
-            Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
-
-            wormHead.GetComponent<Rigidbody>().useGravity = false;
-            wormHead.GetComponent<Rigidbody>().isKinematic = true;
-            for (int i = 0; i < wormBodySegments.Count; i++)
-            {
-                currentPos += backDir * _maxPartDistance;
-
-                Transform part = wormBodySegments[i];
-                part.position = currentPos;
-
-                part.rotation = wormHead.rotation;
-                Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
-                partRigidbody.useGravity = false;
-                partRigidbody.isKinematic = true;
-                partRigidbody.angularVelocity = Vector3.zero;
-                partRigidbody.linearVelocity = Vector3.zero;
-            }
-        }
+        ResetWormPhysics();
+        ResetWormOrientation();
+        PositionWormSegments(new Vector3(0, 2, 0));
         DeactivatePlayer();
+    }
+
+    private void ResetWormPhysics()
+    {
+        SetSegmentPhysics(wormHead, isKinematic: true, useGravity: false);
+    
+        foreach (Transform segment in wormBodySegments)
+        {
+            SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
+        }
+    }
+
+    private void ResetWormOrientation()
+    {
+        wormVisualHead.rotation = Quaternion.identity;
+        wormHead.rotation = Quaternion.identity;
+    
+        foreach (Transform segment in wormBodySegments)
+        {
+            segment.rotation = Quaternion.identity;
+        }
+    }
+
+    private void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
+    {
+        Rigidbody rb = segment.GetComponent<Rigidbody>();
+        if (rb == null) return;
+    
+        rb.isKinematic = isKinematic;
+        rb.useGravity = useGravity;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
+    private void PositionWormSegments(Vector3 headPosition)
+    {
+        wormHead.position = headPosition;
+        Vector3 currentPosition = headPosition;
+        Vector3 backDirection = -wormHead.forward;
+    
+        for (int i = 0; i < wormBodySegments.Count; i++)
+        {
+            currentPosition += backDirection * _maxPartDistance;
+            Transform segment = wormBodySegments[i];
+        
+            segment.position = currentPosition;
+            segment.rotation = wormHead.rotation;
+        }
     }
 
     public void SetWormInGameScene()

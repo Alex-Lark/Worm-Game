@@ -6,8 +6,8 @@ public static class GameParameters
     public static readonly int defaultNumberOfRounds = 3;
     public static readonly int defaultNumberOfPartsPerRound = 1; //not including discarded card(s)
     public static readonly int defaultTimePerPartSelection = 5;
-    public static readonly int defaultTimePerCreatureBuilding = 5;
-    public static readonly int defaultTimePerMinigame = 5;
+    public static readonly int defaultTimePerCreatureBuilding = 10;
+    public static readonly int defaultTimePerMinigame = 10;
 
     public static readonly int timeForLeaderboard = 5;
     
