@@ -68,10 +68,11 @@ namespace CreatureBuilder
                 GameObject newPart = Instantiate(prefab, worldPosition, worldRotation);
                 newPart.name = prefab.name;
                 newPart.transform.localScale = worldScale;
-
+                
                 CreaturePart creaturePart = newPart.GetComponent<CreaturePart>();
                 if (creaturePart != null)
                 {
+                    creaturePart.enabled = true;
                     creaturePart.targetCamera = targetCamera;
                     creaturePart.creatureBuilderWindow = creatureBuilderWindow;
                     creaturePart.dragDistance = spawnDistance;
@@ -237,6 +238,7 @@ private void ReturnAllCardsToPlayerInventory()
         {
             print("adding part to worm");
             creaturePart.transform.parent = Player.Player.Instance.transform;
+            creaturePart.GetComponent<CreaturePart>().enabled = false;
             FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = wormSegment.GetComponent<Rigidbody>();
             Player.Player.Instance.attachedWormParts.Add(creaturePart);

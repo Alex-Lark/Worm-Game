@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,6 +61,13 @@ namespace CreatureBuilder
             }
         }
 
+        private void OnDisable()
+        {
+            isSelected = false;
+            isDragging = false;
+            isClamped = false;
+        }
+
         public void Clamp()
         {
             isClamped = true;
@@ -69,8 +77,6 @@ namespace CreatureBuilder
 {
     isSelected = true;
     isDragging = true;
-    
-    isClamped = false;
     
     lastValidPosition = transform.position;
     
@@ -132,26 +138,76 @@ private void Drag()
     Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
     
     // Use the FIXED dragDistance calculated at StartDragging
-    // This maintains consistent depth throughout the drag
     Vector3 targetPosition = ray.GetPoint(dragDistance) + dragOffset;
     
     // Rotate to falseCreatureBody
     RotateTowardWormBody();
     
-    // Check if we can move to the target position
-    if (CanMoveTo(targetPosition))
+    // Check if we're currently clamped and calculate distance to worm body
+    bool shouldStayLocked = false;
+    if (isClamped && falseWormBody != null && endPoint != null)
     {
-        transform.position = targetPosition;
-        lastValidPosition = targetPosition;
-        lastValidViewport = new Vector2(viewportX, viewportY);
+        // Calculate how far the target drag position would take us from the worm body
+        Vector3 directionToWorm = falseWormBody.transform.position - targetPosition;
+        float targetDistanceToWorm = directionToWorm.magnitude;
+        
+        // Calculate current distance from endPoint to worm body surface
+        Vector3 currentDirToWorm = falseWormBody.transform.position - endPoint.position;
+        Ray checkRay = new Ray(endPoint.position, currentDirToWorm.normalized);
+        RaycastHit checkHit;
+        
+        float currentDistanceToSurface = 0f;
+        if (Physics.Raycast(checkRay, out checkHit, currentDirToWorm.magnitude))
+        {
+            if (checkHit.collider.gameObject == falseWormBody)
+            {
+                currentDistanceToSurface = checkHit.distance;
+            }
+        }
+        
+        // Only allow movement if the drag would take us BEYOND the clamp range
+        // This prevents jittering when trying to drag away while still in clamp range
+        float clampDistance = GameParameters.distanceToClampPart;
+        
+        // Calculate where the endPoint would be at the target position
+        Vector3 offset = endPoint.position - transform.position;
+        Vector3 targetEndPointPos = targetPosition + offset;
+        Vector3 targetDirToWorm = falseWormBody.transform.position - targetEndPointPos;
+        
+        Ray targetRay = new Ray(targetEndPointPos, targetDirToWorm.normalized);
+        RaycastHit targetHit;
+        
+        float targetDistanceToSurface = float.MaxValue;
+        if (Physics.Raycast(targetRay, out targetHit, targetDirToWorm.magnitude))
+        {
+            if (targetHit.collider.gameObject == falseWormBody)
+            {
+                targetDistanceToSurface = targetHit.distance;
+            }
+        }
+        
+        // Lock in place if trying to drag but still within clamp range
+        shouldStayLocked = targetDistanceToSurface <= clampDistance;
     }
-    else
+    
+    // Only update position if not locked by clamp
+    if (!shouldStayLocked)
     {
-        Debug.Log("invalid position");
-        // Use last valid viewport coordinates instead
-        ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
-        transform.position = ray.GetPoint(dragDistance) + dragOffset;
+        // Check if we can move to the target position
+        if (CanMoveTo(targetPosition))
+        {
+            transform.position = targetPosition;
+            lastValidPosition = targetPosition;
+            lastValidViewport = new Vector2(viewportX, viewportY);
+        }
+        else
+        {
+            // Use last valid viewport coordinates instead
+            ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
+            transform.position = ray.GetPoint(dragDistance) + dragOffset;
+        }
     }
+    // If shouldStayLocked is true, we simply don't update the position at all
     
     // Clamp to worm body if close enough
     TryToClampToWormBody();

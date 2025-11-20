@@ -12,7 +12,7 @@ public static class GameParameters
     public static readonly int timeForLeaderboard = 5;
     
     [Header("Creature Builder")] 
-    public static readonly float distanceToClampPart = 2f;
+    public static readonly float distanceToClampPart = 10f;
 
     [Header("Worm League UI")]   
     public static float titleFadeTime = 1f;
