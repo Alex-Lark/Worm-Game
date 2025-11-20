@@ -72,6 +72,9 @@ public static class GameParameters
     public static readonly float WormHeadButHeadForce = 20000f;
     public static readonly float WormheadButMaxHeadVerticleAngle = 30f;
     public static readonly float WormHeadRotationSpeedWhileAttacking = 1.0f;
+
+    [Header("Worm Leg")] 
+    public static float legMaxVelocityIncrease = 1f;
     
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;

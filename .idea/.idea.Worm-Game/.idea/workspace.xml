@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/LegPartData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/LegPartData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/DOTweenSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/DOTweenSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormForwardMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormForwardMovement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,14 +185,6 @@
       <workItem from="1763600674101" duration="5232000" />
       <workItem from="1763607555554" duration="3312000" />
       <workItem from="1763676145065" duration="2584000" />
-    </task>
-    <task id="LOCAL-00011" summary="worm head verticle movement wip">
-      <option name="closed" value="true" />
-      <created>1759892912394</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1759892912397</updated>
     </task>
     <task id="LOCAL-00012" summary="head has vertical control when ungrounded">
       <option name="closed" value="true" />
@@ -577,7 +570,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763677178265</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="undid previous worm attachement changes because it was glitchy">
+      <option name="closed" value="true" />
+      <created>1763680384058</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1763680384058</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -604,7 +605,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="inventory item code improved" />
     <MESSAGE value="fixed api issue in worm head but" />
     <MESSAGE value="can drag 3d objects into creaturebuilder window" />
     <MESSAGE value="can drag" />
@@ -629,7 +629,8 @@
     <MESSAGE value="worm orientation resets when going back to creature builder" />
     <MESSAGE value="can move parts from a previous round around" />
     <MESSAGE value="code better organized" />
-    <option name="LAST_COMMIT_MESSAGE" value="code better organized" />
+    <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
+    <option name="LAST_COMMIT_MESSAGE" value="undid previous worm attachement changes because it was glitchy" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -18,7 +18,7 @@ namespace Player
         public bool IsWormAttacking { get; private set; }
         public bool IsWormInAttackCooldown { get; private set; }
         
-        public float MaxVelocity { get; private set; }
+        public float MaxVelocity { get; set; }
     
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;

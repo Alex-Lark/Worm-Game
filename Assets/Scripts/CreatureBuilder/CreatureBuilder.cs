@@ -60,6 +60,11 @@ namespace CreatureBuilder
                     Debug.LogWarning($"Prefab reference is null for {part.name}");
                     continue;
                 }
+                
+                if (part.GetComponent<CreaturePart>().partData.name.Equals("leg"))
+                {
+                    Player.Player.Instance.MaxVelocity -= GameParameters.legMaxVelocityIncrease;
+                }
 
                 Vector3 worldPosition = part.transform.position;
                 Quaternion worldRotation = part.transform.rotation;
@@ -239,6 +244,10 @@ private void ReturnAllCardsToPlayerInventory()
             print("adding part to worm");
             creaturePart.transform.parent = Player.Player.Instance.transform;
             creaturePart.GetComponent<CreaturePart>().enabled = false;
+            if (creaturePart.GetComponent<CreaturePart>().partData.name.Equals("leg"))
+            {
+                Player.Player.Instance.MaxVelocity += GameParameters.legMaxVelocityIncrease;
+            }
             FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = wormSegment.GetComponent<Rigidbody>();
             Player.Player.Instance.attachedWormParts.Add(creaturePart);
