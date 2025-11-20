@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2069264509531697715}
   - component: {fileID: 2972389066813752137}
   m_Layer: 5
-  m_Name: leg part
+  m_Name: spike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f9022697249819440bf9ddec4bc9aeba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 96f211f4f941dca41bbef9c95ce934b2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -103,5 +103,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097d5b15947b57f48a9722af3f617c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartCard
-  sprite: {fileID: 21300000, guid: f9022697249819440bf9ddec4bc9aeba, type: 3}
-  cardName: Leg
+  sprite: {fileID: 21300000, guid: 96f211f4f941dca41bbef9c95ce934b2, type: 3}
+  cardName: Spike
