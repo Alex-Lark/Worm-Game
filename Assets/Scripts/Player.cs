@@ -94,11 +94,6 @@ public class Player : MonoBehaviour
         ResetWormOrientation();
         PositionWormSegments(new Vector3(0, 2, 0));
         DeactivatePlayer();
-
-        foreach (GameObject part in attachedWormParts)
-        {
-            SceneManager.MoveGameObjectToScene(part, SceneManager.GetActiveScene());
-        }
     }
 
     private void ResetWormPhysics()

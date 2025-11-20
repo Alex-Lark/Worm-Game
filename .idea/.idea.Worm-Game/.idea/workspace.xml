@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormGameSceneSwitcher.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +37,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePartData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PartCard.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PartSelection.cs" root0="FORCE_HIGHLIGHTING" />
@@ -186,15 +180,7 @@
       <workItem from="1763592895778" duration="3190000" />
       <workItem from="1763596904446" duration="2329000" />
       <workItem from="1763600674101" duration="5232000" />
-      <workItem from="1763607555554" duration="2985000" />
-    </task>
-    <task id="LOCAL-00009" summary="visual head wip">
-      <option name="closed" value="true" />
-      <created>1759521802913</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1759521802914</updated>
+      <workItem from="1763607555554" duration="3312000" />
     </task>
     <task id="LOCAL-00010" summary="worm turning speed increases with velocity so it doesn't slow when moving faster, vertical head control wip">
       <option name="closed" value="true" />
@@ -580,7 +566,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763598112023</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="can move parts from a previous round around">
+      <option name="closed" value="true" />
+      <created>1763610822506</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1763610822507</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +601,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm head but mostly working" />
     <MESSAGE value="worm headbut mostly working" />
     <MESSAGE value="inventory item code improved" />
     <MESSAGE value="fixed api issue in worm head but" />
@@ -632,7 +625,8 @@
     <MESSAGE value="part selection handles multiple parts" />
     <MESSAGE value="wormLeague wip" />
     <MESSAGE value="worm orientation resets when going back to creature builder" />
-    <option name="LAST_COMMIT_MESSAGE" value="worm orientation resets when going back to creature builder" />
+    <MESSAGE value="can move parts from a previous round around" />
+    <option name="LAST_COMMIT_MESSAGE" value="can move parts from a previous round around" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
