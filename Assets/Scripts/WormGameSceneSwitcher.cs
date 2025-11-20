@@ -42,7 +42,6 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadCreatureBuilderScene()
     {
         SceneManager.LoadScene("CreatureBuilderScene");
-        Player.Instance.SetWormInCreatureBuilderScene();
     }
     
     public void LoadGameScene()

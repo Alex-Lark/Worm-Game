@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -31,6 +32,57 @@ namespace CreatureBuilder
             InitializePrefabMapping();
             _player = Player.Instance;
             cinemachineCamera.Follow = _player.transform;
+        }
+
+        private void Start()
+        {
+            AddAlreadyAttachedParts();
+        }
+
+        private void AddAlreadyAttachedParts() 
+        {
+            StartCoroutine(AddAlreadyAttachedPartsDelayed());
+        }
+
+        private IEnumerator AddAlreadyAttachedPartsDelayed()
+        {
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.5f);
+
+            foreach (GameObject part in Player.Instance.attachedWormParts)
+            {
+                CreaturePart partComponent = part.GetComponent<CreaturePart>();
+                GameObject prefab = partComponent.prefab;
+        
+                if (prefab == null)
+                {
+                    Debug.LogWarning($"Prefab reference is null for {part.name}");
+                    continue;
+                }
+
+                Vector3 worldPosition = part.transform.position;
+                Quaternion worldRotation = part.transform.rotation;
+                Vector3 worldScale = part.transform.lossyScale;
+
+                GameObject newPart = Instantiate(prefab, worldPosition, worldRotation);
+                newPart.name = prefab.name;
+                newPart.transform.localScale = worldScale;
+
+                CreaturePart creaturePart = newPart.GetComponent<CreaturePart>();
+                if (creaturePart != null)
+                {
+                    creaturePart.targetCamera = targetCamera;
+                    creaturePart.creatureBuilderWindow = creatureBuilderWindow;
+                    creaturePart.dragDistance = spawnDistance;
+                    creaturePart.Clamp();
+                }
+
+                parts.Add(newPart);
+                Destroy(part);
+            }
+
+            Player.Instance.attachedWormParts.Clear();
         }
 
         private void InitializePrefabMapping()
@@ -187,6 +239,7 @@ private void ReturnAllCardsToPlayerInventory()
             creaturePart.transform.parent = Player.Instance.transform;
             FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = wormSegment.GetComponent<Rigidbody>();
+            Player.Instance.attachedWormParts.Add(creaturePart);
         }
 
         private Transform FindNearestWormSegment(GameObject part) 

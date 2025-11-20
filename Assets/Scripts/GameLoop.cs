@@ -71,6 +71,7 @@ public class GameLoop : MonoBehaviour
                 }
                 
                 sceneSwitcher.LoadCreatureBuilderScene();
+                Player.Instance.SetWormInCreatureBuilderScene();
                 yield return StartCoroutine(CreatureBuilderTimer());
                 CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
                 creatureBuilder.AttachCreatureParts();

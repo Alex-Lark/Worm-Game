@@ -7,7 +7,8 @@ namespace CreatureBuilder
     { 
         public float dragDistance = 0f;
 
-        public GameObject prefab;
+        public CreaturePartData partData;
+        public GameObject prefab => partData != null ? partData.prefab : null;
         public Camera targetCamera;
         public RectTransform creatureBuilderWindow;
         public Transform endPoint;
@@ -32,7 +33,10 @@ namespace CreatureBuilder
         {
             _creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder>();
             falseWormBody = GameObject.Find("falseWormBody");
-            StartDragging();
+            if (!isClamped)
+            {
+                StartDragging();
+            }
         }
     
         void Update()
@@ -56,10 +60,17 @@ namespace CreatureBuilder
             }
         }
 
+        public void Clamp()
+        {
+            isClamped = true;
+        }
+
         public void StartDragging()
 {
     isSelected = true;
     isDragging = true;
+    
+    isClamped = false;
     
     lastValidPosition = transform.position;
     
@@ -136,6 +147,7 @@ private void Drag()
     }
     else
     {
+        Debug.Log("invalid position");
         // Use last valid viewport coordinates instead
         ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
         transform.position = ray.GetPoint(dragDistance) + dragOffset;

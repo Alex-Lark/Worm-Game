@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public Transform wormHead;
     public Transform wormVisualHead;
     public List<Transform> wormBodySegments;
+    public List<GameObject> attachedWormParts;
     public List<GameObject> wormPartsInInventory;
 
     private bool _isPlayerActive = false;
@@ -93,6 +94,11 @@ public class Player : MonoBehaviour
         ResetWormOrientation();
         PositionWormSegments(new Vector3(0, 2, 0));
         DeactivatePlayer();
+
+        foreach (GameObject part in attachedWormParts)
+        {
+            SceneManager.MoveGameObjectToScene(part, SceneManager.GetActiveScene());
+        }
     }
 
     private void ResetWormPhysics()

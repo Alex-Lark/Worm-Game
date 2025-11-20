@@ -5,11 +5,11 @@ public static class GameParameters
     [Header("Game loop default settings")] 
     public static readonly int defaultNumberOfRounds = 3;
     public static readonly int defaultNumberOfPartsPerRound = 1; //not including discarded card(s)
-    public static readonly int defaultTimePerPartSelection = 5;
+    public static readonly int defaultTimePerPartSelection = 1;
     public static readonly int defaultTimePerCreatureBuilding = 10;
-    public static readonly int defaultTimePerMinigame = 10;
+    public static readonly int defaultTimePerMinigame;
 
-    public static readonly int timeForLeaderboard = 5;
+    public static readonly int timeForLeaderboard = 1;
     
     [Header("Creature Builder")] 
     public static readonly float distanceToClampPart = 2f;
