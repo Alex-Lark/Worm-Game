@@ -10,10 +10,19 @@ public class PlayerCamera : MonoBehaviour
 
     void Awake()
     {
-        print("camera awake");
-        gameObject.GetComponent<CinemachineCamera>().Follow = Player.Instance.GetComponent<Player>().wormVisualHead;
-        gameObject.GetComponent<CinemachineCamera>().LookAt = Player.Instance.GetComponent<Player>().wormVisualHead;
+
+        var cam = gameObject.GetComponent<CinemachineCamera>();
+        if (cam == null)
+        {
+            return;
+        }
         
+        orbitalFollow = cam.GetComponent<CinemachineOrbitalFollow>();
+        
+        
+        cam.Follow = Player.Instance.wormVisualHead;
+        cam.LookAt = Player.Instance.wormVisualHead;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -24,17 +33,36 @@ public class PlayerCamera : MonoBehaviour
         Cursor.visible = true;
     }
 
-    void LateUpdate()
+    void OnEnable()
     {
-        // if (orbitalFollow == null || Player.Instance == null || Player.Instance.wormHead == null) return;
-        //
-        // float headYaw = Player.Instance.wormHead.eulerAngles.y;
-        // float camYaw = orbitalFollow.HorizontalAxis.Value;
-        //
-        // float angle = Mathf.DeltaAngle(headYaw, camYaw);
-        //
-        // float clampedAngle = Mathf.Clamp(angle, -maxAngle, maxAngle);
-        //
-        // orbitalFollow.HorizontalAxis.Value = headYaw + clampedAngle;
+        CinemachineCore.CameraUpdatedEvent.AddListener(OnCinemachineLateUpdate);
+    }
+
+    void OnDisable()
+    {
+        CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCinemachineLateUpdate);
+    }
+
+    void OnCinemachineLateUpdate(CinemachineBrain brain)
+    {
+
+        if (orbitalFollow == null)
+        {
+            return;
+        }
+
+        if (Player.Instance == null || Player.Instance.wormHead == null)
+        {
+            return;
+        }
+
+        float headYaw = Player.Instance.wormHead.eulerAngles.y;
+        float camYaw  = orbitalFollow.HorizontalAxis.Value;
+
+        float angle = Mathf.DeltaAngle(headYaw, camYaw);
+        float clampedAngle = Mathf.Clamp(angle, -maxAngle, maxAngle);
+
+        float final = headYaw + clampedAngle;
+        orbitalFollow.HorizontalAxis.Value = final;
     }
 }

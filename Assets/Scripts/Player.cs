@@ -328,26 +328,42 @@ public class Player : MonoBehaviour
 
     private void RotateVisualHead()
     {
-        var forward = thirdPersonCamera.transform.forward;
+        if (thirdPersonCamera == null)
+        {
+            Debug.LogWarning("RotateVisualHead: thirdPersonCamera is NULL!");
+            return;
+        }
 
-        Vector3 cameraForward = new Vector3(forward.x, forward.y + GameParameters.VisualHeadVerticalOffset, forward.z);
+        Vector3 forward = thirdPersonCamera.transform.forward;
+
+        // Apply vertical offset properly
+        Vector3 cameraForward = forward;
+        cameraForward.y += GameParameters.VisualHeadVerticalOffset;
         cameraForward.Normalize();
 
-        if (cameraForward.magnitude > 0.1f)
-        {
-            float angle = Vector3.Angle(wormHead.forward, cameraForward);
+        // If too tiny, skip
+        if (cameraForward.sqrMagnitude < 0.01f)
+            return;
 
-            if (angle > 90f)
-            {
-                Vector3 clampedDirection =
-                    Vector3.RotateTowards(wormHead.forward, cameraForward, 90f * Mathf.Deg2Rad, 0f);
-                wormVisualHead.rotation = Quaternion.LookRotation(clampedDirection);
-            }
-            else
-            {
-                wormVisualHead.rotation = Quaternion.LookRotation(cameraForward);
-            }
-        }
+        // Compute signed yaw angle relative to wormHead
+        float signedAngle = Vector3.SignedAngle(wormHead.forward, cameraForward, Vector3.up);
+
+        Debug.Log($"🐛 VisualHead Debug:" +
+                  $"\n wormHead forward: {wormHead.forward}" +
+                  $"\n cameraForward: {cameraForward}" +
+                  $"\n signedAngle: {signedAngle}");
+
+        float maxAngle = 90f;
+
+        // Clamp the signed angle
+        float clampedSigned = Mathf.Clamp(signedAngle, -maxAngle, maxAngle);
+
+        // Compute the clamped direction
+        Quaternion clampedRotation = Quaternion.AngleAxis(clampedSigned, Vector3.up) * wormHead.rotation;
+
+        wormVisualHead.rotation = clampedRotation;
+
+        Debug.Log($"➡️ Setting visual head rotation to yaw offset {clampedSigned}");
     }
 
     private void CreateWormSegments()
