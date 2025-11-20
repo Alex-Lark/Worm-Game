@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,15 +179,7 @@
       <workItem from="1763522407556" duration="808000" />
       <workItem from="1763532227890" duration="3240000" />
       <workItem from="1763592895778" duration="3190000" />
-      <workItem from="1763596904446" duration="1172000" />
-    </task>
-    <task id="LOCAL-00008" summary="visual head now rotates vertically">
-      <option name="closed" value="true" />
-      <created>1759459447869</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1759459447871</updated>
+      <workItem from="1763596904446" duration="2329000" />
     </task>
     <task id="LOCAL-00009" summary="visual head wip">
       <option name="closed" value="true" />
@@ -574,7 +565,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763532540850</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="worm orientation resets when going back to creature builder">
+      <option name="closed" value="true" />
+      <created>1763598112023</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1763598112023</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -601,7 +600,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm movement feels pretty good with improved joint" />
     <MESSAGE value="worm head but mostly working" />
     <MESSAGE value="worm headbut mostly working" />
     <MESSAGE value="inventory item code improved" />
@@ -626,7 +624,8 @@
     <MESSAGE value="can select parts and they carry over to creature builder" />
     <MESSAGE value="part selection handles multiple parts" />
     <MESSAGE value="wormLeague wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="wormLeague wip" />
+    <MESSAGE value="worm orientation resets when going back to creature builder" />
+    <option name="LAST_COMMIT_MESSAGE" value="worm orientation resets when going back to creature builder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -100,22 +100,86 @@ namespace CreatureBuilder
         }
 
         public void AttachCreatureParts()
+{
+    print("attach creature part called");
+    
+    // Process 3D parts that are spawned in the world
+    foreach (GameObject part in parts)
+    {
+        CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+        
+        if (creaturePart != null && creaturePart.isClamped)
         {
-            print("attach creature part called");
-            foreach (GameObject part in parts)
+            print("found clamped part");
+            Transform wormSegment = FindNearestWormSegment(part);
+            AddPartToWorm(part, wormSegment);
+        }
+        else
+        {
+            print("part not clamped, returning to player inventory");
+            ReturnPartToPlayerInventory(part);
+        }
+    }
+    
+    parts.Clear();
+    
+    // Return all remaining cards from the creature builder inventory to player
+    ReturnAllCardsToPlayerInventory();
+}
+
+private void ReturnPartToPlayerInventory(GameObject part)
+{
+    // Find the matching card prefab
+    string keyName = part.name.Replace("(Clone)", "").Trim();
+    
+    foreach (var pair in partPairs)
+    {
+        if (pair.part3DPrefab != null && pair.part3DPrefab.name == keyName)
+        {
+            Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
+            Destroy(part);
+            return;
+        }
+    }
+    
+    Debug.LogWarning($"No card mapping found for part: {keyName}");
+    Destroy(part);
+}
+
+private void ReturnAllCardsToPlayerInventory()
+{
+    CreatureBuilderPartInventory inventory = FindObjectOfType<CreatureBuilderPartInventory>();
+    
+    if (inventory == null)
+    {
+        Debug.LogWarning("Creature builder inventory not found");
+        return;
+    }
+    
+    InventorySlot[] slots = inventory.GetComponentsInChildren<InventorySlot>();
+    
+    foreach (var slot in slots)
+    {
+        if (slot.currentItem != null)
+        {
+            GameObject cardInstance = slot.currentItem.gameObject;
+            string cardName = cardInstance.name.Replace("(Clone)", "").Trim();
+            
+            // Find the original prefab
+            foreach (var pair in partPairs)
             {
-                if (part.GetComponent<CreaturePart>().isClamped)
+                if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
                 {
-                    print("found clamped part");
-                    Transform wormSegment = FindNearestWormSegment(part);
-                    AddPartToWorm(part, wormSegment);
-                }
-                else
-                {
-                    //add part back to inventory
+                    Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
+                    break;
                 }
             }
+            
+            // Destroy the card instance
+            Destroy(cardInstance);
         }
+    }
+}
 
         private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
         {
@@ -123,7 +187,6 @@ namespace CreatureBuilder
             creaturePart.transform.parent = Player.Instance.transform;
             FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = wormSegment.GetComponent<Rigidbody>();
-            //attach part to segment with fixedJoint
         }
 
         private Transform FindNearestWormSegment(GameObject part) 
