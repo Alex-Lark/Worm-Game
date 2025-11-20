@@ -17,6 +17,8 @@ namespace Player
         public bool IsWormGrounded { get; private set; }
         public bool IsWormAttacking { get; private set; }
         public bool IsWormInAttackCooldown { get; private set; }
+        
+        public float MaxVelocity { get; private set; }
     
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;
@@ -69,6 +71,8 @@ namespace Player
             {
                 SetWormInGameScene();
             }
+
+            MaxVelocity = GameParameters.WormMaxVelocity;
         }
 
         private void FixedUpdate()

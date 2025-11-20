@@ -104,7 +104,7 @@ public class WormForwardMovement : MonoBehaviour
             Rigidbody wormPartRigidbody = part.GetComponent<Rigidbody>();
             WormPart wormPart = part.GetComponent<WormPart>();
 
-            if ((wormPart.IsGrounded || wormPart.TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded) && !(wormPartRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
+            if ((wormPart.IsGrounded || wormPart.TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded) && !(wormPartRigidbody.linearVelocity.magnitude > gameObject.GetComponent<Player.Player>().MaxVelocity))
             {
                 // Get the part in front (toward head)
                 Transform targetPart = (i > 0) ? wormParts[i - 1] : _wormHead;
@@ -140,7 +140,7 @@ public class WormForwardMovement : MonoBehaviour
     private void MoveMiddleSegmentUp(Transform middlePart, int middleIndex)
     {
         Rigidbody middlePartRigidbody = middlePart.GetComponent<Rigidbody>();
-        if (!(middlePartRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
+        if (!(middlePartRigidbody.linearVelocity.magnitude > gameObject.GetComponent<Player.Player>().MaxVelocity))
         {
             float currentHeight = middlePart.position.y;
             float maxMiddleHeight = GameParameters.WormMiddleMaxHeight;
@@ -161,7 +161,7 @@ public class WormForwardMovement : MonoBehaviour
             Transform part = wormParts[i];
             Rigidbody wormPartRigidbody = part.GetComponent<Rigidbody>();
             WormPart wormPart = part.GetComponent<WormPart>();
-            if ((wormPart.IsGrounded || wormPart.TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded) && !(wormPartRigidbody.linearVelocity.magnitude > GameParameters.WormMaxVelocity))
+            if ((wormPart.IsGrounded || wormPart.TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded) && !(wormPartRigidbody.linearVelocity.magnitude > gameObject.GetComponent<Player.Player>().MaxVelocity))
             {
                 // Get the part in front (closer to head)
                 Transform targetPart = (i > 0) ? wormParts[i - 1] : _wormHead;
@@ -327,7 +327,7 @@ public class WormForwardMovement : MonoBehaviour
 
     private void MoveHeadGrounded(WormPart part)
     {
-        if (_wormHeadRb.linearVelocity.magnitude > GameParameters.WormMaxVelocity)
+        if (_wormHeadRb.linearVelocity.magnitude > gameObject.GetComponent<Player.Player>().MaxVelocity)
             return;
 
         var groundRb = part.GroundObject?.GetComponent<Rigidbody>();
