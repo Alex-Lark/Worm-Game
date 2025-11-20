@@ -11,7 +11,7 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenuScene");
-        Player.Instance.DeactivatePlayer();
+        Player.Player.Instance.DeactivatePlayer();
     }
 
     public void LoadSettingsScene()
@@ -47,19 +47,19 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadGameScene()
     {
         SceneManager.LoadScene(GameSceneList.GetRandomGameScene());
-        Player.Instance.SetWormInGameScene();
+        Player.Player.Instance.SetWormInGameScene();
     }
     
     public void LoadLeaderboardScene()
     {
         SceneManager.LoadScene("LeaderboardScene");
-        Player.Instance.DeactivatePlayer();
+        Player.Player.Instance.DeactivatePlayer();
     }
     
     public void LoadGameEndScene()
     {
         SceneManager.LoadScene("GameEndScene");
-        Player.Instance.DeactivatePlayer();
+        Player.Player.Instance.DeactivatePlayer();
     }
 
     public void QuitGame()

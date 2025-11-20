@@ -44,7 +44,7 @@ public class PartSelection : MonoBehaviour
             currentCard = card1;
         }
         
-        Player.Instance.wormPartsInInventory.Add(currentCard);
+        Player.Player.Instance.wormPartsInInventory.Add(currentCard);
         
         //discard discarded card to somoene else
         
@@ -52,7 +52,7 @@ public class PartSelection : MonoBehaviour
         
         //fake discarded card
         int discardCardIndex = Random.Range(0, partCards.Count);
-        Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
+        Player.Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
         
         //clear values
         card1 = null;

@@ -13,8 +13,8 @@ public class WormJump : MonoBehaviour
     
     void Start()
     {
-        _wormHead = Player.Instance.wormHead;
-        _wormParts = Player.Instance.wormBodySegments;
+        _wormHead = Player.Player.Instance.wormHead;
+        _wormParts = Player.Player.Instance.wormBodySegments;
         middleIndices = null;
     }
 

@@ -14,8 +14,8 @@ namespace WormLeague
         public int teamRedScore = 1;
         public int teamBlueScore = 0;
         
-        private List<Player> teamBlue = new List<Player>();
-        private List<Player> teamRed = new List<Player>();
+        private List<Player.Player> teamBlue = new List<Player.Player>();
+        private List<Player.Player> teamRed = new List<Player.Player>();
     
         void Start()
         {
@@ -24,7 +24,7 @@ namespace WormLeague
 
         public void OnGoalScored(string team)
         {
-            Player scoringPlayer = ball.lastTouchingPlayer;
+            Player.Player scoringPlayer = ball.lastTouchingPlayer;
             scoringPlayer.PlayerScore += 1;
             //give player goal
             print(scoringPlayer.PlayerName + "scored");
@@ -54,14 +54,14 @@ namespace WormLeague
         {
             if (teamRedScore > teamBlueScore)
             {
-                foreach (Player player in teamRed)
+                foreach (Player.Player player in teamRed)
                 {
                     player.PlayerScore += 10;
                 }
             }
             else
             {
-                foreach (Player player in teamBlue)
+                foreach (Player.Player player in teamBlue)
                 {
                     player.PlayerScore += 10;
                 }
@@ -70,7 +70,7 @@ namespace WormLeague
     
         private void AssignPlayerTeams()
         {
-            List<Player> players = new List<Player>(GameLoop.Instance.players);
+            List<Player.Player> players = new List<Player.Player>(GameLoop.Instance.players);
 
 
             while (players.Count > 0)

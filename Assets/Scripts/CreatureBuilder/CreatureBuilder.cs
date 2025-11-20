@@ -21,7 +21,7 @@ namespace CreatureBuilder
         public Camera targetCamera;
         public CinemachineCamera cinemachineCamera;
         public RectTransform creatureBuilderWindow;
-        private Player _player;
+        private Player.Player _player;
         
         [SerializeField] private float spawnDistance = 5f;
 
@@ -30,7 +30,7 @@ namespace CreatureBuilder
         private void Awake()
         {
             InitializePrefabMapping();
-            _player = Player.Instance;
+            _player = Player.Player.Instance;
             cinemachineCamera.Follow = _player.transform;
         }
 
@@ -50,7 +50,7 @@ namespace CreatureBuilder
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(0.5f);
 
-            foreach (GameObject part in Player.Instance.attachedWormParts)
+            foreach (GameObject part in Player.Player.Instance.attachedWormParts)
             {
                 CreaturePart partComponent = part.GetComponent<CreaturePart>();
                 GameObject prefab = partComponent.prefab;
@@ -82,7 +82,7 @@ namespace CreatureBuilder
                 Destroy(part);
             }
 
-            Player.Instance.attachedWormParts.Clear();
+            Player.Player.Instance.attachedWormParts.Clear();
         }
 
         private void InitializePrefabMapping()
@@ -188,7 +188,7 @@ private void ReturnPartToPlayerInventory(GameObject part)
     {
         if (pair.part3DPrefab != null && pair.part3DPrefab.name == keyName)
         {
-            Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
+            Player.Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
             Destroy(part);
             return;
         }
@@ -222,7 +222,7 @@ private void ReturnAllCardsToPlayerInventory()
             {
                 if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
                 {
-                    Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
+                    Player.Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
                     break;
                 }
             }
@@ -236,10 +236,10 @@ private void ReturnAllCardsToPlayerInventory()
         private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
         {
             print("adding part to worm");
-            creaturePart.transform.parent = Player.Instance.transform;
+            creaturePart.transform.parent = Player.Player.Instance.transform;
             FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = wormSegment.GetComponent<Rigidbody>();
-            Player.Instance.attachedWormParts.Add(creaturePart);
+            Player.Player.Instance.attachedWormParts.Add(creaturePart);
         }
 
         private Transform FindNearestWormSegment(GameObject part) 

@@ -24,11 +24,11 @@ public class WormRenderer : MonoBehaviour
     private MeshRenderer meshRenderer;
     private Mesh wormMesh;
 
-    private Player player;
+    private Player.Player player;
 
     void Start()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<Player.Player>();
         SetupWormRenderer();
     
         // Force an initial update after a frame to ensure positions are set

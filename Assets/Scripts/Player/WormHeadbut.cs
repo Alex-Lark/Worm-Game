@@ -8,8 +8,8 @@ public class WormHeadBut : MonoBehaviour
 
     private void Start()
     {
-        _wormParts = Player.Instance.wormBodySegments;
-        _wormHead = Player.Instance.wormHead.GetComponent<Rigidbody>();
+        _wormParts = Player.Player.Instance.wormBodySegments;
+        _wormHead = Player.Player.Instance.wormHead.GetComponent<Rigidbody>();
     }
     
 
@@ -18,7 +18,7 @@ public class WormHeadBut : MonoBehaviour
         int segmentCount = GameParameters.WormSegmentCount + 1; // head
         int liftedSegment = 0;
 
-        if (!Player.Instance.IsWormGrounded)
+        if (!Player.Player.Instance.IsWormGrounded)
         {
             return;
         }
@@ -113,7 +113,7 @@ public class WormHeadBut : MonoBehaviour
     }
 
     private void RotateHeadUngrounded(float speed) {
-        Vector3 camDirFlat = Flatten(Player.Instance.thirdPersonCamera.transform.forward);
+        Vector3 camDirFlat = Flatten(Player.Player.Instance.thirdPersonCamera.transform.forward);
         Quaternion targetYaw = Quaternion.LookRotation(camDirFlat);
     
         _wormHead.rotation = Quaternion.Slerp(
@@ -129,7 +129,7 @@ public class WormHeadBut : MonoBehaviour
     }
     
     private void SnapHeadRotation() {
-        Vector3 camDir = Player.Instance.thirdPersonCamera.transform.forward.normalized;
+        Vector3 camDir = Player.Player.Instance.thirdPersonCamera.transform.forward.normalized;
         float pitch = CalculatePitch(camDir);
     
         // Clamp pitch to the allowed range
@@ -148,7 +148,7 @@ public class WormHeadBut : MonoBehaviour
         float camPitch = Vector3.SignedAngle(
             Vector3.ProjectOnPlane(camDir, Vector3.up),
             camDir,
-            Player.Instance.thirdPersonCamera.transform.right
+            Player.Player.Instance.thirdPersonCamera.transform.right
         );
     
         float normalized = Mathf.InverseLerp(GameParameters.minCameraPitch, GameParameters.maxCameraPitch, camPitch);

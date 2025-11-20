@@ -12,10 +12,10 @@ public class GameEndScene : MonoBehaviour
 
     private void ShowWinner()
     {
-        Player topPlayer = null;
+        Player.Player topPlayer = null;
         int highestScore = int.MinValue;
 
-        foreach (Player player in GameLoop.Instance.players)
+        foreach (Player.Player player in GameLoop.Instance.players)
         {
             if (player.PlayerScore > highestScore)
             {

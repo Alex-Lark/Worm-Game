@@ -7,20 +7,20 @@ public class WormPhysics : MonoBehaviour
     
     public void AddCollidersToSegments()
     {
-        SphereCollider headCollider = Player.Instance.wormHead.GetComponent<SphereCollider>();
+        SphereCollider headCollider = Player.Player.Instance.wormHead.GetComponent<SphereCollider>();
         if (headCollider == null)
         {
-            headCollider = Player.Instance.wormHead.gameObject.AddComponent<SphereCollider>();
+            headCollider = Player.Player.Instance.wormHead.gameObject.AddComponent<SphereCollider>();
         }
         
         headCollider.radius = GameParameters.WormBodyWidth * 4;
         
-        for (int i = 0; i < Player.Instance.wormBodySegments.Count; i++)
+        for (int i = 0; i < Player.Player.Instance.wormBodySegments.Count; i++)
         {
-            SphereCollider segmentCollider = Player.Instance.wormBodySegments[i].GetComponent<SphereCollider>();
+            SphereCollider segmentCollider = Player.Player.Instance.wormBodySegments[i].GetComponent<SphereCollider>();
             if (segmentCollider == null)
             {
-                segmentCollider = Player.Instance.wormBodySegments[i].gameObject.AddComponent<SphereCollider>();
+                segmentCollider = Player.Player.Instance.wormBodySegments[i].gameObject.AddComponent<SphereCollider>();
             }
             segmentCollider.radius = GameParameters.WormBodyWidth * 4; 
             
@@ -35,11 +35,11 @@ public class WormPhysics : MonoBehaviour
     {
         List<Collider> allWormColliders = new List<Collider>();
         
-        Collider headCollider = Player.Instance.wormHead.GetComponent<Collider>();
+        Collider headCollider = Player.Player.Instance.wormHead.GetComponent<Collider>();
         if (headCollider != null)
             allWormColliders.Add(headCollider);
         
-        foreach (var segment in Player.Instance.wormBodySegments)
+        foreach (var segment in Player.Player.Instance.wormBodySegments)
         {
             Collider segmentCollider = segment.GetComponent<Collider>();
             if (segmentCollider != null)

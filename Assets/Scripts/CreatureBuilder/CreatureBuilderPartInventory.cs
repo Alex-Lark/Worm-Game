@@ -62,12 +62,12 @@ namespace CreatureBuilder
         
         private void AddStartingCardsToInventory()
         {
-            List<GameObject> partCards = Player.Instance.wormPartsInInventory;
+            List<GameObject> partCards = Player.Player.Instance.wormPartsInInventory;
             foreach (var part in partCards)
             {
                 AddCardToInventory(part);
             }
-            Player.Instance.wormPartsInInventory.Clear();
+            Player.Player.Instance.wormPartsInInventory.Clear();
         }
 
         private InventorySlot GetEmptySlot()

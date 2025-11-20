@@ -7,7 +7,7 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
     public float TimeLeftInScene { get; private set; }
-    public List<Player> players;
+    public List<Player.Player> players;
     public List<GameObject> partCards = new List<GameObject>();
     
     [Header("modifiable game loop settings")] 
@@ -71,7 +71,7 @@ public class GameLoop : MonoBehaviour
                 }
                 
                 sceneSwitcher.LoadCreatureBuilderScene();
-                Player.Instance.SetWormInCreatureBuilderScene();
+                Player.Player.Instance.SetWormInCreatureBuilderScene();
                 yield return StartCoroutine(CreatureBuilderTimer());
                 CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
                 creatureBuilder.AttachCreatureParts();

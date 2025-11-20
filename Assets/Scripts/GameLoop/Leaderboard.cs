@@ -14,7 +14,7 @@ public class Leaderboard : MonoBehaviour
     private void PopulateLeaderboard()
     {
         print("populating leaderboard");
-        foreach (Player player in GameLoop.Instance.players)
+        foreach (Player.Player player in GameLoop.Instance.players)
         {
             print("adding a player");
             string text = player.PlayerName + ": " + player.PlayerScore;

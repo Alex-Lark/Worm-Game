@@ -32,7 +32,7 @@ public class InputHandler : MonoBehaviour
         {
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                Player.Instance.StartWormMoving();
+                Player.Player.Instance.StartWormMoving();
             }
         }
         
@@ -40,7 +40,7 @@ public class InputHandler : MonoBehaviour
         {
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                Player.Instance.StopWormMoving();
+                Player.Player.Instance.StopWormMoving();
             }
         }
 
@@ -68,7 +68,7 @@ public class InputHandler : MonoBehaviour
         {
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                Player.Instance.MoveForward();
+                Player.Player.Instance.MoveForward();
             }
         }
 
@@ -76,7 +76,7 @@ public class InputHandler : MonoBehaviour
         {
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                Player.Instance.Jump();
+                Player.Player.Instance.Jump();
             }
 
             isJumping = false;
@@ -86,7 +86,7 @@ public class InputHandler : MonoBehaviour
         {
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                Player.Instance.Attack();
+                Player.Player.Instance.Attack();
             }
             isAttacking = false;
         }

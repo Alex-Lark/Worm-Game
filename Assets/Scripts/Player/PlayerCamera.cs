@@ -20,8 +20,8 @@ public class PlayerCamera : MonoBehaviour
         orbitalFollow = cam.GetComponent<CinemachineOrbitalFollow>();
         
         
-        cam.Follow = Player.Instance.wormVisualHead;
-        cam.LookAt = Player.Instance.wormVisualHead;
+        cam.Follow = Player.Player.Instance.wormVisualHead;
+        cam.LookAt = Player.Player.Instance.wormVisualHead;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -51,12 +51,12 @@ public class PlayerCamera : MonoBehaviour
             return;
         }
 
-        if (Player.Instance == null || Player.Instance.wormHead == null)
+        if (Player.Player.Instance == null || Player.Player.Instance.wormHead == null)
         {
             return;
         }
 
-        float headYaw = Player.Instance.wormHead.eulerAngles.y;
+        float headYaw = Player.Player.Instance.wormHead.eulerAngles.y;
         float camYaw  = orbitalFollow.HorizontalAxis.Value;
 
         float angle = Mathf.DeltaAngle(headYaw, camYaw);

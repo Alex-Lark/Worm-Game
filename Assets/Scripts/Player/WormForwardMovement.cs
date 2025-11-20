@@ -18,7 +18,7 @@ public class WormForwardMovement : MonoBehaviour
 
     public void SetVariables()
     {
-        var player = Player.Instance;
+        var player = Player.Player.Instance;
         _camera = player.thirdPersonCamera;
         _wormHead = player.wormHead;
         _wormHeadRb = _wormHead.GetComponent<Rigidbody>();
@@ -44,7 +44,7 @@ public class WormForwardMovement : MonoBehaviour
             RotateHeadGrounded(rotationSpeed);
             MoveHeadGrounded(part);
         }
-        else if (Player.Instance.IsWormGrounded)
+        else if (Player.Player.Instance.IsWormGrounded)
         {
             RotateHeadUngrounded(rotationSpeed);
             MoveHeadUngrounded();
@@ -56,9 +56,9 @@ public class WormForwardMovement : MonoBehaviour
         Vector3 previousPosition = _wormHead.transform.position;
         Transform previousPart = _wormHead;
         
-        List<Transform> wormParts = Player.Instance.wormBodySegments;
+        List<Transform> wormParts = Player.Player.Instance.wormBodySegments;
 
-        for (int i = 0; i < Player.Instance.wormBodySegments.Count; i++)
+        for (int i = 0; i < Player.Player.Instance.wormBodySegments.Count; i++)
         {
             _segmentMaxForwardForce[i] = GameParameters.WormMoveForce - TryToConstrainWormAngle(wormParts[i], _wormHead.transform, _wormHead.position);
         }
