@@ -17,6 +17,7 @@ namespace CreatureBuilder
         private GameObject falseWormBody;
         
         private Vector3 lastValidPosition;
+        private Vector3 lastMouseWorldPos;
         private Vector2 lastValidViewport;
         
         private Vector3 dragOffset;
@@ -129,96 +130,148 @@ private void Drag() {
         // Find where the ray intersects the plane at the object's current distance
         Vector3 rayPoint = ray.GetPoint(dragDistance);
         dragOffset = transform.position - rayPoint;
+        
+        lastMouseWorldPos = rayPoint;
     }
     
-    // Always use the current object's distance from camera, not a fixed dragDistance
+    // Always use the current object's distance from camera
     Vector3 currentCameraToObject = transform.position - targetCamera.transform.position;
     float currentDragDistance = Vector3.Dot(currentCameraToObject, targetCamera.transform.forward);
     
     // Calculate target position with the offset maintained
-    Vector3 targetPosition = ray.GetPoint(currentDragDistance) + dragOffset;
+    Vector3 currentMouseWorldPos = ray.GetPoint(currentDragDistance);
+    Vector3 targetPosition = currentMouseWorldPos + dragOffset;
     
-    // Apply smoothing when far from camera to reduce jitter
-    float distanceFromCamera = currentCameraToObject.magnitude;
-    float smoothingFactor = Mathf.Clamp01(distanceFromCamera / 50f); // Adjust 50f based on your scale
-    targetPosition = Vector3.Lerp(targetPosition, transform.position, smoothingFactor * 0.3f);
+    // If currently clamped, project movement along the surface
+    if (isClamped) {
+        Vector3 mouseDelta = currentMouseWorldPos - lastMouseWorldPos;
+        DragAlongSurface(mouseDelta);
+    }
+    else {
+        // Apply smoothing when far from camera to reduce jitter
+        float distanceFromCamera = currentCameraToObject.magnitude;
+        float smoothingFactor = Mathf.Clamp01(distanceFromCamera / 50f);
+        targetPosition = Vector3.Lerp(targetPosition, transform.position, smoothingFactor * 0.3f);
+        
+        // Check if we can move to the target position
+        if (CanMoveTo(targetPosition))
+        {
+            transform.position = targetPosition;
+            lastValidPosition = targetPosition;
+            lastValidViewport = new Vector2(viewportX, viewportY);
+        }
+        else
+        {
+            // Use last valid viewport coordinates instead
+            ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
+            transform.position = ray.GetPoint(currentDragDistance) + dragOffset;
+        }
+        
+        // Try to clamp to surface
+        TryToClampToWormBody();
+    }
     
-    // Rotate to falseCreatureBody
+    lastMouseWorldPos = currentMouseWorldPos;
+    
+    // Rotate to falseCreatureBody (after positioning)
     RotateTowardWormBody();
-    
-    // Check if we can move to the target position
-    if (CanMoveTo(targetPosition))
-    {
-        transform.position = targetPosition;
-        lastValidPosition = targetPosition;
-        lastValidViewport = new Vector2(viewportX, viewportY);
-    }
-    else
-    {
-        // Use last valid viewport coordinates instead
-        ray = targetCamera.ViewportPointToRay(new Vector3(lastValidViewport.x, lastValidViewport.y, 0));
-        transform.position = ray.GetPoint(currentDragDistance) + dragOffset;
-    }
-    
-    // Clamp to worm body if close enough
-    TryToClampToWormBody();
 }
 
-        private void TryToClampToWormBody() {
-            if (falseWormBody == null || endPoint == null) return;
+private void DragAlongSurface(Vector3 mouseDelta) {
+    if (falseWormBody == null || endPoint == null) {
+        isClamped = false;
+        return;
+    }
     
-            float clampDistance = GameParameters.distanceToClampPart;
+    Collider wormCollider = falseWormBody.GetComponent<Collider>();
+    if (wormCollider == null) {
+        isClamped = false;
+        return;
+    }
     
-            // Cast a ray from the END of this part towards the worm body center
-            Vector3 directionToWorm = falseWormBody.transform.position - endPoint.position;
-            float distanceToCenter = directionToWorm.magnitude;
+    // Get current position on surface
+    Vector3 currentClosest = wormCollider.ClosestPoint(endPoint.position);
+    Vector3 surfaceNormal = (endPoint.position - currentClosest).normalized;
     
-            if (distanceToCenter < 0.001f) return;
+    // Project mouse delta onto the tangent plane (perpendicular to surface normal)
+    Vector3 tangentDelta = mouseDelta - Vector3.Dot(mouseDelta, surfaceNormal) * surfaceNormal;
     
-            Ray ray = new Ray(endPoint.position, directionToWorm.normalized);
-            RaycastHit hit;
+    // Move the part by this tangent delta
+    Vector3 newPosition = transform.position + tangentDelta;
     
-            // Raycast towards the worm body
-            if (Physics.Raycast(ray, out hit, distanceToCenter)) {
-                // Check if we hit the worm body
-                if (hit.collider.gameObject == falseWormBody) {
-                    float distanceToSurface = hit.distance;
-            
-                    // If within clamp distance, move the part so endPoint touches the surface
-                    if (distanceToSurface <= clampDistance) {
-                        // Calculate offset: how far the endPoint is from transform center
-                        Vector3 offset = endPoint.position - transform.position;
-                
-                        // Move the part so the endPoint is at the hit point
-                        transform.position = hit.point - offset;
-                        isClamped = true;
-                    }
-                    else
-                    {
-                        isClamped = false;
-                    }
-                }
-            }
-        }
-        private void RotateTowardWormBody() {
-            if (falseWormBody == null || endPoint == null) return;
+    // Now snap back to the surface
+    Vector3 offset = endPoint.position - transform.position;
+    Vector3 newEndPoint = newPosition + offset;
+    Vector3 newClosest = wormCollider.ClosestPoint(newEndPoint);
     
-            Collider wormCollider = falseWormBody.GetComponent<Collider>();
-            if (wormCollider == null) return;
+    transform.position = newClosest - offset;
     
-            Vector3 nearestPoint = wormCollider.ClosestPoint(endPoint.position);
-            Vector3 directionToSurface = (nearestPoint - endPoint.position).normalized;
+    // Check if we should unclamp (dragged too far from surface)
+    float clampDistance = GameParameters.distanceToClampPart;
+    float distanceToSurface = Vector3.Distance(endPoint.position, wormCollider.ClosestPoint(endPoint.position));
     
-            if (directionToSurface.sqrMagnitude < 0.001f) return;
+    // More lenient unclamp threshold
+    if (distanceToSurface > clampDistance * 3f) {
+        isClamped = false;
+    }
+}
+
+private void TryToClampToWormBody() {
+    if (falseWormBody == null || endPoint == null) return;
+
+    Collider wormCollider = falseWormBody.GetComponent<Collider>();
+    if (wormCollider == null) return;
+
+    float clampDistance = GameParameters.distanceToClampPart;
+
+    // Use ClosestPoint - more reliable than raycast
+    Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);
+    float distanceToSurface = Vector3.Distance(endPoint.position, closestPoint);
+
+    // If within clamp distance, snap to surface
+    if (distanceToSurface <= clampDistance) {
+        Vector3 offset = endPoint.position - transform.position;
+        transform.position = closestPoint - offset;
+        isClamped = true;
+    }
+}
+        
+private void RotateTowardWormBody() {
+    if (falseWormBody == null || endPoint == null) return;
     
-            Vector3 localEndDirection = transform.InverseTransformPoint(endPoint.position).normalized;
+    Collider wormCollider = falseWormBody.GetComponent<Collider>();
+    if (wormCollider == null) return;
     
-            // Remove the negative sign here
-            Quaternion targetRotation = Quaternion.LookRotation(-directionToSurface);
+    // Get the closest point on the surface
+    Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);
     
-            Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
-            transform.rotation = targetRotation * Quaternion.Inverse(offsetRotation);
-        }
+    // Calculate surface normal (points outward from surface)
+    Vector3 surfaceNormal = (endPoint.position - closestPoint).normalized;
+    
+    // We want to face inward (opposite of the normal)
+    Vector3 inwardDirection = -surfaceNormal;
+    
+    if (inwardDirection.sqrMagnitude < 0.001f) return;
+    
+    // Get the local direction from center to endPoint
+    Vector3 localEndDirection = transform.InverseTransformPoint(endPoint.position).normalized;
+    
+    // Calculate rotation to point the forward axis inward
+    Quaternion targetRotation = Quaternion.LookRotation(inwardDirection);
+    
+    // Adjust for the endPoint offset
+    Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
+    
+    Quaternion finalRotation = targetRotation * Quaternion.Inverse(offsetRotation);
+    
+    // Smooth rotation when clamped
+    if (isClamped) {
+        transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, 0.3f);
+    }
+    else {
+        transform.rotation = finalRotation;
+    }
+}
 
         private bool CanMoveTo(Vector3 targetPosition)
         {
