@@ -282,15 +282,49 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     IgnorePartCollisionWithWorm(creaturePart, wormSegment);
 }
 
-private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment) {
-    int numSegments = GameParameters.NumSegmentCollisionsIgnored;
-    Collider partCollider = part.GetComponent<Collider>();
-    
-    if (partCollider == null || nearestWormSegment == null)
+private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
+{
+    if (part == null || nearestWormSegment == null)
         return;
-    
-    IgnoreCollisionsInDirection(partCollider, nearestWormSegment, true, numSegments);  // next
-    IgnoreCollisionsInDirection(partCollider, nearestWormSegment, false, numSegments); // previous
+
+    int numSegments = GameParameters.NumSegmentCollisionsIgnored;
+
+    // Get all colliders on the part and its children
+    Collider[] partColliders = part.GetComponentsInChildren<Collider>();
+
+    // Ignore collisions in both directions along the worm
+    IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
+    IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
+}
+
+private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
+{
+    Transform current = startSegment;
+
+    for (int i = 0; i < numSegments && current != null; i++)
+    {
+        // Get all colliders on this worm segment and its children
+        Collider[] segmentColliders = current.GetComponentsInChildren<Collider>();
+
+        // Ignore collisions between every part collider and every segment collider
+        foreach (var pCol in partColliders)
+        {
+            foreach (var sCol in segmentColliders)
+            {
+                Physics.IgnoreCollision(pCol, sCol, true);
+            }
+        }
+
+        // Move to next or previous segment safely
+        if (forward)
+        {
+            current = current.childCount > 0 ? current.GetChild(0) : null;
+        }
+        else
+        {
+            current = current.parent;
+        }
+    }
 }
 
 private void IgnoreCollisionsInDirection(Collider partCollider, Transform startSegment, bool useNext, int count) {

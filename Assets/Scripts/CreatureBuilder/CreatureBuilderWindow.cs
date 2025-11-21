@@ -116,33 +116,40 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
     private bool IsOverCreaturePart(out GameObject hitObject)
     {
         hitObject = null;
-    
+
         if (targetCamera == null || gameObject.GetComponent<RectTransform>() == null)
             return false;
-    
+
         Vector3[] corners = new Vector3[4];
         gameObject.GetComponent<RectTransform>().GetWorldCorners(corners);
-    
+
         Vector2 mousePos = Input.mousePosition;
-    
+
         float viewportX = Mathf.InverseLerp(corners[0].x, corners[2].x, mousePos.x);
         float viewportY = Mathf.InverseLerp(corners[0].y, corners[2].y, mousePos.y);
-    
+
         viewportX = Mathf.Clamp01(viewportX);
         viewportY = Mathf.Clamp01(viewportY);
-    
+
         Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
-        RaycastHit hit;
-    
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.CompareTag("CreaturePart"))
+            Transform current = hit.collider.transform;
+
+            // Walk up the hierarchy until we find a CreaturePart
+            int safetyCounter = 0; // prevent infinite loops
+            while (current != null && safetyCounter < 10)
             {
-                hitObject = hit.collider.gameObject;
-                return true;
+                if (current.CompareTag("CreaturePart"))
+                {
+                    hitObject = current.gameObject;
+                    return true;
+                }
+                current = current.parent;
+                safetyCounter++;
             }
         }
-    
+
         return false;
     }
 }
