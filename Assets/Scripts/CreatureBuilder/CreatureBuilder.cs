@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CreatureParts;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace CreatureBuilder
     {
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
         public List<GameObject> parts = new List<GameObject>();
+        public List<GameObject> legs = new List<GameObject>();
         
         public Camera targetCamera;
         public CinemachineCamera cinemachineCamera;
@@ -180,12 +182,23 @@ namespace CreatureBuilder
     }
     
     parts.Clear();
-    
+    SetLegOrder();
     // Return all remaining cards from the creature builder inventory to player
     ReturnAllCardsToPlayerInventory();
 }
 
-private void ReturnPartToPlayerInventory(GameObject part)
+        private void SetLegOrder()
+        {
+            int numLegs = legs.Count;
+            float totalTime = GameParameters.legMoveTime;
+
+            for (int i = 0; i < legs.Count; i++)
+            {
+                legs[i].GetComponent<LegPart>().timeOffset = (i * (totalTime / numLegs));
+            }
+        }
+
+        private void ReturnPartToPlayerInventory(GameObject part)
 {
     // Find the matching card prefab
     string keyName = part.name.Replace("(Clone)", "").Trim();
@@ -248,6 +261,7 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     if (creaturePart.GetComponent<PartDragging>().partData.name.Equals("leg"))
     {
         Player.Player.Instance.MaxVelocity += GameParameters.legMaxVelocityIncrease;
+        legs.Add(creaturePart);
     }
     
     // Configure or get rigidbody
