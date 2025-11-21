@@ -203,21 +203,20 @@ private void Drag() {
         private void RotateTowardWormBody() {
             if (falseWormBody == null || endPoint == null) return;
     
-            // Get the local direction from center to endPoint (in the part's local space)
+            Collider wormCollider = falseWormBody.GetComponent<Collider>();
+            if (wormCollider == null) return;
+    
+            Vector3 nearestPoint = wormCollider.ClosestPoint(endPoint.position);
+            Vector3 directionToSurface = (nearestPoint - endPoint.position).normalized;
+    
+            if (directionToSurface.sqrMagnitude < 0.001f) return;
+    
             Vector3 localEndDirection = transform.InverseTransformPoint(endPoint.position).normalized;
     
-            // Calculate direction from this object's center to the worm body
-            Vector3 directionToTarget = (falseWormBody.transform.position - transform.position).normalized;
+            // Remove the negative sign here
+            Quaternion targetRotation = Quaternion.LookRotation(-directionToSurface);
     
-            if (directionToTarget.sqrMagnitude < 0.001f) return;
-    
-            // Calculate base rotation that points forward axis at target
-            Quaternion targetRotation = Quaternion.LookRotation(-directionToTarget);
-    
-            // Calculate the offset needed to align the endPoint direction with forward
             Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
-    
-            // Apply both rotations
             transform.rotation = targetRotation * Quaternion.Inverse(offsetRotation);
         }
 
