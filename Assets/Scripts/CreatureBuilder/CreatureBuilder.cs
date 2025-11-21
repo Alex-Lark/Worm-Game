@@ -16,7 +16,7 @@ namespace CreatureBuilder
     public class CreatureBuilder : MonoBehaviour
     {
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
-        private List<GameObject> parts = new List<GameObject>();
+        public List<GameObject> parts = new List<GameObject>();
         
         public Camera targetCamera;
         public CinemachineCamera cinemachineCamera;
@@ -128,7 +128,7 @@ namespace CreatureBuilder
             }
         }
 
-        public void SwitchTo2DCard(GameObject partPrefab)
+        public void SwitchTo2DCard(GameObject partPrefab, GameObject caller)
         {
             if (partPrefab == null)
             {
@@ -148,8 +148,8 @@ namespace CreatureBuilder
                     SpawnCardInInventory(pair.cardPrefab);
             
                     // Destroy the 3D part
-                    parts.Remove(partPrefab);
-                    Destroy(partPrefab);
+                    parts.Remove(caller);
+                    Destroy(caller);
                     return;
                 }
             }

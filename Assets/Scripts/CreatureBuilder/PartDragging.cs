@@ -56,7 +56,7 @@ namespace CreatureBuilder
             {
                 if (isSelected)
                 {
-                    _creatureBuilder.SwitchTo2DCard(prefab);
+                    _creatureBuilder.SwitchTo2DCard(prefab, gameObject);
                     Destroy(gameObject);
                 }
             }

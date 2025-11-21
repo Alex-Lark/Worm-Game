@@ -7,16 +7,41 @@ namespace CreatureParts
     {
         private bool isMoving;
         private Coroutine movementCoroutine;
-        
+
+        [Tooltip("Speed at which the leg rotates to align with the ground")]
+        public float rotationSpeed = 10f;
+
         void FixedUpdate()
         {
             base.FixedUpdate();
             isMoving = false;
+
+            // Align leg with ground if grounded
+            if (IsGrounded && GroundObject != null)
+            {
+                Rigidbody groundRb = GroundObject.GetComponent<Rigidbody>();
+                Vector3 groundNormal = Vector3.up;
+
+                // Try to get normal from the collider if possible
+                Collider groundCollider = GroundObject.GetComponent<Collider>();
+                if (groundCollider != null)
+                {
+                    // Raycast down from leg to get ground normal
+                    Ray ray = new Ray(transform.position, -transform.up);
+                    if (groundCollider.Raycast(ray, out RaycastHit hit, 1f))
+                    {
+                        groundNormal = hit.normal;
+                    }
+                }
+
+                // Smoothly rotate leg so its up points along the ground normal
+                Quaternion targetRotation = Quaternion.FromToRotation(transform.up, groundNormal) * transform.rotation;
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            }
         }
-    
+
         public override void MoveForward()
         {
-            print("moveForward called");
             if (IsGrounded)
             {
                 isMoving = true;
@@ -25,11 +50,10 @@ namespace CreatureParts
                 {
                     if (GroundObject != null)
                     {
-                        print("leg part moving forward");
-                        Rigidbody groundRb = GroundObject.GetComponent<Rigidbody>();
-                        if (groundRb != null)
+                        Rigidbody rb = GroundObject.GetComponent<Rigidbody>();
+                        if (rb != null)
                         {
-                            groundRb.AddForceAtPosition(-GameParameters.legMoveForce * (transform.forward + transform.up), transform.position);
+                            rb.AddForceAtPosition(-GameParameters.legMoveForce * (transform.forward + transform.up), transform.position);
                         }
                         else
                         {
@@ -49,8 +73,11 @@ namespace CreatureParts
 
         public override void Jump()
         {
-            Vector3 jumpDirection = Vector3.Slerp(transform.up, Vector3.up, GameParameters.WormJumpAngle).normalized;
-            gameObject.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.legJumpForce);
+            if (IsGrounded)
+            {
+                Vector3 jumpDirection = Vector3.Slerp(transform.up, Vector3.up, GameParameters.WormJumpAngle).normalized;
+                gameObject.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.legJumpForce);
+            }
         }
     }
 }
