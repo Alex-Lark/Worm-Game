@@ -239,19 +239,47 @@ private void ReturnAllCardsToPlayerInventory()
     }
 }
 
-        private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
-        {
-            print("adding part to worm");
-            creaturePart.transform.parent = Player.Player.Instance.transform;
-            creaturePart.GetComponent<CreaturePart>().enabled = false;
-            if (creaturePart.GetComponent<CreaturePart>().partData.name.Equals("leg"))
-            {
-                Player.Player.Instance.MaxVelocity += GameParameters.legMaxVelocityIncrease;
-            }
-            FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
-            fixedJoint.connectedBody = wormSegment.GetComponent<Rigidbody>();
-            Player.Player.Instance.attachedWormParts.Add(creaturePart);
-        }
+private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
+{
+    print("adding part to worm");
+    creaturePart.transform.parent = Player.Player.Instance.transform;
+    creaturePart.GetComponent<CreaturePart>().enabled = false;
+    
+    if (creaturePart.GetComponent<CreaturePart>().partData.name.Equals("leg"))
+    {
+        Player.Player.Instance.MaxVelocity += GameParameters.legMaxVelocityIncrease;
+    }
+    
+    // Configure or get rigidbody
+    Rigidbody partRigidbody = creaturePart.GetComponent<Rigidbody>();
+    if (partRigidbody == null)
+    {
+        partRigidbody = creaturePart.AddComponent<Rigidbody>();
+    }
+    
+    // Match the worm segment's rigidbody settings
+    Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
+    if (segmentRigidbody != null)
+    {
+        partRigidbody.mass = segmentRigidbody.mass;
+        partRigidbody.drag = segmentRigidbody.drag;
+        partRigidbody.angularDrag = segmentRigidbody.angularDrag;
+        partRigidbody.interpolation = segmentRigidbody.interpolation;
+        partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
+    }
+    
+    // Setup the fixed joint
+    FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
+    fixedJoint.connectedBody = segmentRigidbody;
+    fixedJoint.breakForce = Mathf.Infinity;
+    fixedJoint.breakTorque = Mathf.Infinity;
+    fixedJoint.enableCollision = false;
+    fixedJoint.enablePreprocessing = true;
+    
+    Player.Player.Instance.attachedWormParts.Add(creaturePart);
+    
+    // Handle collisions with worm body
+}
 
         private Transform FindNearestWormSegment(GameObject part) 
         {

@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameEndScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameEndScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,15 +181,7 @@
       <workItem from="1763600674101" duration="5232000" />
       <workItem from="1763607555554" duration="3312000" />
       <workItem from="1763676145065" duration="2584000" />
-      <workItem from="1763682866066" duration="3451000" />
-    </task>
-    <task id="LOCAL-00013" summary="worm movement refactored to worm forward movement">
-      <option name="closed" value="true" />
-      <created>1759963790707</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1759963790709</updated>
+      <workItem from="1763682866066" duration="4594000" />
     </task>
     <task id="LOCAL-00014" summary="movement tweaks/updates wip">
       <option name="closed" value="true" />
@@ -575,7 +567,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763684623234</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="end scene displays winner">
+      <option name="closed" value="true" />
+      <created>1763686732542</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1763686732542</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -602,7 +602,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="can drag 3d objects into creaturebuilder window" />
     <MESSAGE value="can drag" />
     <MESSAGE value="can drag parts into creature builder window" />
     <MESSAGE value="parts while dragging have outline" />
@@ -627,7 +626,8 @@
     <MESSAGE value="code better organized" />
     <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
     <MESSAGE value="game is repeatable after going to the main menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="game is repeatable after going to the main menu" />
+    <MESSAGE value="end scene displays winner" />
+    <option name="LAST_COMMIT_MESSAGE" value="end scene displays winner" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
