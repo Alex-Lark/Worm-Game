@@ -182,15 +182,7 @@
       <workItem from="1763607555554" duration="3312000" />
       <workItem from="1763676145065" duration="2584000" />
       <workItem from="1763682866066" duration="4594000" />
-      <workItem from="1763693285257" duration="9118000" />
-    </task>
-    <task id="LOCAL-00017" summary="improved jumping wip">
-      <option name="closed" value="true" />
-      <created>1759974403271</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1759974403271</updated>
+      <workItem from="1763693285257" duration="11123000" />
     </task>
     <task id="LOCAL-00018" summary="added debug helper">
       <option name="closed" value="true" />
@@ -576,7 +568,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763701636916</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="dragging improved">
+      <option name="closed" value="true" />
+      <created>1763702537973</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1763702537973</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -603,7 +603,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="can drag parts around in gui" />
     <MESSAGE value="creature parts can be deleted and return to inventory slot" />
     <MESSAGE value="worm is kinematic in creature builder scene." />
     <MESSAGE value="objects collide with eachother." />
@@ -628,7 +627,8 @@
     <MESSAGE value="worm parts are more stable and don't collide with body segments" />
     <MESSAGE value="wormParts no longer rotate towards the exact center" />
     <MESSAGE value="dragging imrpoved but rotation is broken again" />
-    <option name="LAST_COMMIT_MESSAGE" value="dragging imrpoved but rotation is broken again" />
+    <MESSAGE value="dragging improved" />
+    <option name="LAST_COMMIT_MESSAGE" value="dragging improved" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

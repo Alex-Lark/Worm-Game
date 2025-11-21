@@ -217,38 +217,84 @@ private void DragAlongSurface(Vector3 mouseDelta) {
 }
 
 private void RotateTowardWormBody() {
-    if (falseWormBody == null || endPoint == null) return;
+    Debug.Log("RotateTowardWormBody called");
     
-    Collider wormCollider = falseWormBody.GetComponent<Collider>();
-    if (wormCollider == null) return;
-    
-    // Get the closest point on the surface to the endpoint
-    Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);
-    
-    // Calculate the surface normal (outward from surface)
-    Vector3 surfaceNormal = (endPoint.position - closestPoint);
-    
-    if (surfaceNormal.sqrMagnitude < 0.0001f) {
-        // Too close to surface, use center-based normal
-        surfaceNormal = (endPoint.position - falseWormBody.transform.position);
+    if (falseWormBody == null || endPoint == null) {
+        Debug.Log("falseWormBody or endPoint is null");
+        return;
     }
     
-    surfaceNormal.Normalize();
+    Collider wormCollider = falseWormBody.GetComponent<Collider>();
+    if (wormCollider == null) {
+        Debug.Log("wormCollider is null");
+        return;
+    }
     
-    // Inward direction (opposite of surface normal - INTO the body)
-    Vector3 desiredDirection = -surfaceNormal;
+    // Get closest point on surface
+    Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);
+    
+    // Cast from endpoint toward closest point
+    Vector3 toClosest = (closestPoint - endPoint.position);
+    float distance = toClosest.magnitude;
+    
+    Debug.Log("Distance to closest: " + distance);
+    
+    if (distance < 0.001f) {
+        Debug.Log("Distance too small, returning");
+        return;
+    }
+    
+    Vector3 rayDirection = toClosest / distance; // Normalize
+    
+    RaycastHit hit;
+    Vector3 inwardDirection = Vector3.zero;
+    bool hitSuccess = false;
+    
+    // Simple single raycast first
+    if (Physics.Raycast(endPoint.position, rayDirection, out hit, distance + 1f)) {
+        Debug.Log("Raycast hit: " + hit.collider.name + " normal: " + hit.normal);
+        
+        if (hit.collider == wormCollider) {
+            inwardDirection = -hit.normal;
+            hitSuccess = true;
+            
+            Debug.DrawRay(hit.point, hit.normal * 1f, Color.blue);
+            Debug.DrawRay(hit.point, inwardDirection * 1f, Color.red);
+        }
+    } else {
+        Debug.Log("Raycast missed");
+    }
+    
+    if (!hitSuccess) {
+        Debug.Log("Using fallback");
+        Vector3 surfaceNormal = (endPoint.position - closestPoint).normalized;
+        if (surfaceNormal.sqrMagnitude < 0.001f) {
+            surfaceNormal = (endPoint.position - falseWormBody.transform.position).normalized;
+        }
+        inwardDirection = -surfaceNormal;
+        
+        Debug.DrawRay(endPoint.position, inwardDirection * 1f, Color.yellow);
+    }
+    
+    if (inwardDirection == Vector3.zero) {
+        Debug.Log("inwardDirection is zero, returning");
+        return;
+    }
     
     // Current direction from part center to endpoint
-    Vector3 currentEndpointDirection = (endPoint.position - transform.position).normalized;
+    Vector3 centerToEndpointLocal = (endPoint.position - transform.position).normalized;
+    Debug.DrawRay(transform.position, centerToEndpointLocal * 1f, Color.green);
     
-    // Calculate what rotation would align currentEndpointDirection with desiredDirection
-    Quaternion rotationNeeded = Quaternion.FromToRotation(currentEndpointDirection, desiredDirection);
+    Debug.Log("Applying rotation - inward: " + inwardDirection + " center to endpoint: " + centerToEndpointLocal);
     
-    // Apply this rotation to the part's current rotation
-    Quaternion targetRotation = rotationNeeded * transform.rotation;
+    // Calculate rotation
+    Quaternion alignmentRotation = Quaternion.FromToRotation(centerToEndpointLocal, inwardDirection);
+    Quaternion targetRotation = alignmentRotation * transform.rotation;
     
     // Smooth it
     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.3f);
+    
+    Debug.Log("Final rotation: " + transform.rotation.eulerAngles);
 }
 
 private void TryToClampToWormBody() {
