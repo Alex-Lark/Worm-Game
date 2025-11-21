@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/WormGameSceneSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/WormGameSceneSwitcher.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameEndScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameEndScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +38,11 @@
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scenes/GameLobbyScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePartData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/Player.cs.meta" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/Player.cs.meta" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/WormLeague/Ball.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (1).unity" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -185,15 +181,7 @@
       <workItem from="1763600674101" duration="5232000" />
       <workItem from="1763607555554" duration="3312000" />
       <workItem from="1763676145065" duration="2584000" />
-      <workItem from="1763682866066" duration="1726000" />
-    </task>
-    <task id="LOCAL-00012" summary="head has vertical control when ungrounded">
-      <option name="closed" value="true" />
-      <created>1759905852512</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1759905852512</updated>
+      <workItem from="1763682866066" duration="3451000" />
     </task>
     <task id="LOCAL-00013" summary="worm movement refactored to worm forward movement">
       <option name="closed" value="true" />
@@ -579,7 +567,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763680384058</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="game is repeatable after going to the main menu">
+      <option name="closed" value="true" />
+      <created>1763684623234</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1763684623234</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +602,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed api issue in worm head but" />
     <MESSAGE value="can drag 3d objects into creaturebuilder window" />
     <MESSAGE value="can drag" />
     <MESSAGE value="can drag parts into creature builder window" />
@@ -631,7 +626,8 @@
     <MESSAGE value="can move parts from a previous round around" />
     <MESSAGE value="code better organized" />
     <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
-    <option name="LAST_COMMIT_MESSAGE" value="undid previous worm attachement changes because it was glitchy" />
+    <MESSAGE value="game is repeatable after going to the main menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="game is repeatable after going to the main menu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
