@@ -295,6 +295,10 @@ namespace Player
             {
                 IsWormJumping = true;
                 _wormJump.Jump();
+                foreach (var part in attachedWormParts)
+                {
+                    part.GetComponent<WormPart>().Jump();
+                }
             }
             IsWormJumping = false;
         }

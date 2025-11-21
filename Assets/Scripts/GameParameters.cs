@@ -75,7 +75,7 @@ public static class GameParameters
 
     [Header("Worm Leg")] 
     public static float legMaxVelocityIncrease = 1f;
-    public static float legMoveForce = 50000f;
+    public static float legMoveForce = 5000f;
     public static float legMoveTime = 0.5f;
     public static float legJumpForce = 4000f;
     

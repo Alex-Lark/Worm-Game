@@ -47,14 +47,10 @@ namespace CreatureParts
             movementCoroutine = null;
         }
 
-        public void Jump()
+        public override void Jump()
         {
-            
-        }
-
-        public void Headbut()
-        {
-        
+            Vector3 jumpDirection = Vector3.Slerp(transform.up, Vector3.up, GameParameters.WormJumpAngle).normalized;
+            gameObject.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.legJumpForce);
         }
     }
 }
