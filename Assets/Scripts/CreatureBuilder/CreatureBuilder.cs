@@ -262,8 +262,8 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     if (segmentRigidbody != null)
     {
         partRigidbody.mass = segmentRigidbody.mass;
-        partRigidbody.drag = segmentRigidbody.drag;
-        partRigidbody.angularDrag = segmentRigidbody.angularDrag;
+        partRigidbody.linearDamping = segmentRigidbody.linearDamping;
+        partRigidbody.angularDamping = segmentRigidbody.angularDamping;
         partRigidbody.interpolation = segmentRigidbody.interpolation;
         partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
     }
@@ -278,7 +278,34 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     
     Player.Player.Instance.attachedWormParts.Add(creaturePart);
     
-    // Handle collisions with worm body
+    
+    IgnorePartCollisionWithWorm(creaturePart, wormSegment);
+}
+
+private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment) {
+    int numSegments = GameParameters.NumSegmentCollisionsIgnored;
+    Collider partCollider = part.GetComponent<Collider>();
+    
+    if (partCollider == null || nearestWormSegment == null)
+        return;
+    
+    IgnoreCollisionsInDirection(partCollider, nearestWormSegment, true, numSegments);  // next
+    IgnoreCollisionsInDirection(partCollider, nearestWormSegment, false, numSegments); // previous
+}
+
+private void IgnoreCollisionsInDirection(Collider partCollider, Transform startSegment, bool useNext, int count) {
+    WormBodySegment current = startSegment.GetComponent<WormBodySegment>();
+    
+    for (int i = 0; i < count && current != null; i++)
+    {
+        Collider segmentCollider = current.GetComponent<Collider>();
+        if (segmentCollider != null)
+        {
+            Physics.IgnoreCollision(partCollider, segmentCollider, true);
+        }
+        
+        current = useNext ? (current.nextSegment as WormBodySegment) : (current.previousSegment as WormBodySegment);
+    }
 }
 
         private Transform FindNearestWormSegment(GameObject part) 

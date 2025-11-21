@@ -5,6 +5,10 @@ using UnityEngine;
 public class WormBodySegment : WormPart
 {
     public bool IsScrunched { get; private set; }
+    
+    public WormPart previousSegment;
+    public WormPart nextSegment;
+    
     private Coroutine _scrunchCoroutine;
 
     void Start()

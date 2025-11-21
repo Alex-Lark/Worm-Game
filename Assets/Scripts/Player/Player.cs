@@ -360,12 +360,23 @@ namespace Player
             wormVisualHead.rotation = clampedRotation;
         }
 
-        private void CreateWormSegments()
-        {
+        private void CreateWormSegments() {
+            WormPart previousSegment = wormHead.GetComponent<WormPart>();
+    
+            // First pass: create all segments and set previousSegment
             for (int i = 0; i < _wormSegmentCount; i++)
             {
                 GameObject newWormSegment = Instantiate(wormSegmentPrefab, transform);
+                newWormSegment.GetComponent<WormBodySegment>().previousSegment = previousSegment;
                 wormBodySegments.Add(newWormSegment.transform);
+        
+                previousSegment = newWormSegment.GetComponent<WormBodySegment>();
+            }
+            
+            for (int i = 0; i < wormBodySegments.Count - 1; i++)
+            {
+                wormBodySegments[i].GetComponent<WormBodySegment>().nextSegment = 
+                    wormBodySegments[i + 1].GetComponent<WormBodySegment>();
             }
         }
 
