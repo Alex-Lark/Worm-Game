@@ -69,9 +69,16 @@ public class WormBodySegment : WormPart
             contactDistance = 0f
         };
         
+        // NEW: reduce twist (Y axis) only
+        SoftJointLimit yReduced = new SoftJointLimit {
+            limit = maxAngle * 0.15f,   // keeps behavior but reduces twisting massively
+            bounciness = 0.1f,
+            contactDistance = 0f
+        };
+        
         joint.lowAngularXLimit = lowXLimit;
         joint.highAngularXLimit = highXLimit;
-        joint.angularYLimit = yzLimit;
+        joint.angularYLimit = yReduced;   // << only twist is restricted
         joint.angularZLimit = yzLimit;
         
         // Configure spring and damper on limits

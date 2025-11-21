@@ -320,7 +320,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2609974457177635915}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a7a9dec7f3c50f34ca7d927b02399b66, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1097,7 +1097,7 @@ RectTransform:
   m_GameObject: {fileID: 6294173655021920613}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.4, y: 0.3, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7060105854958919073}
@@ -1175,7 +1175,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6294173655021920613}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a7a9dec7f3c50f34ca7d927b02399b66, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1221,6 +1221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1fad15e3244652bca82eaf498e4694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.LegPart
+  foot: {fileID: 2609974457177635915}
+  rotationSpeed: 10
+  footRotationSpeed: 15
 --- !u!95 &9045488090939722094
 Animator:
   serializedVersion: 7

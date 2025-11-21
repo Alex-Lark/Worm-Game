@@ -268,17 +268,35 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
         partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
     }
     
-    // Setup the fixed joint
-    FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
-    fixedJoint.connectedBody = segmentRigidbody;
-    fixedJoint.breakForce = Mathf.Infinity;
-    fixedJoint.breakTorque = Mathf.Infinity;
-    fixedJoint.enableCollision = false;
-    fixedJoint.enablePreprocessing = true;
-    
+    // --- HINGE JOINT SETUP ---
+    // Find endpoint
+    Transform endPoint = creaturePart.GetComponent<PartDragging>().endPoint;
+    if (endPoint == null)
+    {
+        Debug.LogError("No endPoint found on part: " + creaturePart.name);
+        return;
+    }
+
+    // Add hinge joint
+    HingeJoint hinge = creaturePart.AddComponent<HingeJoint>();
+    hinge.connectedBody = segmentRigidbody;
+
+    // Position the hinge at the endpoint in local space
+    hinge.anchor = creaturePart.transform.InverseTransformPoint(endPoint.position);
+
+    // Allow a little rotation (you can tune these)
+    JointLimits limits = hinge.limits;
+    limits.min = -20f;   // degrees
+    limits.max = 20f;    // degrees
+    hinge.limits = limits;
+    hinge.useLimits = true;
+
+    // Optional: smoothing for stability
+    hinge.enablePreprocessing = true;
+    hinge.enableCollision = false;
+
     Player.Player.Instance.attachedWormParts.Add(creaturePart);
-    
-    
+
     IgnorePartCollisionWithWorm(creaturePart, wormSegment);
 }
 
@@ -295,6 +313,11 @@ private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormS
     // Ignore collisions in both directions along the worm
     IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
     IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
+
+    foreach (var attachedWormPart in Player.Player.Instance.attachedWormParts)
+    {
+        Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
+    }
 }
 
 private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)

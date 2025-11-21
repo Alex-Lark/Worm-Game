@@ -5,63 +5,107 @@ namespace CreatureParts
 {
     public class LegPart : WormPart
     {
+        public GameObject foot;
+
         private bool isMoving;
         private Coroutine movementCoroutine;
 
         [Tooltip("Speed at which the leg rotates to align with the ground")]
         public float rotationSpeed = 10f;
 
+        [Tooltip("Speed at which the foot rotates to align with the ground")]
+        public float footRotationSpeed = 15f;
+
         void FixedUpdate()
         {
             base.FixedUpdate();
             isMoving = false;
 
-            // Align leg with ground if grounded
             if (IsGrounded && GroundObject != null)
             {
-                Rigidbody groundRb = GroundObject.GetComponent<Rigidbody>();
-                Vector3 groundNormal = Vector3.up;
+                Vector3 groundNormal = GetGroundNormal();
 
-                // Try to get normal from the collider if possible
-                Collider groundCollider = GroundObject.GetComponent<Collider>();
-                if (groundCollider != null)
+                // --- LEG ROTATION ---
+                Quaternion legTargetRotation =
+                    Quaternion.FromToRotation(transform.up, groundNormal) * transform.rotation;
+
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    legTargetRotation,
+                    rotationSpeed * Time.fixedDeltaTime
+                );
+
+                // --- FOOT ROTATION ---
+                if (foot != null)
                 {
-                    // Raycast down from leg to get ground normal
-                    Ray ray = new Ray(transform.position, -transform.up);
-                    if (groundCollider.Raycast(ray, out RaycastHit hit, 1f))
-                    {
-                        groundNormal = hit.normal;
-                    }
-                }
+                    Quaternion footTargetRotation =
+                        Quaternion.FromToRotation(foot.transform.up, groundNormal) * foot.transform.rotation;
 
-                // Smoothly rotate leg so its up points along the ground normal
-                Quaternion targetRotation = Quaternion.FromToRotation(transform.up, groundNormal) * transform.rotation;
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+                    foot.transform.rotation = Quaternion.Slerp(
+                        foot.transform.rotation,
+                        footTargetRotation,
+                        footRotationSpeed * Time.fixedDeltaTime
+                    );
+                }
             }
+
+            if (!IsGrounded)
+            {
+                transform.localScale = new Vector3(transform.localScale.y, 0.2f, transform.localScale.z); //shrinks it's height
+            }
+            else
+            {
+                transform.localScale = new Vector3(transform.localScale.y, 0.3f, transform.localScale.z); //grows it's height
+            }
+        }
+
+        private Vector3 GetGroundNormal()
+        {
+            Vector3 groundNormal = Vector3.up;
+
+            Collider groundCollider = GroundObject.GetComponent<Collider>();
+            if (groundCollider != null)
+            {
+                Ray ray = new Ray(transform.position, -transform.up);
+                if (groundCollider.Raycast(ray, out RaycastHit hit, 1f))
+                {
+                    groundNormal = hit.normal;
+                }
+            }
+            return groundNormal;
         }
 
         public override void MoveForward()
         {
-            if (IsGrounded)
-            {
-                isMoving = true;
+            if (!IsGrounded) return;
 
-                if (movementCoroutine == null)
+            isMoving = true;
+
+            if (movementCoroutine == null)
+            {
+                if (GroundObject != null)
                 {
-                    if (GroundObject != null)
+                    Vector3 moveDir = (transform.up * 0.99f + transform.forward * 0.5f).normalized;
+                    
+                    Rigidbody rb = GroundObject.GetComponent<Rigidbody>();
+                    if (rb != null)
                     {
-                        Rigidbody rb = GroundObject.GetComponent<Rigidbody>();
-                        if (rb != null)
-                        {
-                            rb.AddForceAtPosition(-GameParameters.legMoveForce * (transform.forward + transform.up), transform.position);
-                        }
-                        else
-                        {
-                            gameObject.GetComponent<Rigidbody>().AddForce(-GameParameters.legMoveForce * (transform.forward + transform.up));
-                        }
+                        rb.AddForceAtPosition(
+                            -GameParameters.legMoveForce * (moveDir),
+                            transform.position
+                        );
                     }
-                    movementCoroutine = StartCoroutine(MoveForwardTimer());
+                    else
+                    {
+                        GetComponent<Rigidbody>().AddForce(
+                            -GameParameters.legMoveForce * (moveDir)
+                        );
+                    }
                 }
+
+                transform.localScale = new Vector3(transform.localScale.y, 0.2f, transform.localScale.z); //shrinks it's height
+                
+                movementCoroutine = StartCoroutine(MoveForwardTimer());
             }
         }
 
@@ -75,8 +119,12 @@ namespace CreatureParts
         {
             if (IsGrounded)
             {
-                Vector3 jumpDirection = Vector3.Slerp(transform.up, Vector3.up, GameParameters.WormJumpAngle).normalized;
-                gameObject.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.legJumpForce);
+                Vector3 jumpDirection =
+                    Vector3.Slerp(transform.up, Vector3.up, GameParameters.WormJumpAngle).normalized;
+
+                GetComponent<Rigidbody>().AddForce(
+                    jumpDirection * GameParameters.legJumpForce
+                );
             }
         }
     }
