@@ -11,6 +11,7 @@ public class WormGameSceneSwitcher : MonoBehaviour
     public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenuScene");
+        GameLoop.Instance.Reset();
         Player.Player.Instance.DeactivatePlayer();
     }
 

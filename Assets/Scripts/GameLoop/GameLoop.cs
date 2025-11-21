@@ -7,6 +7,7 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
     public float TimeLeftInScene { get; private set; }
+    public bool isGameLoopRunning { get; private set; }
     public List<Player.Player> players;
     public List<GameObject> partCards = new List<GameObject>();
     
@@ -20,6 +21,7 @@ public class GameLoop : MonoBehaviour
     private int timeForLeaderboard;
     private bool skipCreatureBuilding1stRound = false;
 
+    private Coroutine gameLoop;
     private WormGameSceneSwitcher sceneSwitcher;
     private bool sceneReady = false;
     private void Awake()
@@ -49,9 +51,17 @@ public class GameLoop : MonoBehaviour
         sceneSwitcher.OnSceneLoaded += HandleSceneLoaded;
     }
 
+    public void Reset()
+    {
+        StopCoroutine(gameLoop);
+        TimeLeftInScene = 0;
+        isGameLoopRunning = false;
+    }
+
     public void StartGame()
     {
-        StartCoroutine(RunGameLoop());
+        isGameLoopRunning = true;
+        gameLoop = StartCoroutine(RunGameLoop());
     }
 
     private IEnumerator RunGameLoop()

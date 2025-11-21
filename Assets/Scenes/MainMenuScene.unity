@@ -3018,6 +3018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputHandler
   isJumping: 0
+  isAttacking: 0
 --- !u!4 &1406223079
 Transform:
   m_ObjectHideFlags: 0
