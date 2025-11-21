@@ -191,110 +191,100 @@ private void DragAlongSurface(Vector3 mouseDelta) {
     
     // Get current position on surface
     Vector3 currentClosest = wormCollider.ClosestPoint(endPoint.position);
-    Vector3 surfaceNormal = (endPoint.position - currentClosest).normalized;
+    Vector3 surfaceNormal = (endPoint.position - currentClosest);
+    float currentDistance = surfaceNormal.magnitude;
+    
+    // Normalize or use fallback
+    if (currentDistance < 0.001f) {
+        surfaceNormal = (endPoint.position - falseWormBody.transform.position).normalized;
+    } else {
+        surfaceNormal = surfaceNormal / currentDistance;
+    }
     
     // Project mouse delta onto the tangent plane (perpendicular to surface normal)
     Vector3 tangentDelta = mouseDelta - Vector3.Dot(mouseDelta, surfaceNormal) * surfaceNormal;
     
+    // Scale down the movement to make dragging less sensitive
+    float dragSensitivity = 0.7f; // Lower = less sensitive (try 0.3 - 0.7)
+    tangentDelta *= dragSensitivity;
+    
+    // Only apply tangent movement if it's significant enough
+    if (tangentDelta.magnitude < 0.0001f) return;
+    
     // Move the part by this tangent delta
     Vector3 newPosition = transform.position + tangentDelta;
     
-    // Now snap back to the surface
+    // Calculate where endpoint would be
     Vector3 offset = endPoint.position - transform.position;
     Vector3 newEndPoint = newPosition + offset;
+    
+    // Find closest point for new position
     Vector3 newClosest = wormCollider.ClosestPoint(newEndPoint);
     
-    transform.position = newClosest - offset;
+    // Calculate new normal
+    Vector3 newNormal = (newEndPoint - newClosest);
+    float newDistance = newNormal.magnitude;
+    
+    if (newDistance < 0.001f) {
+        newNormal = (newEndPoint - falseWormBody.transform.position).normalized;
+    } else {
+        newNormal = newNormal / newDistance;
+    }
+    
+    // Keep a small consistent offset from surface to prevent z-fighting and penetration
+    float targetOffset = 0.02f;
+    Vector3 finalEndPoint = newClosest + newNormal * targetOffset;
+    
+    transform.position = finalEndPoint - offset;
     
     // Check if we should unclamp (dragged too far from surface)
     float clampDistance = GameParameters.distanceToClampPart;
     float distanceToSurface = Vector3.Distance(endPoint.position, wormCollider.ClosestPoint(endPoint.position));
     
-    // More lenient unclamp threshold
     if (distanceToSurface > clampDistance * 3f) {
         isClamped = false;
     }
 }
 
 private void RotateTowardWormBody() {
-    Debug.Log("RotateTowardWormBody called");
-    
-    if (falseWormBody == null || endPoint == null) {
-        Debug.Log("falseWormBody or endPoint is null");
-        return;
-    }
+    if (falseWormBody == null || endPoint == null) return;
     
     Collider wormCollider = falseWormBody.GetComponent<Collider>();
-    if (wormCollider == null) {
-        Debug.Log("wormCollider is null");
-        return;
-    }
+    if (wormCollider == null) return;
     
-    // Get closest point on surface
-    Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);
+    // Offset the endpoint slightly outward for raycast
+    Vector3 wormCenter = falseWormBody.transform.position;
+    Vector3 wormToEndpoint = endPoint.position - wormCenter;
     
-    // Cast from endpoint toward closest point
-    Vector3 toClosest = (closestPoint - endPoint.position);
-    float distance = toClosest.magnitude;
+    if (wormToEndpoint.magnitude < 0.001f) return;
     
-    Debug.Log("Distance to closest: " + distance);
-    
-    if (distance < 0.001f) {
-        Debug.Log("Distance too small, returning");
-        return;
-    }
-    
-    Vector3 rayDirection = toClosest / distance; // Normalize
+    Vector3 outwardDir = wormToEndpoint.normalized;
+    float offset = 0.15f; // Slightly larger offset for more reliable raycast
+    Vector3 offsetEndpoint = endPoint.position + outwardDir * offset;
+    Vector3 rayDir = -outwardDir;
     
     RaycastHit hit;
-    Vector3 inwardDirection = Vector3.zero;
-    bool hitSuccess = false;
+    Vector3 inwardDirection = rayDir;
     
-    // Simple single raycast first
-    if (Physics.Raycast(endPoint.position, rayDirection, out hit, distance + 1f)) {
-        Debug.Log("Raycast hit: " + hit.collider.name + " normal: " + hit.normal);
-        
+    if (Physics.Raycast(offsetEndpoint, rayDir, out hit, offset + 0.5f)) {
         if (hit.collider == wormCollider) {
             inwardDirection = -hit.normal;
-            hitSuccess = true;
-            
             Debug.DrawRay(hit.point, hit.normal * 1f, Color.blue);
             Debug.DrawRay(hit.point, inwardDirection * 1f, Color.red);
         }
-    } else {
-        Debug.Log("Raycast missed");
     }
     
-    if (!hitSuccess) {
-        Debug.Log("Using fallback");
-        Vector3 surfaceNormal = (endPoint.position - closestPoint).normalized;
-        if (surfaceNormal.sqrMagnitude < 0.001f) {
-            surfaceNormal = (endPoint.position - falseWormBody.transform.position).normalized;
-        }
-        inwardDirection = -surfaceNormal;
-        
-        Debug.DrawRay(endPoint.position, inwardDirection * 1f, Color.yellow);
-    }
+    // Direction from part center to endpoint (world space)
+    Vector3 centerToEndpoint = (endPoint.position - transform.position).normalized;
     
-    if (inwardDirection == Vector3.zero) {
-        Debug.Log("inwardDirection is zero, returning");
-        return;
-    }
+    // We want to rotate so that centerToEndpoint aligns with inwardDirection
+    Quaternion rotationNeeded = Quaternion.FromToRotation(centerToEndpoint, inwardDirection);
     
-    // Current direction from part center to endpoint
-    Vector3 centerToEndpointLocal = (endPoint.position - transform.position).normalized;
-    Debug.DrawRay(transform.position, centerToEndpointLocal * 1f, Color.green);
+    // Apply this rotation to current rotation
+    Quaternion targetRotation = rotationNeeded * transform.rotation;
     
-    Debug.Log("Applying rotation - inward: " + inwardDirection + " center to endpoint: " + centerToEndpointLocal);
-    
-    // Calculate rotation
-    Quaternion alignmentRotation = Quaternion.FromToRotation(centerToEndpointLocal, inwardDirection);
-    Quaternion targetRotation = alignmentRotation * transform.rotation;
-    
-    // Smooth it
-    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.3f);
-    
-    Debug.Log("Final rotation: " + transform.rotation.eulerAngles);
+    // Smoother rotation to reduce jitter (lower value = smoother but slower)
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.15f);
 }
 
 private void TryToClampToWormBody() {

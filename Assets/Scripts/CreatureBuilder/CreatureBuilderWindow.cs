@@ -12,6 +12,7 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
     private bool isMouseOver = false;
     private bool wasCameraEnabled = false;
     private bool isDragging = false;
+    private bool isDraggingPart = false;
     private CinemachineInputProvider inputProvider;
 
     void Start()
@@ -62,9 +63,11 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             Debug.Log("Mouse exited - Camera disabled");
         }
-        
-        // Stop dragging if mouse leaves
-        isDragging = false;
+
+        if (!isDraggingPart)
+        {
+            isDragging = false;
+        }
     }
     
     public void OnPointerDown(PointerEventData eventData)
@@ -73,6 +76,7 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             if (IsOverCreaturePart(out GameObject hitPart))
             {
+                isDraggingPart = true;
                 Debug.Log($"Clicked on creature part: {hitPart.name}");
                 hitPart.GetComponent<CreaturePart>().StartDragging();
             }
@@ -88,6 +92,7 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
     // Called when mouse button is released
     public void OnPointerUp(PointerEventData eventData)
     {
+        isDraggingPart = false;
         isDragging = false;
         cinemachineCamera.SetActive(false);
         Debug.Log("Stopped dragging");
