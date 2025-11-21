@@ -277,15 +277,15 @@ namespace Player
 
         public void MoveForward()
         {
-            if (_isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
-            {
-            
-            }
-
             if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
             {
                 _wormForwardMovement.MoveHead();
                 _wormForwardMovement.MoveWormBody();
+
+                foreach (var part in attachedWormParts)
+                {
+                    part.GetComponent<WormPart>().MoveForward();
+                }
             }
         }
     

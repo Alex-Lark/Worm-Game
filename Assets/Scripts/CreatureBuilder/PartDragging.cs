@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CreatureBuilder
 {
-    public class CreaturePart : MonoBehaviour
+    public class PartDragging : MonoBehaviour
     { 
         public float dragDistance = 0f;
 

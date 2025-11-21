@@ -78,7 +78,7 @@ public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPoint
             {
                 isDraggingPart = true;
                 Debug.Log($"Clicked on creature part: {hitPart.name}");
-                hitPart.GetComponent<CreaturePart>().StartDragging();
+                hitPart.GetComponent<PartDragging>().StartDragging();
             }
             else
             {
