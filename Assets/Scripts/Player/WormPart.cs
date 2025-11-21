@@ -9,7 +9,7 @@ public class WormPart : MonoBehaviour
     
     public float TimeSinceLastGrounded { get; private set; }
 
-    private SphereCollider _partCollider;
+    private Collider _partCollider;
     
     private readonly Collider[] _results = new Collider[GameParameters.GroundColliderMaxHeldCollisions];
     private readonly float _verticalDetectionOffset = GameParameters.GroundingColliderVerticalDetectionOffset;
@@ -17,7 +17,7 @@ public class WormPart : MonoBehaviour
 
     private void Awake()
     {
-        _partCollider = GetComponent<SphereCollider>();
+        _partCollider = GetComponent<Collider>();
         GroundObject = null;
     }
 

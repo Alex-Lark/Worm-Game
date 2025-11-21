@@ -412,6 +412,15 @@ namespace Player
                     break;
                 }
             }
+
+            foreach (var part in attachedWormParts)
+            {
+                if (part.GetComponent<WormPart>().IsGrounded)
+                {
+                    IsWormGrounded = true;
+                    break;
+                }
+            }
         }
     }
 }

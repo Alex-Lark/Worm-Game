@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 4259238081120086833}
   - component: {fileID: 7693707615042269379}
   - component: {fileID: 7749280335906171322}
+  - component: {fileID: -6501340357661410525}
   m_Layer: 5
   m_Name: leg part object
   m_TagString: CreaturePart
@@ -230,3 +231,15 @@ MonoBehaviour:
   creatureBuilderWindow: {fileID: 0}
   endPoint: {fileID: 3091684890137113386}
   isClamped: 0
+--- !u!114 &-6501340357661410525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6294173655021920613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WormPart
