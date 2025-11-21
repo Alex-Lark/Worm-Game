@@ -216,6 +216,41 @@ private void DragAlongSurface(Vector3 mouseDelta) {
     }
 }
 
+private void RotateTowardWormBody() {
+    if (falseWormBody == null || endPoint == null) return;
+    
+    Collider wormCollider = falseWormBody.GetComponent<Collider>();
+    if (wormCollider == null) return;
+    
+    // Get the closest point on the surface to the endpoint
+    Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);
+    
+    // Calculate the surface normal (outward from surface)
+    Vector3 surfaceNormal = (endPoint.position - closestPoint);
+    
+    if (surfaceNormal.sqrMagnitude < 0.0001f) {
+        // Too close to surface, use center-based normal
+        surfaceNormal = (endPoint.position - falseWormBody.transform.position);
+    }
+    
+    surfaceNormal.Normalize();
+    
+    // Inward direction (opposite of surface normal - INTO the body)
+    Vector3 desiredDirection = -surfaceNormal;
+    
+    // Current direction from part center to endpoint
+    Vector3 currentEndpointDirection = (endPoint.position - transform.position).normalized;
+    
+    // Calculate what rotation would align currentEndpointDirection with desiredDirection
+    Quaternion rotationNeeded = Quaternion.FromToRotation(currentEndpointDirection, desiredDirection);
+    
+    // Apply this rotation to the part's current rotation
+    Quaternion targetRotation = rotationNeeded * transform.rotation;
+    
+    // Smooth it
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.3f);
+}
+
 private void TryToClampToWormBody() {
     if (falseWormBody == null || endPoint == null) return;
 
@@ -233,43 +268,6 @@ private void TryToClampToWormBody() {
         Vector3 offset = endPoint.position - transform.position;
         transform.position = closestPoint - offset;
         isClamped = true;
-    }
-}
-        
-private void RotateTowardWormBody() {
-    if (falseWormBody == null || endPoint == null) return;
-    
-    Collider wormCollider = falseWormBody.GetComponent<Collider>();
-    if (wormCollider == null) return;
-    
-    // Get the closest point on the surface
-    Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);
-    
-    // Calculate surface normal (points outward from surface)
-    Vector3 surfaceNormal = (endPoint.position - closestPoint).normalized;
-    
-    // We want to face inward (opposite of the normal)
-    Vector3 inwardDirection = -surfaceNormal;
-    
-    if (inwardDirection.sqrMagnitude < 0.001f) return;
-    
-    // Get the local direction from center to endPoint
-    Vector3 localEndDirection = transform.InverseTransformPoint(endPoint.position).normalized;
-    
-    // Calculate rotation to point the forward axis inward
-    Quaternion targetRotation = Quaternion.LookRotation(inwardDirection);
-    
-    // Adjust for the endPoint offset
-    Quaternion offsetRotation = Quaternion.FromToRotation(localEndDirection, Vector3.forward);
-    
-    Quaternion finalRotation = targetRotation * Quaternion.Inverse(offsetRotation);
-    
-    // Smooth rotation when clamped
-    if (isClamped) {
-        transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, 0.3f);
-    }
-    else {
-        transform.rotation = finalRotation;
     }
 }
 

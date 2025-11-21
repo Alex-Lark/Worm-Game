@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreaturePart.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -183,15 +182,7 @@
       <workItem from="1763607555554" duration="3312000" />
       <workItem from="1763676145065" duration="2584000" />
       <workItem from="1763682866066" duration="4594000" />
-      <workItem from="1763693285257" duration="8019000" />
-    </task>
-    <task id="LOCAL-00016" summary="added scrunching boolean for worm body segments">
-      <option name="closed" value="true" />
-      <created>1759971127434</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1759971127434</updated>
+      <workItem from="1763693285257" duration="9118000" />
     </task>
     <task id="LOCAL-00017" summary="improved jumping wip">
       <option name="closed" value="true" />
@@ -577,7 +568,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763698262982</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="dragging imrpoved but rotation is broken again">
+      <option name="closed" value="true" />
+      <created>1763701636916</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1763701636916</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -604,7 +603,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="parts while dragging have outline" />
     <MESSAGE value="can drag parts around in gui" />
     <MESSAGE value="creature parts can be deleted and return to inventory slot" />
     <MESSAGE value="worm is kinematic in creature builder scene." />
@@ -629,7 +627,8 @@
     <MESSAGE value="end scene displays winner" />
     <MESSAGE value="worm parts are more stable and don't collide with body segments" />
     <MESSAGE value="wormParts no longer rotate towards the exact center" />
-    <option name="LAST_COMMIT_MESSAGE" value="wormParts no longer rotate towards the exact center" />
+    <MESSAGE value="dragging imrpoved but rotation is broken again" />
+    <option name="LAST_COMMIT_MESSAGE" value="dragging imrpoved but rotation is broken again" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
