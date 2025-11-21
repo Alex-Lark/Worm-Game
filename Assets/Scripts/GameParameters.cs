@@ -76,8 +76,9 @@ public static class GameParameters
     [Header("Worm Leg")] 
     public static float legMaxVelocityIncrease = 1f;
     public static float legMoveForce = 9000f;
-    public static float legMoveTime = 1f;
+    public static float legMoveTime = 0.75f;
     public static float legJumpForce = 4000f;
+    public static float legRotationSpeed = 1f;
     
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;

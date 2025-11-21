@@ -9,6 +9,11 @@ namespace CreatureParts
 
         private bool isMoving;
         private Coroutine movementCoroutine;
+        
+        [Header("Leg Walking Behavior")]
+        public float liftHeight = 0.15f;
+        public float swingSpeed = 8f;
+        public float forwardSwingDistance = 0.12f;
 
         [Tooltip("Speed at which the leg rotates to align with the ground")]
         public float rotationSpeed = 10f;
@@ -19,7 +24,6 @@ namespace CreatureParts
         void FixedUpdate()
         {
             base.FixedUpdate();
-            isMoving = false;
 
             if (IsGrounded && GroundObject != null)
             {
@@ -49,14 +53,40 @@ namespace CreatureParts
                 }
             }
 
-            if (!IsGrounded)
+            if (isMoving && !IsGrounded)
             {
-                transform.localScale = new Vector3(transform.localScale.y, 0.2f, transform.localScale.z); //shrinks it's height
+                // Phase 2: LIFT – lift the leg upward slightly
+                Vector3 lifted = transform.localPosition + Vector3.up * liftHeight;
+
+                // Phase 3: SWING – move the leg slightly forward relative to worm direction
+                Vector3 swingTarget =
+                    lifted +
+                    Player.Player.Instance.wormVisualHead.forward.normalized * forwardSwingDistance;
+
+                // Smooth transition
+                transform.localPosition = Vector3.Lerp(
+                    transform.localPosition,
+                    swingTarget,
+                    swingSpeed * Time.fixedDeltaTime
+                );
+
+                // “air stride” visual
+                transform.localScale = new Vector3(transform.localScale.x, 0.2f, transform.localScale.z);
             }
             else
             {
                 transform.localScale = new Vector3(transform.localScale.y, 0.3f, transform.localScale.z); //grows it's height
             }
+            
+            if (IsGrounded && foot != null)
+            {
+                foot.transform.localRotation = Quaternion.Slerp(
+                    foot.transform.localRotation,
+                    Quaternion.identity,
+                    10f * Time.fixedDeltaTime
+                );
+            }
+            isMoving = false;
         }
 
         private Vector3 GetGroundNormal()
@@ -85,33 +115,80 @@ namespace CreatureParts
             {
                 if (GroundObject != null)
                 {
-                    Vector3 moveDir = (transform.up * 0.99f + transform.forward * 0.5f).normalized;
+                    // 1. Get the ground normal
+                    Vector3 groundNormal = GetGroundNormal();
+
+// 2. Compute the tangent direction (perpendicular to the ground normal)
+                    Vector3 groundTangent = Vector3.ProjectOnPlane(transform.forward, groundNormal).normalized;
+
+// 3. Leg forward
+                    Vector3 legForward = transform.forward;
+
+// 4. Worm head forward
+                    Vector3 headForward = Player.Player.Instance.wormVisualHead.forward;
+
+// --- COMBINE THEM WITH WEIGHTS ---
+                    float groundTangentWeight = 0.8f;
+                    float legForwardWeight    = 0.2f;
+                    float headForwardWeight   = 0.1f;
+
+// Weighted sum
+                    Vector3 moveDirection =
+                        groundTangent * groundTangentWeight +
+                        legForward    * legForwardWeight +
+                        headForward   * headForwardWeight;
+
+// Normalize so the force stays constant
+                    moveDirection = moveDirection.normalized;
+                    
+                    // --- ADD THE STEP ARC HERE ---
+                    Vector3 stepUp = transform.up * 0.25f;
+                    Vector3 arcDirection = (moveDirection + stepUp).normalized;
                     
                     Rigidbody rb = GroundObject.GetComponent<Rigidbody>();
                     if (rb != null)
                     {
                         rb.AddForceAtPosition(
-                            -GameParameters.legMoveForce * (moveDir),
+                            -GameParameters.legMoveForce * (-arcDirection),
                             transform.position
                         );
                     }
                     else
                     {
                         GetComponent<Rigidbody>().AddForce(
-                            -GameParameters.legMoveForce * (moveDir)
+                            -GameParameters.legMoveForce * (-arcDirection)
                         );
                     }
+                    movementCoroutine = StartCoroutine(StepRoutine(arcDirection));
                 }
-
                 transform.localScale = new Vector3(transform.localScale.y, 0.2f, transform.localScale.z); //shrinks it's height
-                
-                movementCoroutine = StartCoroutine(MoveForwardTimer());
             }
         }
 
-        private IEnumerator MoveForwardTimer()
+        private IEnumerator StepRoutine(Vector3 moveDirection)
         {
-            yield return new WaitForSeconds(GameParameters.legMoveTime);
+            Rigidbody rb = GetComponent<Rigidbody>();
+
+            // --- PHASE 1: LIFT / UNWEIGHT ---
+            float liftTime = 0.08f;
+            float liftForce = GameParameters.legMoveForce * 0.03f;
+
+            for (float t = 0; t < liftTime; t += Time.fixedDeltaTime)
+            {
+                rb.AddForce(transform.up * liftForce);
+                yield return new WaitForFixedUpdate();
+            }
+
+            // --- PHASE 2: FORWARD PUSH ---
+            float pushTime = GameParameters.legMoveTime;
+            float pushForce = GameParameters.legMoveForce * 0.03f;
+
+            for (float t = 0; t < pushTime; t += Time.fixedDeltaTime)
+            {
+                rb.AddForce(moveDirection * pushForce);
+                yield return new WaitForFixedUpdate();
+            }
+
             movementCoroutine = null;
         }
 
