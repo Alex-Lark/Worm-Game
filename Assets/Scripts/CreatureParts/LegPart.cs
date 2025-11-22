@@ -166,25 +166,32 @@ namespace CreatureParts
 
             if (movementCoroutine == null && GroundObject != null)
             {
-                // Store current position for smooth swing
-                smoothedLocalPosition = transform.localPosition;
-
-                // Compute directions
                 Vector3 groundNormal = GetGroundNormal();
-                Vector3 groundTangent = Vector3.ProjectOnPlane(transform.forward, groundNormal).normalized;
+                
+                // Get the perpendicular direction from ground (straight up from foot)
+                Vector3 groundUpward = groundNormal;
+                
+                // Get the direction from ground to upper leg
+                Vector3 groundToLeg = (transform.position - foot.transform.position).normalized;
+                
+                // Project the ground-to-leg direction onto the plane perpendicular to ground normal
+                Vector3 legAngleOnGround = Vector3.ProjectOnPlane(groundToLeg, groundNormal).normalized;
+                
+                // Combine upward and angle to create improved ground tangent
+                Vector3 groundTangent = (groundUpward * 0.5f + legAngleOnGround * 0.5f).normalized;
+                
                 Vector3 legForward = transform.forward;
                 Vector3 headForward = Player.Player.Instance.wormVisualHead.forward;
 
-                float groundTangentWeight = 0.8f;
-                float legForwardWeight = 0.2f;
-                float headForwardWeight = 0.1f;
+                float groundTangentWeight = 0.3f;
+                float legForwardWeight = 0.3f;
+                float headForwardWeight = 0.5f;
 
                 Vector3 moveDirection =
                     (groundTangent * groundTangentWeight +
                      legForward * legForwardWeight +
                      headForward * headForwardWeight).normalized;
 
-                // Add smooth arc
                 Vector3 stepUp = transform.up * liftHeight;
                 Vector3 arcDirection = (moveDirection + stepUp).normalized;
 

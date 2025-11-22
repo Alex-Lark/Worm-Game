@@ -280,6 +280,9 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
         partRigidbody.angularDamping = segmentRigidbody.angularDamping;
         partRigidbody.interpolation = segmentRigidbody.interpolation;
         partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
+        
+        partRigidbody.linearDamping = 1f;
+        partRigidbody.angularDamping = 1f;
     }
     
     // --- HINGE JOINT SETUP ---
@@ -300,8 +303,8 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
 
     // Allow a little rotation (you can tune these)
     JointLimits limits = hinge.limits;
-    limits.min = -20f;   // degrees
-    limits.max = 20f;    // degrees
+    limits.min = -15f;   // degrees
+    limits.max = 15f;    // degrees
     hinge.limits = limits;
     hinge.useLimits = true;
 

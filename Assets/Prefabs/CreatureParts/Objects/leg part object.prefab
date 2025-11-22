@@ -594,7 +594,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -1222,6 +1222,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.LegPart
   foot: {fileID: 2609974457177635915}
+  timeOffset: 0.1
+  liftHeight: 0.15
+  swingSpeed: 8
+  forwardSwingDistance: 0.12
   rotationSpeed: 10
   footRotationSpeed: 15
 --- !u!95 &9045488090939722094
