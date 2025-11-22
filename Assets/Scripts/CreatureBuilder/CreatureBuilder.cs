@@ -303,8 +303,8 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
 
     // Allow a little rotation (you can tune these)
     JointLimits limits = hinge.limits;
-    limits.min = -15f;   // degrees
-    limits.max = 15f;    // degrees
+    limits.min = -10f;   // degrees
+    limits.max = 10f;    // degrees
     hinge.limits = limits;
     hinge.useLimits = true;
 

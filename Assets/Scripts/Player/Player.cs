@@ -209,7 +209,7 @@ namespace Player
             // Reset worm position safely
             if (wormHead != null)
             {
-                wormHead.position = new Vector3(0, 1, 0);
+                wormHead.position = new Vector3(0, 2, 0);
                 var rb = wormHead.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
