@@ -178,12 +178,12 @@ namespace CreatureParts
                 Vector3 legAngleOnGround = Vector3.ProjectOnPlane(groundToLeg, groundNormal).normalized;
                 
                 // Combine upward and angle to create improved ground tangent
-                Vector3 groundTangent = (groundUpward * 0.5f + legAngleOnGround * 0.5f).normalized;
+                Vector3 groundTangent = (groundUpward * 0.5f + legAngleOnGround * 0.2f).normalized;
                 
                 Vector3 legForward = transform.forward;
                 Vector3 headForward = Player.Player.Instance.wormVisualHead.forward;
 
-                float groundTangentWeight = 0.3f;
+                float groundTangentWeight = 0.2f;
                 float legForwardWeight = 0.3f;
                 float headForwardWeight = 0.5f;
 

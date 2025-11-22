@@ -5,7 +5,7 @@ namespace LifelikeMotion.IKFootPlacement
     public class BasicCharacterMovement : MonoBehaviour
     {
         private CharacterController cc;
-        [SerializeField] private IKFootPlacement iKFootPlacement;
+        [SerializeField] private Packages.Lifelike_Motion.IKFootPlacement___Free_IK_Script.Tool.IKFootPlacement iKFootPlacement;
         [SerializeField] private float movementSpeed = 2;
         [SerializeField] private float jumpSpeed = 5;
         [SerializeField] private float gravity = 15;

@@ -163,7 +163,7 @@ namespace LifelikeMotion.IKFootPlacement
             twoBoneIK.data.maintainTargetRotationOffset = true;
             
             // Add IKFootPlacement immediately after
-            var footPlacement = gameObject.AddComponent<IKFootPlacement>();
+            var footPlacement = gameObject.AddComponent<Packages.Lifelike_Motion.IKFootPlacement___Free_IK_Script.Tool.IKFootPlacement>();
             footPlacement.hips = upLeg; // since it contains Animator
             footPlacement.ikConstraint = twoBoneIK;
             footPlacement.enabled = true;

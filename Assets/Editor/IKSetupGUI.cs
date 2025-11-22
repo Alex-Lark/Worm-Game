@@ -1,8 +1,9 @@
-namespace LifelikeMotion.IKFootPlacement
-{
-    using UnityEngine;
-    using UnityEditor;
+using LifelikeMotion.IKFootPlacement;
+using UnityEditor;
+using UnityEngine;
 
+namespace Packages.Lifelike_Motion.IKFootPlacement___Free_IK_Script.Tool.Misc
+{
     [CustomEditor(typeof(IKSetup))]
     public class IKSetupGUI : Editor
     {

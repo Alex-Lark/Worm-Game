@@ -1,8 +1,8 @@
-namespace LifelikeMotion.IKFootPlacement
-{
-    using UnityEngine;
-    using UnityEngine.Animations.Rigging;
+using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
+namespace Packages.Lifelike_Motion.IKFootPlacement___Free_IK_Script.Tool
+{
     public class IKFootPlacement : MonoBehaviour
     {
         [Header("Two Bone IK Constraint")]
