@@ -209,7 +209,7 @@ namespace CreatureParts
                 movementCoroutine = StartCoroutine(StepRoutine(arcDirection));
             }
 
-            smoothedScaleY = 0.2f;
+            smoothedScaleY = 0.3f;
         }
 
         private IEnumerator StepRoutine(Vector3 moveDirection)
