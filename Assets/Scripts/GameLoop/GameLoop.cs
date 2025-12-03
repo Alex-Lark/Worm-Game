@@ -56,6 +56,11 @@ public class GameLoop : MonoBehaviour
         StopCoroutine(gameLoop);
         TimeLeftInScene = 0;
         isGameLoopRunning = false;
+        foreach (var part in Player.Player.Instance.attachedWormParts)
+        {
+            Destroy(part);
+            Player.Player.Instance.attachedWormParts.Remove(part);
+        }
     }
 
     public void StartGame()

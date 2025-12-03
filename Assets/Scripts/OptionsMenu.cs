@@ -15,7 +15,8 @@ public class OptionsMenu : MonoBehaviour
         "GameLobbyScene",
         "PartSelectionScene",
         "CreatureBuilderScene",
-        "GameScene"
+        "GameScene",
+        "Worm League"
     };
     
     void Awake()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CreatureParts;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -16,7 +17,8 @@ namespace CreatureBuilder
     public class CreatureBuilder : MonoBehaviour
     {
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
-        private List<GameObject> parts = new List<GameObject>();
+        public List<GameObject> parts = new List<GameObject>();
+        public List<GameObject> legs = new List<GameObject>();
         
         public Camera targetCamera;
         public CinemachineCamera cinemachineCamera;
@@ -52,8 +54,8 @@ namespace CreatureBuilder
 
             foreach (GameObject part in Player.Player.Instance.attachedWormParts)
             {
-                CreaturePart partComponent = part.GetComponent<CreaturePart>();
-                GameObject prefab = partComponent.prefab;
+                PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
+                GameObject prefab = partDraggingComponent.prefab;
         
                 if (prefab == null)
                 {
@@ -61,7 +63,7 @@ namespace CreatureBuilder
                     continue;
                 }
                 
-                if (part.GetComponent<CreaturePart>().partData.name.Equals("leg"))
+                if (part.GetComponent<PartDragging>().partData.name.Equals("leg"))
                 {
                     Player.Player.Instance.MaxVelocity -= GameParameters.legMaxVelocityIncrease;
                 }
@@ -74,14 +76,14 @@ namespace CreatureBuilder
                 newPart.name = prefab.name;
                 newPart.transform.localScale = worldScale;
                 
-                CreaturePart creaturePart = newPart.GetComponent<CreaturePart>();
-                if (creaturePart != null)
+                PartDragging partDragging = newPart.GetComponent<PartDragging>();
+                if (partDragging != null)
                 {
-                    creaturePart.enabled = true;
-                    creaturePart.targetCamera = targetCamera;
-                    creaturePart.creatureBuilderWindow = creatureBuilderWindow;
-                    creaturePart.dragDistance = spawnDistance;
-                    creaturePart.Clamp();
+                    partDragging.enabled = true;
+                    partDragging.targetCamera = targetCamera;
+                    partDragging.creatureBuilderWindow = creatureBuilderWindow;
+                    partDragging.dragDistance = spawnDistance;
+                    partDragging.Clamp();
                 }
 
                 parts.Add(newPart);
@@ -128,7 +130,7 @@ namespace CreatureBuilder
             }
         }
 
-        public void SwitchTo2DCard(GameObject partPrefab)
+        public void SwitchTo2DCard(GameObject partPrefab, GameObject caller)
         {
             if (partPrefab == null)
             {
@@ -148,8 +150,8 @@ namespace CreatureBuilder
                     SpawnCardInInventory(pair.cardPrefab);
             
                     // Destroy the 3D part
-                    parts.Remove(partPrefab);
-                    Destroy(partPrefab);
+                    parts.Remove(caller);
+                    Destroy(caller);
                     return;
                 }
             }
@@ -164,9 +166,9 @@ namespace CreatureBuilder
     // Process 3D parts that are spawned in the world
     foreach (GameObject part in parts)
     {
-        CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+        PartDragging partDragging = part.GetComponent<PartDragging>();
         
-        if (creaturePart != null && creaturePart.isClamped)
+        if (partDragging != null && partDragging.isClamped)
         {
             print("found clamped part");
             Transform wormSegment = FindNearestWormSegment(part);
@@ -180,12 +182,23 @@ namespace CreatureBuilder
     }
     
     parts.Clear();
-    
+    SetLegOrder();
     // Return all remaining cards from the creature builder inventory to player
     ReturnAllCardsToPlayerInventory();
 }
 
-private void ReturnPartToPlayerInventory(GameObject part)
+        private void SetLegOrder()
+        {
+            int numLegs = legs.Count;
+            float totalTime = GameParameters.legMoveTime;
+
+            for (int i = 0; i < legs.Count; i++)
+            {
+                legs[i].GetComponent<LegPart>().timeOffset = (i * (totalTime / numLegs));
+            }
+        }
+
+        private void ReturnPartToPlayerInventory(GameObject part)
 {
     // Find the matching card prefab
     string keyName = part.name.Replace("(Clone)", "").Trim();
@@ -243,11 +256,12 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
 {
     print("adding part to worm");
     creaturePart.transform.parent = Player.Player.Instance.transform;
-    creaturePart.GetComponent<CreaturePart>().enabled = false;
+    creaturePart.GetComponent<PartDragging>().enabled = false;
     
-    if (creaturePart.GetComponent<CreaturePart>().partData.name.Equals("leg"))
+    if (creaturePart.GetComponent<PartDragging>().partData.name.Equals("leg"))
     {
         Player.Player.Instance.MaxVelocity += GameParameters.legMaxVelocityIncrease;
+        legs.Add(creaturePart);
     }
     
     // Configure or get rigidbody
@@ -266,31 +280,91 @@ private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
         partRigidbody.angularDamping = segmentRigidbody.angularDamping;
         partRigidbody.interpolation = segmentRigidbody.interpolation;
         partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
+        
+        partRigidbody.linearDamping = 1f;
+        partRigidbody.angularDamping = 1f;
     }
     
-    // Setup the fixed joint
-    FixedJoint fixedJoint = creaturePart.AddComponent<FixedJoint>();
-    fixedJoint.connectedBody = segmentRigidbody;
-    fixedJoint.breakForce = Mathf.Infinity;
-    fixedJoint.breakTorque = Mathf.Infinity;
-    fixedJoint.enableCollision = false;
-    fixedJoint.enablePreprocessing = true;
-    
+    // --- HINGE JOINT SETUP ---
+    // Find endpoint
+    Transform endPoint = creaturePart.GetComponent<PartDragging>().endPoint;
+    if (endPoint == null)
+    {
+        Debug.LogError("No endPoint found on part: " + creaturePart.name);
+        return;
+    }
+
+    // Add hinge joint
+    HingeJoint hinge = creaturePart.AddComponent<HingeJoint>();
+    hinge.connectedBody = segmentRigidbody;
+
+    // Position the hinge at the endpoint in local space
+    hinge.anchor = creaturePart.transform.InverseTransformPoint(endPoint.position);
+
+    // Allow a little rotation (you can tune these)
+    JointLimits limits = hinge.limits;
+    limits.min = -10f;   // degrees
+    limits.max = 10f;    // degrees
+    hinge.limits = limits;
+    hinge.useLimits = true;
+
+    // Optional: smoothing for stability
+    hinge.enablePreprocessing = true;
+    hinge.enableCollision = false;
+
     Player.Player.Instance.attachedWormParts.Add(creaturePart);
-    
-    
+
     IgnorePartCollisionWithWorm(creaturePart, wormSegment);
 }
 
-private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment) {
-    int numSegments = GameParameters.NumSegmentCollisionsIgnored;
-    Collider partCollider = part.GetComponent<Collider>();
-    
-    if (partCollider == null || nearestWormSegment == null)
+private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
+{
+    if (part == null || nearestWormSegment == null)
         return;
-    
-    IgnoreCollisionsInDirection(partCollider, nearestWormSegment, true, numSegments);  // next
-    IgnoreCollisionsInDirection(partCollider, nearestWormSegment, false, numSegments); // previous
+
+    int numSegments = GameParameters.NumSegmentCollisionsIgnored;
+
+    // Get all colliders on the part and its children
+    Collider[] partColliders = part.GetComponentsInChildren<Collider>();
+
+    // Ignore collisions in both directions along the worm
+    IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
+    IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
+
+    foreach (var attachedWormPart in Player.Player.Instance.attachedWormParts)
+    {
+        Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
+    }
+}
+
+private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
+{
+    Transform current = startSegment;
+
+    for (int i = 0; i < numSegments && current != null; i++)
+    {
+        // Get all colliders on this worm segment and its children
+        Collider[] segmentColliders = current.GetComponentsInChildren<Collider>();
+
+        // Ignore collisions between every part collider and every segment collider
+        foreach (var pCol in partColliders)
+        {
+            foreach (var sCol in segmentColliders)
+            {
+                Physics.IgnoreCollision(pCol, sCol, true);
+            }
+        }
+
+        // Move to next or previous segment safely
+        if (forward)
+        {
+            current = current.childCount > 0 ? current.GetChild(0) : null;
+        }
+        else
+        {
+            current = current.parent;
+        }
+    }
 }
 
 private void IgnoreCollisionsInDirection(Collider partCollider, Transform startSegment, bool useNext, int count) {
@@ -377,13 +451,13 @@ private void IgnoreCollisionsInDirection(Collider partCollider, Transform startS
             instance.name = prefab.name;
     
             // Set up the creature part
-            CreaturePart part = instance.GetComponent<CreaturePart>();
-            if (part != null)
+            PartDragging partDragging = instance.GetComponent<PartDragging>();
+            if (partDragging != null)
             {
-                part.targetCamera = targetCamera;
-                part.creatureBuilderWindow = creatureBuilderWindow;
-                part.dragDistance = spawnDistance;
-                parts.Add(part.gameObject);
+                partDragging.targetCamera = targetCamera;
+                partDragging.creatureBuilderWindow = creatureBuilderWindow;
+                partDragging.dragDistance = spawnDistance;
+                parts.Add(partDragging.gameObject);
             }
         }
     }

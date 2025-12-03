@@ -39,16 +39,16 @@ public class WormForwardMovement : MonoBehaviour
         float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
 
         var part = _wormHead.GetComponent<WormPart>();
-        if (part.IsGrounded)
-        {
+        //if (part.IsGrounded)
+        //{
             RotateHeadGrounded(rotationSpeed);
             MoveHeadGrounded(part);
-        }
-        else if (Player.Player.Instance.IsWormGrounded)
-        {
-            RotateHeadUngrounded(rotationSpeed);
-            MoveHeadUngrounded();
-        }
+        //}
+        // else if (Player.Player.Instance.IsWormGrounded)
+        // {
+        //     RotateHeadUngrounded(rotationSpeed);
+        //     MoveHeadUngrounded();
+        // }
     }
     
     public void MoveWormBody()

@@ -1117,26 +1117,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Controls:
-
-    Esc - Options Menu (works outside of main menu)
-
-    w
-    - move forward (moves in direction of camera)
-
-    space - jump (wip, doesn''t
-    work perfectly)
-
-
-    Instructions:
-
-    From main menu, click quick play, then
-    skip forward until reaching Game Scene.
-
-    In Game Scene, play as the worm.
-    (Hint: Try jumping on the small rock, its funny.)
-
-'
+  m_text: "Controls:\nEsc - Options Menu (works outside of main menu)\nw - move forward
+    (moves in direction of camera)\nspace - jump\nleft click - headbut\n\nInstructions:\nFrom
+    main menu, click quick play, then start game. From there, choose your parts,
+    \nbuild your creature, and play!\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -209,7 +209,7 @@ namespace Player
             // Reset worm position safely
             if (wormHead != null)
             {
-                wormHead.position = new Vector3(0, 1, 0);
+                wormHead.position = new Vector3(0, 2, 0);
                 var rb = wormHead.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -277,15 +277,15 @@ namespace Player
 
         public void MoveForward()
         {
-            if (_isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
-            {
-            
-            }
-
             if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
             {
                 _wormForwardMovement.MoveHead();
                 _wormForwardMovement.MoveWormBody();
+
+                foreach (var part in attachedWormParts)
+                {
+                    part.GetComponent<WormPart>().MoveForward();
+                }
             }
         }
     
@@ -295,6 +295,10 @@ namespace Player
             {
                 IsWormJumping = true;
                 _wormJump.Jump();
+                foreach (var part in attachedWormParts)
+                {
+                    part.GetComponent<WormPart>().Jump();
+                }
             }
             IsWormJumping = false;
         }
@@ -405,6 +409,15 @@ namespace Player
             IsWormGrounded = false; 
         
             foreach (var part in wormBodySegments)
+            {
+                if (part.GetComponent<WormPart>().IsGrounded)
+                {
+                    IsWormGrounded = true;
+                    break;
+                }
+            }
+
+            foreach (var part in attachedWormParts)
             {
                 if (part.GetComponent<WormPart>().IsGrounded)
                 {

@@ -6,7 +6,7 @@ public static class GameParameters
     public static readonly int defaultNumberOfRounds = 3;
     public static readonly int defaultNumberOfPartsPerRound = 1; //not including discarded card(s)
     public static readonly int defaultTimePerPartSelection = 5;
-    public static readonly int defaultTimePerCreatureBuilding = 10;
+    public static readonly int defaultTimePerCreatureBuilding = 30;
     public static readonly int defaultTimePerMinigame = 60;
 
     public static readonly int timeForLeaderboard = 5;
@@ -75,6 +75,10 @@ public static class GameParameters
 
     [Header("Worm Leg")] 
     public static float legMaxVelocityIncrease = 1f;
+    public static float legMoveForce = 9000f;
+    public static float legMoveTime = 0.75f;
+    public static float legJumpForce = 4000f;
+    public static float legRotationSpeed = 1f;
     
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
