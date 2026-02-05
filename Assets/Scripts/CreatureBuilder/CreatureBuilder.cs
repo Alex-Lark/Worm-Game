@@ -7,13 +7,6 @@ using UnityEngine;
 
 namespace CreatureBuilder
 {
-    [Serializable]
-    public class PartPair
-    {
-        public GameObject cardPrefab;   // The card prefab GameObject
-        public GameObject part3DPrefab; // The corresponding 3D model prefab
-    }
-
     public class CreatureBuilder : MonoBehaviour
     {
         [SerializeField] private List<PartPair> partPairs = new List<PartPair>();
