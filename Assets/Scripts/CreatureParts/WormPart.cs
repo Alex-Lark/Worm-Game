@@ -37,6 +37,39 @@ public class WormPart : MonoBehaviour
         
     }
 
+    public void ConfigureRigidBody(Rigidbody partRigidbody, Rigidbody segmentRigidbody)
+    {
+        //TODO: properly set part's rigidBody rather than just copying
+        partRigidbody.mass = segmentRigidbody.mass;
+        partRigidbody.linearDamping = segmentRigidbody.linearDamping;
+        partRigidbody.angularDamping = segmentRigidbody.angularDamping;
+        partRigidbody.interpolation = segmentRigidbody.interpolation;
+        partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
+            
+        partRigidbody.linearDamping = 1f;
+        partRigidbody.angularDamping = 1f;
+    }
+
+    public void ConfigureHingeJoint(Rigidbody segmentRigidbody, Transform endPoint)
+    {
+        //TODO: properly configure hinge joint
+        HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
+        hinge.connectedBody = segmentRigidbody;
+        
+        hinge.anchor = gameObject.transform.InverseTransformPoint(endPoint.position);
+
+        //limited rotation
+        JointLimits limits = hinge.limits;
+        limits.min = -10f;   // degrees
+        limits.max = 10f;    // degrees
+        hinge.limits = limits;
+        hinge.useLimits = true;
+
+        // smoothing
+        hinge.enablePreprocessing = true;
+        hinge.enableCollision = false;
+    }
+
     private void CheckGrounded()
     {
         Vector3 bottom = _partCollider.bounds.center - new Vector3(0, _partCollider.bounds.extents.y, 0);

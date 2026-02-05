@@ -97,7 +97,7 @@ namespace CreatureBuilder
         {
             print("entered creature builder");
             
-            _creatureBuilder.SwitchTo3DPart(prefab);
+            _creatureBuilder.SwitchFromCardTo3DPart(prefab);
             Destroy(gameObject);
         }
 
