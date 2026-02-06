@@ -89,7 +89,7 @@ public class WormHeadBut : MonoBehaviour
     }
 
     private void GroundBackSegment(Rigidbody wormPart) {
-        WormBodySegment segment = wormPart.GetComponent<WormBodySegment>();
+        CreatureBodySegment segment = wormPart.GetComponent<CreatureBodySegment>();
         if (segment.IsGrounded)
         {
             Vector3 groundNormal = segment.GroundNormal;

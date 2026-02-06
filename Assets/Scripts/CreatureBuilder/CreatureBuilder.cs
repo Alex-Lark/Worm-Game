@@ -268,7 +268,7 @@ namespace CreatureBuilder
         Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
         if (segmentRigidbody != null)
         {
-            creaturePart.GetComponent<WormPart>().ConfigureRigidBody(partRigidbody, segmentRigidbody);
+            creaturePart.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, creaturePart.GetComponent<PartDragging>().partData.mass);
         }
         
         Transform endPoint = creaturePart.GetComponent<PartDragging>().endPoint;
@@ -279,7 +279,7 @@ namespace CreatureBuilder
         }
 
         // Add hinge joint
-        creaturePart.GetComponent<WormPart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
+        creaturePart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
 
         Player.Player.Instance.attachedWormParts.Add(creaturePart);
 

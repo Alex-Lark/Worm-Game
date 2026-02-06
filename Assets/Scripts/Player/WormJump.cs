@@ -60,7 +60,7 @@ public class WormJump : MonoBehaviour
             }
             else
             {
-                if (wormPart.GetComponent<WormBodySegment>().IsGrounded || wormPart.GetComponent<WormBodySegment>().IsScrunched || (wormPart.GetComponent<WormBodySegment>().TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded))
+                if (wormPart.GetComponent<CreatureBodySegment>().IsGrounded || wormPart.GetComponent<CreatureBodySegment>().IsScrunched || (wormPart.GetComponent<CreatureBodySegment>().TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded))
                 {
                     Vector3 forwardDirection = Vector3.Slerp(previousPart.forward, _wormHead.forward, GameParameters.WormJumpPreviousPartVsHeadAngle);
                     Vector3 jumpDirection = Vector3.Slerp(forwardDirection, Vector3.up, GameParameters.WormJumpAngle).normalized;
@@ -76,15 +76,15 @@ public class WormJump : MonoBehaviour
         List<List<int>> segments = new List<List<int>>();
         List<int> currentSegment = null;
         
-        if (_wormHead.GetComponent<WormPart>().IsGrounded) 
+        if (_wormHead.GetComponent<CreaturePart>().IsGrounded) 
         {
             currentSegment = new List<int> { -1 }; // Use -1 to represent head
         }
         
         for (int i = 0; i < _wormParts.Count; i++) 
         {
-            WormPart part = _wormParts[i].GetComponent<WormPart>();
-            WormBodySegment bodySeg = _wormParts[i].GetComponent<WormBodySegment>();
+            CreaturePart part = _wormParts[i].GetComponent<CreaturePart>();
+            CreatureBodySegment bodySeg = _wormParts[i].GetComponent<CreatureBodySegment>();
             bool isGroundedOrScrunched = part.IsGrounded || (bodySeg != null && bodySeg.IsScrunched);
                 
             if (isGroundedOrScrunched) 

@@ -1,3 +1,4 @@
+using CreatureParts;
 using UnityEngine;
 
 public class WormPartGizmos : MonoBehaviour
@@ -58,7 +59,7 @@ public class WormPartGizmos : MonoBehaviour
         Vector3 checkPos = bottom + Vector3.down * _verticalDetectionOffset;
         float radius = bounds.extents.x * 0.9f;
         
-        Gizmos.color = GetComponent<WormPart>().IsGrounded ? Color.green : Color.red;
+        Gizmos.color = GetComponent<CreaturePart>().IsGrounded ? Color.green : Color.red;
         Gizmos.DrawWireSphere(checkPos, radius);
     }
     

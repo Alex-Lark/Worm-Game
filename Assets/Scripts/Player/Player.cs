@@ -285,7 +285,7 @@ namespace Player
 
                 foreach (var part in attachedWormParts)
                 {
-                    part.GetComponent<WormPart>().MoveForward();
+                    part.GetComponent<CreaturePart>().MoveForward();
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace Player
                 _wormJump.Jump();
                 foreach (var part in attachedWormParts)
                 {
-                    part.GetComponent<WormPart>().Jump();
+                    part.GetComponent<CreaturePart>().Jump();
                 }
             }
             IsWormJumping = false;
@@ -366,22 +366,22 @@ namespace Player
         }
 
         private void CreateWormSegments() {
-            WormPart previousSegment = wormHead.GetComponent<WormPart>();
+            CreaturePart previousSegment = wormHead.GetComponent<CreaturePart>();
     
             // First pass: create all segments and set previousSegment
             for (int i = 0; i < _wormSegmentCount; i++)
             {
                 GameObject newWormSegment = Instantiate(wormSegmentPrefab, transform);
-                newWormSegment.GetComponent<WormBodySegment>().previousSegment = previousSegment;
+                newWormSegment.GetComponent<CreatureBodySegment>().previousSegment = previousSegment;
                 wormBodySegments.Add(newWormSegment.transform);
         
-                previousSegment = newWormSegment.GetComponent<WormBodySegment>();
+                previousSegment = newWormSegment.GetComponent<CreatureBodySegment>();
             }
             
             for (int i = 0; i < wormBodySegments.Count - 1; i++)
             {
-                wormBodySegments[i].GetComponent<WormBodySegment>().nextSegment = 
-                    wormBodySegments[i + 1].GetComponent<WormBodySegment>();
+                wormBodySegments[i].GetComponent<CreatureBodySegment>().nextSegment = 
+                    wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
             }
         }
 
@@ -401,7 +401,7 @@ namespace Player
             
                 part.rotation = wormHead.rotation;
 
-                previousSegmentRigidBody = part.GetComponent<WormBodySegment>().AddJoint(wormBodySegments[i], previousSegmentRigidBody);
+                previousSegmentRigidBody = part.GetComponent<CreatureBodySegment>().AddJoint(wormBodySegments[i], previousSegmentRigidBody);
             }
         }
 
@@ -411,7 +411,7 @@ namespace Player
         
             foreach (var part in wormBodySegments)
             {
-                if (part.GetComponent<WormPart>().IsGrounded)
+                if (part.GetComponent<CreaturePart>().IsGrounded)
                 {
                     IsWormGrounded = true;
                     break;
@@ -420,7 +420,7 @@ namespace Player
 
             foreach (var part in attachedWormParts)
             {
-                if (part.GetComponent<WormPart>().IsGrounded)
+                if (part.GetComponent<CreaturePart>().IsGrounded)
                 {
                     IsWormGrounded = true;
                     break;

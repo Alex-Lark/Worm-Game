@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace CreatureParts
 {
-    public class WormBodySegment : WormPart
+    public class CreatureBodySegment : CreaturePart
     {
         public bool IsScrunched { get; private set; }
 
-        public WormPart previousSegment;
-        public WormPart nextSegment;
+        public CreaturePart previousSegment;
+        public CreaturePart nextSegment;
 
         private Coroutine scrunchCoroutine;
 

@@ -1,3 +1,4 @@
+using CreatureParts;
 using UnityEngine;
 
 namespace CreatureBuilder

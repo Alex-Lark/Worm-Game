@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CreatureParts
 {
-    public class LegPart : WormPart
+    public class LegPart : AttachablePart
     {
         
         //TODO: refactor to have better code and inverse kinematics
