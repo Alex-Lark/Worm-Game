@@ -5,15 +5,23 @@ namespace CreatureBuilder
 {
     public class InventorySlot : MonoBehaviour, IDropHandler
     {
-        private CreatureBuilderPartInventory inventory;
+        #region Variables
+        [Header("Variables")]
+        
         public InventoryItem currentItem;
+        
+        private CreatureBuilderPartInventory inventory;
+        
+        #endregion
 
+        #region Public Methods
+        
         public void Initialize(CreatureBuilderPartInventory inv)
         {
             inventory = inv;
-        
-            // Check if there's already an item in this slot
+            
             currentItem = GetComponentInChildren<InventoryItem>();
+            
             if (currentItem != null)
             {
                 currentItem.Initialize(this);
@@ -31,6 +39,7 @@ namespace CreatureBuilder
                 {
                     draggedItem.SetNewSlot(this);
                 }
+                
                 // If slot has an item, swap them
                 else
                 {
@@ -50,5 +59,7 @@ namespace CreatureBuilder
         {
             currentItem = null;
         }
+        
+        #endregion
     }
 }

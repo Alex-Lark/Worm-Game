@@ -70,8 +70,7 @@ namespace CreatureBuilder
                 if (pair.part3DPrefab != null && pair.part3DPrefab.name == partName)
                 {
                     SpawnCardInInventory(pair.cardPrefab);
-            
-                    // Destroy the 3D part
+                    
                     parts.Remove(caller);
                     Destroy(caller);
                     return;
@@ -124,7 +123,7 @@ namespace CreatureBuilder
         private void AddAlreadyAttachedPart(GameObject part)
         {
             PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
-            GameObject prefab = partDraggingComponent.prefab;
+            GameObject prefab = partDraggingComponent.Prefab;
         
             if (prefab == null)
             {

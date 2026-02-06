@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1797360732960282095}
   - component: {fileID: -3958118735043389768}
   - component: {fileID: -1992974762017378537}
+  - component: {fileID: -5195412950030182845}
   m_Layer: 0
   m_Name: spike object
   m_TagString: CreaturePart
@@ -616,12 +617,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8433c1fe2117348ace9256eb06512c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.CreaturePart
-  dragDistance: 5
   partData: {fileID: 11400000, guid: 2c61b9b64dea98b4d978f78c4cdc4b7d, type: 2}
   targetCamera: {fileID: 0}
   creatureBuilderWindow: {fileID: 0}
   endPoint: {fileID: 2854166833099561645}
   isClamped: 0
+  dragDistance: 5
 --- !u!114 &-1992974762017378537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,6 +635,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormPart
+--- !u!114 &-5195412950030182845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212110029664344896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacc8514d993067498c5d212d445e9f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PartDraggingUI
 --- !u!1 &7512640008430943475
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,9 +13,11 @@ public static class GameParameters
 
     [Header("Creature Builder UI")] 
     public static readonly float CardTransparencyWhileDragging = 0.6f;
+    public static readonly Color PartDraggingOutlineColor = Color.cyan;
+    public static readonly float PartDraggingOutlineWidth = 0.03f;
     
     [Header("Creature Builder")] 
-    public static readonly float DistanceToClampPart = 10f;
+    public static readonly float DistanceToClampPart = 30f;
 
     [Header("Worm League UI")]   
     public static float titleFadeTime = 1f;
