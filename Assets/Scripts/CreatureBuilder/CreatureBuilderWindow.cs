@@ -1,10 +1,11 @@
+using NUnit.Framework.Constraints;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace CreatureBuilder
 {
-    public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+    public class CreatureBuilderWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IInputAxisController
     {
         #region public variables
         [Header("Public Variables")]
@@ -14,8 +15,8 @@ namespace CreatureBuilder
         
         #endregion
         
-        #region public variables
-        [Header("Public Variables")]
+        #region private variables
+        [Header("Private Variables")]
         
         private Camera targetCamera;
         private bool isMouseOver = false;
@@ -26,55 +27,55 @@ namespace CreatureBuilder
         
         #endregion
 
+        #region Built-In Methods
+        
         void Start()
         {
-            // Store the initial camera state
             if (cinemachineCamera != null)
             {
                 wasCameraEnabled = cinemachineCamera.activeSelf;
-            
-                // Get the input provider component
                 inputProvider = cinemachineCamera.GetComponent<IInputAxisController>();
-            
-                // Start with camera disabled if not over the image
+                
                 if (!isMouseOver)
                 {
                     cinemachineCamera.SetActive(false);
                 }
+                
             }
             targetCamera = targetCameraObject.GetComponent<Camera>();
         }
-
-        void Update()
+        
+        void OnDisable()
         {
-            // Enable/disable input provider based on drag state
-            if (inputProvider != null)
+            if (cinemachineCamera != null)
             {
-                inputProvider.enabled = isDragging && isMouseOver;
+                cinemachineCamera.SetActive(wasCameraEnabled);
             }
+            isDragging = false;
         }
-
-        // Called when mouse enters the UI element
+        
+        //controls input Provider
+        public float GetAxisValue(int axis)
+        {
+            if (!isDragging || !isMouseOver)
+                return 0f;
+            if (axis == 0) 
+                return Input.GetAxis("Mouse X");
+            if (axis == 1)
+                return Input.GetAxis("Mouse Y");
+            
+            return 0f;
+        }
+        
         public void OnPointerEnter(PointerEventData eventData)
         {
             isMouseOver = true;
-        
-            if (cinemachineCamera != null)
-            {
-                Debug.Log("Mouse entered - Camera enabled");
-            }
         }
-
-        // Called when mouse exits the UI element
+        
         public void OnPointerExit(PointerEventData eventData)
         {
             isMouseOver = false;
-        
-            if (cinemachineCamera != null)
-            {
-                Debug.Log("Mouse exited - Camera disabled");
-            }
-
+            
             if (!isDraggingPart)
             {
                 isDragging = false;
@@ -88,42 +89,37 @@ namespace CreatureBuilder
                 if (IsOverCreaturePart(out GameObject hitPart))
                 {
                     isDraggingPart = true;
-                    Debug.Log($"Clicked on creature part: {hitPart.name}");
                     hitPart.GetComponent<PartDragging>().StartDragging();
                 }
                 else
                 {
                     isDragging = true;
                     cinemachineCamera.SetActive(true);
-                    Debug.Log("Started dragging");
                 }
             }
         }
-    
-        // Called when mouse button is released
+        
         public void OnPointerUp(PointerEventData eventData)
         {
             isDraggingPart = false;
             isDragging = false;
             cinemachineCamera.SetActive(false);
-            Debug.Log("Stopped dragging");
         }
 
-        void OnDisable()
+        public bool ControllersAreValid()
         {
-            // Restore camera state when this UI element is disabled
-            if (cinemachineCamera != null)
-            {
-                cinemachineCamera.SetActive(wasCameraEnabled);
-            }
-        
-            isDragging = false;
-            if (inputProvider != null)
-            {
-                inputProvider.enabled = false;
-            }
+            return true;
         }
+        
+        public void SynchronizeControllers()
+        {
+            
+        }
+        
+        #endregion
     
+        #region Private Methods
+        
         private bool IsOverCreaturePart(out GameObject hitObject)
         {
             hitObject = null;
@@ -146,8 +142,7 @@ namespace CreatureBuilder
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Transform current = hit.collider.transform;
-
-                // Walk up the hierarchy until we find a CreaturePart
+                
                 int safetyCounter = 0; // prevent infinite loops
                 while (current != null && safetyCounter < 10)
                 {
@@ -163,5 +158,7 @@ namespace CreatureBuilder
 
             return false;
         }
+        
+        #endregion
     }
 }
