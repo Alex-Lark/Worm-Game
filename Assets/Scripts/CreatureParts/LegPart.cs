@@ -5,6 +5,9 @@ namespace CreatureParts
 {
     public class LegPart : WormPart
     {
+        
+        //TODO: refactor to have better code and inverse kinematics
+        
         public GameObject foot;
 
         private bool wasGroundedLastFrame = false;

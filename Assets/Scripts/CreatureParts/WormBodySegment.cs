@@ -2,106 +2,89 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class WormBodySegment : WormPart
+namespace CreatureParts
 {
-    public bool IsScrunched { get; private set; }
-    
-    public WormPart previousSegment;
-    public WormPart nextSegment;
-    
-    private Coroutine _scrunchCoroutine;
+    public class WormBodySegment : WormPart
+    {
+        public bool IsScrunched { get; private set; }
 
-    void Start()
-    {
-        IsScrunched = true;
-    }
-    
-    public void SetIsScrunched()
-    {
-        IsScrunched = true;
-        if (_scrunchCoroutine != null)
+        public WormPart previousSegment;
+        public WormPart nextSegment;
+
+        private Coroutine scrunchCoroutine;
+
+        void Start()
         {
-            StopCoroutine(_scrunchCoroutine);
+            IsScrunched = true;
         }
 
-        _scrunchCoroutine = StartCoroutine(ScrunchTimer());
-    }
-    
-    private IEnumerator ScrunchTimer()
-    {
-        yield return new WaitForSeconds(GameParameters.WormSegmentScrunchTime);
-        IsScrunched = false;
-        _scrunchCoroutine = null;
-    }
-    
-    public Rigidbody AddJoint(Transform wormPart, Rigidbody previousSegmentRigidBody)
-    {
-        ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
-        joint.connectedBody = previousSegmentRigidBody;
-    
-        joint.anchor = new Vector3(0, 0, -GameParameters.SegmentMaxPartDistance);
-        float maxAngle = GameParameters.MaxJointAngle; // Degrees is correct
-        
-        // Lock all position axes so it stays in place
-        joint.xMotion = ConfigurableJointMotion.Locked;
-        joint.yMotion = ConfigurableJointMotion.Locked;
-        joint.zMotion = ConfigurableJointMotion.Locked;
-        
-        // Set angular motion to Limited
-        joint.angularXMotion = ConfigurableJointMotion.Limited;
-        joint.angularYMotion = ConfigurableJointMotion.Limited;
-        joint.angularZMotion = ConfigurableJointMotion.Limited;
-        
-        // Configure angle limits with spring to smoothly return
-        SoftJointLimit lowXLimit = new SoftJointLimit { 
-            limit = -maxAngle,
-            bounciness = 0.1f,
-            contactDistance = 0f // Start applying spring force 1 degree before limit
-        };
-        SoftJointLimit highXLimit = new SoftJointLimit { 
-            limit = maxAngle,
-            bounciness = 0.1f,
-            contactDistance = 0f
-        };
-        SoftJointLimit yzLimit = new SoftJointLimit { 
-            limit = maxAngle,
-            bounciness = 0.1f,
-            contactDistance = 0f
-        };
-        
-        // NEW: reduce twist (Y axis) only
-        SoftJointLimit yReduced = new SoftJointLimit {
-            limit = maxAngle * 0.05f,   // keeps behavior but reduces twisting massively
-            bounciness = 0.1f,
-            contactDistance = 0f
-        };
-        
-        joint.lowAngularXLimit = lowXLimit;
-        joint.highAngularXLimit = highXLimit;
-        joint.angularYLimit = yReduced;   // << only twist is restricted
-        joint.angularZLimit = yzLimit;
-        
-        // Configure spring and damper on limits
-        SoftJointLimitSpring limitSpring = new SoftJointLimitSpring {
-            spring = 1000000f,  // Extremely high spring = virtually rigid limits
-            damper = 10000f     // High damping to prevent oscillation
-        };
-        
-        joint.angularXLimitSpring = limitSpring;
-        joint.angularYZLimitSpring = limitSpring;
-        
-        // Disable the angular drive - only use limit springs
-        JointDrive angularDrive = new JointDrive();
-        angularDrive.positionSpring = 0f;  // No spring to center
-        angularDrive.positionDamper = 100f;  // Keep damping to reduce rotation
-        angularDrive.maximumForce = 1000f;
-        
-        joint.angularXDrive = angularDrive;
-        joint.angularYZDrive = angularDrive;
-        
-        joint.rotationDriveMode = RotationDriveMode.XYAndZ;
+        public void SetIsScrunched()
+        {
+            IsScrunched = true;
+            if (scrunchCoroutine != null)
+            {
+                StopCoroutine(scrunchCoroutine);
+            }
 
-        previousSegmentRigidBody = wormPart.GetComponent<Rigidbody>();
-        return previousSegmentRigidBody;
+            scrunchCoroutine = StartCoroutine(ScrunchTimer());
+        }
+
+        private IEnumerator ScrunchTimer()
+        {
+            yield return new WaitForSeconds(GameParameters.WormSegmentScrunchTime);
+            IsScrunched = false;
+            scrunchCoroutine = null;
+        }
+
+        public Rigidbody AddJoint(Transform wormPart, Rigidbody previousSegmentRigidBody)
+        {
+            ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
+            joint.connectedBody = previousSegmentRigidBody;
+            joint.anchor = new Vector3(0, 0, -GameParameters.SegmentMaxPartDistance);
+
+            // Lock all position
+            joint.xMotion = joint.yMotion = joint.zMotion = ConfigurableJointMotion.Locked;
+
+            // Limit all rotation
+            joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Limited;
+
+            float maxAngle = GameParameters.MaxJointAngle;
+
+            // Configure angle limits
+            joint.lowAngularXLimit = CreateLimit(-maxAngle);
+            joint.highAngularXLimit = CreateLimit(maxAngle);
+            joint.angularYLimit = CreateLimit(maxAngle * 0.05f); // Reduced twisting
+            joint.angularZLimit = CreateLimit(maxAngle);
+
+            // Configure spring and damper
+            SoftJointLimitSpring limitSpring = new SoftJointLimitSpring
+            {
+                spring = 1000000f,
+                damper = 10000f
+            };
+            joint.angularXLimitSpring = joint.angularYZLimitSpring = limitSpring;
+
+            // Configure angular drive
+            JointDrive angularDrive = new JointDrive
+            {
+                positionSpring = 0f,
+                positionDamper = 100f,
+                maximumForce = 1000f
+            };
+            joint.angularXDrive = joint.angularYZDrive = angularDrive;
+            joint.rotationDriveMode = RotationDriveMode.XYAndZ;
+
+            return wormPart.GetComponent<Rigidbody>();
+        }
+
+        private SoftJointLimit CreateLimit(float angle)
+        {
+            return new SoftJointLimit
+            {
+                limit = angle,
+                bounciness = 0.1f,
+                contactDistance = 0f
+            };
+        }
     }
 }
