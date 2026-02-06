@@ -10,9 +10,12 @@ public static class GameParameters
     public static readonly int defaultTimePerMinigame = 60;
 
     public static readonly int timeForLeaderboard = 5;
+
+    [Header("Creature Builder UI")] 
+    public static readonly float CardTransparencyWhileDragging = 0.6f;
     
     [Header("Creature Builder")] 
-    public static readonly float distanceToClampPart = 10f;
+    public static readonly float DistanceToClampPart = 10f;
 
     [Header("Worm League UI")]   
     public static float titleFadeTime = 1f;

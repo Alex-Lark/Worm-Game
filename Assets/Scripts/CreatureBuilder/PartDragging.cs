@@ -238,7 +238,7 @@ private void DragAlongSurface(Vector3 mouseDelta) {
     transform.position = finalEndPoint - offset;
     
     // Check if we should unclamp (dragged too far from surface)
-    float clampDistance = GameParameters.distanceToClampPart;
+    float clampDistance = GameParameters.DistanceToClampPart;
     float distanceToSurface = Vector3.Distance(endPoint.position, wormCollider.ClosestPoint(endPoint.position));
     
     if (distanceToSurface > clampDistance * 3f) {
@@ -293,7 +293,7 @@ private void TryToClampToWormBody() {
     Collider wormCollider = falseWormBody.GetComponent<Collider>();
     if (wormCollider == null) return;
 
-    float clampDistance = GameParameters.distanceToClampPart;
+    float clampDistance = GameParameters.DistanceToClampPart;
 
     // Use ClosestPoint - more reliable than raycast
     Vector3 closestPoint = wormCollider.ClosestPoint(endPoint.position);

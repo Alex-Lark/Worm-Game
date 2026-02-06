@@ -6,7 +6,7 @@ namespace CreatureBuilder
     public class CreaturePartData : ScriptableObject
     {
         public GameObject prefab;
-        public string partName;
-        public Sprite icon;
+        //public string partName;
+        //public Sprite icon;
     }
 }
