@@ -17,7 +17,7 @@ namespace GameLoop
         {
             foreach (Player.Player player in GameLoop.Instance.players)
             {
-                string text = player.PlayerName + ": " + player.PlayerScore;
+                string text = player.PlayerName + ": " + player.playerScore;
             
                 GameObject textObject = Instantiate(textPrefab, leaderboardBackground.transform);
             

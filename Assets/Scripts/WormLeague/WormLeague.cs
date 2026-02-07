@@ -26,7 +26,7 @@ namespace WormLeague
         public void OnGoalScored(string team)
         {
             Player.Player scoringPlayer = ball.lastTouchingPlayer;
-            scoringPlayer.PlayerScore += 1;
+            scoringPlayer.playerScore += 1;
             //give player goal
             print(scoringPlayer.PlayerName + "scored");
             ball.Reset();
@@ -57,14 +57,14 @@ namespace WormLeague
             {
                 foreach (Player.Player player in teamRed)
                 {
-                    player.PlayerScore += 10;
+                    player.playerScore += 10;
                 }
             }
             else
             {
                 foreach (Player.Player player in teamBlue)
                 {
-                    player.PlayerScore += 10;
+                    player.playerScore += 10;
                 }
             }
         }

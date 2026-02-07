@@ -19,9 +19,9 @@ namespace GameLoop
 
             foreach (Player.Player player in GameLoop.Instance.players)
             {
-                if (player.PlayerScore > highestScore)
+                if (player.playerScore > highestScore)
                 {
-                    highestScore = player.PlayerScore;
+                    highestScore = player.playerScore;
                     topPlayer = player;
                 }
             }
