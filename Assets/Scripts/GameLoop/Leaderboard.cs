@@ -15,10 +15,8 @@ namespace GameLoop
 
         private void PopulateLeaderboard()
         {
-            print("populating leaderboard");
             foreach (Player.Player player in GameLoop.Instance.players)
             {
-                print("adding a player");
                 string text = player.PlayerName + ": " + player.PlayerScore;
             
                 GameObject textObject = Instantiate(textPrefab, leaderboardBackground.transform);

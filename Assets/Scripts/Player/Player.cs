@@ -322,10 +322,21 @@ namespace Player
 
         public void ResetPlayer()
         {
-            ResetPlayerParts();
+            ResetAttachedParts();
+            ResetPartsInInventory();
+            DeactivatePlayer();
         }
 
-        private void ResetPlayerParts()
+        private void ResetPartsInInventory()
+        {
+            foreach (GameObject part in wormPartsInInventory)
+            {
+                Destroy(part);
+            }
+            wormPartsInInventory.Clear();
+        }
+
+        private void ResetAttachedParts()
         {
             foreach (GameObject part in attachedWormParts)
             {

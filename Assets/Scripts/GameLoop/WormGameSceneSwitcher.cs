@@ -13,7 +13,6 @@ namespace GameLoop
         {
             SceneManager.LoadScene("MainMenuScene");
             GameLoop.Instance.Reset();
-            Player.Player.Instance.DeactivatePlayer();
         }
 
         public void LoadSettingsScene()
@@ -49,40 +48,40 @@ namespace GameLoop
         public void LoadGameScene()
         {
             SceneManager.LoadScene(GameSceneList.GetRandomGameScene());
-            Player.Player.Instance.SetWormInGameScene();
+            
+            foreach (Player.Player player in GameLoop.Instance.players)
+            {
+                player.SetWormInGameScene();
+            }
         }
     
         public void LoadLeaderboardScene()
         {
             SceneManager.LoadScene("LeaderboardScene");
-            Player.Player.Instance.DeactivatePlayer();
+            
+            foreach (Player.Player player in GameLoop.Instance.players)
+            {
+                player.DeactivatePlayer();
+            }
         }
     
         public void LoadGameEndScene()
         {
             SceneManager.LoadScene("GameEndScene");
-            Player.Player.Instance.DeactivatePlayer();
+            
+            foreach (Player.Player player in GameLoop.Instance.players)
+            {
+                player.DeactivatePlayer();
+            }
         }
 
         public void QuitGame()
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
-        }
-    
-        private IEnumerator LoadSceneCoroutine(string sceneName)
-        {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-        
-            OnSceneLoaded?.Invoke();
+            #if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                            Application.Quit();
+            #endif
         }
     }
 }

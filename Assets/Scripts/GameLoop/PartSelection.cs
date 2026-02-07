@@ -8,31 +8,43 @@ namespace GameLoop
 {
     public class PartSelection : MonoBehaviour
     {
+        #region Public Variables
+        [Header("Public Variables")] 
+        
         public Image card1Slot;
         public Image card2Slot;
         public TextMeshProUGUI card1Name;
         public TextMeshProUGUI card2Name;
+        
+        #endregion
 
+        #region Private Variables
+        [Header("Private Variables")] 
+        
         private List<GameObject> partCards;
         private GameObject card1;
         private GameObject card2;
     
         private GameObject currentCard;
         private GameObject discardedCard;
+        
+        #endregion
     
+        #region Built-In Methods
+        
         void Start()
         {
             partCards = GameLoop.Instance.partCards;
             PickCardOptions();
         }
+        
+        #endregion
+        
+        #region Public Methods
 
         public void PickCardOptions()
         {
-            Debug.Log("Picking card options");
-            int card1Index = Random.Range(0, partCards.Count);
-            int card2Index = Random.Range(0, partCards.Count);
-            card1 = partCards[card1Index];
-            card2 = partCards[card2Index];
+            (card1, card2) = Pick2RandomCards();
         
             card1Slot.sprite = card1.GetComponent<PartCard>().sprite;
             card2Slot.sprite = card2.GetComponent<PartCard>().sprite;
@@ -42,6 +54,7 @@ namespace GameLoop
 
         public void EndCardSelection()
         {
+            //if no card was selected, auto select card 1
             if (currentCard == null)
             {
                 currentCard = card1;
@@ -49,15 +62,47 @@ namespace GameLoop
         
             Player.Player.Instance.wormPartsInInventory.Add(currentCard);
         
-            //discard discarded card to somoene else
-        
-            //get discarded card from somoene else and add it to player
+            //TODO: discard card and get discarded card from opponent
         
             //fake discarded card
             int discardCardIndex = Random.Range(0, partCards.Count);
             Player.Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
+            
+            ResetPartSelection();
+        }
+
+        public void SelectCard1()
+        {
+            card1Slot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+            card2Slot.transform.localScale = new Vector3(1f, 1f, 1f);
+            currentCard = card1;
+            discardedCard = card2;
+        }
+
+        public void SelectCard2()
+        {
+            card2Slot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+            card1Slot.transform.localScale = new Vector3(1f, 1f, 1f);
+            currentCard = card2;
+            discardedCard = card1;
+        }
         
-            //clear values
+        #endregion
+        
+        #region Private Methods
+        
+        private (GameObject, GameObject) Pick2RandomCards()
+        {
+            int card1Index = Random.Range(0, partCards.Count);
+            int card2Index = Random.Range(0, partCards.Count);
+            card1 = partCards[card1Index];
+            card2 = partCards[card2Index];
+
+            return (card1, card2);
+        }
+
+        private void ResetPartSelection()
+        {
             card1 = null;
             card2 = null;
             currentCard = null;
@@ -69,21 +114,7 @@ namespace GameLoop
             card1Slot.transform.localScale = new Vector3(1f, 1f, 1f);
             card2Slot.transform.localScale = new Vector3(1f, 1f, 1f);
         }
-
-        public void selectCard1()
-        {
-            card1Slot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-            card2Slot.transform.localScale = new Vector3(1f, 1f, 1f);
-            currentCard = card1;
-            discardedCard = card2;
-        }
-
-        public void selectCard2()
-        {
-            card2Slot.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-            card1Slot.transform.localScale = new Vector3(1f, 1f, 1f);
-            currentCard = card2;
-            discardedCard = card1;
-        }
+        
+        #endregion
     }
 }

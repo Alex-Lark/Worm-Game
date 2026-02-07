@@ -67,8 +67,12 @@ namespace GameLoop
         public void Reset()
         {
             StopCoroutine(gameLoop);
+            StopAllCoroutines();
+            
             TimeLeftInScene = 0;
             IsGameLoopRunning = false;
+            sceneReady = false;
+            
             foreach (Player.Player player in players)
             {
                 player.ResetPlayer();

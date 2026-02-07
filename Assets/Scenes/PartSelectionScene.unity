@@ -378,7 +378,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 570576360}
         m_TargetAssemblyTypeName: PartSelection, Assembly-CSharp
-        m_MethodName: selectCard2
+        m_MethodName: SelectCard2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1733,7 +1733,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 570576360}
         m_TargetAssemblyTypeName: PartSelection, Assembly-CSharp
-        m_MethodName: selectCard1
+        m_MethodName: SelectCard1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
