@@ -38,23 +38,23 @@ namespace LifelikeMotion.IKFootPlacement
 
         public void CalculateMovement()
         {
-            Vector3 _velocity = Vector3.zero;
-            _velocity.z = vertical;
-            _velocity.x = horizontal;
+            Vector3 velocity = Vector3.zero;
+            velocity.z = vertical;
+            velocity.x = horizontal;
 
             animator.SetFloat("Z", vertical);
             animator.SetFloat("X", horizontal);
 
-            _velocity = Vector3.ClampMagnitude(_velocity, 1);
+            velocity = Vector3.ClampMagnitude(velocity, 1);
 
-            velocity.z = _velocity.z * movementSpeed;
-            velocity.x = _velocity.x * movementSpeed;
+            this.velocity.z = velocity.z * movementSpeed;
+            this.velocity.x = velocity.x * movementSpeed;
 
-            if (cc.isGrounded && !jumped) { velocity.y = -2; }
+            if (cc.isGrounded && !jumped) { this.velocity.y = -2; }
 
             else if (cc.isGrounded && jumped)
             {
-                velocity.y = jumpSpeed;
+                this.velocity.y = jumpSpeed;
                 if (iKFootPlacement != null)
                 {
                     iKFootPlacement.isGrounded = false;
@@ -66,11 +66,11 @@ namespace LifelikeMotion.IKFootPlacement
 
             else
             {
-                velocity.y -= gravity * Time.deltaTime;
+                this.velocity.y -= gravity * Time.deltaTime;
                 isMoving = true;
             }
 
-            cc.Move(transform.TransformVector(velocity) * Time.deltaTime);
+            cc.Move(transform.TransformVector(this.velocity) * Time.deltaTime);
 
             if (!isMoving) { cc.transform.position = new Vector3(ccPosition.x, cc.transform.position.y, ccPosition.z); }
             else { ccPosition = cc.transform.position; }

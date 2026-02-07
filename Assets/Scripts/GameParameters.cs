@@ -3,13 +3,13 @@ using UnityEngine;
 public static class GameParameters
 {
     [Header("Game loop default settings")] 
-    public static readonly int defaultNumberOfRounds = 3;
-    public static readonly int defaultNumberOfPartsPerRound = 1; //not including discarded card(s)
-    public static readonly int defaultTimePerPartSelection = 5;
-    public static readonly int defaultTimePerCreatureBuilding = 30;
-    public static readonly int defaultTimePerMinigame = 60;
+    public static readonly int DefaultNumberOfRounds = 3;
+    public static readonly int DefaultNumberOfPartsPerRound = 1; //not including discarded card(s)
+    public static readonly int DefaultTimePerPartSelection = 5;
+    public static readonly int DefaultTimePerCreatureBuilding = 30;
+    public static readonly int DefaultTimePerMinigame = 60;
 
-    public static readonly int timeForLeaderboard = 5;
+    public static readonly int TimeForLeaderboard = 5;
 
     [Header("Creature Builder UI")] 
     public static readonly float CardTransparencyWhileDragging = 0.6f;
@@ -20,12 +20,12 @@ public static class GameParameters
     public static readonly float DistanceToClampPart = 30f;
 
     [Header("Worm League UI")]   
-    public static float titleFadeTime = 1f;
-    public static float titleShowTime = 1.5f;
-    public static float teamFadeTime = 1f;
-    public static float teamShowTime = 1f;
-    public static float scoreFadeTime = 1f;
-    public static float scoreShowTime = 1f;
+    public static float TitleFadeTime = 1f;
+    public static float TitleShowTime = 1.5f;
+    public static float TeamFadeTime = 1f;
+    public static float TeamShowTime = 1f;
+    public static float ScoreFadeTime = 1f;
+    public static float ScoreShowTime = 1f;
     
     [Header("Worm")]
     public static readonly int WormSegmentCount = 23;
@@ -52,7 +52,7 @@ public static class GameParameters
     public static readonly float WormSegmentScrunchTime = 0.15f;
     public static readonly float WormScrunchForce = 1550f;
     public static readonly float WormGroundPinForce = 1000f;
-    public static readonly float maxTimeSinceLastGrounded = 0.02f;
+    public static readonly float MaxTimeSinceLastGrounded = 0.02f;
 
     [Header("Worm Jumping")] 
     public static float WormMiddleSegmentScrunchForce = 2500f;
@@ -79,11 +79,11 @@ public static class GameParameters
     public static readonly float WormHeadRotationSpeedWhileAttacking = 1.0f;
 
     [Header("Worm Leg")] 
-    public static float legMaxVelocityIncrease = 1f;
-    public static float legMoveForce = 9000f;
-    public static float legMoveTime = 0.75f;
-    public static float legJumpForce = 4000f;
-    public static float legRotationSpeed = 1f;
+    public static float LegMaxVelocityIncrease = 1f;
+    public static float LegMoveForce = 9000f;
+    public static float LegMoveTime = 0.75f;
+    public static float LegJumpForce = 4000f;
+    public static float LegRotationSpeed = 1f;
     
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
@@ -101,8 +101,8 @@ public static class GameParameters
     public static readonly float GizmoForceScale = 0.1f;
 
     [Header("Player Camera")]
-    public static readonly float minCameraPitch = -10f;
-    public static readonly float maxCameraPitch = 40f;
+    public static readonly float MinCameraPitch = -10f;
+    public static readonly float MaxCameraPitch = 40f;
     public static readonly float MaxCameraTurnAngle = 90f;
 
     [Header("Jump Pad")] 

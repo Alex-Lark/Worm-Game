@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class WormJump : MonoBehaviour
 {
-    private Transform _wormHead;
-    private List<Transform> _wormParts;
-    private float _jumpChargeTime = 0f;
+    private Transform wormHead;
+    private List<Transform> wormParts;
+    private float jumpChargeTime = 0f;
     
     private List<int> middleIndices = null;
     private List<List<int>> consecutiveSegments = null;
-    private Dictionary<int, float> _reachedHeights = new Dictionary<int, float>(); // Track which segments reached target
+    private Dictionary<int, float> reachedHeights = new Dictionary<int, float>(); // Track which segments reached target
     
     void Start()
     {
-        _wormHead = Player.Player.Instance.wormHead;
-        _wormParts = Player.Player.Instance.wormBodySegments;
+        wormHead = Player.Player.Instance.wormHead;
+        wormParts = Player.Player.Instance.wormBodySegments;
         middleIndices = null;
     }
 
@@ -26,8 +26,8 @@ public class WormJump : MonoBehaviour
     
     public void StopJump() 
     {
-        _jumpChargeTime = 0f;
-        _reachedHeights.Clear();
+        jumpChargeTime = 0f;
+        reachedHeights.Clear();
     }
 
     public void Jump() 
@@ -36,7 +36,7 @@ public class WormJump : MonoBehaviour
         List<List<int>> jumpSegments = GetLargestConsecutiveSegments(consecutiveSegments, GameParameters.WormJumpSegments);
         
         middleIndices = FindMiddleJumpSegments(jumpSegments);
-        _reachedHeights.Clear();
+        reachedHeights.Clear();
         
         if (middleIndices == null)
         {
@@ -49,25 +49,25 @@ public class WormJump : MonoBehaviour
         //     _wormParts[middleIndex].GetComponent<WormBodySegment>().SetIsScrunched();
         // }
 
-        Transform previousPart = _wormHead;
+        Transform previousPart = wormHead;
         
-        for (int i = 0; i < _wormParts.Count; i++)
+        for (int i = 0; i < wormParts.Count; i++)
         {
-            Transform wormPart = _wormParts[i];
+            Transform wormPart = wormParts[i];
             if (middleIndices != null && (middleIndices.Contains(i)))
             {
                 wormPart.GetComponent<Rigidbody>().AddForce(Vector3.down * GameParameters.WormMiddleSegmentScrunchForce);
             }
             else
             {
-                if (wormPart.GetComponent<CreatureBodySegment>().IsGrounded || wormPart.GetComponent<CreatureBodySegment>().IsScrunched || (wormPart.GetComponent<CreatureBodySegment>().TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded))
+                if (wormPart.GetComponent<CreatureBodySegment>().IsGrounded || wormPart.GetComponent<CreatureBodySegment>().IsScrunched || (wormPart.GetComponent<CreatureBodySegment>().TimeSinceLastGrounded < GameParameters.MaxTimeSinceLastGrounded))
                 {
-                    Vector3 forwardDirection = Vector3.Slerp(previousPart.forward, _wormHead.forward, GameParameters.WormJumpPreviousPartVsHeadAngle);
+                    Vector3 forwardDirection = Vector3.Slerp(previousPart.forward, wormHead.forward, GameParameters.WormJumpPreviousPartVsHeadAngle);
                     Vector3 jumpDirection = Vector3.Slerp(forwardDirection, Vector3.up, GameParameters.WormJumpAngle).normalized;
                     wormPart.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.WormJumpForce);
                 }
             }
-            previousPart = _wormParts[i];
+            previousPart = wormParts[i];
         }
     }
 
@@ -76,15 +76,15 @@ public class WormJump : MonoBehaviour
         List<List<int>> segments = new List<List<int>>();
         List<int> currentSegment = null;
         
-        if (_wormHead.GetComponent<CreaturePart>().IsGrounded) 
+        if (wormHead.GetComponent<CreaturePart>().IsGrounded) 
         {
             currentSegment = new List<int> { -1 }; // Use -1 to represent head
         }
         
-        for (int i = 0; i < _wormParts.Count; i++) 
+        for (int i = 0; i < wormParts.Count; i++) 
         {
-            CreaturePart part = _wormParts[i].GetComponent<CreaturePart>();
-            CreatureBodySegment bodySeg = _wormParts[i].GetComponent<CreatureBodySegment>();
+            CreaturePart part = wormParts[i].GetComponent<CreaturePart>();
+            CreatureBodySegment bodySeg = wormParts[i].GetComponent<CreatureBodySegment>();
             bool isGroundedOrScrunched = part.IsGrounded || (bodySeg != null && bodySeg.IsScrunched);
                 
             if (isGroundedOrScrunched) 

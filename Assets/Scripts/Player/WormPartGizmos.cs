@@ -7,42 +7,42 @@ public class WormPartGizmos : MonoBehaviour
     public bool showVelocity = true;
     public bool showForces = true;
     
-    private readonly float _velocityScale = GameParameters.GizmoVelocityScale;
-    private readonly float _forceScale = GameParameters.GizmoForceScale;
+    private readonly float velocityScale = GameParameters.GizmoVelocityScale;
+    private readonly float forceScale = GameParameters.GizmoForceScale;
     
-    private SphereCollider _partCollider;
-    private Rigidbody _rb;
-    private readonly float _verticalDetectionOffset = GameParameters.GroundingColliderVerticalDetectionOffset;
+    private SphereCollider partCollider;
+    private Rigidbody rb;
+    private readonly float verticalDetectionOffset = GameParameters.GroundingColliderVerticalDetectionOffset;
     
-    private Vector3 _lastVelocity;
-    private Vector3 _currentNetForce;
+    private Vector3 lastVelocity;
+    private Vector3 currentNetForce;
     
     void Start()
     {
-        _partCollider = GetComponent<SphereCollider>();
-        _rb = GetComponent<Rigidbody>();
+        partCollider = GetComponent<SphereCollider>();
+        rb = GetComponent<Rigidbody>();
         
-        if (_rb != null)
+        if (rb != null)
         {
-            _lastVelocity = _rb.linearVelocity;
+            lastVelocity = rb.linearVelocity;
         }
     }
     
     private void FixedUpdate()
     {
-        if (_rb != null)
+        if (rb != null)
         {
             // Calculate net force from acceleration (F = ma)
-            Vector3 acceleration = (_rb.linearVelocity - _lastVelocity) / Time.fixedDeltaTime;
-            _currentNetForce = _rb.mass * acceleration;
-            _lastVelocity = _rb.linearVelocity;
+            Vector3 acceleration = (rb.linearVelocity - lastVelocity) / Time.fixedDeltaTime;
+            currentNetForce = rb.mass * acceleration;
+            lastVelocity = rb.linearVelocity;
         }
     }
     
     private void OnDrawGizmosSelected()
     {
-        if (_partCollider == null) _partCollider = GetComponent<SphereCollider>();
-        if (_rb == null) _rb = GetComponent<Rigidbody>();
+        if (partCollider == null) partCollider = GetComponent<SphereCollider>();
+        if (rb == null) rb = GetComponent<Rigidbody>();
         
         DrawGroundCollider();
         DrawVelocity();
@@ -51,12 +51,12 @@ public class WormPartGizmos : MonoBehaviour
     
     private void DrawGroundCollider()
     {
-        if (!showGroundCollider || _partCollider == null) return;
+        if (!showGroundCollider || partCollider == null) return;
 
-        var bounds = _partCollider.bounds;
+        var bounds = partCollider.bounds;
         
         Vector3 bottom = bounds.center - new Vector3(0, bounds.extents.y, 0);
-        Vector3 checkPos = bottom + Vector3.down * _verticalDetectionOffset;
+        Vector3 checkPos = bottom + Vector3.down * verticalDetectionOffset;
         float radius = bounds.extents.x * 0.9f;
         
         Gizmos.color = GetComponent<CreaturePart>().IsGrounded ? Color.green : Color.red;
@@ -65,9 +65,9 @@ public class WormPartGizmos : MonoBehaviour
     
     private void DrawVelocity()
     {
-        if (!showVelocity || _rb == null || !Application.isPlaying) return;
+        if (!showVelocity || rb == null || !Application.isPlaying) return;
         
-        Vector3 velocityVector = _rb.linearVelocity * _velocityScale;
+        Vector3 velocityVector = rb.linearVelocity * velocityScale;
         if (velocityVector.magnitude < 0.01f) return;
         
         Gizmos.color = Color.cyan;
@@ -80,7 +80,7 @@ public class WormPartGizmos : MonoBehaviour
     {
         if (!showForces || !Application.isPlaying) return;
         
-        Vector3 forceVector = _currentNetForce * _forceScale;
+        Vector3 forceVector = currentNetForce * forceScale;
         if (forceVector.magnitude < 0.01f) return;
         
         Gizmos.color = Color.yellow;

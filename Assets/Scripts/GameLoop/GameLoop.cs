@@ -96,13 +96,13 @@ namespace GameLoop
 
         private void SetDefaultGameLoopSettings()
         {
-            numberOfRounds = GameParameters.defaultNumberOfRounds;
-            numberOfPartsPerRound = GameParameters.defaultNumberOfPartsPerRound;
-            timePerPartSelection = GameParameters.defaultTimePerPartSelection;
-            timePerCreatureBuilding = GameParameters.defaultTimePerCreatureBuilding;
-            timePerMinigame = GameParameters.defaultTimePerMinigame;
+            numberOfRounds = GameParameters.DefaultNumberOfRounds;
+            numberOfPartsPerRound = GameParameters.DefaultNumberOfPartsPerRound;
+            timePerPartSelection = GameParameters.DefaultTimePerPartSelection;
+            timePerCreatureBuilding = GameParameters.DefaultTimePerCreatureBuilding;
+            timePerMinigame = GameParameters.DefaultTimePerMinigame;
 
-            timeForLeaderboard = GameParameters.timeForLeaderboard;
+            timeForLeaderboard = GameParameters.TimeForLeaderboard;
         }
         
         #endregion

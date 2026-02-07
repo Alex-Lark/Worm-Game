@@ -5,7 +5,7 @@ namespace WormLeague
 {
     public class Ball : MonoBehaviour
     {
-        public Player.Player lastTouchingPlayer { get; private set; }
+        public Player.Player LastTouchingPlayer { get; private set; }
 
         public void Reset()
         {
@@ -21,8 +21,8 @@ namespace WormLeague
             if (collision.gameObject.CompareTag("CreaturePart") || collision.gameObject.CompareTag("WormBodySegment"))
             {
                 Debug.Log("Ball touching player.");
-                lastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
-                print(lastTouchingPlayer.PlayerName);
+                LastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
+                print(LastTouchingPlayer.PlayerName);
             }
         }
     }

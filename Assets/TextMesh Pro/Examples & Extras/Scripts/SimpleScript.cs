@@ -8,19 +8,19 @@ namespace TMPro.Examples
     public class SimpleScript : MonoBehaviour
     {
 
-        private TextMeshPro m_textMeshPro;
+        private TextMeshPro mTextMeshPro;
         //private TMP_FontAsset m_FontAsset;
 
-        private const string label = "The <#0050FF>count is: </color>{0:2}";
-        private float m_frame;
+        private const string Label = "The <#0050FF>count is: </color>{0:2}";
+        private float mFrame;
 
 
         void Start()
         {
             // Add new TextMesh Pro Component
-            m_textMeshPro = gameObject.AddComponent<TextMeshPro>();
+            mTextMeshPro = gameObject.AddComponent<TextMeshPro>();
 
-            m_textMeshPro.autoSizeTextContainer = true;
+            mTextMeshPro.autoSizeTextContainer = true;
 
             // Load the Font Asset to be used.
             //m_FontAsset = Resources.Load("Fonts & Materials/LiberationSans SDF", typeof(TMP_FontAsset)) as TMP_FontAsset;
@@ -31,9 +31,9 @@ namespace TMPro.Examples
             //m_textMeshPro.fontSharedMaterial.EnableKeyword("BEVEL_ON");
 
             // Set various font settings.
-            m_textMeshPro.fontSize = 48;
+            mTextMeshPro.fontSize = 48;
 
-            m_textMeshPro.alignment = TextAlignmentOptions.Center;
+            mTextMeshPro.alignment = TextAlignmentOptions.Center;
 
             //m_textMeshPro.anchorDampening = true; // Has been deprecated but under consideration for re-implementation.
             //m_textMeshPro.enableAutoSizing = true;
@@ -42,7 +42,7 @@ namespace TMPro.Examples
             //m_textMeshPro.wordSpacing = 0.1f;
 
             //m_textMeshPro.enableCulling = true;
-            m_textMeshPro.textWrappingMode = TextWrappingModes.NoWrap;
+            mTextMeshPro.textWrappingMode = TextWrappingModes.NoWrap;
 
             //textMeshPro.fontColor = new Color32(255, 255, 255, 255);
         }
@@ -50,8 +50,8 @@ namespace TMPro.Examples
 
         void Update()
         {
-            m_textMeshPro.SetText(label, m_frame % 1000);
-            m_frame += 1 * Time.deltaTime;
+            mTextMeshPro.SetText(Label, mFrame % 1000);
+            mFrame += 1 * Time.deltaTime;
         }
 
     }

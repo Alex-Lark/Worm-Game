@@ -134,7 +134,7 @@ namespace CreatureBuilder
             //reduces velocity per leg since it will be increased later
             if (part.GetComponent<PartDragging>().partData.name.Equals("leg"))
             {
-                Player.Player.Instance.MaxVelocity -= GameParameters.legMaxVelocityIncrease;
+                Player.Player.Instance.MaxVelocity -= GameParameters.LegMaxVelocityIncrease;
                 //TODO: disable leg script
             }
             
@@ -187,7 +187,7 @@ namespace CreatureBuilder
         private void SetLegOrder()
         {
             int numLegs = legs.Count;
-            float totalTime = GameParameters.legMoveTime;
+            float totalTime = GameParameters.LegMoveTime;
 
             for (int i = 0; i < legs.Count; i++)
             {
@@ -254,7 +254,7 @@ namespace CreatureBuilder
         
         if (creaturePart.GetComponent<PartDragging>().partData.name.Equals("leg"))
         {
-            Player.Player.Instance.MaxVelocity += GameParameters.legMaxVelocityIncrease;
+            Player.Player.Instance.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
             legs.Add(creaturePart);
         }
         

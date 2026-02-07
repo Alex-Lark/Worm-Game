@@ -25,7 +25,7 @@ namespace WormLeague
 
         public void OnGoalScored(string team)
         {
-            Player.Player scoringPlayer = ball.lastTouchingPlayer;
+            Player.Player scoringPlayer = ball.LastTouchingPlayer;
             scoringPlayer.playerScore += 1;
             //give player goal
             print(scoringPlayer.PlayerName + "scored");

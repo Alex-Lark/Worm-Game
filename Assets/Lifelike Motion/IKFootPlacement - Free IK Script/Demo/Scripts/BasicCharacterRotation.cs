@@ -12,8 +12,8 @@ namespace LifelikeMotion.IKFootPlacement
         private float mouseX;
         private float mouseY;
         private float rotationX = 0;
-        private float rotationX_target = 0;
-        private float rotationY_target = 0;
+        private float rotationXTarget = 0;
+        private float rotationYTarget = 0;
         private bool receiveInput = true;
 
         private void Start()
@@ -34,27 +34,27 @@ namespace LifelikeMotion.IKFootPlacement
             {
                 rotation.y += mouseX * mouseSensitivity;
 
-                rotationY_target = rotation.y;
-                rotationX_target += mouseY * mouseSensitivity;
-                rotationX_target = Mathf.Clamp(rotationX_target, -90, 90);
-                rotationX = rotationX_target;
+                rotationYTarget = rotation.y;
+                rotationXTarget += mouseY * mouseSensitivity;
+                rotationXTarget = Mathf.Clamp(rotationXTarget, -90, 90);
+                rotationX = rotationXTarget;
 
-                float _rotation_Angle = rotationX_target / 90f;
-                animator.SetFloat("Rotation_Angle", _rotation_Angle);
+                float rotationAngle = rotationXTarget / 90f;
+                animator.SetFloat("Rotation_Angle", rotationAngle);
 
                 transform.localEulerAngles = rotation;
             }
             else if (smoothing > 0)
             {
-                rotationY_target += mouseX * mouseSensitivity;
+                rotationYTarget += mouseX * mouseSensitivity;
 
-                rotation.y = Mathf.Lerp(rotation.y, rotationY_target, Time.deltaTime / smoothing);
-                rotationX_target += mouseY * mouseSensitivity;
-                rotationX_target = Mathf.Clamp(rotationX_target, -90, 90);
+                rotation.y = Mathf.Lerp(rotation.y, rotationYTarget, Time.deltaTime / smoothing);
+                rotationXTarget += mouseY * mouseSensitivity;
+                rotationXTarget = Mathf.Clamp(rotationXTarget, -90, 90);
 
-                rotationX = Mathf.Lerp(rotationX, rotationX_target, Time.deltaTime / smoothing);
-                float _rotation_Angle = rotationX / 90f;
-                animator.SetFloat("Rotation_Angle", _rotation_Angle);
+                rotationX = Mathf.Lerp(rotationX, rotationXTarget, Time.deltaTime / smoothing);
+                float rotationAngle = rotationX / 90f;
+                animator.SetFloat("Rotation_Angle", rotationAngle);
 
                 transform.localEulerAngles = rotation;
             }

@@ -13,8 +13,7 @@ namespace Player
         private readonly int wormSegmentCount;
         private readonly float maxPartDistance;
 
-        public WormConstructor(Transform wormHead, List<Transform> wormBodySegments, GameObject wormSegmentPrefab, 
-            Transform parentTransform, int segmentCount, float partDistance)
+        public WormConstructor(Transform wormHead, List<Transform> wormBodySegments, GameObject wormSegmentPrefab, Transform parentTransform, int segmentCount, float partDistance)
         {
             this.wormHead = wormHead;
             this.wormBodySegments = wormBodySegments;
