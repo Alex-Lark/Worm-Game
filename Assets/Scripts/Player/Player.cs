@@ -320,6 +320,20 @@ namespace Player
             }
         }
 
+        public void ResetPlayer()
+        {
+            ResetPlayerParts();
+        }
+
+        private void ResetPlayerParts()
+        {
+            foreach (GameObject part in attachedWormParts)
+            {
+                Destroy(part);
+            }
+            attachedWormParts.Clear();
+        }
+
         private IEnumerator WormAttackTimer()
         {
             yield return new WaitForSeconds(GameParameters.WormHeadbutTime); 
