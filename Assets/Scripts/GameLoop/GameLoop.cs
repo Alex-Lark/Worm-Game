@@ -1,155 +1,186 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class GameLoop : MonoBehaviour
+namespace GameLoop
 {
-    public static GameLoop Instance;
-    public float TimeLeftInScene { get; private set; }
-    public bool isGameLoopRunning { get; private set; }
-    public List<Player.Player> players;
-    public List<GameObject> partCards = new List<GameObject>();
+    public class GameLoop : MonoBehaviour
+    {
+        #region Public variables
+        [Header("Public Variables")] 
+        
+        public static GameLoop Instance;
+        public float TimeLeftInScene { get; private set; }
+        public bool IsGameLoopRunning { get; private set; }
+        public List<Player.Player> players;
+        public List<GameObject> partCards = new List<GameObject>();
+        
+        #endregion
     
-    [Header("modifiable game loop settings")] 
-    private int numberOfRounds;
-    private int numberOfPartsPerRound;
-    private int timePerPartSelection;
-    private int timePerCreatureBuilding;
-    private int timePerMinigame;
+        #region Modifiable Loop Settings
+        [Header("modifiable game loop settings")] 
+        
+        private int numberOfRounds;
+        private int numberOfPartsPerRound;
+        private int timePerPartSelection;
+        private int timePerCreatureBuilding;
+        private int timePerMinigame;
+        private int timeForLeaderboard;
+        private bool skipCreatureBuilding1StRound = false;
+        
+        #endregion
+        
+        #region Private Variables
 
-    private int timeForLeaderboard;
-    private bool skipCreatureBuilding1stRound = false;
-
-    private Coroutine gameLoop;
-    private WormGameSceneSwitcher sceneSwitcher;
-    private bool sceneReady = false;
-    private void Awake()
-    {
-        if (Instance == null)
+        private Coroutine gameLoop;
+        private WormGameSceneSwitcher sceneSwitcher;
+        private bool sceneReady = false;
+        
+        #endregion
+        
+        #region Built-In Methods
+        
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void Start()
-    {
-        numberOfRounds = GameParameters.defaultNumberOfRounds;
-        numberOfPartsPerRound = GameParameters.defaultNumberOfPartsPerRound;
-        timePerPartSelection = GameParameters.defaultTimePerPartSelection;
-        timePerCreatureBuilding = GameParameters.defaultTimePerCreatureBuilding;
-        timePerMinigame = GameParameters.defaultTimePerMinigame;
-
-        timeForLeaderboard = GameParameters.timeForLeaderboard;
-
-        sceneSwitcher = gameObject.GetComponent<WormGameSceneSwitcher>();
-        sceneSwitcher.OnSceneLoaded += HandleSceneLoaded;
-    }
-
-    public void Reset()
-    {
-        StopCoroutine(gameLoop);
-        TimeLeftInScene = 0;
-        isGameLoopRunning = false;
-        foreach (var part in Player.Player.Instance.attachedWormParts)
-        {
-            Destroy(part);
-            Player.Player.Instance.attachedWormParts.Remove(part);
-        }
-    }
-
-    public void StartGame()
-    {
-        isGameLoopRunning = true;
-        gameLoop = StartCoroutine(RunGameLoop());
-    }
-
-    private IEnumerator RunGameLoop()
-    {
-    
-        for (int i = 0; i < numberOfRounds; i++)
-        {
-            if (!skipCreatureBuilding1stRound || (i > 0))
+            if (Instance == null)
             {
-                sceneReady = false;
-                sceneSwitcher.LoadPartSelectionScene();
-                for (int j = 0; j < numberOfPartsPerRound; j++)
-                {
-                    yield return StartCoroutine(PartSelectionTimer());
-                    PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
-                    partSelection.EndCardSelection();
-                }
-                
-                sceneSwitcher.LoadCreatureBuilderScene();
-                Player.Player.Instance.SetWormInCreatureBuilderScene();
-                yield return StartCoroutine(CreatureBuilderTimer());
-                CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
-                creatureBuilder.AttachCreatureParts();
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
             }
-            
-            sceneSwitcher.LoadGameScene();
-            
-            yield return StartCoroutine(MinigameTimer());
-            
-            sceneSwitcher.LoadLeaderboardScene();
-            yield return StartCoroutine(LeaderboardTimer());
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void Start()
+        {
+            sceneSwitcher = gameObject.GetComponent<WormGameSceneSwitcher>();
+            sceneSwitcher.OnSceneLoaded += HandleSceneLoaded;
+            SetDefaultGameLoopSettings();
         }
         
-        sceneSwitcher.LoadGameEndScene();
-    }
-
-    private IEnumerator PartSelectionTimer()
-    {
-        TimeLeftInScene = timePerPartSelection;
-
-        while (TimeLeftInScene > 0)
-        {
-            TimeLeftInScene -= Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private IEnumerator CreatureBuilderTimer()
-    {
-        TimeLeftInScene = timePerCreatureBuilding;
-
-        while (TimeLeftInScene > 0)
-        {
-            TimeLeftInScene -= Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private IEnumerator MinigameTimer()
-    {
-        TimeLeftInScene = timePerMinigame;
+        #endregion
         
-        while (TimeLeftInScene > 0)
+        
+        #region Public Methods
+        
+        public void Reset()
         {
-            TimeLeftInScene -= Time.deltaTime;
-            yield return null;
+            StopCoroutine(gameLoop);
+            TimeLeftInScene = 0;
+            IsGameLoopRunning = false;
+            foreach (Player.Player player in players)
+            {
+                foreach (var part in Player.Player.Instance.attachedWormParts)
+                {
+                    Destroy(part);
+                    Player.Player.Instance.attachedWormParts.Remove(part);
+                }
+            }
+        }
+
+        public void StartGame()
+        {
+            IsGameLoopRunning = true;
+            gameLoop = StartCoroutine(RunGameLoop());
         }
         
-    }
+        #endregion
 
-    private IEnumerator LeaderboardTimer()
-    {
-        TimeLeftInScene = timeForLeaderboard;
-
-        while (TimeLeftInScene > 0)
+        private IEnumerator RunGameLoop()
         {
-            TimeLeftInScene -= Time.deltaTime;
-            yield return null;
-        }
-    }
     
-    private void HandleSceneLoaded()
-    {
-        sceneReady = true;
+            for (int i = 0; i < numberOfRounds; i++)
+            {
+                if (!skipCreatureBuilding1StRound || (i > 0))
+                {
+                    sceneReady = false;
+                    sceneSwitcher.LoadPartSelectionScene();
+                    for (int j = 0; j < numberOfPartsPerRound; j++)
+                    {
+                        yield return StartCoroutine(PartSelectionTimer());
+                        PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
+                        partSelection.EndCardSelection();
+                    }
+                
+                    sceneSwitcher.LoadCreatureBuilderScene();
+                    Player.Player.Instance.SetWormInCreatureBuilderScene();
+                    yield return StartCoroutine(CreatureBuilderTimer());
+                    CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
+                    creatureBuilder.AttachCreatureParts();
+                }
+            
+                sceneSwitcher.LoadGameScene();
+            
+                yield return StartCoroutine(MinigameTimer());
+            
+                sceneSwitcher.LoadLeaderboardScene();
+                yield return StartCoroutine(LeaderboardTimer());
+            }
+        
+            sceneSwitcher.LoadGameEndScene();
+        }
+
+        private IEnumerator PartSelectionTimer()
+        {
+            TimeLeftInScene = timePerPartSelection;
+
+            while (TimeLeftInScene > 0)
+            {
+                TimeLeftInScene -= Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        private IEnumerator CreatureBuilderTimer()
+        {
+            TimeLeftInScene = timePerCreatureBuilding;
+
+            while (TimeLeftInScene > 0)
+            {
+                TimeLeftInScene -= Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        private IEnumerator MinigameTimer()
+        {
+            TimeLeftInScene = timePerMinigame;
+        
+            while (TimeLeftInScene > 0)
+            {
+                TimeLeftInScene -= Time.deltaTime;
+                yield return null;
+            }
+        
+        }
+
+        private IEnumerator LeaderboardTimer()
+        {
+            TimeLeftInScene = timeForLeaderboard;
+
+            while (TimeLeftInScene > 0)
+            {
+                TimeLeftInScene -= Time.deltaTime;
+                yield return null;
+            }
+        }
+    
+        private void HandleSceneLoaded()
+        {
+            sceneReady = true;
+        }
+
+        private void SetDefaultGameLoopSettings()
+        {
+            numberOfRounds = GameParameters.defaultNumberOfRounds;
+            numberOfPartsPerRound = GameParameters.defaultNumberOfPartsPerRound;
+            timePerPartSelection = GameParameters.defaultTimePerPartSelection;
+            timePerCreatureBuilding = GameParameters.defaultTimePerCreatureBuilding;
+            timePerMinigame = GameParameters.defaultTimePerMinigame;
+
+            timeForLeaderboard = GameParameters.timeForLeaderboard;
+        }
     }
 }

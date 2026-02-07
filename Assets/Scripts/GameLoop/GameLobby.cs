@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class GameLobby : MonoBehaviour
+namespace GameLoop
 {
-    public void StartGame()
+    public class GameLobby : MonoBehaviour
     {
-        GameLoop.Instance.StartGame();
+        public void StartGame()
+        {
+            GameLoop.Instance.StartGame();
+        }
     }
 }

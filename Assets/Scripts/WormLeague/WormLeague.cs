@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using GameLoop;
 
 namespace WormLeague
 {
@@ -70,7 +71,7 @@ namespace WormLeague
     
         private void AssignPlayerTeams()
         {
-            List<Player.Player> players = new List<Player.Player>(GameLoop.Instance.players);
+            List<Player.Player> players = new List<Player.Player>(GameLoop.GameLoop.Instance.players);
 
 
             while (players.Count > 0)
