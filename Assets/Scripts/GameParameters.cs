@@ -87,6 +87,7 @@ public static class GameParameters
     
     [Header("Worm Visual Head Movement")] 
     public static readonly float VisualHeadVerticalOffset = 0.75f;
+    public static readonly float VisualHeadMaxDegrees = 85f;
 
     [Header("Worm Physics")] 
     public static readonly int NumSegmentCollisionsIgnored = 5;
