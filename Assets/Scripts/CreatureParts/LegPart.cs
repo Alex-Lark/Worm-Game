@@ -3,8 +3,11 @@ using UnityEngine;
 
 namespace CreatureParts
 {
-    public class LegPart : WormPart
+    public class LegPart : AttachablePart
     {
+        
+        //TODO: refactor to have better code and inverse kinematics
+        
         public GameObject foot;
 
         private bool wasGroundedLastFrame = false;
@@ -89,7 +92,7 @@ namespace CreatureParts
             // --- LEG SWING / AIR MOVEMENT ---
             if (isMoving && !IsGrounded && canStep)
             {
-                float stepProgress = Mathf.Clamp01(stepTimer / GameParameters.legMoveTime);
+                float stepProgress = Mathf.Clamp01(stepTimer / GameParameters.LegMoveTime);
                 float verticalOffset = Mathf.Sin(stepProgress * Mathf.PI) * liftHeight;
 
                 Vector3 swingTarget =
@@ -198,11 +201,11 @@ namespace CreatureParts
                 Rigidbody rb = GroundObject.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.AddForceAtPosition(-GameParameters.legMoveForce * (-arcDirection), transform.position);
+                    rb.AddForceAtPosition(-GameParameters.LegMoveForce * (-arcDirection), transform.position);
                 }
                 else
                 {
-                    GetComponent<Rigidbody>().AddForce(-GameParameters.legMoveForce * (-arcDirection));
+                    GetComponent<Rigidbody>().AddForce(-GameParameters.LegMoveForce * (-arcDirection));
                 }
 
                 stepTimer = 0f;
@@ -217,7 +220,7 @@ namespace CreatureParts
             Rigidbody rb = GetComponent<Rigidbody>();
 
             float liftTime = 0.08f;
-            float pushTime = GameParameters.legMoveTime;
+            float pushTime = GameParameters.LegMoveTime;
 
             float totalTime = liftTime + pushTime;
 
@@ -230,8 +233,8 @@ namespace CreatureParts
                 float liftMultiplier = Mathf.Sin(stepProgress * Mathf.PI);
                 float pushMultiplier = Mathf.Sin(stepProgress * Mathf.PI * 0.5f);
 
-                rb.AddForce(transform.up * GameParameters.legMoveForce * 0.03f * liftMultiplier);
-                rb.AddForce(moveDirection * GameParameters.legMoveForce * 0.03f * pushMultiplier);
+                rb.AddForce(transform.up * GameParameters.LegMoveForce * 0.03f * liftMultiplier);
+                rb.AddForce(moveDirection * GameParameters.LegMoveForce * 0.03f * pushMultiplier);
 
                 yield return new WaitForFixedUpdate();
             }
@@ -246,7 +249,7 @@ namespace CreatureParts
                 Vector3 jumpDirection =
                     Vector3.Slerp(transform.up, Vector3.up, GameParameters.WormJumpAngle).normalized;
 
-                GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.legJumpForce);
+                GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.LegJumpForce);
             }
         }
     }

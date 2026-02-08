@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: LegPartData
   m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.CreaturePartData
   prefab: {fileID: 6294173655021920613, guid: 49716e0f920649e45ab0f0131a2ec8bc, type: 3}
-  partName: leg
-  icon: {fileID: 0}
+  mass: 5

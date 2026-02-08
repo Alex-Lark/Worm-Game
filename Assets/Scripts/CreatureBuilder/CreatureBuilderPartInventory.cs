@@ -9,10 +9,8 @@ namespace CreatureBuilder
 
         void Awake()
         {
-            // Get all child slots
             slots = GetComponentsInChildren<InventorySlot>();
-
-            // Initialize each slot
+            
             foreach (var slot in slots)
             {
                 slot.Initialize(this);
@@ -21,16 +19,16 @@ namespace CreatureBuilder
             AddStartingCardsToInventory();
         }
         
+        #region public methods
+        
         public bool AddCardToInventory(GameObject cardPrefab)
         {
             InventorySlot emptySlot = GetEmptySlot();
             
             if (emptySlot != null)
             {
-                // Instantiate the card as a child of the empty slot
                 GameObject cardInstance = Instantiate(cardPrefab, emptySlot.transform);
                 
-                // Reset the card's RectTransform
                 RectTransform cardRect = cardInstance.GetComponent<RectTransform>();
                 if (cardRect != null)
                 {
@@ -38,7 +36,6 @@ namespace CreatureBuilder
                     cardRect.localScale = Vector3.one;
                 }
                 
-                // Initialize the card with the slot
                 InventoryItem item = cardInstance.GetComponent<InventoryItem>();
                 if (item != null)
                 {
@@ -59,6 +56,10 @@ namespace CreatureBuilder
                 return false;
             }
         }
+        
+        #endregion
+        
+        #region private methods
         
         private void AddStartingCardsToInventory()
         {
@@ -82,6 +83,7 @@ namespace CreatureBuilder
 
             return null;
         }
-        
     }
+    
+    #endregion
 }

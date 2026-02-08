@@ -1,13 +1,16 @@
 using TMPro;
 using UnityEngine;
 
-public class Timertext : MonoBehaviour
+namespace GameLoop
 {
-    void Update()
+    public class Timertext : MonoBehaviour
     {
-        if (GameLoop.Instance)
+        void Update()
         {
-            gameObject.GetComponent<TextMeshProUGUI>().text = ((int)GameLoop.Instance.TimeLeftInScene).ToString();
+            if (GameLoop.Instance)
+            {
+                gameObject.GetComponent<TextMeshProUGUI>().text = ((int)GameLoop.Instance.TimeLeftInScene).ToString();
+            }
         }
     }
 }

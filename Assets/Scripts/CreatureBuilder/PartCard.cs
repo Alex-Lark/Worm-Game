@@ -1,8 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PartCard : MonoBehaviour
+namespace CreatureBuilder
 {
-   public Sprite sprite;
-   public string cardName;
+   public class PartCard : MonoBehaviour
+   {
+      public Sprite sprite;
+      public string cardName;
+   }
 }

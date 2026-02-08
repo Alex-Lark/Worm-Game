@@ -4,7 +4,7 @@ namespace WormLeague
 {
     public class Goal : MonoBehaviour
     {
-        public global::WormLeague.WormLeague wormLeague;
+        public WormLeague wormLeague;
         public string team;
     
         private void OnTriggerEnter(Collider other)

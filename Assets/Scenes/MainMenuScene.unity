@@ -1667,7 +1667,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 359479962}
-        m_TargetAssemblyTypeName: WormGameSceneSwitcher, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameLoop.WormGameSceneSwitcher, Assembly-CSharp
         m_MethodName: LoadMainMenuScene
         m_Mode: 1
         m_Arguments:

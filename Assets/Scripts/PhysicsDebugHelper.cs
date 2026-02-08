@@ -1,10 +1,9 @@
 using UnityEngine;
 
-/// <summary>
-/// Add this to any GameObject to test physics stability at different framerates in the editor
-/// </summary>
 public class PhysicsDebugHelper : MonoBehaviour
 {
+    /* CAN BE PLACED IN SCENE TO TEST FRAMERATE */
+    
     [Header("Framerate Testing")]
     [Tooltip("Enable to force a specific framerate")]
     public bool forceFramerate = false;

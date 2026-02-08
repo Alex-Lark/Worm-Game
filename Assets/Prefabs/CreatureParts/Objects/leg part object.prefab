@@ -1081,6 +1081,7 @@ GameObject:
   - component: {fileID: 2091517974953068112}
   - component: {fileID: 1227255661137215562}
   - component: {fileID: 5475280894177721409}
+  - component: {fileID: -1695563857794630915}
   m_Layer: 5
   m_Name: leg part object
   m_TagString: CreaturePart
@@ -1203,12 +1204,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8433c1fe2117348ace9256eb06512c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreaturePart
-  dragDistance: 5
   partData: {fileID: 11400000, guid: 1c7d67e755ea30b4aa8b8d5e6ea35e44, type: 2}
   targetCamera: {fileID: 0}
   creatureBuilderWindow: {fileID: 0}
   endPoint: {fileID: 3091684890137113386}
   isClamped: 0
+  dragDistance: 5
 --- !u!114 &9157339348592596700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1329,6 +1330,18 @@ MonoBehaviour:
   isGrounded: 1
   jumped: 0
   isMoving: 1
+--- !u!114 &-1695563857794630915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6294173655021920613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacc8514d993067498c5d212d445e9f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PartDraggingUI
 --- !u!1 &6643179480755977434
 GameObject:
   m_ObjectHideFlags: 0

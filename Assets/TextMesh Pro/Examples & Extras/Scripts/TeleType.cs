@@ -16,16 +16,16 @@ namespace TMPro.Examples
         private string label02 = "Example <sprite=2> of using <sprite=7> <#ffa000>Graphics Inline</color> <sprite=5> with Text in <font=\"Bangers SDF\" material=\"Bangers SDF - Drop Shadow\">TextMesh<#40a0ff>Pro</color></font><sprite=0> and Unity<sprite=2>";
 
 
-        private TMP_Text m_textMeshPro;
+        private TMP_Text mTextMeshPro;
 
 
         void Awake()
         {
             // Get Reference to TextMeshPro Component
-            m_textMeshPro = GetComponent<TMP_Text>();
-            m_textMeshPro.text = label01;
-            m_textMeshPro.textWrappingMode = TextWrappingModes.Normal;
-            m_textMeshPro.alignment = TextAlignmentOptions.Top;
+            mTextMeshPro = GetComponent<TMP_Text>();
+            mTextMeshPro.text = label01;
+            mTextMeshPro.textWrappingMode = TextWrappingModes.Normal;
+            mTextMeshPro.alignment = TextAlignmentOptions.Top;
 
 
 
@@ -48,10 +48,10 @@ namespace TMPro.Examples
         {
 
             // Force and update of the mesh to get valid information.
-            m_textMeshPro.ForceMeshUpdate();
+            mTextMeshPro.ForceMeshUpdate();
 
 
-            int totalVisibleCharacters = m_textMeshPro.textInfo.characterCount; // Get # of Visible Character in text object
+            int totalVisibleCharacters = mTextMeshPro.textInfo.characterCount; // Get # of Visible Character in text object
             int counter = 0;
             int visibleCount = 0;
 
@@ -59,15 +59,15 @@ namespace TMPro.Examples
             {
                 visibleCount = counter % (totalVisibleCharacters + 1);
 
-                m_textMeshPro.maxVisibleCharacters = visibleCount; // How many characters should TextMeshPro display?
+                mTextMeshPro.maxVisibleCharacters = visibleCount; // How many characters should TextMeshPro display?
 
                 // Once the last character has been revealed, wait 1.0 second and start over.
                 if (visibleCount >= totalVisibleCharacters)
                 {
                     yield return new WaitForSeconds(1.0f);
-                    m_textMeshPro.text = label02;
+                    mTextMeshPro.text = label02;
                     yield return new WaitForSeconds(1.0f);
-                    m_textMeshPro.text = label01;
+                    mTextMeshPro.text = label01;
                     yield return new WaitForSeconds(1.0f);
                 }
 

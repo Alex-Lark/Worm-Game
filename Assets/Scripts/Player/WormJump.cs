@@ -1,194 +1,195 @@
 using System.Collections.Generic;
+using CreatureParts;
 using UnityEngine;
 
-public class WormJump : MonoBehaviour
+namespace Player
 {
-    private Transform _wormHead;
-    private List<Transform> _wormParts;
-    private float _jumpChargeTime = 0f;
-    
-    private List<int> middleIndices = null;
-    private List<List<int>> consecutiveSegments = null;
-    private Dictionary<int, float> _reachedHeights = new Dictionary<int, float>(); // Track which segments reached target
-    
-    void Start()
+    public class WormJump : MonoBehaviour
     {
-        _wormHead = Player.Player.Instance.wormHead;
-        _wormParts = Player.Player.Instance.wormBodySegments;
-        middleIndices = null;
-    }
-
-    public void StartJump()
-    {
+        #region Private Variables
+        [Header("Private Variables")]
         
-    }
+        private Transform wormHead;
+        private List<Transform> wormParts;
+        private Player player;
     
-    public void StopJump() 
-    {
-        _jumpChargeTime = 0f;
-        _reachedHeights.Clear();
-    }
-
-    public void Jump() 
-    {
-        consecutiveSegments = GetConsecutiveSegments();
-        List<List<int>> jumpSegments = GetLargestConsecutiveSegments(consecutiveSegments, GameParameters.WormJumpSegments);
+        private List<int> middleIndices = null;
+        private List<List<int>> consecutiveSegments = null;
+        private Dictionary<int, float> reachedHeights = new Dictionary<int, float>(); // Track which segments reached target
         
-        middleIndices = FindMiddleJumpSegments(jumpSegments);
-        _reachedHeights.Clear();
+        #endregion
         
-        if (middleIndices == null)
+        #region Built-In Methods
+    
+        void Start()
         {
-            return;
+            player = GetComponent<Player>();
+            wormHead = player.wormHead;
+            wormParts = player.wormBodySegments;
+            middleIndices = null;
         }
         
-        // foreach (int middleIndex in middleIndices)
-        // {
-        //     _wormParts[middleIndex].GetComponent<Rigidbody>().AddForce(_wormParts[middleIndex].transform.up * GameParameters.WormMiddleSegmentScrunchForce);
-        //     _wormParts[middleIndex].GetComponent<WormBodySegment>().SetIsScrunched();
-        // }
-
-        Transform previousPart = _wormHead;
+        #endregion
         
-        for (int i = 0; i < _wormParts.Count; i++)
+        #region Public Methods
+        
+        public void Jump() 
         {
-            Transform wormPart = _wormParts[i];
-            if (middleIndices != null && (middleIndices.Contains(i)))
+            consecutiveSegments = GetConsecutiveSegments();
+            List<List<int>> jumpSegments = GetLargestConsecutiveSegments(GameParameters.WormJumpSegments);
+        
+            middleIndices = FindMiddleJumpSegments(jumpSegments);
+            reachedHeights.Clear();
+        
+            if (middleIndices == null)
             {
-                wormPart.GetComponent<Rigidbody>().AddForce(Vector3.down * GameParameters.WormMiddleSegmentScrunchForce);
+                return;
             }
-            else
-            {
-                if (wormPart.GetComponent<WormBodySegment>().IsGrounded || wormPart.GetComponent<WormBodySegment>().IsScrunched || (wormPart.GetComponent<WormBodySegment>().TimeSinceLastGrounded < GameParameters.maxTimeSinceLastGrounded))
-                {
-                    Vector3 forwardDirection = Vector3.Slerp(previousPart.forward, _wormHead.forward, GameParameters.WormJumpPreviousPartVsHeadAngle);
-                    Vector3 jumpDirection = Vector3.Slerp(forwardDirection, Vector3.up, GameParameters.WormJumpAngle).normalized;
-                    wormPart.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.WormJumpForce);
-                }
-            }
-            previousPart = _wormParts[i];
-        }
-    }
 
-    private List<List<int>> GetConsecutiveSegments()
-    {
-        List<List<int>> segments = new List<List<int>>();
-        List<int> currentSegment = null;
+            Transform previousPart = wormHead;
         
-        if (_wormHead.GetComponent<WormPart>().IsGrounded) 
-        {
-            currentSegment = new List<int> { -1 }; // Use -1 to represent head
-        }
-        
-        for (int i = 0; i < _wormParts.Count; i++) 
-        {
-            WormPart part = _wormParts[i].GetComponent<WormPart>();
-            WormBodySegment bodySeg = _wormParts[i].GetComponent<WormBodySegment>();
-            bool isGroundedOrScrunched = part.IsGrounded || (bodySeg != null && bodySeg.IsScrunched);
-                
-            if (isGroundedOrScrunched) 
+            for (int i = 0; i < wormParts.Count; i++)
             {
-                if (currentSegment == null) 
+                Transform wormPart = wormParts[i];
+                if (middleIndices != null && (middleIndices.Contains(i)))
                 {
-                    currentSegment = new List<int>();
+                    wormPart.GetComponent<Rigidbody>().AddForce(Vector3.down * GameParameters.WormMiddleSegmentScrunchForce);
                 }
-                currentSegment.Add(i);
-            } 
-            else 
-            {
-                if (currentSegment != null && currentSegment.Count > 0) 
+                else
                 {
-                    segments.Add(currentSegment);
-                    currentSegment = null;
-                }
-            }
-        }
-        
-        if (currentSegment != null && currentSegment.Count > 0) 
-        {
-            segments.Add(currentSegment);
-        }
-
-        return segments;
-    }
-    
-    private List<List<int>> GetLargestConsecutiveSegments(List<List<int>> consecutiveSegments, int numSegments)
-    {
-        if (consecutiveSegments.Count == 0) return new List<List<int>>();
-        
-        consecutiveSegments.Sort((a, b) => b.Count.CompareTo(a.Count));
-        
-        List<List<int>> jumpSegments = new List<List<int>>();
-        
-        float significantlyLargerThreshold = GameParameters.JumpingSegmentDivisionThreshold;
-        
-        int segmentsAdded = 0;
-        int segmentIndex = 0;
-        
-        while (segmentsAdded < numSegments && segmentIndex < consecutiveSegments.Count) 
-        {
-            List<int> currentSeg = consecutiveSegments[segmentIndex];
-            
-            bool shouldSplit = false;
-            
-            if (currentSeg.Count > 1 && segmentsAdded < numSegments - 1) 
-            {
-                int halfSize = currentSeg.Count / 2;
-                
-                if (segmentIndex + 1 < consecutiveSegments.Count) 
-                {
-                    int nextSegSize = consecutiveSegments[segmentIndex + 1].Count;
-                    
-                    if (currentSeg.Count > nextSegSize * significantlyLargerThreshold && 
-                        halfSize >= nextSegSize) 
+                    if (wormPart.GetComponent<CreatureBodySegment>().IsGrounded || wormPart.GetComponent<CreatureBodySegment>().IsScrunched || (wormPart.GetComponent<CreatureBodySegment>().TimeSinceLastGrounded < GameParameters.MaxTimeSinceLastGrounded))
                     {
-                        shouldSplit = true;
+                        Vector3 forwardDirection = Vector3.Slerp(previousPart.forward, wormHead.forward, GameParameters.WormJumpPreviousPartVsHeadAngle);
+                        Vector3 jumpDirection = Vector3.Slerp(forwardDirection, Vector3.up, GameParameters.WormJumpAngle).normalized;
+                        wormPart.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.WormJumpForce);
                     }
+                }
+                previousPart = wormParts[i];
+            }
+        }
+        
+        #endregion
+
+        private List<List<int>> GetConsecutiveSegments()
+        {
+            List<List<int>> segments = new List<List<int>>();
+            List<int> currentSegment = null;
+        
+            if (wormHead.GetComponent<CreaturePart>().IsGrounded) 
+            {
+                currentSegment = new List<int> { -1 }; // Use -1 to represent head
+            }
+        
+            for (int i = 0; i < wormParts.Count; i++) 
+            {
+                CreaturePart part = wormParts[i].GetComponent<CreaturePart>();
+                CreatureBodySegment bodySeg = wormParts[i].GetComponent<CreatureBodySegment>();
+                bool isGroundedOrScrunched = part.IsGrounded || (bodySeg != null && bodySeg.IsScrunched);
+                
+                if (isGroundedOrScrunched) 
+                {
+                    if (currentSegment == null) 
+                    {
+                        currentSegment = new List<int>();
+                    }
+                    currentSegment.Add(i);
                 } 
                 else 
                 {
-                    shouldSplit = true;
+                    if (currentSegment != null && currentSegment.Count > 0) 
+                    {
+                        segments.Add(currentSegment);
+                        currentSegment = null;
+                    }
                 }
             }
-            
-            if (shouldSplit) 
-            {
-                int midpoint = currentSeg.Count / 2;
-                jumpSegments.Add(currentSeg.GetRange(0, midpoint));
-                segmentsAdded++;
-                
-                if (segmentsAdded < numSegments) 
-                {
-                    jumpSegments.Add(currentSeg.GetRange(midpoint, currentSeg.Count - midpoint));
-                    segmentsAdded++;
-                }
-                
-                segmentIndex++;
-            } 
-            else 
-            {
-                jumpSegments.Add(currentSeg);
-                segmentsAdded++;
-                segmentIndex++;
-            }
-        }
         
-        return jumpSegments;
-    }
-    
-    private List<int> FindMiddleJumpSegments(List<List<int>> jumpSegments) 
-    {
-        List<int> middleIndices = new List<int>();
-    
-        foreach (List<int> segment in jumpSegments) 
-        {
-            if (segment.Count > 0) 
+            if (currentSegment != null && currentSegment.Count > 0) 
             {
-                int middleIndex = segment[segment.Count / 2];
-                middleIndices.Add(middleIndex);
+                segments.Add(currentSegment);
             }
+
+            return segments;
         }
     
-        return middleIndices;
+        private List<List<int>> GetLargestConsecutiveSegments(int numSegments)
+        {
+            if (consecutiveSegments.Count == 0) return new List<List<int>>();
+        
+            consecutiveSegments.Sort((a, b) => b.Count.CompareTo(a.Count));
+        
+            List<List<int>> jumpSegments = new List<List<int>>();
+        
+            float significantlyLargerThreshold = GameParameters.JumpingSegmentDivisionThreshold;
+        
+            int segmentsAdded = 0;
+            int segmentIndex = 0;
+        
+            while (segmentsAdded < numSegments && segmentIndex < consecutiveSegments.Count) 
+            {
+                List<int> currentSeg = consecutiveSegments[segmentIndex];
+            
+                bool shouldSplit = false;
+            
+                if (currentSeg.Count > 1 && segmentsAdded < numSegments - 1) 
+                {
+                    int halfSize = currentSeg.Count / 2;
+                
+                    if (segmentIndex + 1 < consecutiveSegments.Count) 
+                    {
+                        int nextSegSize = consecutiveSegments[segmentIndex + 1].Count;
+                    
+                        if (currentSeg.Count > nextSegSize * significantlyLargerThreshold && 
+                            halfSize >= nextSegSize) 
+                        {
+                            shouldSplit = true;
+                        }
+                    } 
+                    else 
+                    {
+                        shouldSplit = true;
+                    }
+                }
+            
+                if (shouldSplit) 
+                {
+                    int midpoint = currentSeg.Count / 2;
+                    jumpSegments.Add(currentSeg.GetRange(0, midpoint));
+                    segmentsAdded++;
+                
+                    if (segmentsAdded < numSegments) 
+                    {
+                        jumpSegments.Add(currentSeg.GetRange(midpoint, currentSeg.Count - midpoint));
+                        segmentsAdded++;
+                    }
+                
+                    segmentIndex++;
+                } 
+                else 
+                {
+                    jumpSegments.Add(currentSeg);
+                    segmentsAdded++;
+                    segmentIndex++;
+                }
+            }
+        
+            return jumpSegments;
+        }
+    
+        private List<int> FindMiddleJumpSegments(List<List<int>> jumpSegments) 
+        {
+            List<int> middleIndices = new List<int>();
+    
+            foreach (List<int> segment in jumpSegments) 
+            {
+                if (segment.Count > 0) 
+                {
+                    int middleIndex = segment[segment.Count / 2];
+                    middleIndices.Add(middleIndex);
+                }
+            }
+    
+            return middleIndices;
+        }
     }
 }

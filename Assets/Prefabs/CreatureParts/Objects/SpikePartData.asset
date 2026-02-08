@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: SpikePartData
   m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.CreaturePartData
   prefab: {fileID: 4212110029664344896, guid: 66fa66cd86cbaa8439c74f46f6a7244c, type: 3}
-  partName: 
-  icon: {fileID: 0}
+  mass: 5

@@ -1,25 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using CreatureParts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Player
 {
+    public enum WormState
+    {
+        Idle,
+        Moving,
+        Jumping,
+        Attacking,
+        AttackCooldown
+    }
+
     public class Player : MonoBehaviour
     {
+        
+        #region Public Properties
+        [Header("Public Properties")]
+        
         public static Player Instance { get; private set; }
-    
         public string PlayerName { get; private set; }
-
-        public int PlayerScore = 1;
-        public bool IsWormMovingForward { get; private set; }
-        public bool IsWormJumping { get; private set; }
+        
+        public WormState CurrentState { get; private set; }
+        
         public bool IsWormGrounded { get; private set; }
-        public bool IsWormAttacking { get; private set; }
-        public bool IsWormInAttackCooldown { get; private set; }
         
         public float MaxVelocity { get; set; }
+        public bool IsWormMovingForward => CurrentState == WormState.Moving;
+        public bool IsWormJumping => CurrentState == WormState.Jumping;
+        public bool IsWormAttacking => CurrentState == WormState.Attacking;
+        public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
+        
+        #endregion
+        
+        #region public variables
     
+        public int playerScore = 1;
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
@@ -27,19 +46,28 @@ namespace Player
         public List<Transform> wormBodySegments;
         public List<GameObject> attachedWormParts;
         public List<GameObject> wormPartsInInventory;
+        
+        #endregion
+        
+        #region private variables
 
-        private bool _isPlayerActive = false;
-        private WormForwardMovement _wormForwardMovement;
-        private WormJump _wormJump;
-        private WormHeadBut _wormHeadBut;
+        private bool isPlayerActive = false;
+        private WormForwardMovement wormForwardMovement;
+        private WormJump wormJump;
+        private WormHeadBut wormHeadBut;
+        private WormConstructor wormConstructor;
     
-        private readonly int _wormSegmentCount = GameParameters.WormSegmentCount;
-        private readonly float _maxPartDistance = GameParameters.SegmentMaxPartDistance;
+        private readonly int wormSegmentCount = GameParameters.WormSegmentCount;
+        private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
+        
+        #endregion
     
-        private Coroutine _attackCoroutine;
-    
+        #region Built-In Methods
+        
         void Awake()
         {
+            //TODO: reconfigure usage of instance once multiplayer is introduced
+            
             if (Instance == null)
             {
                 Instance = this;
@@ -54,286 +82,187 @@ namespace Player
         void Start()
         {
             PlayerName = "player1";
-        
-            IsWormMovingForward = false;
+            CurrentState = WormState.Idle;
             IsWormGrounded = false;
+            MaxVelocity = GameParameters.WormMaxVelocity;
 
-            _wormForwardMovement = gameObject.GetComponent<WormForwardMovement>();
-            _wormJump = gameObject.GetComponent<WormJump>();
-            _wormHeadBut = gameObject.GetComponent<WormHeadBut>();
+            wormForwardMovement = GetComponent<WormForwardMovement>();
+            wormJump = GetComponent<WormJump>();
+            wormHeadBut = GetComponent<WormHeadBut>();
         
             wormBodySegments.Clear();
-            CreateWormSegments();
-            ConstructWorm();
-            gameObject.GetComponent<WormPhysics>().AddCollidersToSegments();
+            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
+            wormConstructor.CreateWormSegments();
+            wormConstructor.ConstructWorm();
+            
+            GetComponent<WormPhysics>().AddCollidersToSegments();
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 SetWormInGameScene();
             }
-
-            MaxVelocity = GameParameters.WormMaxVelocity;
         }
 
         private void FixedUpdate()
         {
-            if (_isPlayerActive)
-            {
-                setWormGrounding();
-                RotateVisualHead();
-
-                if (IsWormAttacking)
-                {
-                    _wormHeadBut.ReadyHeadbut();
-                }
-
-                if (IsWormInAttackCooldown)
-                {
-                    _wormHeadBut.WormheadbutCoolDown();
-                }
-            }
-        }
-
-        public void SetWormInCreatureBuilderScene()
-        {
-            ResetWormPhysics();
-            ResetWormOrientation();
-            PositionWormSegments(new Vector3(0, 2, 0));
-            DeactivatePlayer();
-        }
-
-        private void ResetWormPhysics()
-        {
-            SetSegmentPhysics(wormHead, isKinematic: true, useGravity: false);
-    
-            foreach (Transform segment in wormBodySegments)
-            {
-                SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
-            }
-        }
-
-        private void ResetWormOrientation()
-        {
-            wormVisualHead.rotation = Quaternion.identity;
-            wormHead.rotation = Quaternion.identity;
-    
-            foreach (Transform segment in wormBodySegments)
-            {
-                segment.rotation = Quaternion.identity;
-            }
-        }
-
-        private void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
-        {
-            Rigidbody rb = segment.GetComponent<Rigidbody>();
-            if (rb == null) return;
-    
-            rb.isKinematic = isKinematic;
-            rb.useGravity = useGravity;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        private void PositionWormSegments(Vector3 headPosition)
-        {
-            wormHead.position = headPosition;
-            Vector3 currentPosition = headPosition;
-            Vector3 backDirection = -wormHead.forward;
-    
-            for (int i = 0; i < wormBodySegments.Count; i++)
-            {
-                currentPosition += backDirection * _maxPartDistance;
-                Transform segment = wormBodySegments[i];
-        
-                segment.position = currentPosition;
-                segment.rotation = wormHead.rotation;
-            }
-        }
-
-        public void SetWormInGameScene()
-        {
-            print("set worm in game scene");
-        
-            wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            foreach (Transform wormPart in wormBodySegments)
-            {
-                wormPart.GetComponent<Rigidbody>().isKinematic = false;
-            }
+            if (!isPlayerActive) return;
             
-            StartCoroutine(SetupAfterSceneLoad());
-            ActivatePlayer();
-        }
+            SetWormGrounding();
+            RotateVisualHead();
 
-        private IEnumerator SetupAfterSceneLoad()
-        {
-            // Wait until GameScene has loaded fully
-            yield return null;
-
-            // Move the Player object (and its hierarchy) into the active GameScene
-            //SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
-            //print($"Player moved to scene: {SceneManager.GetActiveScene().name}");
-    
-            // Get the active scene
-            Scene activeScene = SceneManager.GetActiveScene();
-            Debug.Log($"Searching for camera in scene: {activeScene.name}");
-    
-            // Search for camera specifically in the active scene
-            GameObject foundCamera = null;
-            GameObject[] rootObjects = activeScene.GetRootGameObjects();
-    
-            foreach (GameObject rootObj in rootObjects)
+            if (IsWormAttacking)
             {
-                Debug.Log($"Checking root object: {rootObj.name}");
+                wormHeadBut.ReadyHeadbut();
+            }
+
+            if (IsWormInAttackCooldown)
+            {
+                wormHeadBut.WormheadbutCoolDown();
+            }
+        }
         
-                // Check this object and all children for a Camera component
-                Camera cam = rootObj.GetComponentInChildren<Camera>();
-                if (cam != null)
-                {
-                    foundCamera = cam.gameObject;
-                    Debug.Log($"Found camera: {foundCamera.name}");
-                    break;
-                }
-            }
-    
-            if (foundCamera != null)
-            {
-                thirdPersonCamera = foundCamera;
-                Debug.Log($"Camera successfully set to {thirdPersonCamera.name}");
-            }
-            else
-            {
-                Debug.LogError($"Could not find any camera in scene {activeScene.name}!");
-                Debug.Log($"Total root objects in scene: {rootObjects.Length}");
-            }
+        #endregion
 
-            // Reset worm position safely
-            if (wormHead != null)
-            {
-                wormHead.position = new Vector3(0, 2, 0);
-                var rb = wormHead.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-                }
-
-                Vector3 currentPos = wormHead.position;
-                Vector3 backDir = -wormHead.forward;
-
-                Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
-
-                wormHead.GetComponent<Rigidbody>().useGravity = true;
-                wormHead.GetComponent<Rigidbody>().isKinematic = false;
-                for (int i = 0; i < wormBodySegments.Count; i++)
-                {
-                    currentPos += backDir * _maxPartDistance;
-
-                    Transform part = wormBodySegments[i];
-                    part.position = currentPos;
-
-                    part.rotation = wormHead.rotation;
-                    Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
-                    partRigidbody.useGravity = true;
-                    partRigidbody.isKinematic = false;
-                    partRigidbody.angularVelocity = Vector3.zero;
-                    partRigidbody.linearVelocity = Vector3.zero;
-                }
-            }
-            _wormForwardMovement.SetVariables();
-        }
-    
-
-        public void ActivatePlayer()
-        {
-            _isPlayerActive = true;
-        }
-
-        public void DeactivatePlayer()
-        {
-            _isPlayerActive = false;
-        }
-
-        public void StartWormMoving()
-        {
-            IsWormMovingForward = true;
-        }
-
-        public void StopWormMoving()
-        {
-            IsWormMovingForward = false;
-        }
-
-        public void StartJump()
-        {
-            IsWormJumping = true;
-            _wormJump.StartJump();
-        }
-
-        public void StopJump()
-        {
-            IsWormJumping = false;
-            _wormJump.StopJump();
-        }
-
+        #region Public Methods
+        public void StartWormMoving() => CurrentState = WormState.Moving;
+        public void StopWormMoving() => CurrentState = WormState.Idle;
+        
+        public void ActivatePlayer() => isPlayerActive = true;
+        public void DeactivatePlayer() => isPlayerActive = false;
+        
         public void MoveForward()
         {
-            if ( _isPlayerActive && !IsWormJumping && !IsWormAttacking && !IsWormInAttackCooldown)
-            {
-                _wormForwardMovement.MoveHead();
-                _wormForwardMovement.MoveWormBody();
+            if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown) return;
+            
+            wormForwardMovement.MoveHead();
+            wormForwardMovement.MoveWormBody();
 
-                foreach (var part in attachedWormParts)
-                {
-                    part.GetComponent<WormPart>().MoveForward();
-                }
+            foreach (var part in attachedWormParts)
+            {
+                part.GetComponent<CreaturePart>().MoveForward();
             }
         }
     
         public void Jump()
         {
-            if (IsWormGrounded  && !IsWormAttacking && !IsWormInAttackCooldown)
+            if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown) return;
+            
+            wormJump.Jump();
+            foreach (var part in attachedWormParts)
             {
-                IsWormJumping = true;
-                _wormJump.Jump();
-                foreach (var part in attachedWormParts)
-                {
-                    part.GetComponent<WormPart>().Jump();
-                }
+                part.GetComponent<CreaturePart>().Jump();
             }
-            IsWormJumping = false;
         }
 
         public void Attack()
         {
-            if (IsWormGrounded)
+            if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown) return;
+            
+            CurrentState = WormState.Attacking;
+            StartCoroutine(AttackSequence());
+        }
+
+        public void ResetPlayer()
+        {
+            foreach (GameObject part in attachedWormParts)
             {
-                if (!IsWormAttacking && !IsWormInAttackCooldown)
+                Destroy(part);
+            }
+            attachedWormParts.Clear();
+
+            foreach (GameObject part in wormPartsInInventory)
+            {
+                Destroy(part);
+            }
+            
+            wormPartsInInventory.Clear();
+            
+            CurrentState = WormState.Idle;
+            DeactivatePlayer();
+        }
+        
+        public void SetWormInCreatureBuilderScene()
+        {
+            WormPhysics wormPhysics = GetComponent<WormPhysics>();
+            wormPhysics.ResetWormPhysics();
+            wormPhysics.ResetWormOrientation();
+            wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
+            DeactivatePlayer();
+        }
+        
+        public void SetWormInGameScene()
+        {
+            wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            foreach (Transform segment in wormBodySegments)
+            {
+                segment.GetComponent<Rigidbody>().isKinematic = false;
+            }
+            
+            StartCoroutine(SetupAfterSceneLoad());
+            ActivatePlayer();
+        }
+        
+        #endregion
+        
+        #region Private Methods
+        
+        private IEnumerator AttackSequence()
+        {
+            yield return new WaitForSeconds(GameParameters.WormHeadbutTime);
+            CurrentState = WormState.AttackCooldown;
+            wormHeadBut.EndHeadBut();
+            yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
+            CurrentState = WormState.Idle;
+        }
+        
+        private IEnumerator SetupAfterSceneLoad()
+        {
+            yield return null;
+
+            Scene activeScene = SceneManager.GetActiveScene();
+            GameObject[] rootObjects = activeScene.GetRootGameObjects();
+
+            foreach (GameObject rootObj in rootObjects)
+            {
+                Camera cam = rootObj.GetComponentInChildren<Camera>();
+                if (cam != null)
                 {
-                    IsWormAttacking = true;
-                
-                    if (_attackCoroutine == null)
-                    {
-                        _attackCoroutine =  StartCoroutine(WormAttackTimer());
-                    }
+                    thirdPersonCamera = cam.gameObject;
+                    Debug.Log($"Camera successfully set to {thirdPersonCamera.name}");
+                    break;
                 }
             }
+
+            if (thirdPersonCamera == null)
+            {
+                Debug.LogError($"Could not find camera in scene {activeScene.name}!");
+            }
+
+            GetComponent<WormPhysics>().ResetWormPosition();
+            wormForwardMovement.SetVariables();
         }
-
-        private IEnumerator WormAttackTimer()
+        
+        private void SetWormGrounding()
         {
-            yield return new WaitForSeconds(GameParameters.WormHeadbutTime); 
-            IsWormAttacking = false;
-            _attackCoroutine =  null;
-            _wormHeadBut.EndHeadBut();
-            IsWormInAttackCooldown = true;
-            StartCoroutine(WormCoolDownTimer());
+            IsWormGrounded = false;
+            
+            foreach (var segment in wormBodySegments)
+            {
+                if (segment.GetComponent<CreaturePart>().IsGrounded)
+                {
+                    IsWormGrounded = true;
+                    return;
+                }
+            }
 
-        }
-
-        private IEnumerator WormCoolDownTimer()
-        {
-            yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
-            IsWormInAttackCooldown = false;
+            foreach (var part in attachedWormParts)
+            {
+                if (part.GetComponent<CreaturePart>().IsGrounded)
+                {
+                    IsWormGrounded = true;
+                    return;
+                }
+            }
         }
 
         private void RotateVisualHead()
@@ -344,88 +273,17 @@ namespace Player
                 return;
             }
 
-            Vector3 forward = thirdPersonCamera.transform.forward;
-        
-            Vector3 cameraForward = forward;
+            Vector3 cameraForward = thirdPersonCamera.transform.forward;
             cameraForward.y += GameParameters.VisualHeadVerticalOffset;
             cameraForward.Normalize();
         
-            if (cameraForward.sqrMagnitude < 0.01f)
-                return;
+            if (cameraForward.sqrMagnitude < 0.01f) return;
         
             float signedAngle = Vector3.SignedAngle(wormHead.forward, cameraForward, Vector3.up);
-
-            float maxAngle = 90f;
-        
-            float clampedSigned = Mathf.Clamp(signedAngle, -maxAngle, maxAngle);
-        
-            Quaternion clampedRotation = Quaternion.AngleAxis(clampedSigned, Vector3.up) * wormHead.rotation;
-
-            wormVisualHead.rotation = clampedRotation;
+            float clampedAngle = Mathf.Clamp(signedAngle, -90f, 90f);
+            wormVisualHead.rotation = Quaternion.AngleAxis(clampedAngle, Vector3.up) * wormHead.rotation;
         }
-
-        private void CreateWormSegments() {
-            WormPart previousSegment = wormHead.GetComponent<WormPart>();
-    
-            // First pass: create all segments and set previousSegment
-            for (int i = 0; i < _wormSegmentCount; i++)
-            {
-                GameObject newWormSegment = Instantiate(wormSegmentPrefab, transform);
-                newWormSegment.GetComponent<WormBodySegment>().previousSegment = previousSegment;
-                wormBodySegments.Add(newWormSegment.transform);
         
-                previousSegment = newWormSegment.GetComponent<WormBodySegment>();
-            }
-            
-            for (int i = 0; i < wormBodySegments.Count - 1; i++)
-            {
-                wormBodySegments[i].GetComponent<WormBodySegment>().nextSegment = 
-                    wormBodySegments[i + 1].GetComponent<WormBodySegment>();
-            }
-        }
-
-        private void ConstructWorm()
-        {
-            Vector3 currentPos = wormHead.position;
-            Vector3 backDir = -wormHead.forward;
-
-            Rigidbody previousSegmentRigidBody = wormHead.gameObject.GetComponent<Rigidbody>();
-
-            for (int i = 0; i < wormBodySegments.Count; i++)
-            {
-                currentPos += backDir * _maxPartDistance;
-
-                Transform part = wormBodySegments[i];
-                part.position = currentPos;
-            
-                part.rotation = wormHead.rotation;
-
-                previousSegmentRigidBody = part.GetComponent<WormBodySegment>().AddJoint(wormBodySegments[i], previousSegmentRigidBody);
-            }
-        }
-
-        private void setWormGrounding()
-        {
-            IsWormGrounded = false; 
-        
-            foreach (var part in wormBodySegments)
-            {
-                if (part.GetComponent<WormPart>().IsGrounded)
-                {
-                    IsWormGrounded = true;
-                    break;
-                }
-            }
-
-            foreach (var part in attachedWormParts)
-            {
-                if (part.GetComponent<WormPart>().IsGrounded)
-                {
-                    IsWormGrounded = true;
-                    break;
-                }
-            }
-        }
+        #endregion
     }
 }
-
