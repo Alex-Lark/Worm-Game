@@ -7,7 +7,6 @@ namespace Player
     public class WormHeadBut : MonoBehaviour
     {
         #region Private Variables
-        [Header("Private Variables")]
         
         private List<Transform> wormParts;
         private Rigidbody wormHead;
@@ -27,10 +26,10 @@ namespace Player
         #endregion
         
         #region Public Methods
-        
+
         public void ReadyHeadbut()
         {
-            int segmentCount = GameParameters.WormSegmentCount + 1; //segment count + head
+            int segmentCount = GameParameters.WormSegmentCount + 1; // head
             int liftedSegment = 0;
 
             if (!player.IsWormGrounded)
@@ -38,14 +37,13 @@ namespace Player
                 return;
             }
         
-            //TODO: fix lifting inconsistency
+            //TODO: fix lifting logic
             LiftFrontSegments(wormHead, segmentCount, segmentCount);
         
             for (int i = 0; i < wormParts.Count; i++)
             {
                 Transform wormPart = wormParts[i];
                 Rigidbody wormPartRigidBody = wormPart.GetComponent<Rigidbody>();
-                
                 if (i > segmentCount / 2)
                 {
                     GroundBackSegment(wormPartRigidBody);
@@ -88,7 +86,6 @@ namespace Player
                     GroundBackSegment(wormPartRigidBody);
                 }
             }
-        
         }
         
         #endregion
@@ -101,7 +98,7 @@ namespace Player
 
             if (wormPart.position.y < maxSegmentHeight)
             {
-                float forceMultiplier = liftedSegment / (segmentCount/2f);
+                float forceMultiplier = liftedSegment / (segmentCount/2); //Do not update to a float, it breaks
                 wormPart.AddForce((Vector3.up + (wormPart.transform.forward * GameParameters.WormHeadButForwardPercent)) * (GameParameters.WormHeadButLiftingForce * forceMultiplier));
             }
         
@@ -120,7 +117,8 @@ namespace Player
                 {
                     wormPart.linearVelocity = velocity - groundNormal * normalVelocity;
                 }
-                
+        
+                // Optional: gentle downward force
                 wormPart.AddForce(-groundNormal * GameParameters.WormHeadbutGroundingForce);
             }
         }
@@ -132,7 +130,7 @@ namespace Player
         }
 
         private void RotateHeadUngrounded(float speed) {
-            Vector3 camDirFlat = Flatten(player.thirdPersonCamera.transform.forward);
+            Vector3 camDirFlat = Flatten(global::Player.Player.Instance.thirdPersonCamera.transform.forward);
             Quaternion targetYaw = Quaternion.LookRotation(camDirFlat);
     
             wormHead.rotation = Quaternion.Slerp(
@@ -148,11 +146,13 @@ namespace Player
         }
     
         private void SnapHeadRotation() {
-            Vector3 camDir = player.thirdPersonCamera.transform.forward.normalized;
+            Vector3 camDir = global::Player.Player.Instance.thirdPersonCamera.transform.forward.normalized;
             float pitch = CalculatePitch(camDir);
-            
+    
+            // Clamp pitch to the allowed range
             pitch = Mathf.Clamp(pitch, -GameParameters.WormheadButMaxHeadVerticleAngle, GameParameters.WormheadButMaxHeadVerticleAngle);
-            
+    
+            // Keep current yaw, only apply new pitch
             Vector3 currentForward = wormHead.transform.forward;
             Vector3 currentForwardFlat = Flatten(currentForward);
             Quaternion currentYaw = Quaternion.LookRotation(currentForwardFlat);
@@ -165,13 +165,13 @@ namespace Player
             float camPitch = Vector3.SignedAngle(
                 Vector3.ProjectOnPlane(camDir, Vector3.up),
                 camDir,
-                player.thirdPersonCamera.transform.right
+                global::Player.Player.Instance.thirdPersonCamera.transform.right
             );
     
             float normalized = Mathf.InverseLerp(GameParameters.MinCameraPitch, GameParameters.MaxCameraPitch, camPitch);
             normalized = 1f - Mathf.Clamp01(normalized);
     
-            return Mathf.Lerp(-GameParameters.VisualHeadMaxDegrees, GameParameters.VisualHeadMaxDegrees, normalized);
+            return Mathf.Lerp(-85f, 85f, normalized);
         }
         
         #endregion
