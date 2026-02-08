@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class WormPartGizmos : MonoBehaviour
 {
+    /*      GIZMOS FOR IN-EDITOR VISUALIZATIONS, DOES NOT AFFECT GAMEPLAY       */
+    
     public bool showGroundCollider = true;
     public bool showVelocity = true;
     public bool showForces = true;
@@ -32,7 +34,6 @@ public class WormPartGizmos : MonoBehaviour
     {
         if (rb != null)
         {
-            // Calculate net force from acceleration (F = ma)
             Vector3 acceleration = (rb.linearVelocity - lastVelocity) / Time.fixedDeltaTime;
             currentNetForce = rb.mass * acceleration;
             lastVelocity = rb.linearVelocity;

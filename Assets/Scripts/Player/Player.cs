@@ -129,19 +129,7 @@ namespace Player
         
         public void ActivatePlayer() => isPlayerActive = true;
         public void DeactivatePlayer() => isPlayerActive = false;
-
-        public void StartJump()
-        {
-            CurrentState = WormState.Jumping;
-            wormJump.StartJump();
-        }
-
-        public void StopJump()
-        {
-            CurrentState = WormState.Idle;
-            wormJump.StopJump();
-        }
-
+        
         public void MoveForward()
         {
             if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown) return;
