@@ -160,6 +160,12 @@ namespace CreatureBuilder
                 ResetPartDragging(partDragging);
                 partDragging.Clamp();
             }
+            
+            LegPart legPart = newPart.GetComponent<LegPart>();
+            if (legPart != null)
+            {
+                legPart.enabled = false;
+            }
 
             parts.Add(newPart);
             Destroy(part);
