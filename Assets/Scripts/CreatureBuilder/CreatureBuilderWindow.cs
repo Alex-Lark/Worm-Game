@@ -54,19 +54,6 @@ namespace CreatureBuilder
             isDragging = false;
         }
         
-        //controls input Provider
-        public float GetAxisValue(int axis)
-        {
-            if (!isDragging || !isMouseOver)
-                return 0f;
-            if (axis == 0) 
-                return Input.GetAxis("Mouse X");
-            if (axis == 1)
-                return Input.GetAxis("Mouse Y");
-            
-            return 0f;
-        }
-        
         public void OnPointerEnter(PointerEventData eventData)
         {
             isMouseOver = true;

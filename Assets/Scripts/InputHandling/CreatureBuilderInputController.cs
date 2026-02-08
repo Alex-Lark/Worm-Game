@@ -4,23 +4,16 @@ namespace InputHandling
 {
     public class CreatureBuilderInputController : IInputController
     {
+        private CreatureBuilder.CreatureBuilderWindow window = Object.FindFirstObjectByType<CreatureBuilder.CreatureBuilderWindow>();
+        
         public void HandleUpdate()
         {
-            // Add creature builder specific inputs here
-            // Example:
-            // if (Input.GetKeyDown(KeyCode.R))
-            //     CreatureBuilder.Instance?.RotatePart();
-            //
-            // if (Input.GetMouseButtonDown(0))
-            //     CreatureBuilder.Instance?.SelectPart();
-            //
-            // if (Input.GetMouseButtonDown(1))
-            //     CreatureBuilder.Instance?.DeselectPart();
+            // mouse controls handled in CreatureBuilder window, any keybaord controls can go here
         }
         
         public void HandleFixedUpdate()
         {
-            // Creature builder typically doesn't need FixedUpdate input handling
+            
         }
     }
 }
