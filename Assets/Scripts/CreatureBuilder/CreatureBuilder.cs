@@ -124,20 +124,21 @@ namespace CreatureBuilder
         {
             PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
             GameObject prefab = partDraggingComponent.Prefab;
-        
+
             if (prefab == null)
             {
                 Debug.LogWarning($"Prefab reference is null for {part.name}");
                 return;
             }
-                
-            //reduces velocity per leg since it will be increased later
-            if (part.GetComponent<PartDragging>().partData.name.Equals("leg"))
+    
+            // Check for LegPart component directly
+            LegPart legPart = part.GetComponent<LegPart>();
+            if (legPart != null)
             {
                 Player.Player.Instance.MaxVelocity -= GameParameters.LegMaxVelocityIncrease;
-                //TODO: disable leg script
+                legPart.enabled = false;
             }
-            
+    
             CreateDuplicatePart(part, prefab);
         }
 
@@ -212,49 +213,51 @@ namespace CreatureBuilder
             Destroy(part);
         }
         
-    private void ReturnAllCardsToPlayerInventory()
-    {
-        CreatureBuilderPartInventory inventory = FindFirstObjectByType<CreatureBuilderPartInventory>();
-        
-        if (inventory == null)
+        private void ReturnAllCardsToPlayerInventory()
         {
-            Debug.LogWarning("Creature builder inventory not found");
-            return;
-        }
-        
-        InventorySlot[] slots = inventory.GetComponentsInChildren<InventorySlot>();
-        
-        foreach (var slot in slots)
-        {
-            if (slot.currentItem != null)
+            CreatureBuilderPartInventory inventory = FindFirstObjectByType<CreatureBuilderPartInventory>();
+            
+            if (inventory == null)
             {
-                GameObject cardInstance = slot.currentItem.gameObject;
-                string cardName = cardInstance.name.Replace("(Clone)", "").Trim();
-                
-                // Find the original prefab
-                foreach (var pair in partPairs)
+                Debug.LogWarning("Creature builder inventory not found");
+                return;
+            }
+            
+            InventorySlot[] slots = inventory.GetComponentsInChildren<InventorySlot>();
+            
+            foreach (var slot in slots)
+            {
+                if (slot.currentItem != null)
                 {
-                    if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
+                    GameObject cardInstance = slot.currentItem.gameObject;
+                    string cardName = cardInstance.name.Replace("(Clone)", "").Trim();
+                    
+                    // Find the original prefab
+                    foreach (var pair in partPairs)
                     {
-                        Player.Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
-                        break;
+                        if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
+                        {
+                            Player.Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
+                            break;
+                        }
                     }
+                    
+                    // Destroy the card instance
+                    Destroy(cardInstance);
                 }
-                
-                // Destroy the card instance
-                Destroy(cardInstance);
             }
         }
-    }
 
     private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     {
         creaturePart.transform.parent = Player.Player.Instance.transform;
         creaturePart.GetComponent<PartDragging>().enabled = false;
         
-        if (creaturePart.GetComponent<PartDragging>().partData.name.Equals("leg"))
+        LegPart legPart = creaturePart.GetComponent<LegPart>();
+        if (legPart != null)
         {
             Player.Player.Instance.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
+            legPart.enabled = true;
             legs.Add(creaturePart);
         }
         
@@ -393,14 +396,21 @@ namespace CreatureBuilder
         {
             GameObject instance = Instantiate(prefab, position, Quaternion.identity);
             instance.name = prefab.name;
-            
+    
             PartDragging partDragging = instance.GetComponent<PartDragging>();
             if (partDragging != null)
             {
                 ResetPartDragging(partDragging);
                 parts.Add(partDragging.gameObject);
             }
+            
+            LegPart legPart = instance.GetComponent<LegPart>();
+            if (legPart != null)
+            {
+                legPart.enabled = false;
+            }
         }
+        
         #endregion
     }
 }
