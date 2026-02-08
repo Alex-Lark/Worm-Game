@@ -171,7 +171,7 @@ namespace Player
             float normalized = Mathf.InverseLerp(GameParameters.MinCameraPitch, GameParameters.MaxCameraPitch, camPitch);
             normalized = 1f - Mathf.Clamp01(normalized);
     
-            return Mathf.Lerp(-85f, 85f, normalized);
+            return Mathf.Lerp(-GameParameters.VisualHeadMaxDegrees, GameParameters.VisualHeadMaxDegrees, normalized);
         }
         
         #endregion
