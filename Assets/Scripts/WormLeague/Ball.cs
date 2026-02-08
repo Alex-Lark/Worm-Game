@@ -1,4 +1,4 @@
-using System;
+ using System;
 using UnityEngine;
 
 namespace WormLeague
@@ -20,7 +20,6 @@ namespace WormLeague
         {
             if (collision.gameObject.CompareTag("CreaturePart") || collision.gameObject.CompareTag("WormBodySegment"))
             {
-                Debug.Log("Ball touching player.");
                 LastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
                 print(LastTouchingPlayer.PlayerName);
             }
