@@ -22,7 +22,8 @@ namespace Player
         [Header("Public Properties")]
         
         public static Player Instance { get; private set; }
-        public string PlayerName { get; private set; }
+
+        public string PlayerName { get; set; } = "Player1";
         
         public WormState CurrentState { get; private set; }
         
@@ -81,7 +82,6 @@ namespace Player
 
         void Start()
         {
-            PlayerName = "player1";
             CurrentState = WormState.Idle;
             IsWormGrounded = false;
             MaxVelocity = GameParameters.WormMaxVelocity;
