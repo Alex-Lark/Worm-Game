@@ -35,6 +35,8 @@ namespace Player
         public bool IsWormAttacking => CurrentState == WormState.Attacking;
         public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
         
+        public PlayerGraphics playerGraphics;
+        
         #endregion
         
         #region public variables

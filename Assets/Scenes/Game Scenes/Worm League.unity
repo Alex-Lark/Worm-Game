@@ -687,7 +687,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3378935721403069532, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
 --- !u!1 &317191391
 GameObject:
@@ -3323,8 +3326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4489ada76ff8cb94db7b6b6c6ae9d1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputHandler
-  isJumping: 0
-  isAttacking: 0
 --- !u!4 &1729879987
 Transform:
   m_ObjectHideFlags: 0
