@@ -35,7 +35,7 @@ namespace Player
         public bool IsWormAttacking => CurrentState == WormState.Attacking;
         public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
         
-        public PlayerCanvas playerCanvas;
+        public PlayerGraphics playerGraphics;
         
         #endregion
         
@@ -242,7 +242,6 @@ namespace Player
 
             GetComponent<WormPhysics>().ResetWormPosition();
             wormForwardMovement.SetVariables();
-            playerCanvas.SetCamera(thirdPersonCamera.GetComponent<Camera>());
         }
         
         private void SetWormGrounding()

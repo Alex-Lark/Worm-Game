@@ -698,8 +698,29 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8071018323496679240, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1005109506}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3857149077806430327, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 268642454}
   m_SourcePrefab: {fileID: 100100000, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+--- !u!1 &268642445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3857149077806430327, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+  m_PrefabInstance: {fileID: 214722131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &268642454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268642445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57358961f3c287c4193b8ae1bd1de0ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerGraphics
+  usernameText: {fileID: 1005109507}
 --- !u!1 &317191391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2753,7 +2774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <mark=#ffff00aa>Sample text</mark>
+  m_text: <mark=#000000aa>Sample text</mark>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
