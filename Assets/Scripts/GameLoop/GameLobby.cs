@@ -1,7 +1,5 @@
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GameLoop
@@ -12,12 +10,16 @@ namespace GameLoop
         public Material wormHeadMaterial;
         
         public Image selectColorButtonColor;
+        public Image playerList;
 
         public GameObject colorSelectionPanel;
+
+        public GameObject playerUsernameTextPrefab;
 
         void Start()
         {
             selectColorButtonColor.color = wormMaterial.color;
+            UpdatePlayerList();
         }
 
         public void OpenColorSelectionPanel()
@@ -44,6 +46,21 @@ namespace GameLoop
             selectColorButtonColor.color = wormMaterial.color;
             
             CloseColorSelectionPanel();
+        }
+
+        public void UpdatePlayerList()
+        {
+            foreach (Transform child in playerList.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            
+            foreach (Player.Player player in GameLoop.Instance.players)
+            {
+                GameObject textObject = Instantiate(playerUsernameTextPrefab, playerList.transform);
+                TextMeshProUGUI tmpText = textObject.GetComponent<TextMeshProUGUI>();
+                tmpText.text = player.PlayerName;
+            }
         }
     }
 }
