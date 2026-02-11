@@ -24,6 +24,7 @@ namespace CreatureBuilder
         private bool isDragging = false;
         private bool isDraggingPart = false;
         private IInputAxisController inputProvider;
+        private GameObject selectedPart;
         
         #endregion
 
@@ -77,9 +78,11 @@ namespace CreatureBuilder
                 {
                     isDraggingPart = true;
                     hitPart.GetComponent<PartDragging>().StartDragging();
+                    selectedPart = hitPart;
                 }
                 else
                 {
+                    selectedPart.GetComponent<PartDragging>().DeselectPart();
                     isDragging = true;
                     cinemachineCamera.SetActive(true);
                 }

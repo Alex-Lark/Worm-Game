@@ -97,6 +97,13 @@ namespace CreatureBuilder
     
         public void StopDragging()
         {
+            //isSelected = false;
+            isDragging = false;
+            //GetComponent<PartDraggingUI>().RemoveHighlight();
+        }
+
+        public void DeselectPart()
+        {
             isSelected = false;
             isDragging = false;
             GetComponent<PartDraggingUI>().RemoveHighlight();
