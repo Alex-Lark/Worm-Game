@@ -12,6 +12,7 @@ namespace CreatureBuilder
         
         public GameObject cinemachineCamera;
         public GameObject targetCameraObject;
+        public GameObject selectedPart = null;
         
         #endregion
         
@@ -24,7 +25,6 @@ namespace CreatureBuilder
         private bool isDragging = false;
         private bool isDraggingPart = false;
         private IInputAxisController inputProvider;
-        private GameObject selectedPart;
         
         #endregion
 
@@ -76,13 +76,28 @@ namespace CreatureBuilder
             {
                 if (IsOverCreaturePart(out GameObject hitPart))
                 {
+                    if (hitPart != selectedPart)
+                    {
+                        if (selectedPart)
+                        {
+                            selectedPart.GetComponent<PartDragging>().DeselectPart();
+                        }
+                        selectedPart = null;
+                    }
                     isDraggingPart = true;
-                    hitPart.GetComponent<PartDragging>().StartDragging();
                     selectedPart = hitPart;
+                    selectedPart.GetComponent<PartDragging>().StartDragging();
                 }
                 else
                 {
-                    selectedPart.GetComponent<PartDragging>().DeselectPart();
+                    if (HasValidSelection())
+                    {
+                        selectedPart.GetComponent<PartDragging>().DeselectPart();
+                    }
+                    else
+                    {
+                        selectedPart = null;
+                    }
                     isDragging = true;
                     cinemachineCamera.SetActive(true);
                 }
@@ -147,6 +162,11 @@ namespace CreatureBuilder
             }
 
             return false;
+        }
+        
+        private bool HasValidSelection()
+        {
+            return selectedPart != null && selectedPart;
         }
         
         #endregion
