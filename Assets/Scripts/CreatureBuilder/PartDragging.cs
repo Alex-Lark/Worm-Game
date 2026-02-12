@@ -15,6 +15,7 @@ namespace CreatureBuilder
         public Transform endPoint;
         public bool isClamped;
         public float dragDistance = 0f;
+        public GameObject axisVisual;
         
         #endregion
         
@@ -93,13 +94,14 @@ namespace CreatureBuilder
             lastValidViewport = new Vector2(viewportPos.x, viewportPos.y);
     
             GetComponent<PartDraggingUI>().HighlightPart();
+            
+            if (axisVisual != null)
+                axisVisual.SetActive(true);
         }
     
         public void StopDragging()
         {
-            //isSelected = false;
             isDragging = false;
-            //GetComponent<PartDraggingUI>().RemoveHighlight();
         }
 
         public void DeselectPart()
@@ -107,6 +109,9 @@ namespace CreatureBuilder
             isSelected = false;
             isDragging = false;
             GetComponent<PartDraggingUI>().RemoveHighlight();
+            
+            if (axisVisual != null)
+                axisVisual.SetActive(false);
         }
         
         public void Delete3DPart()
