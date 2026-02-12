@@ -13,6 +13,7 @@ namespace CreatureBuilder
         public GameObject cinemachineCamera;
         public GameObject targetCameraObject;
         public GameObject selectedPart = null;
+        public GameObject deletePartButton;
         
         #endregion
         
@@ -44,6 +45,14 @@ namespace CreatureBuilder
                 
             }
             targetCamera = targetCameraObject.GetComponent<Camera>();
+        }
+        
+        void Update()
+        {
+            if (selectedPart)
+                deletePartButton.SetActive(true);
+            else
+                deletePartButton.SetActive(false);
         }
         
         void OnDisable()
@@ -94,10 +103,7 @@ namespace CreatureBuilder
                     {
                         selectedPart.GetComponent<PartDragging>().DeselectPart();
                     }
-                    else
-                    {
-                        selectedPart = null;
-                    }
+                    selectedPart = null;
                     isDragging = true;
                     cinemachineCamera.SetActive(true);
                 }
@@ -109,6 +115,13 @@ namespace CreatureBuilder
             isDraggingPart = false;
             isDragging = false;
             cinemachineCamera.SetActive(false);
+        }
+        
+        public void DeleteSelectedPart()
+        {
+            if (!selectedPart) return;
+            selectedPart.GetComponent<PartDragging>().Delete3DPart();
+            selectedPart = null;
         }
 
         public bool ControllersAreValid()
@@ -163,7 +176,6 @@ namespace CreatureBuilder
 
             return false;
         }
-        
         private bool HasValidSelection()
         {
             return selectedPart != null && selectedPart;

@@ -109,6 +109,15 @@ namespace CreatureBuilder
             GetComponent<PartDraggingUI>().RemoveHighlight();
         }
         
+        public void Delete3DPart()
+        {
+            if (isSelected)
+            {
+                creatureBuilder.SwitchFrom3DPartToCard(Prefab, gameObject);
+                Destroy(gameObject);
+            }
+        }
+        
         #endregion
 
         #region Private Methods
@@ -244,15 +253,6 @@ namespace CreatureBuilder
                 }
             }
             return true;
-        }
-        
-        private void Delete3DPart()
-        {
-            if (isSelected)
-            {
-                creatureBuilder.SwitchFrom3DPartToCard(Prefab, gameObject);
-                Destroy(gameObject);
-            }
         }
         
         #endregion
