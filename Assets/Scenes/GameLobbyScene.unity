@@ -3299,8 +3299,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1979447293}
-        m_TargetAssemblyTypeName: GameLoop.GameLobby, Assembly-CSharp
+      - m_Target: {fileID: 1979447294}
+        m_TargetAssemblyTypeName: Chat, Assembly-CSharp
         m_MethodName: SendChatMessage
         m_Mode: 0
         m_Arguments:
@@ -4928,6 +4928,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1979447292}
   - component: {fileID: 1979447293}
+  - component: {fileID: 1979447294}
   m_Layer: 0
   m_Name: GameLobby
   m_TagString: Untagged
@@ -4967,9 +4968,21 @@ MonoBehaviour:
   selectColorButtonColor: {fileID: 1539376948}
   playerList: {fileID: 696632762}
   colorSelectionPanel: {fileID: 989002980}
-  chatImage: {fileID: 1665821877}
   playerUsernameTextPrefab: {fileID: 4361938688578166129, guid: 894e25176dca7c84f852a25d2c190488, type: 3}
+--- !u!114 &1979447294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979447291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b60a3302d164d4c82c3b233782d8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Chat
   chatTextPrefab: {fileID: 3764036897077203325, guid: 92d9752a99ac6fd4f90b0887cac58b86, type: 3}
+  chatImage: {fileID: 1665821877}
   chatInputField: {fileID: 1147606961}
   maxMessages: 10
 --- !u!1 &2077419113

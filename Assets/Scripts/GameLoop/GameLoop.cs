@@ -13,6 +13,7 @@ namespace GameLoop
         public float TimeLeftInScene { get; private set; }
         public bool IsGameLoopRunning { get; private set; }
         public List<Player.Player> players;
+        public Dictionary<Player.Player, Player.Player> networkPlayersDictionary;
         public List<GameObject> partCards = new List<GameObject>();
         
         #endregion

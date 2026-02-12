@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3210998510615786602}
   - component: {fileID: -1562750120894441832}
   m_Layer: 0
-  m_Name: Network-Client
+  m_Name: Network-Config
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,12 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkManager
   _stopPlayingOnDisconnect: 0
-  _startServerFlags: 9
-  _startClientFlags: 7
+  _startServerFlags: 0
+  _startClientFlags: 0
   _cookieScope: 1
   _dontDestroyOnLoad: 0
   _transport: {fileID: -1562750120894441832}
-  _networkPrefabs: {fileID: 0}
+  _networkPrefabs: {fileID: 11400000, guid: dfe3f87f25f25a342a15b725a1d9ffa1, type: 2}
   _networkAssets: {fileID: 0}
   _networkRules: {fileID: 11400000, guid: 57ad4cc976c21074181652c4f7179d44, type: 2}
   _visibilityRules: {fileID: 11400000, guid: 8f014a5bd8dc68646a2a3c0b18c5bbd8, type: 2}

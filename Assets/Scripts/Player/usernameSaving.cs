@@ -6,7 +6,7 @@ namespace Player
 {
     public class UsernameSaving : MonoBehaviour
     {
-        public string username;
+        public static string username;
         public TMP_InputField usernameInputField;
         
         private static UsernameSaving Instance { get; set; }
