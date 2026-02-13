@@ -7,14 +7,20 @@ using Random = UnityEngine.Random;
 
 public class PlayerRegister : PurrMonoBehaviour
 {
-    public static Dictionary<PlayerID, string> UserNames = new Dictionary<PlayerID, string>();
-
+    public static Dictionary<PlayerID, PlayerData> Players = new Dictionary<PlayerID, PlayerData>();
     public static event Action<PlayerID> OnPlayerRegistered;
     private string FixUserName(string newName)
     {
+        List<string> takenNames = new List<string>();
+        foreach (PlayerData player in Players.Values)
+        {
+            takenNames.Add(player.name);
+        }
+        
+        newName ??= "Player";
         newName = System.Text.RegularExpressions.Regex.Replace(newName, "[^A-Za-z0-9_-]", "");
         if (newName.Length < 2 || newName.Length > 16) newName = "Player";
-        while (UserNames.ContainsValue(newName))
+        while (takenNames.Contains(newName))
         {
             newName += (int)(Random.value*10);
             if (newName.Length < 2 || newName.Length > 16) newName = "Player";
@@ -22,60 +28,72 @@ public class PlayerRegister : PurrMonoBehaviour
         return newName;
     }
     
-    public struct UserNameRequest : IPackedAuto
+    public struct PlayerData : IPackedAuto
     {
         public string name;
         public PlayerID playerID;
+        public Color color;
+        public ushort score;
+        public bool isDead;
+        public bool isDisconected;
     }
     
-    private void OnUsernameRequest(PlayerID player, UserNameRequest name, bool asServer)
+    private void OnUsernameRequest(PlayerID playerID, PlayerData player, bool asServer)
     {
         if (asServer)
         {
             // Store the sender's ID and validate name
-            name.playerID = player;
-            name.name = FixUserName(name.name);
+            player.playerID = playerID;
+            player.name = FixUserName(player.name);
         
             // Register on server first
-            RegisterUsername(name.name, name.playerID);
+            RegisterPlayer(player, player.playerID);
         
             // Now broadcast ALL players to ALL clients (including the new one)
-            foreach (var existingPlayer in UserNames)
+            foreach (var existingPlayer in Players)
             {
-                UserNameRequest playerData = new UserNameRequest
+                PlayerData playerData = new PlayerData
                 {
                     playerID = existingPlayer.Key,
-                    name = existingPlayer.Value
+                    name = existingPlayer.Value.name
                 };
                 Network.instance.manager.SendToAll(playerData);
             }
         }
         else
         {
-            RegisterUsername(name.name, name.playerID);
+            RegisterPlayer(player, player.playerID);
         }
     }
 
-    private void RegisterUsername(string nameName, PlayerID playerID)
+    private void RegisterPlayer(PlayerData player, PlayerID playerID)
     {
-        UserNames[playerID] = nameName;
+        Players[playerID] = player;
         OnPlayerRegistered?.Invoke(playerID);
+    }
+    
+    public static void RemoveClient(PlayerID playerID, bool _)
+    {
+        Debug.Log("Delisting client: "+playerID.id.value);
+        PlayerData playerData = Players[playerID];
+        playerData.isDisconected = true;
+
     }
     
     public static void RegisterClient(PlayerID playerID, bool firstJoin, bool _)
     {
         Debug.Log("Registering client: "+playerID.id.value);
-        if(firstJoin)UserNames[playerID] = "";
+        if(firstJoin)Players[playerID] = new PlayerData();
     }
     
     public override void Subscribe(NetworkManager manager, bool asServer)
     {
-        manager.Subscribe<UserNameRequest>(OnUsernameRequest, asServer);
+        manager.Subscribe<PlayerData>(OnUsernameRequest, asServer);
     }
         
     public override void Unsubscribe(NetworkManager manager, bool asServer)
     {
-        manager.Unsubscribe<UserNameRequest>(OnUsernameRequest, asServer);
+        manager.Unsubscribe<PlayerData>(OnUsernameRequest, asServer);
             
     }
 }

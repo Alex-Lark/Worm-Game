@@ -32,9 +32,9 @@ namespace GameLoop.GameLobby
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
             PlayerRegister.OnPlayerRegistered += UpdatePlayerList;
             
-            PlayerRegister.UserNameRequest name = new PlayerRegister.UserNameRequest();
+            PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.Player.Instance.PlayerName;
-            Network.instance.manager.SendToServer<PlayerRegister.UserNameRequest>(name);
+            Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
             ToggleStartGameButton();
             colorSelection.SetInitialColor();
         }
@@ -68,13 +68,13 @@ namespace GameLoop.GameLobby
                  Destroy(child.gameObject);
             }
 
-            foreach (KeyValuePair<PlayerID,string> name  in PlayerRegister.UserNames)
+            foreach (KeyValuePair<PlayerID,PlayerRegister.PlayerData> player  in PlayerRegister.Players)
             {
-                Debug.Log("Player register name: " + name);
+                Debug.Log("Player register name: " + player.Value.name);
                 
                 GameObject textObject = Instantiate(playerUsernameTextPrefab, playerList.transform);
                 TextMeshProUGUI tmpText = textObject.GetComponent<TextMeshProUGUI>();
-                tmpText.text = name.Value;
+                tmpText.text = player.Value.name;
             }
         }
         

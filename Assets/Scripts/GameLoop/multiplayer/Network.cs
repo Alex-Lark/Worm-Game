@@ -57,8 +57,9 @@ public class Network : MonoBehaviour
             
             manager.StartHost();
             manager.onPlayerJoined += PlayerRegister.RegisterClient;
+            manager.onPlayerLeft += PlayerRegister.RemoveClient;
             
-            manager.onClientConnectionState += ToLobby;
+            manager.onClientConnectionState += OnNetworkChangeScene;
         }
     }
     
@@ -82,7 +83,7 @@ public class Network : MonoBehaviour
             DontDestroyOnLoad(networkObject);
             udpTransport.serverPort = 5001;
             
-            manager.onClientConnectionState += ToLobby;
+            manager.onClientConnectionState += OnNetworkChangeScene;
 
             gameObject.AddComponent<WormGameSceneSwitcher>();
         }
@@ -90,7 +91,7 @@ public class Network : MonoBehaviour
         manager.StartClient();
     }
 
-    private void ToLobby(ConnectionState state)
+    private void OnNetworkChangeScene(ConnectionState state)
     {
         if (state == ConnectionState.Connected)
         {
@@ -99,6 +100,7 @@ public class Network : MonoBehaviour
 
         if (state == ConnectionState.Disconnected)
         {
+            GetComponent<WormGameSceneSwitcher>().LoadMainMenuScene();
             Destroy(gameObject);
         }
 

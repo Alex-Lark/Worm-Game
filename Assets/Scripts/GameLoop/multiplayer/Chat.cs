@@ -27,8 +27,8 @@ public class Chat : PurrMonoBehaviour
     {
         if (message == "") return;
     
-        string playerName = PlayerRegister.UserNames.ContainsKey(playerID) 
-            ? PlayerRegister.UserNames[playerID] 
+        string playerName = PlayerRegister.Players.ContainsKey(playerID) 
+            ? PlayerRegister.Players[playerID].name 
             : "Unknown";
     
         string finalMessage = "<" + playerName + "> " + message;
