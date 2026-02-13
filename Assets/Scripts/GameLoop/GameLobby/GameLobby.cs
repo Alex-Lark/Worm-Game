@@ -1,24 +1,17 @@
 using System.Collections.Generic;
 using PurrNet;
-using PurrNet.Packing;
 using TMPro;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace GameLoop
+namespace GameLoop.GameLobby
 {
     public class GameLobby : MonoBehaviour
     {
         #region Public Variables
-
-        public Material wormMaterial;
-        public Material wormHeadMaterial;
-
-        public Image selectColorButtonColor;
+        
         public Image playerList;
 
         public GameObject colorSelectionPanel;
@@ -27,6 +20,8 @@ namespace GameLoop
         public GameObject playerUsernameTextPrefab;
         
         public PlayerRegister playerRegister;
+
+        public ColorSelection colorSelection;
         #endregion
 
         #region Built-In Methods
@@ -34,7 +29,6 @@ namespace GameLoop
         void Start()
         {
             Debug.Log("Game Lobby start method called");
-            selectColorButtonColor.color = wormMaterial.color;
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
             PlayerRegister.OnPlayerRegistered += UpdatePlayerList;
             
@@ -42,6 +36,7 @@ namespace GameLoop
             name.name = Player.Player.Instance.PlayerName;
             Network.instance.manager.SendToServer<PlayerRegister.UserNameRequest>(name);
             ToggleStartGameButton();
+            colorSelection.SetInitialColor();
         }
 
         #endregion
@@ -51,6 +46,8 @@ namespace GameLoop
         public void OpenColorSelectionPanel()
         {
             colorSelectionPanel.SetActive(true);
+            colorSelection.RefreshButtons();
+            
         }
 
         public void CloseColorSelectionPanel()
@@ -61,17 +58,6 @@ namespace GameLoop
         public void StartGame()
         {
             GameLoop.Instance.StartGame();
-        }
-
-        public void SetColor(Button button)
-        {
-            wormMaterial.color = button.image.color;
-
-            wormHeadMaterial.color = button.transform.GetChild(0).GetComponent<Image>().color;
-
-            selectColorButtonColor.color = wormMaterial.color;
-
-            CloseColorSelectionPanel();
         }
 
         public void UpdatePlayerList(PlayerID _)
