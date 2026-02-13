@@ -13,30 +13,35 @@ public class Chat : PurrMonoBehaviour
 
     public void SendChatMessage(string message)
     {
-        if (message == "")return;
-        ChatMessage chatMessage = new ChatMessage();
-        chatMessage.message = message;
+        if (message == "") return;
+    
+        ChatMessage chatMessage = new ChatMessage
+        {
+            message = message
+        };
+    
         Network.instance.manager.SendToServer<ChatMessage>(chatMessage);
     }
     
     public void PostChatMessage(string message, PlayerID playerID)
     {
-        if (message == "")
-        {
-            return;
-        }
-
-        string finalMessage = "<" + PlayerRegister.UserNames[playerID] + "> " + message;
-
+        if (message == "") return;
+    
+        string playerName = PlayerRegister.UserNames.ContainsKey(playerID) 
+            ? PlayerRegister.UserNames[playerID] 
+            : "Unknown";
+    
+        string finalMessage = "<" + playerName + "> " + message;
+    
         GameObject messageObject = Instantiate(chatTextPrefab, chatImage);
         TextMeshProUGUI messageText = messageObject.GetComponent<TextMeshProUGUI>();
         messageText.text = finalMessage;
-
+    
         if (chatImage.childCount > maxMessages)
         {
             Destroy(chatImage.GetChild(0).gameObject);
         }
-
+    
         chatInputField.text = "";
         chatInputField.ActivateInputField();
     }
@@ -55,14 +60,20 @@ public class Chat : PurrMonoBehaviour
         // Called when a ChatMessage broadcast is sent from either the Server or a Client
         private void OnChatMessage(PlayerID player, ChatMessage data, bool asServer)
         {
-            if (asServer)   // The broadcast was sent to the Server from a Client
+            if (asServer)   // Server receives from client
             {
-                // Send the broadcast down to the Clients
+        
+                // Store the sender's ID in the message
+                data.senderID = player;
+        
+                // Broadcast to all clients with the correct sender ID embedded
                 Network.instance.manager.SendToAll<ChatMessage>(data);
             }
-            else    // The broadcast was sent to the Clients from the Server
+            else    // Client receives from server
             {
-                PostChatMessage(data.message, player);
+        
+                // Use the senderID from the message, not the callback parameter
+                PostChatMessage(data.message, data.senderID);
             }
         }
     
@@ -75,5 +86,6 @@ public class Chat : PurrMonoBehaviour
     public struct ChatMessage : IPackedAuto
     {
         public string message;
+        public PlayerID senderID;
     }
 }
