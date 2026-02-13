@@ -32,6 +32,7 @@ namespace GameLoop
 
         void Start()
         {
+            Debug.Log("Game Lobby start method called");
             selectColorButtonColor.color = wormMaterial.color;
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
             PlayerRegister.OnPlayerRegistered += UpdatePlayerList;
@@ -73,13 +74,16 @@ namespace GameLoop
 
         public void UpdatePlayerList(PlayerID _)
         {
+            
             foreach (Transform child in playerList.transform)
             {
-                Destroy(child.gameObject);
+                 Destroy(child.gameObject);
             }
 
             foreach (KeyValuePair<PlayerID,string> name  in PlayerRegister.UserNames)
             {
+                Debug.Log("Player register name: " + name);
+                
                 GameObject textObject = Instantiate(playerUsernameTextPrefab, playerList.transform);
                 TextMeshProUGUI tmpText = textObject.GetComponent<TextMeshProUGUI>();
                 tmpText.text = name.Value;

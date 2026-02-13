@@ -12,7 +12,6 @@ public class PlayerRegister : PurrMonoBehaviour
     public static event Action<PlayerID> OnPlayerRegistered;
     private string FixUserName(string newName)
     {
-        Debug.Log("Fixing username, original: " + newName);
         newName = System.Text.RegularExpressions.Regex.Replace(newName, "[^A-Za-z0-9_-]", "");
         if (newName.Length < 2 || newName.Length > 16) newName = "Player";
         while (UserNames.ContainsValue(newName))
@@ -20,28 +19,40 @@ public class PlayerRegister : PurrMonoBehaviour
             newName += (int)(Random.value*10);
             if (newName.Length < 2 || newName.Length > 16) newName = "Player";
         }
-        Debug.Log("Fixing username, new: " + newName);
         return newName;
     }
     
     public struct UserNameRequest : IPackedAuto
     {
         public string name;
+        public PlayerID playerID;
     }
     
     private void OnUsernameRequest(PlayerID player, UserNameRequest name, bool asServer)
     {
-        Debug.Log($"[OnUsernameRequest] Player: {player.id.value}, Name: '{name.name}', AsServer: {asServer}");
-        
-        if (asServer)   // The broadcast was sent to the Server from a Client
+        if (asServer)
         {
-            // Send the broadcast down to the Clients
+            // Store the sender's ID and validate name
+            name.playerID = player;
             name.name = FixUserName(name.name);
-            Network.instance.manager.SendToAll<UserNameRequest>(name);
+        
+            // Register on server first
+            RegisterUsername(name.name, name.playerID);
+        
+            // Now broadcast ALL players to ALL clients (including the new one)
+            foreach (var existingPlayer in UserNames)
+            {
+                UserNameRequest playerData = new UserNameRequest
+                {
+                    playerID = existingPlayer.Key,
+                    name = existingPlayer.Value
+                };
+                Network.instance.manager.SendToAll(playerData);
+            }
         }
-        else    // The broadcast was sent to the Clients from the Server
+        else
         {
-            RegisterUsername(name.name, player);
+            RegisterUsername(name.name, name.playerID);
         }
     }
 
