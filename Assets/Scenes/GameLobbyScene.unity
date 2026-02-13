@@ -1035,7 +1035,7 @@ GameObject:
   - component: {fileID: 317191394}
   - component: {fileID: 317191393}
   m_Layer: 5
-  m_Name: Button-Next
+  m_Name: Button-Start Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4968,7 +4968,9 @@ MonoBehaviour:
   selectColorButtonColor: {fileID: 1539376948}
   playerList: {fileID: 696632762}
   colorSelectionPanel: {fileID: 989002980}
+  startGameButton: {fileID: 317191391}
   playerUsernameTextPrefab: {fileID: 4361938688578166129, guid: 894e25176dca7c84f852a25d2c190488, type: 3}
+  playerRegister: {fileID: 0}
 --- !u!114 &1979447294
 MonoBehaviour:
   m_ObjectHideFlags: 0

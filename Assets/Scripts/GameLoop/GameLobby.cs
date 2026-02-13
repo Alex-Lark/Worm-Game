@@ -22,6 +22,7 @@ namespace GameLoop
         public Image playerList;
 
         public GameObject colorSelectionPanel;
+        public GameObject startGameButton;
 
         public GameObject playerUsernameTextPrefab;
         
@@ -40,6 +41,7 @@ namespace GameLoop
             PlayerRegister.UserNameRequest name = new PlayerRegister.UserNameRequest();
             name.name = Player.Player.Instance.PlayerName;
             Network.instance.manager.SendToServer<PlayerRegister.UserNameRequest>(name);
+            ToggleStartGameButton();
         }
 
         #endregion
@@ -89,6 +91,14 @@ namespace GameLoop
                 tmpText.text = name.Value;
             }
         }
+        
+        #endregion
+        
+        private void ToggleStartGameButton()
+        {
+            bool isHost = Network.instance.manager.isServer;
+            startGameButton.SetActive(isHost);
+        }
+        
     }
-    #endregion
 }
