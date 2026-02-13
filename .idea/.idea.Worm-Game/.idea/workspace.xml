@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="trash him for his crimes. (delete button added)">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="I FORGOT TO PUSH EVERYTHING AGAIN AUGHHHH">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/spike object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/spike object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,15 +173,8 @@
       <workItem from="1770322555626" duration="1912000" />
       <workItem from="1770330786712" duration="4590000" />
       <workItem from="1770770773150" duration="1647000" />
-      <workItem from="1770882367496" duration="4681000" />
-    </task>
-    <task id="LOCAL-00024" summary="inventory system kinda working, sprites don't work though??">
-      <option name="closed" value="true" />
-      <created>1760583193351</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1760583193352</updated>
+      <workItem from="1770882367496" duration="4835000" />
+      <workItem from="1770940589308" duration="415000" />
     </task>
     <task id="LOCAL-00025" summary="trying to get worm to persist between scenes">
       <option name="closed" value="true" />
@@ -569,7 +560,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770885844414</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="added visual axis for future rotation/movement functionality">
+      <option name="closed" value="true" />
+      <created>1770887205053</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1770887205053</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -602,7 +601,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value=" pushing test object in scene" />
     <MESSAGE value="test2" />
     <MESSAGE value="UI timer works" />
     <MESSAGE value="card images and names populate when entering part selection" />
@@ -627,7 +625,8 @@
     <MESSAGE value="im built different (parts stay selected)" />
     <MESSAGE value="all selection bugs fixed" />
     <MESSAGE value="trash him for his crimes. (delete button added)" />
-    <option name="LAST_COMMIT_MESSAGE" value="trash him for his crimes. (delete button added)" />
+    <MESSAGE value="added visual axis for future rotation/movement functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="added visual axis for future rotation/movement functionality" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

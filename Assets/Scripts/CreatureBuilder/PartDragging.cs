@@ -32,6 +32,7 @@ namespace CreatureBuilder
         
         private bool isSelected;
         private bool isDragging;
+        private bool doubleSelected;
         
         #endregion
     
@@ -83,6 +84,7 @@ namespace CreatureBuilder
 
         public void StartDragging()
         {
+            if (isSelected) doubleSelected = true;
             isSelected = true;
             isDragging = true;
             
@@ -93,7 +95,7 @@ namespace CreatureBuilder
             Vector3 viewportPos = targetCamera.WorldToViewportPoint(transform.position);
             lastValidViewport = new Vector2(viewportPos.x, viewportPos.y);
     
-            GetComponent<PartDraggingUI>().HighlightPart();
+            if (!doubleSelected) GetComponent<PartDraggingUI>().HighlightPart();
             
             if (axisVisual != null)
                 axisVisual.SetActive(true);
@@ -108,6 +110,7 @@ namespace CreatureBuilder
         {
             isSelected = false;
             isDragging = false;
+            doubleSelected = false;
             GetComponent<PartDraggingUI>().RemoveHighlight();
             
             if (axisVisual != null)
