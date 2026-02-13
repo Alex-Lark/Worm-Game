@@ -19,14 +19,14 @@ public class Chat : PurrMonoBehaviour
         Network.instance.manager.SendToServer<ChatMessage>(chatMessage);
     }
     
-    public void PostChatMessage(string message)
+    public void PostChatMessage(string message, PlayerID playerID)
     {
         if (message == "")
         {
             return;
         }
 
-        string finalMessage = "<" + Player.Player.Instance.PlayerName + "> " + message;
+        string finalMessage = "<" + PlayerRegister.UserNames[playerID] + "> " + message;
 
         GameObject messageObject = Instantiate(chatTextPrefab, chatImage);
         TextMeshProUGUI messageText = messageObject.GetComponent<TextMeshProUGUI>();
@@ -62,7 +62,7 @@ public class Chat : PurrMonoBehaviour
             }
             else    // The broadcast was sent to the Clients from the Server
             {
-                PostChatMessage(data.message);
+                PostChatMessage(data.message, player);
             }
         }
     

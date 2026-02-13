@@ -57,9 +57,9 @@ public class Network : MonoBehaviour
             
             manager.StartHost();
             manager.onPlayerJoined += PlayerRegister.RegisterClient;
+            
+            manager.onClientConnectionState += ToLobby;
         }
-        
-        new GameObject().AddComponent<WormGameSceneSwitcher>().LoadGameLobbyScene();
     }
     
     public void StartClient(string address = null)

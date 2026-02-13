@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Chat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Chat.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -655,10 +657,10 @@
           <line>57</line>
           <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Chat.cs" containingFunctionPresentation="Method 'OnChatMessage'">
             <startOffsets>
-              <option value="1732" />
+              <option value="1752" />
             </startOffsets>
             <endOffsets>
-              <option value="1745" />
+              <option value="1765" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="8" />
@@ -668,10 +670,10 @@
           <line>64</line>
           <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Chat.cs" containingFunctionPresentation="Method 'OnChatMessage'">
             <startOffsets>
-              <option value="2066" />
+              <option value="2086" />
             </startOffsets>
             <endOffsets>
-              <option value="2096" />
+              <option value="2124" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="9" />
@@ -681,10 +683,10 @@
           <line>60</line>
           <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Chat.cs" containingFunctionPresentation="Method 'OnChatMessage'">
             <startOffsets>
-              <option value="1890" />
+              <option value="1910" />
             </startOffsets>
             <endOffsets>
-              <option value="1944" />
+              <option value="1964" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="10" />

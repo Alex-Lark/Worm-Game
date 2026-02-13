@@ -12,7 +12,7 @@ public class PlayerRegister : PurrMonoBehaviour
     public static event Action<PlayerID> OnPlayerRegistered;
     private string FixUserName(string newName)
     {
-        newName = newName.Replace("^[A-Za-z0-9_-]+$", "");
+        newName = newName.Replace("[A-Za-z0-9_-]", "");
         if (newName.Length < 2 || newName.Length > 16) newName = "Player";
         while (UserNames.ContainsValue(newName))
         {
