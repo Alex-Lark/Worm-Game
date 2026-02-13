@@ -3,6 +3,7 @@ using PurrNet;
 using PurrNet.Packing;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
@@ -24,6 +25,7 @@ namespace GameLoop
 
         public GameObject playerUsernameTextPrefab;
         
+        public PlayerRegister playerRegister;
         #endregion
 
         #region Built-In Methods
@@ -31,7 +33,12 @@ namespace GameLoop
         void Start()
         {
             selectColorButtonColor.color = wormMaterial.color;
-            UpdatePlayerList();
+            playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
+            PlayerRegister.OnPlayerRegistered += UpdatePlayerList;
+            
+            PlayerRegister.UserNameRequest name = new PlayerRegister.UserNameRequest();
+            name.name = Player.Player.Instance.name;
+            Network.instance.manager.SendToServer<PlayerRegister.UserNameRequest>(name);
         }
 
         #endregion
@@ -64,14 +71,14 @@ namespace GameLoop
             CloseColorSelectionPanel();
         }
 
-        public void UpdatePlayerList()
+        public void UpdatePlayerList(PlayerID _)
         {
             foreach (Transform child in playerList.transform)
             {
                 Destroy(child.gameObject);
             }
 
-            foreach (KeyValuePair<PlayerID,string> name  in Network.UserNames)
+            foreach (KeyValuePair<PlayerID,string> name  in PlayerRegister.UserNames)
             {
                 GameObject textObject = Instantiate(playerUsernameTextPrefab, playerList.transform);
                 TextMeshProUGUI tmpText = textObject.GetComponent<TextMeshProUGUI>();

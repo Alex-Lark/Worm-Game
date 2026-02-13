@@ -11,23 +11,6 @@ public class Chat : PurrMonoBehaviour
     public TMP_InputField chatInputField;
     public int maxMessages = 10;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    void OnDestroy()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SendChatMessage(string message)
     {
         if (message == "")return;

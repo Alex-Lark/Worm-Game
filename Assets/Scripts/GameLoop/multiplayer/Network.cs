@@ -18,7 +18,7 @@ public class Network : MonoBehaviour
     public NetworkManager manager;
     
     public static Network instance;
-    public static Dictionary<PlayerID, string> UserNames = new Dictionary<PlayerID, string>();
+
     
     bool Init = false;
 
@@ -56,15 +56,10 @@ public class Network : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             
             manager.StartHost();
-            manager.onPlayerJoined += RegisterClient;
-            
+            manager.onPlayerJoined += PlayerRegister.RegisterClient;
         }
         
         new GameObject().AddComponent<WormGameSceneSwitcher>().LoadGameLobbyScene();
-        
-        UserNameRequest name = new UserNameRequest();
-        name.name = UsernameSaving.username;
-        Network.instance.manager.SendToServer<UserNameRequest>(name);
     }
     
     public void StartClient(string address = null)
@@ -93,11 +88,6 @@ public class Network : MonoBehaviour
         }
 
         manager.StartClient();
-        
-        UserNameRequest name = new UserNameRequest();
-        name.name = UsernameSaving.username;
-        Network.instance.manager.SendToServer<UserNameRequest>(name);
-
     }
 
     private void ToLobby(ConnectionState state)
@@ -112,47 +102,5 @@ public class Network : MonoBehaviour
             Destroy(gameObject);
         }
 
-    }
-
-    private void RegisterClient(PlayerID playerID, bool firstJoin, bool _)
-    {
-        Debug.Log("Registering client: "+playerID.id.value);
-        if(firstJoin)UserNames[playerID] = "";
-    }
-    
-    private static string FixUserName(string newName)
-    {
-        newName = newName.Replace("^[A-Za-z0-9_-]+$", "");
-        if (newName.Length < 2 || newName.Length > 16) newName = "Player";
-        while (UserNames.ContainsValue(newName))
-        {
-            newName += (int)(Random.value*10);
-            if (newName.Length < 2 || newName.Length > 16) newName = "Player";
-        }
-        return newName;
-    }
-    
-    public struct UserNameRequest : IPackedAuto
-    {
-        public string name;
-    }
-    
-    private void OnUsernameRequest(PlayerID player, UserNameRequest name, bool asServer)
-    {
-        if (asServer)   // The broadcast was sent to the Server from a Client
-        {
-            // Send the broadcast down to the Clients
-            name.name = FixUserName(name.name);
-            Network.instance.manager.SendToAll<UserNameRequest>(name);
-        }
-        else    // The broadcast was sent to the Clients from the Server
-        {
-            RegisterUsername(name.name, player);
-        }
-    }
-
-    private void RegisterUsername(string nameName, PlayerID playerID)
-    {
-        UserNames[playerID] = nameName;
     }
 }
