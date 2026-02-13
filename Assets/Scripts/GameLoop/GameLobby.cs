@@ -37,7 +37,7 @@ namespace GameLoop
             PlayerRegister.OnPlayerRegistered += UpdatePlayerList;
             
             PlayerRegister.UserNameRequest name = new PlayerRegister.UserNameRequest();
-            name.name = Player.Player.Instance.name;
+            name.name = Player.Player.Instance.PlayerName;
             Network.instance.manager.SendToServer<PlayerRegister.UserNameRequest>(name);
         }
 

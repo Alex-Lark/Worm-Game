@@ -12,13 +12,15 @@ public class PlayerRegister : PurrMonoBehaviour
     public static event Action<PlayerID> OnPlayerRegistered;
     private string FixUserName(string newName)
     {
-        newName = newName.Replace("[A-Za-z0-9_-]", "");
+        Debug.Log("Fixing username, original: " + newName);
+        newName = System.Text.RegularExpressions.Regex.Replace(newName, "[^A-Za-z0-9_-]", "");
         if (newName.Length < 2 || newName.Length > 16) newName = "Player";
         while (UserNames.ContainsValue(newName))
         {
             newName += (int)(Random.value*10);
             if (newName.Length < 2 || newName.Length > 16) newName = "Player";
         }
+        Debug.Log("Fixing username, new: " + newName);
         return newName;
     }
     
@@ -29,6 +31,8 @@ public class PlayerRegister : PurrMonoBehaviour
     
     private void OnUsernameRequest(PlayerID player, UserNameRequest name, bool asServer)
     {
+        Debug.Log($"[OnUsernameRequest] Player: {player.id.value}, Name: '{name.name}', AsServer: {asServer}");
+        
         if (asServer)   // The broadcast was sent to the Server from a Client
         {
             // Send the broadcast down to the Clients

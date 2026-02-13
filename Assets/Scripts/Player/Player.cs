@@ -23,7 +23,7 @@ namespace Player
         
         public static Player Instance { get; private set; }
 
-        public string PlayerName { get; set; } = "Player1";
+        public string PlayerName = "Player1";
         
         public WormState CurrentState { get; private set; }
         
