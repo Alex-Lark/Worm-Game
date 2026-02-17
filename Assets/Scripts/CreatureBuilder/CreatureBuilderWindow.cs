@@ -85,6 +85,17 @@ namespace CreatureBuilder
             {
                 if (IsOverCreaturePart(out GameObject hitPart))
                 {
+                    if (hitPart.CompareTag("RotationHandle"))
+                    {
+                        AxisRotationHandler handler = hitPart.GetComponent<AxisRotationHandler>();
+                        if (handler != null)
+                            handler.StartRotation();
+
+                        selectedPart = hitPart.GetComponent<AxisRotationHandler>().targetPart.gameObject;
+                        selectedPart.GetComponent<PartDragging>().SelectPart();
+                        return;
+                    }
+                    
                     if (hitPart != selectedPart)
                     {
                         if (selectedPart)
@@ -112,6 +123,13 @@ namespace CreatureBuilder
         
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (selectedPart != null)
+            {
+                AxisRotationHandler[] handlers = selectedPart.GetComponentsInChildren<AxisRotationHandler>();
+                foreach (var h in handlers)
+                    h.StopRotation();
+            }
+            
             isDraggingPart = false;
             isDragging = false;
             cinemachineCamera.SetActive(false);
@@ -159,6 +177,12 @@ namespace CreatureBuilder
             Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                if (hit.collider.CompareTag("RotationHandle"))
+                {
+                    hitObject = hit.collider.gameObject;
+                    return true;
+                }
+                
                 Transform current = hit.collider.transform;
                 
                 int safetyCounter = 0; // prevent infinite loops

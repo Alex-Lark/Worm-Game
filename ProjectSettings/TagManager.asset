@@ -9,6 +9,7 @@ TagManager:
   - PartSelection
   - ball
   - WormBodySegment
+  - RotationHandle
   layers:
   - Default
   - TransparentFX

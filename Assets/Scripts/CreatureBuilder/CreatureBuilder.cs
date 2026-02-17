@@ -62,6 +62,7 @@ namespace CreatureBuilder
                 }
                 GameObject spawnedPart = SpawnPartInWorld(prefab3D, spawnPosition);
                 creatureBuilderScript.selectedPart = spawnedPart;
+                creatureBuilderScript.selectedPart.GetComponent<PartDragging>().SelectPart();
             }
             else
             {

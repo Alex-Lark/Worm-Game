@@ -84,8 +84,7 @@ namespace CreatureBuilder
 
         public void StartDragging()
         {
-            if (isSelected) doubleSelected = true;
-            isSelected = true;
+            SelectPart();
             isDragging = true;
             
             if (dragDistance == 0f)
@@ -94,11 +93,17 @@ namespace CreatureBuilder
             lastValidPosition = transform.position;
             Vector3 viewportPos = targetCamera.WorldToViewportPoint(transform.position);
             lastValidViewport = new Vector2(viewportPos.x, viewportPos.y);
-    
-            if (!doubleSelected) GetComponent<PartDraggingUI>().HighlightPart();
+        }
+
+        public void SelectPart()
+        {
+            if (isSelected) doubleSelected = true;
+            isSelected = true;
             
             if (axisVisual != null)
                 axisVisual.SetActive(true);
+            
+            if (!doubleSelected) GetComponent<PartDraggingUI>().HighlightPart();
         }
     
         public void StopDragging()
