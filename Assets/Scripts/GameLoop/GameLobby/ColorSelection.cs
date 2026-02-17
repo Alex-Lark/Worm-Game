@@ -69,7 +69,8 @@ namespace GameLoop.GameLobby
             
             currentColorIndex = colorIndex;
             takenColors.Add(selectedColor.bodyColor);
-    
+            
+            PlayerRegister.UpdateColor(selectedColor.bodyColor);
             UpdateColorButtons();
             GetComponent<GameLobby>().CloseColorSelectionPanel();
         }

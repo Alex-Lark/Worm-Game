@@ -141,4 +141,25 @@ public class PlayerRegister : PurrMonoBehaviour
         Network.instance.manager.onPlayerJoined += RegisterClient;
         Network.instance.manager.onPlayerLeft += RemoveClient;
     }
+    
+    public static void UpdateColor(Color newColor)
+    {
+        PlayerID localPlayerID = Network.instance.manager.localPlayer;
+    
+        if (!Players.ContainsKey(localPlayerID))
+        {
+            Debug.LogError("Local player not found in Players dictionary!");
+            return;
+        }
+    
+        // Update locally
+        PlayerData myData = Players[localPlayerID];
+        myData.color = newColor;
+        Players[localPlayerID] = myData;
+    
+        // Send update to server
+        Network.instance.manager.SendToServer(myData);
+    
+        Debug.Log($"Updated" + myData.name  + "color to {newColor}");
+    }
 }
