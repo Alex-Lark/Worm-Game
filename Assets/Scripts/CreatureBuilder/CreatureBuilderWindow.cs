@@ -96,6 +96,20 @@ namespace CreatureBuilder
                         return;
                     }
                     
+                    if (hitPart.CompareTag("TranslationHandle"))
+                    {
+                        print("hit arrow");
+                        AxisTranslationHandler handler = hitPart.GetComponent<AxisTranslationHandler>();
+                        if (handler != null)
+                        {
+                            handler.StartTranslation();
+
+                            selectedPart = handler.targetPart.gameObject;
+                            selectedPart.GetComponent<PartDragging>().SelectPart();
+                        }
+                        return;
+                    }
+                    
                     if (hitPart != selectedPart)
                     {
                         if (selectedPart)
@@ -128,6 +142,12 @@ namespace CreatureBuilder
                 AxisRotationHandler[] handlers = selectedPart.GetComponentsInChildren<AxisRotationHandler>();
                 foreach (var h in handlers)
                     h.StopRotation();
+                
+                AxisTranslationHandler[] translationHandlers =
+                    selectedPart.GetComponentsInChildren<AxisTranslationHandler>();
+
+                foreach (var t in translationHandlers)
+                    t.StopTranslation();
             }
             
             isDraggingPart = false;
@@ -177,9 +197,12 @@ namespace CreatureBuilder
             Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.collider.CompareTag("RotationHandle"))
+                GameObject hitGO = hit.collider.gameObject;
+
+                if (hitGO.CompareTag("RotationHandle") ||
+                    hitGO.CompareTag("TranslationHandle"))
                 {
-                    hitObject = hit.collider.gameObject;
+                    hitObject = hitGO;
                     return true;
                 }
                 
