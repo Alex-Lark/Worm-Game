@@ -67,6 +67,8 @@ namespace GameLoop
         
         public void Reset()
         {
+            if (gameLoop == null) return;
+            
             StopCoroutine(gameLoop);
             StopAllCoroutines();
             

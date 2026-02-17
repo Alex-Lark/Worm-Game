@@ -42,7 +42,7 @@ namespace Player
             {
                 Debug.Log("entering not game scene in playerGraphics");
                 OnDisable();
-                usernameText.enabled = false;
+                if(usernameText?.IsDestroyed() == false)usernameText.enabled = false;
             }
         }
 

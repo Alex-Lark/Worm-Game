@@ -12,7 +12,10 @@ namespace GameLoop
         public void LoadMainMenuScene()
         {
             SceneManager.LoadScene("MainMenuScene");
-            GameLoop.Instance.Reset();
+            GameLoop.Instance?.Reset();
+            Destroy(Network.instance);
+            Destroy(GameLoop.Instance?.gameObject);
+            Destroy(Player.Player.Instance?.gameObject);
         }
 
         public void LoadSettingsScene()

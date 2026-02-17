@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using PurrNet;
+using PurrNet.Transports;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,13 +32,18 @@ namespace GameLoop.GameLobby
         {
             Debug.Log("Game Lobby start method called");
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
-            PlayerRegister.OnPlayerRegistered += UpdatePlayerList;
+            PlayerRegister.OnPlayerRegisterChanged += UpdatePlayerList;
             
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.Player.Instance.PlayerName;
-            Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
+            if(Network.instance.manager.HasModule<PlayersBroadcaster>(!Network.instance.manager.isServer))Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
             ToggleStartGameButton();
             colorSelection.SetInitialColor();
+        }
+
+        private void OnDestroy()
+        {
+            PlayerRegister.OnPlayerRegisterChanged -= UpdatePlayerList;
         }
 
         #endregion
@@ -60,7 +67,7 @@ namespace GameLoop.GameLobby
             GameLoop.Instance.StartGame();
         }
 
-        public void UpdatePlayerList(PlayerID _)
+        public void UpdatePlayerList(PlayerID playerID, bool connected)
         {
             
             foreach (Transform child in playerList.transform)
@@ -70,6 +77,7 @@ namespace GameLoop.GameLobby
 
             foreach (KeyValuePair<PlayerID,PlayerRegister.PlayerData> player  in PlayerRegister.Players)
             {
+                if(player.Value.isDisconected)continue;
                 Debug.Log("Player register name: " + player.Value.name);
                 
                 GameObject textObject = Instantiate(playerUsernameTextPrefab, playerList.transform);

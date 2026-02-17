@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using PurrNet;
 using PurrNet.Packing;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class PlayerRegister : PurrMonoBehaviour
 {
     public static Dictionary<PlayerID, PlayerData> Players = new Dictionary<PlayerID, PlayerData>();
-    public static event Action<PlayerID> OnPlayerRegistered;
+    public static event Action<PlayerID,bool> OnPlayerRegisterChanged;
     private string FixUserName(string newName)
     {
         List<string> takenNames = new List<string>();
@@ -43,11 +44,12 @@ public class PlayerRegister : PurrMonoBehaviour
         if (asServer)
         {
             // Store the sender's ID and validate name
+            RejoinLogic(playerID, player.name);
             player.playerID = playerID;
             player.name = FixUserName(player.name);
         
             // Register on server first
-            RegisterPlayer(player, player.playerID);
+            RegisterPlayerData(player, player.playerID);
         
             // Now broadcast ALL players to ALL clients (including the new one)
             foreach (var existingPlayer in Players)
@@ -62,14 +64,14 @@ public class PlayerRegister : PurrMonoBehaviour
         }
         else
         {
-            RegisterPlayer(player, player.playerID);
+            RegisterPlayerData(player, player.playerID);
         }
     }
 
-    private void RegisterPlayer(PlayerData player, PlayerID playerID)
+    private void RegisterPlayerData(PlayerData player, PlayerID playerID)
     {
         Players[playerID] = player;
-        OnPlayerRegistered?.Invoke(playerID);
+        OnPlayerRegisterChanged?.Invoke(playerID,true);
     }
     
     public static void RemoveClient(PlayerID playerID, bool _)
@@ -77,13 +79,33 @@ public class PlayerRegister : PurrMonoBehaviour
         Debug.Log("Delisting client: "+playerID.id.value);
         PlayerData playerData = Players[playerID];
         playerData.isDisconected = true;
-
+        Players[playerID] = playerData;
+        
+        OnPlayerRegisterChanged?.Invoke(playerID,false);
     }
     
     public static void RegisterClient(PlayerID playerID, bool firstJoin, bool _)
     {
         Debug.Log("Registering client: "+playerID.id.value);
-        if(firstJoin)Players[playerID] = new PlayerData();
+        if(!Players.ContainsKey(playerID))Players[playerID] = new PlayerData();
+        PlayerData playerData = Players[playerID];
+        playerData.isDisconected = false;
+    }
+
+    private static void RejoinLogic(PlayerID playerID, string newName)
+    {
+        //foreach (PlayerData playerData in Players.Values)
+        List<KeyValuePair<PlayerID, PlayerData>> playerValues = Players.ToListPooled();
+        for(int i = 0; i < playerValues.Count; i++)
+        {
+            
+            if(!playerValues[i].Value.isDisconected) continue;
+            if (playerValues[i].Value.name == newName)
+            {
+                Players[playerID] = playerValues[i].Value;
+                Players.Remove(playerValues[i].Value.playerID);
+            }
+        }
     }
     
     public override void Subscribe(NetworkManager manager, bool asServer)
@@ -95,5 +117,28 @@ public class PlayerRegister : PurrMonoBehaviour
     {
         manager.Unsubscribe<PlayerData>(OnUsernameRequest, asServer);
             
+    }
+
+    public static void ResetRegister()
+    {
+        if (Network.instance.manager == null)
+        {
+            Debug.LogError("Network manager is null! Can not reset player register.");
+            return;
+        }
+        Network.instance.manager.onPlayerJoined -= RegisterClient;
+        Network.instance.manager.onPlayerLeft -= RemoveClient;
+        Players.Clear();
+    }
+
+    public static void InitRegister()
+    {
+        if (Network.instance.manager == null)
+        {
+            Debug.LogError("Network manager is null! Can not initialize player register.");
+            return;
+        }
+        Network.instance.manager.onPlayerJoined += RegisterClient;
+        Network.instance.manager.onPlayerLeft += RemoveClient;
     }
 }
