@@ -182,23 +182,10 @@ namespace GameLoop.GameLobby
         }
         
         #endregion
-        
-        // Call this when a player disconnects to free up their color
-        public static void FreeColor(Color color)
+
+        public void UpdateMultiplayerColors(List<Color> colors)
         {
-            takenColors.Remove(color);
-        }
-        
-        // Call this when receiving color updates from other players
-        public static void MarkColorAsTaken(Color color)
-        {
-            takenColors.Add(color);
-        }
-        
-        // Clear all taken colors (useful when returning to menu)
-        public static void ResetTakenColors()
-        {
-            takenColors.Clear();
+            
         }
     }
 }

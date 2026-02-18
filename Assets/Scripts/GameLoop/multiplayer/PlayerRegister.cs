@@ -39,15 +39,26 @@ public class PlayerRegister : PurrMonoBehaviour
         public bool isDisconected;
     }
     
-    private void OnUsernameRequest(PlayerID playerID, PlayerData player, bool asServer)
+    private void OnPlayerDataRequest(PlayerID playerID, PlayerData player, bool asServer)
     {
         if (asServer)
         {
-            // Store the sender's ID and validate name
-            RejoinLogic(playerID, player.name);
             player.playerID = playerID;
-            player.name = FixUserName(player.name);
-        
+            bool isUpdate = Players.ContainsKey(playerID) && !string.IsNullOrEmpty(Players[playerID].name);
+
+            if (isUpdate)
+            {
+                PlayerData existing = Players[playerID];
+                player.name = existing.name;
+                player.score = existing.score;
+            }
+            else
+            {
+                // Store the sender's ID and validate name
+                RejoinLogic(playerID, player.name);
+                player.name = FixUserName(player.name);
+            }
+            
             // Register on server first
             RegisterPlayerData(player, player.playerID);
         
@@ -110,12 +121,12 @@ public class PlayerRegister : PurrMonoBehaviour
     
     public override void Subscribe(NetworkManager manager, bool asServer)
     {
-        manager.Subscribe<PlayerData>(OnUsernameRequest, asServer);
+        manager.Subscribe<PlayerData>(OnPlayerDataRequest, asServer);
     }
         
     public override void Unsubscribe(NetworkManager manager, bool asServer)
     {
-        manager.Unsubscribe<PlayerData>(OnUsernameRequest, asServer);
+        manager.Unsubscribe<PlayerData>(OnPlayerDataRequest, asServer);
             
     }
 

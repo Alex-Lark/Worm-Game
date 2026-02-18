@@ -32,7 +32,7 @@ namespace GameLoop.GameLobby
         {
             Debug.Log("Game Lobby start method called");
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
-            PlayerRegister.OnPlayerRegisterChanged += UpdatePlayerList;
+            PlayerRegister.OnPlayerRegisterChanged += OnPlayerRegisterChanged;
             
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.Player.Instance.PlayerName;
@@ -43,7 +43,7 @@ namespace GameLoop.GameLobby
 
         private void OnDestroy()
         {
-            PlayerRegister.OnPlayerRegisterChanged -= UpdatePlayerList;
+            PlayerRegister.OnPlayerRegisterChanged -= OnPlayerRegisterChanged;
         }
 
         #endregion
@@ -67,9 +67,15 @@ namespace GameLoop.GameLobby
             GameLoop.Instance.StartGame();
         }
 
+        public void OnPlayerRegisterChanged(PlayerID playerID, bool connected)
+        {
+            UpdatePlayerList(playerID, connected);
+            
+        }
+
         public void UpdatePlayerList(PlayerID playerID, bool connected)
         {
-            
+            Debug.Log("player list updating");
             foreach (Transform child in playerList.transform)
             {
                  Destroy(child.gameObject);
