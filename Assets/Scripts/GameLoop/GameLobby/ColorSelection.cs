@@ -61,7 +61,7 @@ namespace GameLoop.GameLobby
             takenColors.Add(selectedColor.bodyColor);
     
             // Send color update via network
-            FindObjectOfType<ColorSync>().SendColorUpdate(selectedColor.bodyColor);
+            FindFirstObjectByType<ColorSync>().SendColorUpdate(selectedColor.bodyColor);
     
             UpdateColorButtons();
             GetComponent<GameLobby>().CloseColorSelectionPanel();

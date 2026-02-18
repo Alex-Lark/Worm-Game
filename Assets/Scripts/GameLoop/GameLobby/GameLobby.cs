@@ -42,25 +42,35 @@ namespace GameLoop.GameLobby
             ToggleStartGameButton();
         }
 
-        public void OnPlayerRegistered(PlayerID playerId)
-        {
-            Debug.Log($"Initializing colors. Players in dictionary: {PlayerRegister.Players.Count}");
-    
-            // Update color selection with all existing players' colors
-            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
-    
-            // Set our initial color
-            colorSelection.SetInitialColor();
-        }
-        
-        
-
         private void OnDestroy()
         {
             PlayerRegister.OnPlayerRegisterChanged -= OnPlayerRegisterChanged;
             PlayerRegister.OnPlayerRegistered -= OnPlayerRegistered;
         }
 
+        #endregion
+        
+        #region Multiplayer Events
+        
+        public void OnPlayerRegistered(PlayerID playerID)
+        {
+            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+            colorSelection.SetInitialColor();
+        }
+        
+        public void OnPlayerRegisterChanged(PlayerID playerID, bool connected)
+        {
+            Debug.Log("Player Register changed");
+            UpdatePlayerList(playerID, connected);
+            
+            if (connected && playerID == Network.instance.manager.localPlayer)
+            {
+                colorSelection.SetInitialColor();
+            }
+            
+            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+        }
+        
         #endregion
 
         #region Public Methods
@@ -80,26 +90,6 @@ namespace GameLoop.GameLobby
         public void StartGame()
         {
             GameLoop.Instance.StartGame();
-        }
-
-        public void OnPlayerRegisterChanged(PlayerID playerID, bool connected)
-        {
-            UpdatePlayerList(playerID, connected);
-            
-            if (connected && playerID == Network.instance.manager.localPlayer)
-            {
-                colorSelection.SetInitialColor();
-            }
-            
-            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
-        }
-
-        private void UpdateColorSelection()
-        {
-            foreach (KeyValuePair<PlayerID, PlayerRegister.PlayerData> player in PlayerRegister.Players)
-            {
-                
-            }
         }
 
         public void UpdatePlayerList(PlayerID playerID, bool connected)
