@@ -82,7 +82,7 @@ public class PlayerRegister : PurrMonoBehaviour
     private void RegisterPlayerData(PlayerData player, PlayerID playerID)
     {
         Players[playerID] = player;
-        OnPlayerRegisterChanged?.Invoke(playerID,true);
+        OnPlayerRegisterChanged?.Invoke(playerID, true);
     }
     
     public static void RemoveClient(PlayerID playerID, bool _)

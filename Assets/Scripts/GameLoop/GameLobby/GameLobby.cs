@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace GameLoop.GameLobby
 {
@@ -38,7 +39,6 @@ namespace GameLoop.GameLobby
             name.name = Player.Player.Instance.PlayerName;
             if(Network.instance.manager.HasModule<PlayersBroadcaster>(!Network.instance.manager.isServer))Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
             ToggleStartGameButton();
-            colorSelection.SetInitialColor();
         }
 
         private void OnDestroy()
@@ -53,7 +53,7 @@ namespace GameLoop.GameLobby
         public void OpenColorSelectionPanel()
         {
             colorSelectionPanel.SetActive(true);
-            colorSelection.RefreshButtons();
+            colorSelection.UpdateColorButtons();
             
         }
 
@@ -71,6 +71,21 @@ namespace GameLoop.GameLobby
         {
             UpdatePlayerList(playerID, connected);
             
+            if (connected && playerID == Network.instance.manager.localPlayer)
+            {
+                colorSelection.SetInitialColor();
+            }
+            
+            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+            Debug.Log("Player count: " + PlayerRegister.Players.Values.Count);
+        }
+
+        private void UpdateColorSelection()
+        {
+            foreach (KeyValuePair<PlayerID, PlayerRegister.PlayerData> player in PlayerRegister.Players)
+            {
+                
+            }
         }
 
         public void UpdatePlayerList(PlayerID playerID, bool connected)
