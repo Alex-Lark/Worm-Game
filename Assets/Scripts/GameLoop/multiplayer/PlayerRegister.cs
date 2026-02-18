@@ -10,6 +10,8 @@ public class PlayerRegister : PurrMonoBehaviour
 {
     public static Dictionary<PlayerID, PlayerData> Players = new Dictionary<PlayerID, PlayerData>();
     public static event Action<PlayerID,bool> OnPlayerRegisterChanged;
+    public static event System.Action<PlayerID> OnPlayerRegistered;
+    
     private string FixUserName(string newName)
     {
         List<string> takenNames = new List<string>();
@@ -101,6 +103,8 @@ public class PlayerRegister : PurrMonoBehaviour
         if(!Players.ContainsKey(playerID))Players[playerID] = new PlayerData();
         PlayerData playerData = Players[playerID];
         playerData.isDisconected = false;
+        
+        OnPlayerRegistered?.Invoke(playerID);
     }
 
     private static void RejoinLogic(PlayerID playerID, string newName)

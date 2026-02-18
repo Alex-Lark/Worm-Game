@@ -34,6 +34,7 @@ namespace GameLoop.GameLobby
             Debug.Log("Game Lobby start method called");
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
             PlayerRegister.OnPlayerRegisterChanged += OnPlayerRegisterChanged;
+            PlayerRegister.OnPlayerRegistered += OnPlayerRegistered;
             
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.Player.Instance.PlayerName;
@@ -41,9 +42,23 @@ namespace GameLoop.GameLobby
             ToggleStartGameButton();
         }
 
+        public void OnPlayerRegistered(PlayerID playerId)
+        {
+            Debug.Log($"Initializing colors. Players in dictionary: {PlayerRegister.Players.Count}");
+    
+            // Update color selection with all existing players' colors
+            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+    
+            // Set our initial color
+            colorSelection.SetInitialColor();
+        }
+        
+        
+
         private void OnDestroy()
         {
             PlayerRegister.OnPlayerRegisterChanged -= OnPlayerRegisterChanged;
+            PlayerRegister.OnPlayerRegistered -= OnPlayerRegistered;
         }
 
         #endregion
@@ -77,7 +92,6 @@ namespace GameLoop.GameLobby
             }
             
             colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
-            Debug.Log("Player count: " + PlayerRegister.Players.Values.Count);
         }
 
         private void UpdateColorSelection()
