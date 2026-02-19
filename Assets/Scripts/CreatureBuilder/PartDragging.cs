@@ -116,10 +116,21 @@ namespace CreatureBuilder
             isSelected = false;
             isDragging = false;
             doubleSelected = false;
-            GetComponent<PartDraggingUI>().RemoveHighlight();
-            
+    
+            PartDraggingUI draggingUI = GetComponent<PartDraggingUI>();
+            if (draggingUI != null)
+            {
+                draggingUI.RemoveHighlight();
+            }
+            else
+            {
+                Debug.LogError($"PartDraggingUI component not found on {gameObject.name}");
+            }
+    
             if (axisVisual != null)
+            {
                 axisVisual.SetActive(false);
+            }
         }
         
         public void Delete3DPart()

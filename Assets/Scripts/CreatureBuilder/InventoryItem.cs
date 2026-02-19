@@ -126,6 +126,7 @@ namespace CreatureBuilder
         
         private void OnEnterCreatureBuilder()
         {
+            gameObject.SetActive(false);
             creatureBuilder.SwitchFromCardTo3DPart(prefab);
             Destroy(gameObject);
         }
