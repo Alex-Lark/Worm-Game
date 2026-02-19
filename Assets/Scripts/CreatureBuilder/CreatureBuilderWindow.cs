@@ -12,6 +12,8 @@ namespace CreatureBuilder
         
         public GameObject cinemachineCamera;
         public GameObject targetCameraObject;
+        public GameObject selectedPart = null;
+        public GameObject deletePartButton;
         
         #endregion
         
@@ -45,6 +47,14 @@ namespace CreatureBuilder
             targetCamera = targetCameraObject.GetComponent<Camera>();
         }
         
+        void Update()
+        {
+            if (selectedPart)
+                deletePartButton.SetActive(true);
+            else
+                deletePartButton.SetActive(false);
+        }
+        
         void OnDisable()
         {
             if (cinemachineCamera != null)
@@ -75,11 +85,50 @@ namespace CreatureBuilder
             {
                 if (IsOverCreaturePart(out GameObject hitPart))
                 {
+                    if (hitPart.CompareTag("RotationHandle"))
+                    {
+                        AxisRotationHandler handler = hitPart.GetComponent<AxisRotationHandler>();
+                        if (handler != null)
+                            handler.StartRotation();
+
+                        selectedPart = hitPart.GetComponent<AxisRotationHandler>().targetPart.gameObject;
+                        selectedPart.GetComponent<PartDragging>().SelectPart();
+                        return;
+                    }
+                    
+                    if (hitPart.CompareTag("TranslationHandle"))
+                    {
+                        print("hit arrow");
+                        AxisTranslationHandler handler = hitPart.GetComponent<AxisTranslationHandler>();
+                        if (handler != null)
+                        {
+                            handler.StartTranslation();
+
+                            selectedPart = handler.targetPart.gameObject;
+                            selectedPart.GetComponent<PartDragging>().SelectPart();
+                        }
+                        return;
+                    }
+                    
+                    if (hitPart != selectedPart)
+                    {
+                        if (selectedPart)
+                        {
+                            selectedPart.GetComponent<PartDragging>().DeselectPart();
+                        }
+                        selectedPart = null;
+                    }
                     isDraggingPart = true;
-                    hitPart.GetComponent<PartDragging>().StartDragging();
+                    selectedPart = hitPart;
+                    selectedPart.GetComponent<PartDragging>().StartDragging();
                 }
                 else
                 {
+                    if (HasValidSelection())
+                    {
+                        selectedPart.GetComponent<PartDragging>().DeselectPart();
+                    }
+                    selectedPart = null;
                     isDragging = true;
                     cinemachineCamera.SetActive(true);
                 }
@@ -88,9 +137,29 @@ namespace CreatureBuilder
         
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (selectedPart != null)
+            {
+                AxisRotationHandler[] handlers = selectedPart.GetComponentsInChildren<AxisRotationHandler>();
+                foreach (var h in handlers)
+                    h.StopRotation();
+                
+                AxisTranslationHandler[] translationHandlers =
+                    selectedPart.GetComponentsInChildren<AxisTranslationHandler>();
+
+                foreach (var t in translationHandlers)
+                    t.StopTranslation();
+            }
+            
             isDraggingPart = false;
             isDragging = false;
             cinemachineCamera.SetActive(false);
+        }
+        
+        public void DeleteSelectedPart()
+        {
+            if (!selectedPart) return;
+            selectedPart.GetComponent<PartDragging>().Delete3DPart();
+            selectedPart = null;
         }
 
         public bool ControllersAreValid()
@@ -128,6 +197,15 @@ namespace CreatureBuilder
             Ray ray = targetCamera.ViewportPointToRay(new Vector3(viewportX, viewportY, 0));
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                GameObject hitGO = hit.collider.gameObject;
+
+                if (hitGO.CompareTag("RotationHandle") ||
+                    hitGO.CompareTag("TranslationHandle"))
+                {
+                    hitObject = hitGO;
+                    return true;
+                }
+                
                 Transform current = hit.collider.transform;
                 
                 int safetyCounter = 0; // prevent infinite loops
@@ -144,6 +222,10 @@ namespace CreatureBuilder
             }
 
             return false;
+        }
+        private bool HasValidSelection()
+        {
+            return selectedPart != null && selectedPart;
         }
         
         #endregion
