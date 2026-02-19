@@ -185,6 +185,7 @@ namespace CreatureBuilder
             partDragging.targetCamera = targetCamera;
             partDragging.creatureBuilderWindow = creatureBuilderWindow;
             partDragging.dragDistance = spawnDistance;
+            partDragging.axisVisual.SetActive(false);
         }
 
         private void InitializePrefabMapping()
