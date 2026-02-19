@@ -689,6 +689,86 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+--- !u!1001 &220563382
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 638873870}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.62658
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4068a73b763a0a0419db47d05aea8908, type: 2}
+    - target: {fileID: 919132149155446097, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+      propertyPath: m_Name
+      value: SoccerGoal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 65702495048144492, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+    - {fileID: -8700617353114198275, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+--- !u!4 &220563383 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 57f3d1f01701af54788d4c6180d6cca5, type: 3}
+  m_PrefabInstance: {fileID: 220563382}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &317191391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,6 +1135,7 @@ Transform:
   - {fileID: 1068325638}
   - {fileID: 1922067281}
   - {fileID: 1985770964}
+  - {fileID: 220563383}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &687251828
@@ -3082,9 +3163,33 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: -6267321831062439724, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.31927
+      objectReference: {fileID: 0}
+    - target: {fileID: -6267321831062439724, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.32278
+      objectReference: {fileID: 0}
+    - target: {fileID: -6267321831062439724, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.54534
+      objectReference: {fileID: 0}
+    - target: {fileID: -4541122953735159170, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
+      propertyPath: m_TagString
+      value: ball
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
       propertyPath: m_Name
       value: SoccerBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
+      propertyPath: m_TagString
+      value: ball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -3098,6 +3203,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -4541122953735159170, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1437217764}
+    - targetCorrespondingSourceObject: {fileID: -4541122953735159170, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1437217770}
   m_SourcePrefab: {fileID: 100100000, guid: 8975cf48ca74f8e4c8f8cfe62309fdf4, type: 3}
 --- !u!4 &1437217762 stripped
 Transform:
@@ -3157,6 +3265,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.049
   m_Center: {x: -0.000056624413, y: 0.00011789426, z: 0.00046431273}
+--- !u!114 &1437217770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437217763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6876b6c1fd01c340bbae298b4dc87ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WormLeague.Ball
 --- !u!1 &1516524190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3737,7 +3857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormLeague
   wormLeagueUI: {fileID: 1950704531}
-  ball: {fileID: 0}
+  ball: {fileID: 1437217770}
   teamRedScore: 0
   teamBlueScore: 0
 --- !u!4 &1950704530
