@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace GameLoop.GameLobby
 {
@@ -32,21 +33,45 @@ namespace GameLoop.GameLobby
         {
             Debug.Log("Game Lobby start method called");
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
-            PlayerRegister.OnPlayerRegisterChanged += UpdatePlayerList;
+            PlayerRegister.OnPlayerRegisterChanged += OnPlayerRegisterChanged;
+            PlayerRegister.OnPlayerRegistered += OnPlayerRegistered;
             
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.Player.Instance.PlayerName;
             Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
             
             ToggleStartGameButton();
-            colorSelection.SetInitialColor();
         }
 
         private void OnDestroy()
         {
-            PlayerRegister.OnPlayerRegisterChanged -= UpdatePlayerList;
+            PlayerRegister.OnPlayerRegisterChanged -= OnPlayerRegisterChanged;
+            PlayerRegister.OnPlayerRegistered -= OnPlayerRegistered;
         }
 
+        #endregion
+        
+        #region Multiplayer Events
+        
+        public void OnPlayerRegistered(PlayerID playerID)
+        {
+            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+            colorSelection.SetInitialColor();
+        }
+        
+        public void OnPlayerRegisterChanged(PlayerID playerID, bool connected)
+        {
+            Debug.Log("Player Register changed");
+            UpdatePlayerList(playerID, connected);
+            
+            if (connected && playerID == Network.instance.manager.localPlayer)
+            {
+                colorSelection.SetInitialColor();
+            }
+            
+            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+        }
+        
         #endregion
 
         #region Public Methods
@@ -54,7 +79,7 @@ namespace GameLoop.GameLobby
         public void OpenColorSelectionPanel()
         {
             colorSelectionPanel.SetActive(true);
-            colorSelection.RefreshButtons();
+            colorSelection.UpdateColorButtons();
             
         }
 
@@ -70,7 +95,7 @@ namespace GameLoop.GameLobby
 
         public void UpdatePlayerList(PlayerID playerID, bool connected)
         {
-            
+            Debug.Log("player list updating");
             foreach (Transform child in playerList.transform)
             {
                  Destroy(child.gameObject);

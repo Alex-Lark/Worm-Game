@@ -2630,6 +2630,7 @@ GameObject:
   - component: {fileID: 1979447293}
   - component: {fileID: 1979447294}
   - component: {fileID: 1979447295}
+  - component: {fileID: 1979447296}
   m_Layer: 0
   m_Name: GameLobby
   m_TagString: Untagged
@@ -2703,7 +2704,6 @@ MonoBehaviour:
   wormMaterial: {fileID: 2100000, guid: 2c6e5a41cae0dcd4f98c69a393492f20, type: 2}
   wormHeadMaterial: {fileID: 2100000, guid: 8f3899a8e788c9448b1158b202f661e6, type: 2}
   selectColorButtonColor: {fileID: 1539376948}
-  colorButtons: []
   availableColors:
   - bodyColor: {r: 0, g: 0.8901961, b: 1, a: 1}
     headColor: {r: 0.047058824, g: 0, b: 1, a: 1}
@@ -2729,6 +2729,18 @@ MonoBehaviour:
     headColor: {r: 0, g: 0.8117647, b: 0.19215687, a: 1}
   - bodyColor: {r: 0.40392157, g: 0.28235295, b: 0.13725491, a: 1}
     headColor: {r: 0.5803922, g: 0.32156864, b: 0.11372549, a: 1}
+--- !u!114 &1979447296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979447291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd432f220c4693842aa531c176dcc445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameLoop.multiplayer.ColorSync
 --- !u!1 &2093509247
 GameObject:
   m_ObjectHideFlags: 0

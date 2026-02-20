@@ -10,6 +10,8 @@ public class PlayerRegister : PurrMonoBehaviour
 {
     public static Dictionary<PlayerID, PlayerData> Players = new Dictionary<PlayerID, PlayerData>();
     public static event Action<PlayerID,bool> OnPlayerRegisterChanged;
+    public static event System.Action<PlayerID> OnPlayerRegistered;
+    
     private string FixUserName(string newName)
     {
         List<string> takenNames = new List<string>();
@@ -39,15 +41,26 @@ public class PlayerRegister : PurrMonoBehaviour
         public bool isDisconected;
     }
     
-    private void OnUsernameRequest(PlayerID playerID, PlayerData player, bool asServer)
+    private void OnPlayerDataRequest(PlayerID playerID, PlayerData player, bool asServer)
     {
         if (asServer)
         {
-            // Store the sender's ID and validate name
-            RejoinLogic(playerID, player.name);
             player.playerID = playerID;
-            player.name = FixUserName(player.name);
-        
+            bool isUpdate = Players.ContainsKey(playerID) && !string.IsNullOrEmpty(Players[playerID].name);
+
+            if (isUpdate)
+            {
+                PlayerData existing = Players[playerID];
+                player.name = existing.name;
+                player.score = existing.score;
+            }
+            else
+            {
+                // Store the sender's ID and validate name
+                RejoinLogic(playerID, player.name);
+                player.name = FixUserName(player.name);
+            }
+            
             // Register on server first
             RegisterPlayerData(player, player.playerID);
         
@@ -71,7 +84,7 @@ public class PlayerRegister : PurrMonoBehaviour
     private void RegisterPlayerData(PlayerData player, PlayerID playerID)
     {
         Players[playerID] = player;
-        OnPlayerRegisterChanged?.Invoke(playerID,true);
+        OnPlayerRegisterChanged?.Invoke(playerID, true);
     }
     
     public static void RemoveClient(PlayerID playerID, bool _)
@@ -90,6 +103,8 @@ public class PlayerRegister : PurrMonoBehaviour
         if(!Players.ContainsKey(playerID))Players[playerID] = new PlayerData();
         PlayerData playerData = Players[playerID];
         playerData.isDisconected = false;
+        
+        OnPlayerRegistered?.Invoke(playerID);
     }
 
     private static void RejoinLogic(PlayerID playerID, string newName)
@@ -109,12 +124,12 @@ public class PlayerRegister : PurrMonoBehaviour
     
     public override void Subscribe(NetworkManager manager, bool asServer)
     {
-        manager.Subscribe<PlayerData>(OnUsernameRequest, asServer);
+        manager.Subscribe<PlayerData>(OnPlayerDataRequest, asServer);
     }
         
     public override void Unsubscribe(NetworkManager manager, bool asServer)
     {
-        manager.Unsubscribe<PlayerData>(OnUsernameRequest, asServer);
+        manager.Unsubscribe<PlayerData>(OnPlayerDataRequest, asServer);
             
     }
 
@@ -139,5 +154,26 @@ public class PlayerRegister : PurrMonoBehaviour
         }
         Network.instance.manager.onPlayerJoined += RegisterClient;
         Network.instance.manager.onPlayerLeft += RemoveClient;
+    }
+    
+    public static void UpdateColor(Color newColor)
+    {
+        PlayerID localPlayerID = Network.instance.manager.localPlayer;
+    
+        if (!Players.ContainsKey(localPlayerID))
+        {
+            Debug.LogError("Local player not found in Players dictionary!");
+            return;
+        }
+    
+        // Update locally
+        PlayerData myData = Players[localPlayerID];
+        myData.color = newColor;
+        Players[localPlayerID] = myData;
+    
+        // Send update to server
+        Network.instance.manager.SendToServer(myData);
+    
+        Debug.Log($"Updated" + myData.name  + "color to {newColor}");
     }
 }
