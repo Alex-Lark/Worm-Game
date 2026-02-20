@@ -88,26 +88,47 @@ namespace CreatureBuilder
                     if (hitPart.CompareTag("RotationHandle"))
                     {
                         AxisRotationHandler handler = hitPart.GetComponent<AxisRotationHandler>();
+                        if (selectedPart != handler.hostPart)
+                        {
+                            if (selectedPart)
+                            {
+                                selectedPart.GetComponent<PartDragging>().DeselectPart();
+                            }
+                            selectedPart = handler.hostPart;
+                            selectedPart.GetComponent<PartDragging>().SelectPart();
+                        }
                         if (handler != null)
                             handler.StartRotation();
-
-                        selectedPart = hitPart.GetComponent<AxisRotationHandler>().targetPart.gameObject;
-                        selectedPart.GetComponent<PartDragging>().SelectPart();
                         return;
                     }
                     
                     if (hitPart.CompareTag("TranslationHandle"))
                     {
-                        print("hit arrow");
                         AxisTranslationHandler handler = hitPart.GetComponent<AxisTranslationHandler>();
-                        if (handler != null)
+                        if (selectedPart != handler.targetPart.gameObject)
                         {
-                            handler.StartTranslation();
-
+                            if (selectedPart)
+                            {
+                                selectedPart.GetComponent<PartDragging>().DeselectPart();
+                            }
                             selectedPart = handler.targetPart.gameObject;
                             selectedPart.GetComponent<PartDragging>().SelectPart();
                         }
+                        if (handler != null)
+                        {
+                            handler.StartTranslation();
+                        }
                         return;
+                    }
+                    
+                    if (hitPart.CompareTag("Axis"))
+                    {
+                        PartDragging parentPart = hitPart.GetComponentInParent<PartDragging>();
+
+                        if (parentPart != null)
+                        {
+                            hitPart = parentPart.gameObject;
+                        }
                     }
                     
                     if (hitPart != selectedPart)

@@ -11,6 +11,7 @@ TagManager:
   - WormBodySegment
   - RotationHandle
   - TranslationHandle
+  - Axis
   layers:
   - Default
   - TransparentFX
