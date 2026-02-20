@@ -94,7 +94,6 @@ public class PlayerRegister : PurrMonoBehaviour
 
     private static void RejoinLogic(PlayerID playerID, string newName)
     {
-        //foreach (PlayerData playerData in Players.Values)
         List<KeyValuePair<PlayerID, PlayerData>> playerValues = Players.ToListPooled();
         for(int i = 0; i < playerValues.Count; i++)
         {

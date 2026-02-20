@@ -33,8 +33,9 @@ namespace GameLoop
             SceneManager.LoadScene("CreateGameScene");
         }
 
-        public void LoadGameLobbyScene()
+        public IEnumerator LoadGameLobbyScene(float delay = -1)
         {
+            if (delay >= 0) yield return new WaitForSeconds(delay);
             SceneManager.LoadScene("GameLobbyScene");
         }
     

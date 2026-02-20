@@ -80,7 +80,8 @@ public class Network : MonoBehaviour
     {
         if (state == ConnectionState.Connected)
         {
-            gameObject.GetOrAddComponent<WormGameSceneSwitcher>().LoadGameLobbyScene();
+            WormGameSceneSwitcher switcher = gameObject.GetOrAddComponent<WormGameSceneSwitcher>();
+            StartCoroutine(switcher.LoadGameLobbyScene(0));
         }
 
         if (state == ConnectionState.Disconnected)

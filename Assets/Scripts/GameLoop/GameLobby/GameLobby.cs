@@ -36,7 +36,8 @@ namespace GameLoop.GameLobby
             
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.Player.Instance.PlayerName;
-            if(Network.instance.manager.HasModule<PlayersBroadcaster>(!Network.instance.manager.isServer))Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
+            Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
+            
             ToggleStartGameButton();
             colorSelection.SetInitialColor();
         }
