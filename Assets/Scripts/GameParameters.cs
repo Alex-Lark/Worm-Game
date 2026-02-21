@@ -166,4 +166,18 @@ public static class GameParameters
     public static readonly float JumpPadForce = 5000f;
     
     #endregion
+    
+    #region Player
+
+    public static float DefaultPlayerHealth = 100f;
+    public static float PlayerHealthRegen = 0.1f;
+
+    #endregion
+    
+    #region HealthSystem
+
+    public static readonly float MinSpikeCollisionForceToDamage = 50f;
+    public static readonly float SpikeForceToDamageMultiplier = 0.02f;
+
+    #endregion
 }

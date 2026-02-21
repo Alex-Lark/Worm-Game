@@ -6,7 +6,7 @@ public static class GameSceneList
     private static readonly string[] GameScenes = new string[]
     {
         "Worm League",
-        //"GameScene - default",
+        "GameScene - default",
     };
     
     public static string GetRandomGameScene()

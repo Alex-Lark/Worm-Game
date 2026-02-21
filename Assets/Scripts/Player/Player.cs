@@ -39,6 +39,8 @@ namespace Player
         #region public variables
     
         public int playerScore = 1;
+        public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
+        public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
@@ -103,6 +105,15 @@ namespace Player
             }
         }
 
+        private void Update()
+        {
+            //temporary just for testing
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                DamagePlayer();
+            }
+        }
+
         private void FixedUpdate()
         {
             if (!isPlayerActive) return;
@@ -118,6 +129,11 @@ namespace Player
             if (IsWormInAttackCooldown)
             {
                 wormHeadBut.WormheadbutCoolDown();
+            }
+
+            if (currentPlayerHealth < maxPlayerHealth)
+            {
+                currentPlayerHealth += GameParameters.PlayerHealthRegen;
             }
         }
         
@@ -141,6 +157,11 @@ namespace Player
             {
                 part.GetComponent<CreaturePart>().MoveForward();
             }
+        }
+
+        public void DamagePlayer()
+        {
+            currentPlayerHealth -= 10;
         }
     
         public void Jump()
@@ -200,6 +221,7 @@ namespace Player
             
             StartCoroutine(SetupAfterSceneLoad());
             ActivatePlayer();
+            currentPlayerHealth = GameParameters.DefaultPlayerHealth;
         }
         
         #endregion

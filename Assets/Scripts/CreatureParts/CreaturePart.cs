@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CreatureParts
@@ -36,9 +37,26 @@ namespace CreatureParts
         protected virtual void FixedUpdate()
         {
             CheckGrounded();
-        
         }
-        
+
+        private void OnCollisionEnter(Collision other)
+        {
+            float collisionForce = other.impulse.magnitude;
+                
+            if (other.gameObject.GetComponent<SpikePart>() != null)
+            {
+                Debug.Log("Hit Spike. force: " + collisionForce);
+
+                if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
+                {
+                    Debug.Log("Large collision force");
+                    DoSpikeDamage(collisionForce);
+                }
+            }
+            
+            //else f large force
+        }
+
         #endregion
         
         #region Public Methods
@@ -96,6 +114,12 @@ namespace CreatureParts
 
             TimeSinceLastGrounded += Time.fixedDeltaTime;
             return Vector3.up;
+        }
+
+        private void DoSpikeDamage(float collisionForce)
+        {
+            float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
+            Player.Player.Instance.currentPlayerHealth -= damage;
         }
         
         #endregion

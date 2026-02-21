@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: -3958118735043389768}
   - component: {fileID: -5195412950030182845}
   - component: {fileID: -7689486935180338684}
+  - component: {fileID: 8269667067445557270}
   m_Layer: 0
   m_Name: spike object
   m_TagString: CreaturePart
@@ -780,6 +781,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76b5ebbe5867f545bfd33452923d3ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.AttachablePart
+--- !u!114 &8269667067445557270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4212110029664344896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 113b9b2e5406b6b4bb11c0e06c6b41de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.SpikePart
 --- !u!1 &4438569925093941789
 GameObject:
   m_ObjectHideFlags: 0
