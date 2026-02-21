@@ -167,17 +167,17 @@ public static class GameParameters
     
     #endregion
     
-    #region Player
-
-    public static float DefaultPlayerHealth = 100f;
-    public static float PlayerHealthRegen = 0.1f;
-
-    #endregion
-    
     #region HealthSystem
+    
+    public static readonly float DefaultPlayerHealth = 100f;
+    public static readonly float PlayerHealthRegen = 0.1f;
 
     public static readonly float MinSpikeCollisionForceToDamage = 50f;
-    public static readonly float SpikeForceToDamageMultiplier = 0.02f;
+    public static readonly float SpikeForceToDamageMultiplier = 0.03f;
+
+    public static readonly float MinBluntCollisionForceToDamage = 150f;
+    public static readonly float BluntForceToDamageMultiplier = 0.01f;
+
 
     #endregion
 }

@@ -50,11 +50,16 @@ namespace CreatureParts
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     Debug.Log("Large collision force");
-                    DoSpikeDamage(collisionForce);
+                    float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
+                    Player.Player.Instance.currentPlayerHealth -= damage;
                 }
             }
-            
-            //else f large force
+            else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
+            {
+                Debug.Log("Large blunt collision force: " + collisionForce);
+                float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
+                Player.Player.Instance.currentPlayerHealth -= damage;
+            }
         }
 
         #endregion
@@ -114,12 +119,6 @@ namespace CreatureParts
 
             TimeSinceLastGrounded += Time.fixedDeltaTime;
             return Vector3.up;
-        }
-
-        private void DoSpikeDamage(float collisionForce)
-        {
-            float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-            Player.Player.Instance.currentPlayerHealth -= damage;
         }
         
         #endregion
