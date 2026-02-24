@@ -174,11 +174,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f48cc10eb3ef146910f0f8c45e5eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  playerScore: 1
+  maxPlayerHealth: 100
+  currentPlayerHealth: 100
   thirdPersonCamera: {fileID: 0}
   wormSegmentPrefab: {fileID: 7684568371119374336, guid: 90ca0af0a8270184f8d4d43014413c78, type: 3}
   wormHead: {fileID: 8071018323496679240}
   wormVisualHead: {fileID: 9022103432884987436}
   wormBodySegments: []
+  attachedWormParts: []
   wormPartsInInventory: []
 --- !u!120 &4146875160849447740
 LineRenderer:
@@ -394,8 +398,8 @@ GameObject:
   - component: {fileID: 3119439336692646362}
   - component: {fileID: 8498613326157645471}
   - component: {fileID: 2159904463975660318}
-  - component: {fileID: 7502773944600098116}
   - component: {fileID: 7238659562307412318}
+  - component: {fileID: 6355740945602748941}
   m_Layer: 0
   m_Name: Sphere - head
   m_TagString: WormBodySegment
@@ -534,18 +538,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &7502773944600098116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3919673278736660677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WormPart
 --- !u!114 &7238659562307412318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +553,18 @@ MonoBehaviour:
   showGroundCollider: 1
   showVelocity: 1
   showForces: 1
+--- !u!114 &6355740945602748941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919673278736660677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fb83f687f93b434bb8e0742fc933964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.Head
 --- !u!1 &5770381794981804825
 GameObject:
   m_ObjectHideFlags: 0

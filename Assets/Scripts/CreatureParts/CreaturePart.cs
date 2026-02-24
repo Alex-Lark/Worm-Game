@@ -41,25 +41,7 @@ namespace CreatureParts
 
         private void OnCollisionEnter(Collision other)
         {
-            float collisionForce = other.impulse.magnitude;
-                
-            if (other.gameObject.GetComponent<SpikePart>() != null)
-            {
-                Debug.Log("Hit Spike. force: " + collisionForce);
-
-                if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
-                {
-                    Debug.Log("Large collision force");
-                    float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-                    Player.Player.Instance.currentPlayerHealth -= damage;
-                }
-            }
-            else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
-            {
-                Debug.Log("Large blunt collision force: " + collisionForce);
-                float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
-                Player.Player.Instance.currentPlayerHealth -= damage;
-            }
+            Player.Player.Instance.DamagePlayer(other, gameObject);
         }
 
         #endregion

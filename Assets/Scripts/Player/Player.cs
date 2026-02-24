@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
+using NUnit.Framework.Constraints;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +15,8 @@ namespace Player
         Moving,
         Jumping,
         Attacking,
-        AttackCooldown
+        AttackCooldown,
+        Dead
     }
 
     public class Player : MonoBehaviour
@@ -107,10 +111,10 @@ namespace Player
 
         private void Update()
         {
-            //temporary just for testing
-            if (Input.GetKeyDown(KeyCode.D))
+            //temp
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                DamagePlayer();
+                OnPlayerDeath();
             }
         }
 
@@ -140,15 +144,25 @@ namespace Player
         #endregion
 
         #region Public Methods
-        public void StartWormMoving() => CurrentState = WormState.Moving;
-        public void StopWormMoving() => CurrentState = WormState.Idle;
         
         public void ActivatePlayer() => isPlayerActive = true;
         public void DeactivatePlayer() => isPlayerActive = false;
         
+        public void StartWormMoving()
+        {
+            if (CurrentState == WormState.Dead) return;
+            CurrentState = WormState.Moving;
+        }
+        
+        public void StopWormMoving()
+        {
+            if (CurrentState == WormState.Dead) return;
+            CurrentState = WormState.Idle;
+        }
+        
         public void MoveForward()
         {
-            if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown) return;
+            if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
             
             wormForwardMovement.MoveHead();
             wormForwardMovement.MoveWormBody();
@@ -159,14 +173,45 @@ namespace Player
             }
         }
 
-        public void DamagePlayer()
+        public void DamagePlayer(Collision other, GameObject hitGameObject)
         {
-            currentPlayerHealth -= 10;
+            float collisionForce = other.impulse.magnitude;
+
+            if (hitGameObject.GetComponent<WormHead>() != null)
+            {
+                if ((CurrentState == WormState.Attacking || CurrentState == WormState.AttackCooldown))
+                {
+                    collisionForce *= GameParameters.HeadbutDamageReductionOnHead;
+                }
+                else
+                {
+                    collisionForce *= GameParameters.HeadDamageMultiplier;
+                }
+            }
+                
+            if (other.gameObject.GetComponent<SpikePart>() != null)
+            {
+                if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
+                {
+                    float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
+                    currentPlayerHealth -= damage;
+                }
+            }
+            else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
+            {
+                float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
+                currentPlayerHealth -= damage;
+            }
+
+            if (currentPlayerHealth < 0)
+            {
+                OnPlayerDeath();
+            }
         }
-    
+
         public void Jump()
         {
-            if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown) return;
+            if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
             
             wormJump.Jump();
             foreach (var part in attachedWormParts)
@@ -177,7 +222,7 @@ namespace Player
 
         public void Attack()
         {
-            if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown) return;
+            if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
             
             CurrentState = WormState.Attacking;
             StartCoroutine(AttackSequence());
@@ -224,9 +269,61 @@ namespace Player
             currentPlayerHealth = GameParameters.DefaultPlayerHealth;
         }
         
+        public void OnPlayerDeath()
+        {
+            CurrentState = WormState.Dead;
+            StartCoroutine(RespawnTimer());
+
+            thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
+
+            foreach (Transform bodySegment in wormBodySegments)
+            {
+                Destroy(bodySegment.GetComponent<ConfigurableJoint>());
+            }
+            
+            foreach (GameObject attachedPart in attachedWormParts)
+            {
+                Destroy(attachedPart.GetComponent<HingeJoint>());
+            }
+
+            GetComponent<WormRenderer>().enabled = false;
+            GetComponent<LineRenderer>().enabled = false;
+            Destroy(transform.Find("WormMesh").gameObject);
+
+            //seperate parts
+            //display UI
+        }
+        
         #endregion
         
         #region Private Methods
+        
+        private IEnumerator RespawnTimer()
+        {
+            yield return new WaitForSeconds(GameParameters.PlayerRespawnTimeInSeconds);
+            
+            RespawnPlayer();
+        }
+
+        private void RespawnPlayer()
+        {
+            CurrentState = WormState.Idle;
+            thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
+            GetComponent<WormRenderer>().enabled = true;
+            GetComponent<LineRenderer>().enabled = true;
+            //remove UI
+            //reset player
+            
+            foreach (Transform bodySegment in wormBodySegments)
+            {
+                Destroy(bodySegment.gameObject);
+            }
+            
+            foreach (GameObject attachedPart in attachedWormParts)
+            {
+                Destroy(attachedPart);
+            }
+        }
         
         private IEnumerator AttackSequence()
         {

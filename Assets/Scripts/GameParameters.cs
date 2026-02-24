@@ -170,13 +170,18 @@ public static class GameParameters
     #region HealthSystem
     
     public static readonly float DefaultPlayerHealth = 100f;
-    public static readonly float PlayerHealthRegen = 0.1f;
+    public static readonly float PlayerHealthRegen = 0.05f;
 
     public static readonly float MinSpikeCollisionForceToDamage = 50f;
-    public static readonly float SpikeForceToDamageMultiplier = 0.03f;
+    public static readonly float SpikeForceToDamageMultiplier = 0.04f;
 
     public static readonly float MinBluntCollisionForceToDamage = 150f;
-    public static readonly float BluntForceToDamageMultiplier = 0.01f;
+    public static readonly float BluntForceToDamageMultiplier = 0.02f;
+
+    public static readonly float HeadbutDamageReductionOnHead = 0.05f; //head takes less damage when actively headbutting
+    public static readonly float HeadDamageMultiplier = 1.25f; //head takes more damage normally
+
+    public static readonly float PlayerRespawnTimeInSeconds = 3f;
 
 
     #endregion
