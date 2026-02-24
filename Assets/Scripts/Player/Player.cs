@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
 using NUnit.Framework.Constraints;
+using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,6 +50,8 @@ namespace Player
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
         public Transform wormVisualHead;
+        public GameObject deathScreen;
+        public TextMeshProUGUI respawnText;
         public List<Transform> wormBodySegments;
         public List<GameObject> attachedWormParts;
         public List<GameObject> wormPartsInInventory;
@@ -203,7 +206,7 @@ namespace Player
                 currentPlayerHealth -= damage;
             }
 
-            if (currentPlayerHealth < 0)
+            if (CurrentState != WormState.Dead && currentPlayerHealth < 0)
             {
                 OnPlayerDeath();
             }
@@ -289,8 +292,7 @@ namespace Player
             GetComponent<WormRenderer>().enabled = false;
             GetComponent<LineRenderer>().enabled = false;
             Destroy(transform.Find("WormMesh").gameObject);
-
-            //seperate parts
+            deathScreen.SetActive(true);
             //display UI
         }
         
@@ -300,8 +302,16 @@ namespace Player
         
         private IEnumerator RespawnTimer()
         {
-            yield return new WaitForSeconds(GameParameters.PlayerRespawnTimeInSeconds);
-            
+            float timeLeft = GameParameters.PlayerRespawnTimeInSeconds;
+    
+            while (timeLeft > 0)
+            {
+                respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
+                yield return new WaitForSeconds(1f);
+                timeLeft -= 1f;
+            }
+    
+            respawnText.text = "Respawning...";
             RespawnPlayer();
         }
 
@@ -311,7 +321,8 @@ namespace Player
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<LineRenderer>().enabled = true;
-            //remove UI
+            deathScreen.SetActive(false);
+            
             //reset player
             
             foreach (Transform bodySegment in wormBodySegments)
