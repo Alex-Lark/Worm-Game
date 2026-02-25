@@ -29,7 +29,7 @@ namespace Player
         public static Player Instance { get; private set; }
         public string PlayerName { get; private set; }
         
-        public WormState CurrentState { get; private set; }
+        public WormState CurrentState { get; set; }
         
         public bool IsWormGrounded { get; private set; }
         
@@ -53,23 +53,25 @@ namespace Player
         public List<Transform> wormBodySegments;
         public List<GameObject> attachedWormParts;
         public List<GameObject> wormPartsInInventory;
+
+        public PlayerSpawning playerSpawning;
+        public WormForwardMovement wormForwardMovement;
+        public WormConstructor wormConstructor;
+        
+        public GameObject wormHeadCopy;
+        public List<Transform> wormBodySegmentsCopy = new List<Transform>();
+        public List<GameObject> attachedWormPartsCopy = new List<GameObject>();
         
         #endregion
         
         #region private variables
 
         private bool isPlayerActive = false;
-        private WormForwardMovement wormForwardMovement;
         private WormJump wormJump;
         private WormHeadBut wormHeadBut;
-        private WormConstructor wormConstructor;
     
         private readonly int wormSegmentCount = GameParameters.WormSegmentCount;
         private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
-
-        private GameObject wormHeadCopy;
-        private List<Transform> wormBodySegmentsCopy = new List<Transform>();
-        private List<GameObject> attachedWormPartsCopy = new List<GameObject>();
         
         #endregion
     
@@ -100,6 +102,7 @@ namespace Player
             wormForwardMovement = GetComponent<WormForwardMovement>();
             wormJump = GetComponent<WormJump>();
             wormHeadBut = GetComponent<WormHeadBut>();
+            playerSpawning = GetComponent<PlayerSpawning>();
         
             wormBodySegments.Clear();
             wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
@@ -107,11 +110,6 @@ namespace Player
             wormConstructor.ConstructWorm();
             
             GetComponent<WormPhysics>().AddCollidersToSegments();
-
-            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-            {
-                SetWormInGameScene();
-            }
         }
 
         private void Update()
@@ -252,44 +250,20 @@ namespace Player
             DeactivatePlayer();
         }
         
-        public void SetWormInCreatureBuilderScene()
-        {
-            WormPhysics wormPhysics = GetComponent<WormPhysics>();
-            wormPhysics.ResetWormPhysics();
-            wormPhysics.ResetWormOrientation();
-            wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
-            DeactivatePlayer();
-        }
-        
-        public void SetWormInGameScene()
-        {
-            wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            
-            foreach (Transform segment in wormBodySegments)
-            {
-                segment.GetComponent<Rigidbody>().isKinematic = false;
-            }
-            
-            StartCoroutine(SetupAfterSceneLoad());
-            ActivatePlayer();
-            currentPlayerHealth = GameParameters.DefaultPlayerHealth;
-        }
-        
         public void OnPlayerDeath()
         {
             CurrentState = WormState.Dead;
             currentPlayerHealth = 0;
-            StartCoroutine(RespawnTimer());
 
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
-
-            wormHeadCopy = DuplicatePart(wormHead.gameObject);
-            wormHead.gameObject.SetActive(false);
             
             GetComponent<WormRenderer>().enabled = false;
             GetComponent<LineRenderer>().enabled = false;
             Destroy(transform.Find("WormMesh").gameObject);
             DeathScreenUI.Instance.EnableDeathUI();
+            
+            wormHeadCopy = DuplicatePart(wormHead.gameObject);
+            wormHead.gameObject.SetActive(false);
 
             foreach (Transform bodySegment in wormBodySegments)
             {
@@ -306,6 +280,8 @@ namespace Player
                 Destroy(partCopy.GetComponent<ConfigurableJoint>());
                 attachedPart.gameObject.SetActive(false);
             }
+            
+            playerSpawning.TryToRespawn();
             //TODO: update duplicate part collision ignores
         }
         
@@ -318,6 +294,7 @@ namespace Player
            GameObject copy = Instantiate(original.gameObject, original.transform.position, original.transform.rotation);
             Rigidbody originalRb = original.GetComponent<Rigidbody>();
             Rigidbody copyRb = copy.GetComponent<Rigidbody>();
+            copy.tag = "Untagged";
     
             if (originalRb != null && copyRb != null)
             {
@@ -328,62 +305,6 @@ namespace Player
             return copy;
         }
         
-        private IEnumerator RespawnTimer()
-        {
-            float timeLeft = GameParameters.PlayerRespawnTimeInSeconds;
-    
-            while (timeLeft > 0)
-            {
-                DeathScreenUI.Instance.respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
-                yield return new WaitForSeconds(1f);
-                timeLeft -= 1f;
-            }
-    
-            DeathScreenUI.Instance.respawnText.text = "Respawning...";
-            RespawnPlayer();
-        }
-
-        private void RespawnPlayer()
-        {
-            CurrentState = WormState.Idle;
-            currentPlayerHealth = 100f;
-            thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
-            DeathScreenUI.Instance.DisableDeathUI();
-
-            wormHead.gameObject.SetActive(true);
-            Destroy(wormHeadCopy);
-            
-            foreach (Transform bodySegmentCopy in wormBodySegmentsCopy)
-            {
-                Destroy(bodySegmentCopy.gameObject);
-            }
-            wormBodySegmentsCopy.Clear();
-            
-            foreach (Transform bodySegment in wormBodySegments)
-            {
-                bodySegment.gameObject.SetActive(true);
-            }
-
-            foreach (GameObject partCopy in attachedWormPartsCopy)
-            {
-                Destroy(partCopy.gameObject);
-            }
-            attachedWormPartsCopy.Clear();
-            
-            foreach (GameObject attachedPart in attachedWormParts)
-            {
-                attachedPart.SetActive(true);
-            }
-
-            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-            {
-                SetWormInGameScene();
-            }
-            
-            GetComponent<WormRenderer>().enabled = true;
-            GetComponent<WormRenderer>().Restart();
-        }
-        
         private IEnumerator AttackSequence()
         {
             yield return new WaitForSeconds(GameParameters.WormHeadbutTime);
@@ -391,56 +312,6 @@ namespace Player
             wormHeadBut.EndHeadBut();
             yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
             CurrentState = WormState.Idle;
-        }
-        
-        private IEnumerator SetupAfterSceneLoad()
-        {
-            yield return null;
-
-            Scene activeScene = SceneManager.GetActiveScene();
-            GameObject[] rootObjects = activeScene.GetRootGameObjects();
-
-            foreach (GameObject rootObj in rootObjects)
-            {
-                Camera cam = rootObj.GetComponentInChildren<Camera>();
-                if (cam != null)
-                {
-                    thirdPersonCamera = cam.gameObject;
-                    Debug.Log($"Camera successfully set to {thirdPersonCamera.name}");
-                    break;
-                }
-            }
-
-            if (thirdPersonCamera == null)
-            {
-                Debug.LogError($"Could not find camera in scene {activeScene.name}!");
-            }
-            
-            wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-            wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-            foreach (Transform segment in wormBodySegments)
-            {
-                Rigidbody rb = segment.GetComponent<Rigidbody>();
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-            }
-
-            foreach (GameObject part in attachedWormParts)
-            {
-                Rigidbody rb = part.GetComponent<Rigidbody>();
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-            }
-
-            GetComponent<WormPhysics>().ResetWormPosition();
-            wormConstructor.ConstructWorm();
-            
-            yield return new WaitForFixedUpdate();
-
-            wormConstructor.ConstructWorm();
-            
-            wormForwardMovement.SetVariables();
         }
         
         private void SetWormGrounding()
