@@ -57,16 +57,6 @@ namespace Player
             }
         }
 
-        public void ResetWormOrientation()
-        {
-            player.wormVisualHead.rotation = Quaternion.identity;
-            player.wormHead.rotation = Quaternion.identity;
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                segment.rotation = Quaternion.identity;
-            }
-        }
-
         public void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
         {
             Rigidbody rb = segment.GetComponent<Rigidbody>();
@@ -124,11 +114,7 @@ namespace Player
             }
         }
         
-        #endregion
-
-        #region Private Methods
-        
-        private void IgnoreWormSelfCollision()
+        public void IgnoreWormSelfCollision()
         {
             List<Collider> allWormColliders = new List<Collider>();
         

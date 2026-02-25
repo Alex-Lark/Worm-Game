@@ -38,6 +38,10 @@ namespace CreatureParts
 
         public Rigidbody AddJoint(Transform wormPart, Rigidbody previousSegmentRigidBody)
         {
+            ConfigurableJoint existingJoint = wormPart.GetComponent<ConfigurableJoint>();
+            if (existingJoint != null)
+                Destroy(existingJoint);
+                
             ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
             joint.connectedBody = previousSegmentRigidBody;
             joint.anchor = new Vector3(0, 0, -GameParameters.SegmentMaxPartDistance);

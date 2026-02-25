@@ -754,14 +754,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7294720926454559192, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
-      propertyPath: deathScreen
-      value: 
-      objectReference: {fileID: 1799605889}
-    - target: {fileID: 7294720926454559192, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
-      propertyPath: respawnText
-      value: 
-      objectReference: {fileID: 1723278388}
     - target: {fileID: 7505438985572923784, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -805,17 +797,14 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3857149077806430327, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1003197965}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
 --- !u!114 &214722132 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7294720926454559192, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
   m_PrefabInstance: {fileID: 214722131}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1003197956}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71f48cc10eb3ef146910f0f8c45e5eec, type: 3}
@@ -3171,24 +3160,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998070663}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1003197956 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3857149077806430327, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
-  m_PrefabInstance: {fileID: 214722131}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1003197965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1003197956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e6dc4f0dbcdd74fac009c2f81fa3cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawning
-  player: {fileID: 0}
 --- !u!1 &1018748066
 GameObject:
   m_ObjectHideFlags: 0

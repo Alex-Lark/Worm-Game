@@ -202,6 +202,7 @@ namespace Player
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
+                Debug.Log("Blunt collision between " + other.gameObject + " and " + hitGameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
                 currentPlayerHealth -= damage;
             }
@@ -259,7 +260,12 @@ namespace Player
             
             GetComponent<WormRenderer>().enabled = false;
             GetComponent<LineRenderer>().enabled = false;
-            Destroy(transform.Find("WormMesh").gameObject);
+            
+            if (transform.Find("WormMesh").gameObject)
+            {
+                Destroy(transform.Find("WormMesh").gameObject);
+            }
+            
             DeathScreenUI.Instance.EnableDeathUI();
             
             wormHeadCopy = DuplicatePart(wormHead.gameObject);
@@ -276,9 +282,11 @@ namespace Player
             foreach (GameObject attachedPart in attachedWormParts)
             {
                 GameObject partCopy = DuplicatePart(attachedPart);
+                partCopy.GetComponent<AttachablePart>().enabled = false;
                 attachedWormPartsCopy.Add(partCopy);
                 Destroy(partCopy.GetComponent<ConfigurableJoint>());
                 attachedPart.gameObject.SetActive(false);
+                attachedPart.GetComponent<AttachablePart>().enabled = false;
             }
             
             playerSpawning.TryToRespawn();
@@ -292,9 +300,10 @@ namespace Player
         private GameObject DuplicatePart(GameObject original)
         {
            GameObject copy = Instantiate(original.gameObject, original.transform.position, original.transform.rotation);
-            Rigidbody originalRb = original.GetComponent<Rigidbody>();
-            Rigidbody copyRb = copy.GetComponent<Rigidbody>();
-            copy.tag = "Untagged";
+           Rigidbody originalRb = original.GetComponent<Rigidbody>();
+           Rigidbody copyRb = copy.GetComponent<Rigidbody>();
+           copy.tag = "Untagged";
+           copy.GetComponent<CreaturePart>().enabled = false;
     
             if (originalRb != null && copyRb != null)
             {

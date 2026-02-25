@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CreatureParts;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,7 +26,7 @@ namespace Player
         {
             WormPhysics wormPhysics = GetComponent<WormPhysics>();
             wormPhysics.ResetWormPhysics();
-            wormPhysics.ResetWormOrientation();
+            SetWormSpawnOrientation(Quaternion.identity);
             wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
             player.DeactivatePlayer();
         }
@@ -41,6 +42,7 @@ namespace Player
             StartCoroutine(SetupAfterSceneLoad());
             player.ActivatePlayer();
             player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
+            player.CurrentState = WormState.Idle;
         }
 
         public void TryToRespawn()
@@ -86,15 +88,11 @@ namespace Player
                 bodySegment.gameObject.SetActive(true);
             }
             
-            foreach (GameObject attachedPart in player.attachedWormParts)
-            {
-                attachedPart.SetActive(true);
-            }
-            
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
             
             ResetPlayerPhysics();
+            StartCoroutine(ReactivateAttachedParts());
         }
         
         private IEnumerator SetupAfterSceneLoad()
@@ -127,8 +125,10 @@ namespace Player
                 rb.angularVelocity = Vector3.zero;
             }
 
+            SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
             GetComponent<WormPhysics>().ResetWormPosition();
             player.wormConstructor.ConstructWorm();
+            GetComponent<WormPhysics>().AddCollidersToSegments();
         }
 
         private void ClearDuplicateParts()
@@ -143,9 +143,32 @@ namespace Player
             {
                 Destroy(partCopy.gameObject);
             }
-            
             player.attachedWormPartsCopy.Clear();
-            
+        }
+        
+        public void SetWormSpawnOrientation(Quaternion orientation)
+        {
+            player.wormVisualHead.rotation = orientation;
+            player.wormHead.rotation = orientation;
+            foreach (Transform segment in player.wormBodySegments)
+            {
+                segment.rotation = orientation;
+            }
+        }
+        
+        private IEnumerator ReactivateAttachedParts()
+        {
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+    
+            foreach (GameObject attachedPart in player.attachedWormParts)
+            {
+                attachedPart.SetActive(true);
+                attachedPart.GetComponent<AttachablePart>().enabled = true;
+                attachedPart.GetComponent<AttachablePart>().ResetJoint();
+            }
+    
+            GetComponent<WormPhysics>().IgnoreWormSelfCollision();
         }
         
     }

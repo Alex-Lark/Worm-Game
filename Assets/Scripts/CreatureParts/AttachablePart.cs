@@ -4,6 +4,26 @@ namespace CreatureParts
 {
     public class AttachablePart : CreaturePart
     {
+        public Vector3 defaultConnectedAnchor;
+        
+        private Rigidbody attachedSegmentRigidbody;
+        private Transform attachedEndPoint;
+        private Vector3 localPositionOnAttach;
+        private Quaternion localRotationOnAttach;
+        
+        public void ResetJoint()
+        {
+            HingeJoint existing = GetComponent<HingeJoint>();
+            if (existing != null)
+                Destroy(existing);
+            
+            transform.position = attachedSegmentRigidbody.transform.TransformPoint(localPositionOnAttach);
+            transform.rotation = attachedSegmentRigidbody.transform.rotation * localRotationOnAttach;
+
+            ConfigureHingeJoint(attachedSegmentRigidbody, attachedEndPoint);
+            IgnorePartCollisionWithWorm(gameObject, attachedSegmentRigidbody.transform);
+        }
+        
         public void ConfigureRigidBody(Rigidbody partRigidbody, Rigidbody segmentRigidbody, float mass)
         {
             partRigidbody.mass = mass;
@@ -19,23 +39,69 @@ namespace CreatureParts
         
         public void ConfigureHingeJoint(Rigidbody segmentRigidbody, Transform endPoint)
         {
-            //Hinge connects the attachable part to the worm itself and allows some movement
+            attachedSegmentRigidbody = segmentRigidbody;
+            attachedEndPoint = endPoint;
+            
+            localPositionOnAttach = segmentRigidbody.transform.InverseTransformPoint(transform.position);
+            localRotationOnAttach = Quaternion.Inverse(segmentRigidbody.transform.rotation) * transform.rotation;
             
             HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
             hinge.connectedBody = segmentRigidbody;
         
             hinge.anchor = gameObject.transform.InverseTransformPoint(endPoint.position);
-
-            //limited rotation
+            
             JointLimits limits = hinge.limits;
             limits.min = -10f;
             limits.max = 10f;
             hinge.limits = limits;
             hinge.useLimits = true;
-
-            // smoothing
+            
             hinge.enablePreprocessing = true;
             hinge.enableCollision = false;
+            
+            defaultConnectedAnchor = hinge.connectedAnchor;
+        }
+
+        public void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
+        {
+            int numSegments = GameParameters.NumSegmentCollisionsIgnored;
+            
+            Collider[] partColliders = part.GetComponentsInChildren<Collider>();
+            
+            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
+            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
+            
+            foreach (var attachedWormPart in Player.Player.Instance.attachedWormParts)
+            {
+                Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
+            }
+        }
+        
+        private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
+        {
+            Transform current = startSegment;
+
+            for (int i = 0; i < numSegments && current != null; i++)
+            { 
+                Collider[] segmentColliders = current.GetComponentsInChildren<Collider>();
+                
+                foreach (var pCol in partColliders)
+                {
+                    foreach (var sCol in segmentColliders)
+                    {
+                        Physics.IgnoreCollision(pCol, sCol, true);
+                    }
+                }
+                
+                if (forward)
+                {
+                    current = current.childCount > 0 ? current.GetChild(0) : null;
+                }
+                else
+                {
+                    current = current.parent;
+                }
+            }
         }
     }
 }
