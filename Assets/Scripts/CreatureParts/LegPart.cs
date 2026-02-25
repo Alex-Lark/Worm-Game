@@ -171,7 +171,6 @@ namespace CreatureParts
 
         public override void MoveForward()
         {
-            Debug.Log("Worm leg move forward called");
             if (!IsGrounded || !canStep) return;
 
             isMoving = true;

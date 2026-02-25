@@ -81,36 +81,26 @@ namespace Player
                 player.wormBodySegments[i].rotation = player.wormHead.rotation;
             }
         }
-
-        public void ResetWormPosition()
-        {
-            if (player.wormHead == null) return;
         
-            player.wormHead.position = new Vector3(0, 2, 0);
-            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
-            if (headRb != null)
+        public void ResetPlayerPhysics()
+        {
+            player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+            foreach (Transform segment in player.wormBodySegments)
             {
-                headRb.useGravity = true;
-                headRb.isKinematic = false;
-                headRb.linearVelocity = Vector3.zero;
-                headRb.angularVelocity = Vector3.zero;
+                Rigidbody rb = segment.GetComponent<Rigidbody>();
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.useGravity = true;
             }
 
-            Vector3 currentPos = player.wormHead.position;
-            Vector3 backDir = -player.wormHead.forward;
-
-            for (int i = 0; i < player.wormBodySegments.Count; i++)
+            foreach (GameObject part in player.attachedWormParts)
             {
-                currentPos += backDir * GameParameters.SegmentMaxPartDistance;
-                Transform segment = player.wormBodySegments[i];
-                segment.position = currentPos;
-                segment.rotation = player.wormHead.rotation;
-            
-                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
-                segmentRb.useGravity = true;
-                segmentRb.isKinematic = false;
-                segmentRb.linearVelocity = Vector3.zero;
-                segmentRb.angularVelocity = Vector3.zero;
+                Rigidbody rb = part.GetComponent<Rigidbody>();
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.useGravity = true;
             }
         }
         

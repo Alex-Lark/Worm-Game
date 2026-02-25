@@ -4,14 +4,20 @@ using CreatureParts;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 namespace Player
 {
     public class PlayerSpawning : MonoBehaviour
     {
+        #region public variables
+        
         public Player player;
-
         public bool canRespawn = true;
+        
+        #endregion
+        
+        #region Built-In Methods
         
         void Start()
         {
@@ -21,7 +27,11 @@ namespace Player
                 SpawnInGameScene();
             }
         }
+        
+        #endregion
 
+        #region Public Methods
+        
         public void SpawnInCreatureBuildingScene()
         {
             WormPhysics wormPhysics = GetComponent<WormPhysics>();
@@ -72,6 +82,25 @@ namespace Player
             RespawnPlayer();
         }
         
+        #endregion
+        
+        #region Private Methods
+        
+        private IEnumerator SetupAfterSceneLoad()
+        {
+            yield return null;
+
+            player.thirdPersonCamera = Camera.main?.gameObject;
+            
+            GetComponent<WormPhysics>().ResetPlayerPhysics();
+            GetComponent<PlayerSpawning>().SetWormSpawnPosition(new Vector3(0, 2, 0));
+            GetComponent<PlayerSpawning>().SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
+            player.wormConstructor.ConstructWorm();
+            GetComponent<WormPhysics>().AddCollidersToSegments();
+            
+            player.wormForwardMovement.SetVariables();
+        }
+        
         private void RespawnPlayer()
         {
             player.CurrentState = WormState.Idle;
@@ -91,44 +120,12 @@ namespace Player
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
             
-            ResetPlayerPhysics();
-            StartCoroutine(ReactivateAttachedParts());
-        }
-        
-        private IEnumerator SetupAfterSceneLoad()
-        {
-            yield return null;
-
-            player.thirdPersonCamera = Camera.main?.gameObject;
-            
-            ResetPlayerPhysics();
-            
-            player.wormForwardMovement.SetVariables();
-        }
-
-        private void ResetPlayerPhysics()
-        {
-            player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-            player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                Rigidbody rb = segment.GetComponent<Rigidbody>();
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-            }
-
-            foreach (GameObject part in player.attachedWormParts)
-            {
-                Rigidbody rb = part.GetComponent<Rigidbody>();
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-            }
-
-            SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
-            GetComponent<WormPhysics>().ResetWormPosition();
+            GetComponent<WormPhysics>().ResetPlayerPhysics();
+            GetComponent<PlayerSpawning>().SetWormSpawnPosition(new Vector3(0, 2, 0));
+            GetComponent<PlayerSpawning>().SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
+            StartCoroutine(ReactivateAttachedParts());
         }
 
         private void ClearDuplicateParts()
@@ -145,8 +142,8 @@ namespace Player
             }
             player.attachedWormPartsCopy.Clear();
         }
-        
-        public void SetWormSpawnOrientation(Quaternion orientation)
+
+        private void SetWormSpawnOrientation(Quaternion orientation)
         {
             player.wormVisualHead.rotation = orientation;
             player.wormHead.rotation = orientation;
@@ -171,5 +168,38 @@ namespace Player
             GetComponent<WormPhysics>().IgnoreWormSelfCollision();
         }
         
+        public void SetWormSpawnPosition(Vector3 spawnPosition)
+        {
+            if (player.wormHead == null) return;
+        
+            player.wormHead.position = spawnPosition;
+            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
+            if (headRb != null)
+            {
+                headRb.useGravity = true;
+                headRb.isKinematic = false;
+                headRb.linearVelocity = Vector3.zero;
+                headRb.angularVelocity = Vector3.zero;
+            }
+
+            Vector3 currentPos = player.wormHead.position;
+            Vector3 backDir = -player.wormHead.forward;
+
+            for (int i = 0; i < player.wormBodySegments.Count; i++)
+            {
+                currentPos += backDir * GameParameters.SegmentMaxPartDistance;
+                Transform segment = player.wormBodySegments[i];
+                segment.position = currentPos;
+                segment.rotation = player.wormHead.rotation;
+            
+                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
+                segmentRb.useGravity = true;
+                segmentRb.isKinematic = false;
+                segmentRb.linearVelocity = Vector3.zero;
+                segmentRb.angularVelocity = Vector3.zero;
+            }
+        }
+        
+        #endregion
     }
 }
