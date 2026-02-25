@@ -50,8 +50,6 @@ namespace Player
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
         public Transform wormVisualHead;
-        public GameObject deathScreen;
-        public TextMeshProUGUI respawnText;
         public List<Transform> wormBodySegments;
         public List<GameObject> attachedWormParts;
         public List<GameObject> wormPartsInInventory;
@@ -68,6 +66,10 @@ namespace Player
     
         private readonly int wormSegmentCount = GameParameters.WormSegmentCount;
         private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
+
+        private GameObject wormHeadCopy;
+        private List<Transform> wormBodySegmentsCopy = new List<Transform>();
+        private List<GameObject> attachedWormPartsCopy = new List<GameObject>();
         
         #endregion
     
@@ -262,9 +264,18 @@ namespace Player
         public void SetWormInGameScene()
         {
             wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            
             foreach (Transform segment in wormBodySegments)
             {
                 segment.GetComponent<Rigidbody>().isKinematic = false;
+                segment.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
+                segment.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
+            }
+
+            foreach (GameObject attachablePart in attachedWormParts)
+            {
+                attachablePart.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
+                attachablePart.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
             }
             
             StartCoroutine(SetupAfterSceneLoad());
@@ -279,26 +290,50 @@ namespace Player
 
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
 
+            wormHeadCopy = DuplicatePart(wormHead.gameObject);
+            wormHead.gameObject.SetActive(false);
+            
+            GetComponent<WormRenderer>().enabled = false;
+            GetComponent<LineRenderer>().enabled = false;
+            Destroy(transform.Find("WormMesh").gameObject);
+            DeathScreenUI.Instance.EnableDeathUI();
+
             foreach (Transform bodySegment in wormBodySegments)
             {
-                Destroy(bodySegment.GetComponent<ConfigurableJoint>());
+                GameObject segmentCopy = DuplicatePart(bodySegment.gameObject);
+                wormBodySegmentsCopy.Add(segmentCopy.transform);
+                Destroy(segmentCopy.GetComponent<ConfigurableJoint>());
+                bodySegment.gameObject.SetActive(false);
             }
             
             foreach (GameObject attachedPart in attachedWormParts)
             {
-                Destroy(attachedPart.GetComponent<HingeJoint>());
+                GameObject partCopy = DuplicatePart(attachedPart);
+                attachedWormPartsCopy.Add(partCopy);
+                Destroy(partCopy.GetComponent<ConfigurableJoint>());
+                attachedPart.gameObject.SetActive(false);
             }
-
-            GetComponent<WormRenderer>().enabled = false;
-            GetComponent<LineRenderer>().enabled = false;
-            Destroy(transform.Find("WormMesh").gameObject);
-            deathScreen.SetActive(true);
-            //display UI
+            //TODO: update duplicate part collision ignores
         }
         
         #endregion
         
         #region Private Methods
+        
+        private GameObject DuplicatePart(GameObject original)
+        {
+           GameObject copy = Instantiate(original.gameObject, original.transform.position, original.transform.rotation);
+            Rigidbody originalRb = original.GetComponent<Rigidbody>();
+            Rigidbody copyRb = copy.GetComponent<Rigidbody>();
+    
+            if (originalRb != null && copyRb != null)
+            {
+                copyRb.linearVelocity = originalRb.linearVelocity;
+                copyRb.angularVelocity = originalRb.angularVelocity;
+            }
+
+            return copy;
+        }
         
         private IEnumerator RespawnTimer()
         {
@@ -306,12 +341,12 @@ namespace Player
     
             while (timeLeft > 0)
             {
-                respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
+                DeathScreenUI.Instance.respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
                 yield return new WaitForSeconds(1f);
                 timeLeft -= 1f;
             }
     
-            respawnText.text = "Respawning...";
+            DeathScreenUI.Instance.respawnText.text = "Respawning...";
             RespawnPlayer();
         }
 
@@ -319,21 +354,41 @@ namespace Player
         {
             CurrentState = WormState.Idle;
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
-            GetComponent<WormRenderer>().enabled = true;
-            GetComponent<LineRenderer>().enabled = true;
-            deathScreen.SetActive(false);
+            DeathScreenUI.Instance.DisableDeathUI();
+
+            wormHead.gameObject.SetActive(true);
+            Destroy(wormHeadCopy);
             
-            //reset player
+            foreach (Transform bodySegmentCopy in wormBodySegmentsCopy)
+            {
+                Destroy(bodySegmentCopy.gameObject);
+            }
+            wormBodySegmentsCopy.Clear();
             
             foreach (Transform bodySegment in wormBodySegments)
             {
-                Destroy(bodySegment.gameObject);
+                bodySegment.gameObject.SetActive(true);
             }
+
+            foreach (GameObject partCopy in attachedWormPartsCopy)
+            {
+                Destroy(partCopy.gameObject);
+            }
+            attachedWormPartsCopy.Clear();
             
             foreach (GameObject attachedPart in attachedWormParts)
             {
-                Destroy(attachedPart);
+                attachedPart.SetActive(true);
             }
+
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            {
+                SetWormInGameScene();
+            }
+            
+            GetComponent<WormRenderer>().enabled = true;
+            GetComponent<WormRenderer>().Restart();
+            wormConstructor.ConstructWorm();
         }
         
         private IEnumerator AttackSequence()

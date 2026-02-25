@@ -7,7 +7,9 @@
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/GameScene - default.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/GameScene - default.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormRenderer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,14 +194,6 @@
       <workItem from="1770940589308" duration="599000" />
       <workItem from="1771284765012" duration="5669000" />
       <workItem from="1771542823302" duration="1924000" />
-    </task>
-    <task id="LOCAL-00027" summary="worm physics fix wip">
-      <option name="closed" value="true" />
-      <created>1761258655582</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1761258655582</updated>
     </task>
     <task id="LOCAL-00028" summary="current version for sprint review, movement updates wip">
       <option name="closed" value="true" />
@@ -585,7 +579,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771290456017</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="death screen UI">
+      <option name="closed" value="true" />
+      <created>1771974634431</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1771974634431</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -618,7 +620,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="card images and names populate when entering part selection" />
     <MESSAGE value="fixed loop skipping first round" />
     <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
     <MESSAGE value="can select parts and they carry over to creature builder" />
@@ -643,7 +644,8 @@
     <MESSAGE value="added visual axis for future rotation/movement functionality" />
     <MESSAGE value="fixed the weird glowly glitch yayyyy" />
     <MESSAGE value="the nightmare beast is slain (part rotation implemented)" />
-    <option name="LAST_COMMIT_MESSAGE" value="the nightmare beast is slain (part rotation implemented)" />
+    <MESSAGE value="death screen UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="death screen UI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
