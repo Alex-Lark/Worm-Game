@@ -136,6 +136,14 @@ namespace CreatureParts
             if (canStep)
                 isMoving = false;
         }
+        
+        private void OnEnable()
+        {
+            movementCoroutine = null;
+            isMoving = false;
+            canStep = true;
+            stepTimer = 0f;
+        }
 
         private float stepTimer = 0f;
 
@@ -163,6 +171,7 @@ namespace CreatureParts
 
         public override void MoveForward()
         {
+            Debug.Log("Worm leg move forward called");
             if (!IsGrounded || !canStep) return;
 
             isMoving = true;
