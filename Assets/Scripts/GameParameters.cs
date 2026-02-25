@@ -183,6 +183,13 @@ public static class GameParameters
 
     public static readonly float PlayerRespawnTimeInSeconds = 3f;
 
+    #endregion
+    
+    #region Worm Death Effects
+
+    public static readonly float DuplicatePartVelocityMultiplier = 1f;
+    public static readonly float DuplicatePartMass = 0.1f;
+    public static float DuplicatePartLinearDamping = 1f;
 
     #endregion
 }

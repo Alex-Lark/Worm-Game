@@ -307,8 +307,10 @@ namespace Player
     
             if (originalRb != null && copyRb != null)
             {
-                copyRb.linearVelocity = originalRb.linearVelocity;
-                copyRb.angularVelocity = originalRb.angularVelocity;
+                copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DuplicatePartVelocityMultiplier;
+                copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DuplicatePartVelocityMultiplier;
+                copyRb.mass = GameParameters.DuplicatePartMass;
+                copyRb.linearDamping = GameParameters.DuplicatePartLinearDamping;
             }
 
             return copy;
