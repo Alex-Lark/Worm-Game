@@ -175,7 +175,7 @@ public static class GameParameters
     public static readonly float MinSpikeCollisionForceToDamage = 50f;
     public static readonly float SpikeForceToDamageMultiplier = 0.04f;
 
-    public static readonly float MinBluntCollisionForceToDamage = 150f;
+    public static readonly float MinBluntCollisionForceToDamage = 200f;
     public static readonly float BluntForceToDamageMultiplier = 0.02f;
 
     public static readonly float HeadbutDamageReductionOnHead = 0.05f; //head takes less damage when actively headbutting

@@ -140,7 +140,7 @@ namespace Player
                 wormHeadBut.WormheadbutCoolDown();
             }
 
-            if (currentPlayerHealth < maxPlayerHealth)
+            if (currentPlayerHealth < maxPlayerHealth && CurrentState != WormState.Dead)
             {
                 currentPlayerHealth += GameParameters.PlayerHealthRegen;
             }
@@ -268,14 +268,6 @@ namespace Player
             foreach (Transform segment in wormBodySegments)
             {
                 segment.GetComponent<Rigidbody>().isKinematic = false;
-                segment.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
-                segment.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
-            }
-
-            foreach (GameObject attachablePart in attachedWormParts)
-            {
-                attachablePart.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
-                attachablePart.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
             }
             
             StartCoroutine(SetupAfterSceneLoad());
@@ -286,6 +278,7 @@ namespace Player
         public void OnPlayerDeath()
         {
             CurrentState = WormState.Dead;
+            currentPlayerHealth = 0;
             StartCoroutine(RespawnTimer());
 
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
@@ -353,6 +346,7 @@ namespace Player
         private void RespawnPlayer()
         {
             CurrentState = WormState.Idle;
+            currentPlayerHealth = 100f;
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             DeathScreenUI.Instance.DisableDeathUI();
 
@@ -388,7 +382,6 @@ namespace Player
             
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
-            wormConstructor.ConstructWorm();
         }
         
         private IEnumerator AttackSequence()
@@ -422,8 +415,31 @@ namespace Player
             {
                 Debug.LogError($"Could not find camera in scene {activeScene.name}!");
             }
+            
+            wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+            foreach (Transform segment in wormBodySegments)
+            {
+                Rigidbody rb = segment.GetComponent<Rigidbody>();
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
+            foreach (GameObject part in attachedWormParts)
+            {
+                Rigidbody rb = part.GetComponent<Rigidbody>();
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
 
             GetComponent<WormPhysics>().ResetWormPosition();
+            wormConstructor.ConstructWorm();
+            
+            yield return new WaitForFixedUpdate();
+
+            wormConstructor.ConstructWorm();
+            
             wormForwardMovement.SetVariables();
         }
         

@@ -12,6 +12,7 @@ namespace Player
         {
             slider.maxValue = player.maxPlayerHealth;
             slider.value = player.currentPlayerHealth;
+            player = Player.Instance;
         }
         
         void Update()
