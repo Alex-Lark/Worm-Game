@@ -726,7 +726,6 @@ GameObject:
   - component: {fileID: 1797360732960282095}
   - component: {fileID: -3958118735043389768}
   - component: {fileID: -5195412950030182845}
-  - component: {fileID: -7689486935180338684}
   - component: {fileID: 3052268276320712041}
   m_Layer: 0
   m_Name: wing object
@@ -1349,18 +1348,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacc8514d993067498c5d212d445e9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartDraggingUI
---- !u!114 &-7689486935180338684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4212110029664344896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76b5ebbe5867f545bfd33452923d3ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.AttachablePart
 --- !u!114 &3052268276320712041
 MonoBehaviour:
   m_ObjectHideFlags: 0

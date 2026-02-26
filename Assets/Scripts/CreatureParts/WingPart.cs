@@ -3,7 +3,7 @@ using Player;
 
 namespace CreatureParts
 {
-    public class WingPart : MonoBehaviour
+    public class WingPart : AttachablePart
     {
         [SerializeField] private float baseForce;
         [SerializeField] private float wingForceDebuff;
@@ -18,21 +18,18 @@ namespace CreatureParts
             {
                 wormRb = Player.Player.Instance.wormHead.GetComponent<Rigidbody>();
             }
+            
+            base.Awake();
         }
 
-        private void Update()
+        public override void Jump()
         {
-            if (Player.Player.Instance == null) return;
-            
             if (Player.Player.Instance.IsWormGrounded)
             {
                 currentForce = baseForce;
             }
             
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ApplyThrust();
-            }
+            ApplyThrust();
         }
 
         private void ApplyThrust()

@@ -27,7 +27,7 @@ namespace CreatureParts
 
         #region Built-In Methods
         
-        private void Awake()
+        protected void Awake()
         {
             partCollider = GetComponent<Collider>();
             GroundObject = null;
@@ -36,7 +36,6 @@ namespace CreatureParts
         protected virtual void FixedUpdate()
         {
             CheckGrounded();
-        
         }
         
         #endregion
