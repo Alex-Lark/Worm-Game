@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using PurrNet;
+using PurrNet.Packing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GameLoop
 {
-    public class WormGameSceneSwitcher : MonoBehaviour
+    public class WormGameSceneSwitcher : PurrMonoBehaviour
     {
         public event Action OnSceneLoaded;
     
@@ -41,7 +43,7 @@ namespace GameLoop
     
         public void LoadPartSelectionScene()
         {
-            SceneManager.LoadScene("PartSelectionScene");
+            SendSceneChangeRequest("PartSelectionScene");
         }
     
         public void LoadCreatureBuilderScene()
@@ -87,5 +89,39 @@ namespace GameLoop
                             Application.Quit();
             #endif
         }
+
+        public void SendSceneChangeRequest(string sceneName)
+        {
+            if (!Network.instance.manager.isServer)
+            {
+                Debug.LogError("Cannot send scene change request as client: "+sceneName);
+                return;
+            }
+            SceneChange scene = new SceneChange();
+            scene.name = sceneName;
+            Network.instance.manager.SendToAll<SceneChange>(scene);
+        }
+        void OnSceneChangeRequest(PlayerID player, SceneChange scene, bool asServer)
+        {
+            SceneManager.LoadScene(scene.name);
+        }
+        
+        public struct SceneChange : IPackedAuto
+        {
+            public string name;
+        }
+    
+        public override void Subscribe(NetworkManager manager, bool asServer)
+        {
+            manager.Subscribe<SceneChange>(OnSceneChangeRequest, asServer);
+        }
+        
+        public override void Unsubscribe(NetworkManager manager, bool asServer)
+        {
+            manager.Unsubscribe<SceneChange>(OnSceneChangeRequest, asServer);
+            
+        }
     }
+
+    
 }

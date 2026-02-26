@@ -43,6 +43,11 @@ namespace GameLoop
         
         private void Awake()
         {
+            if (!Network.instance.manager.isServer)
+            {
+                Destroy(this);
+                return;
+            }
             if (Instance == null)
             {
                 Instance = this;
@@ -122,7 +127,7 @@ namespace GameLoop
                     yield return StartCoroutine(RunPartSelectionAndCreatureBuilding());
                 }
             
-                sceneSwitcher.LoadGameScene();
+                sceneSwitcher.SendSceneChangeRequest(GameSceneList.GetRandomGameScene());
             
                 yield return StartCoroutine(MinigameTimer());
             
@@ -136,7 +141,7 @@ namespace GameLoop
         private IEnumerator RunPartSelectionAndCreatureBuilding()
         {
             sceneReady = false;
-            sceneSwitcher.LoadPartSelectionScene();
+            sceneSwitcher.SendSceneChangeRequest("PartSelectionScene");
             for (int j = 0; j < numberOfPartsPerRound; j++)
             {
                 yield return StartCoroutine(PartSelectionTimer());

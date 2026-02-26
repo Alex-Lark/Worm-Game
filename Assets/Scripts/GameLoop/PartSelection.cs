@@ -27,6 +27,8 @@ namespace GameLoop
     
         private GameObject currentCard;
         private GameObject discardedCard;
+
+        public static PartSelection Instance;
         
         #endregion
     
@@ -34,18 +36,19 @@ namespace GameLoop
         
         void Start()
         {
+            Instance = this;
             partCards = GameLoop.Instance.partCards;
-            PickCardOptions();
         }
         
         #endregion
         
         #region Public Methods
 
-        public void PickCardOptions()
+        public void SetCardOptions(PurrNet.PlayerID player, PartSelectionManager.SelectableCardsPacket packet, bool asServer)
         {
-            (card1, card2) = Pick2RandomCards();
-        
+            card1 = partCards[packet.Card1Index];
+            card2 = partCards[packet.Card2Index];
+            
             card1Slot.sprite = card1.GetComponent<PartCard>().sprite;
             card2Slot.sprite = card2.GetComponent<PartCard>().sprite;
             card1Name.text = card1.GetComponent<PartCard>().cardName;
@@ -65,7 +68,7 @@ namespace GameLoop
             //TODO: discard card and get discarded card from opponent
         
             //fake discarded card
-            int discardCardIndex = Random.Range(0, partCards.Count);
+            int discardCardIndex = Random.Range(0, partCards.Count); ////HHHHHHHHHEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPPPP
             Player.Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
             
             ResetPartSelection();
@@ -90,16 +93,6 @@ namespace GameLoop
         #endregion
         
         #region Private Methods
-        
-        private (GameObject, GameObject) Pick2RandomCards()
-        {
-            int card1Index = Random.Range(0, partCards.Count);
-            int card2Index = Random.Range(0, partCards.Count);
-            card1 = partCards[card1Index];
-            card2 = partCards[card2Index];
-
-            return (card1, card2);
-        }
 
         private void ResetPartSelection()
         {
