@@ -145,7 +145,7 @@ namespace Player
     
         public void Jump()
         {
-            if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown) return;
+            if (IsWormAttacking || IsWormInAttackCooldown) return;
             
             wormJump.Jump();
             foreach (var part in attachedWormParts)

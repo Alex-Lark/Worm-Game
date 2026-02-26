@@ -35,6 +35,11 @@ namespace Player
         
         public void Jump() 
         {
+            if (!player.IsWormGrounded)
+            {
+                return;
+            }
+            
             consecutiveSegments = GetConsecutiveSegments();
             List<List<int>> jumpSegments = GetLargestConsecutiveSegments(GameParameters.WormJumpSegments);
         
