@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using CreatureParts;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 namespace Player
 {
@@ -14,6 +12,9 @@ namespace Player
         
         public Player player;
         public bool canRespawn = true;
+        public DeathScreenUI deathScreenUI;
+        
+        private Coroutine respawnCoroutine;
         
         #endregion
         
@@ -34,6 +35,11 @@ namespace Player
         
         public void SpawnInCreatureBuildingScene()
         {
+            Debug.Log("Spawning in creature builder scene");
+            
+            StopAllCoroutines();
+            player.CancelDeath();
+            
             WormPhysics wormPhysics = GetComponent<WormPhysics>();
             wormPhysics.ResetWormPhysics();
             SetWormSpawnOrientation(Quaternion.identity);
@@ -43,6 +49,7 @@ namespace Player
         
         public void SpawnInGameScene()
         {
+            Debug.Log("Spawning in game scene");
             player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
             
             foreach (Transform segment in player.wormBodySegments)
@@ -57,28 +64,29 @@ namespace Player
 
         public void TryToRespawn()
         {
-            if (canRespawn)
+            if (canRespawn && GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                StartCoroutine(RespawnTimer());
-            }
-            else
-            {
-                //player is permanently dead
+                respawnCoroutine = StartCoroutine(RespawnTimer());
             }
         }
         
         public IEnumerator RespawnTimer()
         {
+            if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            {
+                yield break;
+            }
+            
             float timeLeft = GameParameters.PlayerRespawnTimeInSeconds;
     
             while (timeLeft > 0)
             {
-                DeathScreenUI.Instance.respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
+                deathScreenUI.respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
                 yield return new WaitForSeconds(1f);
                 timeLeft -= 1f;
             }
     
-            DeathScreenUI.Instance.respawnText.text = "Respawning...";
+            deathScreenUI.respawnText.text = "Respawning...";
             RespawnPlayer();
         }
         
@@ -90,6 +98,7 @@ namespace Player
         {
             yield return null;
 
+            deathScreenUI = FindFirstObjectByType<DeathScreenUI>(); 
             player.thirdPersonCamera = Camera.main?.gameObject;
             
             GetComponent<WormPhysics>().ResetPlayerPhysics();
@@ -103,10 +112,15 @@ namespace Player
         
         private void RespawnPlayer()
         {
+            if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            {
+                return;
+            }
+            
             player.CurrentState = WormState.Idle;
             player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
-            DeathScreenUI.Instance.DisableDeathUI();
+            deathScreenUI.DisableDeathUI();
 
             player.wormHead.gameObject.SetActive(true);
             

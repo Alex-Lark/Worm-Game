@@ -8,23 +8,8 @@ namespace Player
 {
     public class DeathScreenUI : MonoBehaviour
     {
-        public static DeathScreenUI Instance { get; private set; }
-
         public GameObject deathText;
         public TextMeshProUGUI respawnText;
-    
-        void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
         
         void OnEnable()
         {
@@ -39,14 +24,14 @@ namespace Player
         public void EnableDeathUI()
         {
             deathText.SetActive(true);
-            respawnText.enabled = true;
+            respawnText.gameObject.SetActive(true);
             GetComponent<Image>().color = new Color32(255, 0, 0, 15);
         }
 
         public void DisableDeathUI()
         {
             deathText.SetActive(false);
-            respawnText.enabled = false;
+            respawnText.gameObject.SetActive(false);
             GetComponent<Image>().color = new Color(255,0, 0,0);
         }
     

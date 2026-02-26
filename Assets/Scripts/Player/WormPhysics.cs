@@ -64,8 +64,6 @@ namespace Player
 
             rb.isKinematic = isKinematic;
             rb.useGravity = useGravity;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
         }
 
         public void PositionWormSegments(Vector3 headPosition)

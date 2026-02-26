@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
-using NUnit.Framework.Constraints;
-using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -253,6 +250,12 @@ namespace Player
         
         public void OnPlayerDeath()
         {
+            if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            {
+                return;
+            }
+            if (CurrentState == WormState.Dead) return;
+            
             CurrentState = WormState.Dead;
             currentPlayerHealth = 0;
 
@@ -266,7 +269,7 @@ namespace Player
                 Destroy(transform.Find("WormMesh").gameObject);
             }
             
-            DeathScreenUI.Instance.EnableDeathUI();
+            playerSpawning.deathScreenUI.EnableDeathUI();
             
             wormHeadCopy = DuplicatePart(wormHead.gameObject);
             wormHead.gameObject.SetActive(false);
@@ -290,7 +293,41 @@ namespace Player
             }
             
             playerSpawning.TryToRespawn();
-            //TODO: update duplicate part collision ignores
+        }
+        
+        public void CancelDeath()
+        {
+            if (CurrentState != WormState.Dead) return;
+            GetComponent<WormRenderer>().enabled = true;
+            GetComponent<WormRenderer>().Restart();
+    
+            wormHead.gameObject.SetActive(true);
+            foreach (Transform bodySegment in wormBodySegments)
+                bodySegment.gameObject.SetActive(true);
+            foreach (GameObject attachedPart in attachedWormParts)
+            {
+                attachedPart.SetActive(true);
+                attachedPart.GetComponent<AttachablePart>().enabled = true;
+            }
+
+            if (wormHeadCopy != null)
+                Destroy(wormHeadCopy);
+        
+            foreach (Transform copy in wormBodySegmentsCopy)
+            {
+                if (copy != null)
+                    Destroy(copy.gameObject);
+            }
+            wormBodySegmentsCopy.Clear();
+    
+            foreach (GameObject copy in attachedWormPartsCopy)
+            {
+                if (copy != null)
+                    Destroy(copy.gameObject);
+            }
+            attachedWormPartsCopy.Clear();
+
+            CurrentState = WormState.Idle;
         }
         
         #endregion
