@@ -277,6 +277,8 @@ namespace Player
             foreach (Transform bodySegment in wormBodySegments)
             {
                 GameObject segmentCopy = DuplicatePart(bodySegment.gameObject);
+                segmentCopy.layer = LayerMask.NameToLayer("WormRagdoll");
+                segmentCopy.AddComponent<DeadBodyPart>();
                 wormBodySegmentsCopy.Add(segmentCopy.transform);
                 Destroy(segmentCopy.GetComponent<ConfigurableJoint>());
                 bodySegment.gameObject.SetActive(false);
@@ -286,6 +288,8 @@ namespace Player
             {
                 GameObject partCopy = DuplicatePart(attachedPart);
                 partCopy.GetComponent<AttachablePart>().enabled = false;
+                attachedPart.layer = LayerMask.NameToLayer("WormRagdoll");
+                partCopy.AddComponent<DeadBodyPart>();
                 attachedWormPartsCopy.Add(partCopy);
                 Destroy(partCopy.GetComponent<ConfigurableJoint>());
                 attachedPart.gameObject.SetActive(false);
