@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using CreatureParts;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Player
 {
     public class WormForwardMovement : MonoBehaviour
     {
+        public float finCount = 0;
+        
         #region Private Variables
         
         private Player player;
@@ -48,6 +51,11 @@ namespace Player
         {
             float speedFactor = 1f + wormHeadRb.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
+            if (finCount >= 1)
+            {
+                float finMultiplier = 2 * finCount;
+                rotationSpeed = rotationSpeed * finMultiplier;
+            }
 
             RotateHeadGrounded(rotationSpeed);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
@@ -76,6 +84,27 @@ namespace Player
                 MoveMiddleSegmentUp(wormParts[middleIndex], middleIndex);
             else
                 MoveFrontPartsForward(wormParts, middleIndex);
+        }
+        
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            RecalculateFinCount();
+        }
+
+        private void RecalculateFinCount()
+        {
+            finCount = GetComponentsInChildren<FinPart>(true).Length;
+            Debug.Log("Recalculated finCount = " + finCount);
         }
         
         #endregion

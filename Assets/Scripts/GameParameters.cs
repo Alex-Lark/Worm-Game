@@ -62,7 +62,7 @@ public static class GameParameters
     #region Worm Movement
     [Header("Worm Movement")]
     
-    public static readonly float MaxWormTurnAngle = 5f;
+    public static readonly float MaxWormTurnAngle = 500f;
     public static readonly float WormMoveForce = 300f;
     public static readonly float WormCorrectionForceMultiplier = 1f;
     public static readonly float WormHeadRotationSpeed = 1.5f;
