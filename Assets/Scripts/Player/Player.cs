@@ -56,8 +56,6 @@ namespace Player
         public WormConstructor wormConstructor;
         
         public GameObject wormHeadCopy;
-        public List<Transform> wormBodySegmentsCopy = new List<Transform>();
-        public List<GameObject> attachedWormPartsCopy = new List<GameObject>();
         
         #endregion
         
@@ -276,22 +274,11 @@ namespace Player
 
             foreach (Transform bodySegment in wormBodySegments)
             {
-                GameObject segmentCopy = DuplicatePart(bodySegment.gameObject);
-                segmentCopy.layer = LayerMask.NameToLayer("WormRagdoll");
-                segmentCopy.AddComponent<DeadBodyPart>();
-                wormBodySegmentsCopy.Add(segmentCopy.transform);
-                Destroy(segmentCopy.GetComponent<ConfigurableJoint>());
                 bodySegment.gameObject.SetActive(false);
             }
             
             foreach (GameObject attachedPart in attachedWormParts)
             {
-                GameObject partCopy = DuplicatePart(attachedPart);
-                partCopy.GetComponent<AttachablePart>().enabled = false;
-                attachedPart.layer = LayerMask.NameToLayer("WormRagdoll");
-                partCopy.AddComponent<DeadBodyPart>();
-                attachedWormPartsCopy.Add(partCopy);
-                Destroy(partCopy.GetComponent<ConfigurableJoint>());
                 attachedPart.gameObject.SetActive(false);
                 attachedPart.GetComponent<AttachablePart>().enabled = false;
             }
@@ -316,20 +303,6 @@ namespace Player
 
             if (wormHeadCopy != null)
                 Destroy(wormHeadCopy);
-        
-            foreach (Transform copy in wormBodySegmentsCopy)
-            {
-                if (copy != null)
-                    Destroy(copy.gameObject);
-            }
-            wormBodySegmentsCopy.Clear();
-    
-            foreach (GameObject copy in attachedWormPartsCopy)
-            {
-                if (copy != null)
-                    Destroy(copy.gameObject);
-            }
-            attachedWormPartsCopy.Clear();
 
             CurrentState = WormState.Idle;
         }
@@ -341,17 +314,14 @@ namespace Player
         private GameObject DuplicatePart(GameObject original)
         {
            GameObject copy = Instantiate(original.gameObject, original.transform.position, original.transform.rotation);
+           copy.AddComponent<DeadBodyPart>();
            Rigidbody originalRb = original.GetComponent<Rigidbody>();
            Rigidbody copyRb = copy.GetComponent<Rigidbody>();
-           copy.tag = "Untagged";
-           copy.GetComponent<CreaturePart>().enabled = false;
     
             if (originalRb != null && copyRb != null)
             {
-                copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DuplicatePartVelocityMultiplier;
-                copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DuplicatePartVelocityMultiplier;
-                copyRb.mass = GameParameters.DuplicatePartMass;
-                copyRb.linearDamping = GameParameters.DuplicatePartLinearDamping;
+                copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DeadPartVelocityMultiplier;
+                copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DeadPartVelocityMultiplier;
             }
 
             return copy;

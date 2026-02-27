@@ -102,10 +102,10 @@ namespace Player
             player.thirdPersonCamera = Camera.main?.gameObject;
             
             GetComponent<WormPhysics>().ResetPlayerPhysics();
-            GetComponent<PlayerSpawning>().SetWormSpawnPosition(new Vector3(0, 2, 0));
-            GetComponent<PlayerSpawning>().SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
-            player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
+            SetWormSpawnPosition(new Vector3(0, 2, 0));
+            SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
+            player.wormConstructor.ConstructWorm();
             
             player.wormForwardMovement.SetVariables();
         }
@@ -124,7 +124,7 @@ namespace Player
 
             player.wormHead.gameObject.SetActive(true);
             
-            ClearDuplicateParts();
+            //ClearDuplicateParts();
             
             foreach (Transform bodySegment in player.wormBodySegments)
             {
@@ -140,21 +140,6 @@ namespace Player
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
             StartCoroutine(ReactivateAttachedParts());
-        }
-
-        private void ClearDuplicateParts()
-        {
-            Destroy(player.wormHeadCopy);
-            foreach (Transform bodySegmentCopy in player.wormBodySegmentsCopy)
-            {
-                Destroy(bodySegmentCopy.gameObject);
-            }
-            player.wormBodySegmentsCopy.Clear();
-            foreach (GameObject partCopy in player.attachedWormPartsCopy)
-            {
-                Destroy(partCopy.gameObject);
-            }
-            player.attachedWormPartsCopy.Clear();
         }
 
         private void SetWormSpawnOrientation(Quaternion orientation)
