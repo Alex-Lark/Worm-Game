@@ -159,8 +159,8 @@ namespace Player
 
         private void SetWormSpawnOrientation(Quaternion orientation)
         {
-            player.wormVisualHead.rotation = orientation;
             player.wormHead.rotation = orientation;
+            player.wormVisualHead.localRotation = Quaternion.identity;
             foreach (Transform segment in player.wormBodySegments)
             {
                 segment.rotation = orientation;

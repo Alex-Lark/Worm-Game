@@ -188,7 +188,7 @@ public static class GameParameters
     #region Worm Death Effects
 
     public static readonly float DuplicatePartVelocityMultiplier = 1f;
-    public static readonly float DuplicatePartMass = 0.1f;
+    public static readonly float DuplicatePartMass = 5f;
     public static float DuplicatePartLinearDamping = 1f;
 
     #endregion
