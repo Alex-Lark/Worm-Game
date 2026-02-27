@@ -1360,8 +1360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e492c9f1621614db1cd68928d8e641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.WingPart
-  baseForce: 5000
-  wingForceDebuff: 1000
+  baseForce: 50000
+  wingForceDebuff: 10000
   sourcePoint: {fileID: 4298025189571550206}
 --- !u!1 &4438569925093941789
 GameObject:

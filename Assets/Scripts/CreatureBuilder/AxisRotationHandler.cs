@@ -41,6 +41,7 @@ public class AxisRotationHandler : MonoBehaviour
 
         if (partDragging != null)
             partDragging.enabled = false;
+        partDragging.isClamped = true;
     }
 
     public void StopRotation()
@@ -48,6 +49,7 @@ public class AxisRotationHandler : MonoBehaviour
         if (partDragging == null) return;
         
         isDragging = false;
+        partDragging.isClamped = true;
 
         if (partDragging != null)
             partDragging.enabled = true;
