@@ -107,15 +107,6 @@ namespace Player
             GetComponent<WormPhysics>().AddCollidersToSegments();
         }
 
-        private void Update()
-        {
-            //temp
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                OnPlayerDeath();
-            }
-        }
-
         private void FixedUpdate()
         {
             if (!isPlayerActive) return;
@@ -274,11 +265,13 @@ namespace Player
 
             foreach (Transform bodySegment in wormBodySegments)
             {
+                DuplicatePart(bodySegment.gameObject);
                 bodySegment.gameObject.SetActive(false);
             }
             
             foreach (GameObject attachedPart in attachedWormParts)
             {
+                DuplicatePart(attachedPart);
                 attachedPart.gameObject.SetActive(false);
                 attachedPart.GetComponent<AttachablePart>().enabled = false;
             }

@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 5698610630824124828}
   - component: {fileID: 4360984312025367667}
   - component: {fileID: 3586833709993918528}
+  - component: {fileID: 3560673805960510603}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -188,8 +189,6 @@ MonoBehaviour:
   playerSpawning: {fileID: 0}
   wormForwardMovement: {fileID: 0}
   wormHeadCopy: {fileID: 0}
-  wormBodySegmentsCopy: []
-  attachedWormPartsCopy: []
 --- !u!120 &4146875160849447740
 LineRenderer:
   serializedVersion: 2
@@ -405,6 +404,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawning
   player: {fileID: 0}
   canRespawn: 1
+  deathScreenUI: {fileID: 0}
+--- !u!114 &3560673805960510603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3857149077806430327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c19254cd729c4246b48f97070212c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cheats
 --- !u!1 &3919673278736660677
 GameObject:
   m_ObjectHideFlags: 0
