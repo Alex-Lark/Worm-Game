@@ -38,6 +38,11 @@ namespace Player
             // Force an initial update after a frame to ensure positions are set
             StartCoroutine(DelayedInitialUpdate());
         }
+
+        public void Restart()
+        {
+            Start();
+        }
     
         IEnumerator DelayedInitialUpdate()
         {

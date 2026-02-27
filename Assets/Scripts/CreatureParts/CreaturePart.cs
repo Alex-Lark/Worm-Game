@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CreatureParts
@@ -36,9 +37,13 @@ namespace CreatureParts
         protected virtual void FixedUpdate()
         {
             CheckGrounded();
-        
         }
-        
+
+        private void OnCollisionEnter(Collision other)
+        {
+            Player.Player.Instance.DamagePlayer(other, gameObject);
+        }
+
         #endregion
         
         #region Public Methods

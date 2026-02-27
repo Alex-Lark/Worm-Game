@@ -11,6 +11,7 @@ TagManager:
   - WormBodySegment
   - RotationHandle
   - TranslationHandle
+  - Spike
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - WormRagdoll
   - 
   - 
   - 

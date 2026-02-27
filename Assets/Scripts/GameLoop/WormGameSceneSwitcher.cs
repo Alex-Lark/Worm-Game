@@ -51,7 +51,7 @@ namespace GameLoop
             
             foreach (Player.Player player in GameLoop.Instance.players)
             {
-                player.SetWormInGameScene();
+                player.playerSpawning.SpawnInGameScene();
             }
         }
     
