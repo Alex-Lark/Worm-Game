@@ -150,7 +150,7 @@ namespace GameLoop
             }
                 
             sceneSwitcher.LoadCreatureBuilderScene();
-            Player.Player.Instance.SetWormInCreatureBuilderScene();
+            Player.LocalPlayer.Instance.SetWormInCreatureBuilderScene();
             yield return StartCoroutine(CreatureBuilderTimer());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();

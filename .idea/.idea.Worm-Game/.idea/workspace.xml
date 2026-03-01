@@ -5,11 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/LegPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/LegPart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/WormGameSceneSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/WormGameSceneSwitcher.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandling/GameSceneInputController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandling/GameSceneInputController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerCamera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormHeadbut.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormHeadbut.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/usernameSaving.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/usernameSaving.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,9 +50,10 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/41b87322553648a1a76174c5109c71f91f7000/e1/e5cccafd/Object.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Prefabs/NetworkPrefabs.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" root0="FORCE_HIGHLIGHTING" />
@@ -53,15 +63,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ClientStarter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/LocalPlayer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/BitPacker/OptimizedTypes/PackedUInt.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Components/NetworkBehaviour/NetworkRules.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Components/NetworkIdentity/NetworkIdentity.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/CoreModules/Players/PlayerID.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/ModulesCollection.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/NetworkManager.Broadcasting.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/PurrMonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -91,7 +94,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/Builds\Worm Game.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Battle Worms Builds/Sprint 1\Worm Game.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\WormGameBuilds" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -209,15 +212,7 @@
       <workItem from="1770770553116" duration="1923000" />
       <workItem from="1771978488407" duration="4230000" />
       <workItem from="1772081909389" duration="2999000" />
-      <workItem from="1772332026384" duration="16000" />
-    </task>
-    <task id="LOCAL-00022" summary="creature builder window wip">
-      <option name="closed" value="true" />
-      <created>1760580426870</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1760580426870</updated>
+      <workItem from="1772332020164" duration="1841000" />
     </task>
     <task id="LOCAL-00023" summary="inventory system wip">
       <option name="closed" value="true" />
@@ -603,7 +598,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771372011381</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="updated purrnet to most recent version, testing syncing in minigame">
+      <option name="closed" value="true" />
+      <created>1772332095846</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1772332095847</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -636,7 +639,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="clamping improved" />
     <MESSAGE value="working on attaching parts" />
     <MESSAGE value=" pushing test object in scene" />
     <MESSAGE value="test2" />
@@ -661,7 +663,8 @@
     <MESSAGE value="CreatureBuilder script refactored a bit/cleaned" />
     <MESSAGE value="re-enabled other menu buttons, username entered in menu is now saved" />
     <MESSAGE value="color selection updates wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="color selection updates wip" />
+    <MESSAGE value="updated purrnet to most recent version, testing syncing in minigame" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated purrnet to most recent version, testing syncing in minigame" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -669,7 +672,14 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs</url>
           <line>81</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'OnPlayerDataRequest'" />
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'OnPlayerDataRequest'">
+            <startOffsets>
+              <option value="2699" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2700" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>

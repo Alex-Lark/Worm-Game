@@ -97,7 +97,7 @@ namespace CreatureParts
 
                 Vector3 swingTarget =
                     smoothedLocalPosition +
-                    Player.Player.Instance.wormVisualHead.forward.normalized * forwardSwingDistance * stepProgress;
+                    Player.LocalPlayer.Instance.wormVisualHead.forward.normalized * forwardSwingDistance * stepProgress;
 
                 Vector3 targetPos = swingTarget + Vector3.up * verticalOffset;
                 
@@ -184,7 +184,7 @@ namespace CreatureParts
                 Vector3 groundTangent = (groundUpward * 0.5f + legAngleOnGround * 0.2f).normalized;
                 
                 Vector3 legForward = transform.forward;
-                Vector3 headForward = Player.Player.Instance.wormVisualHead.forward;
+                Vector3 headForward = Player.LocalPlayer.Instance.wormVisualHead.forward;
 
                 float groundTangentWeight = 0.2f;
                 float legForwardWeight = 0.3f;

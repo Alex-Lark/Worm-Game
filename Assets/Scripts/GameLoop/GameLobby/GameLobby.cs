@@ -37,7 +37,7 @@ namespace GameLoop.GameLobby
             PlayerRegister.OnPlayerRegistered += OnPlayerRegistered;
             
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
-            name.name = Player.Player.Instance.PlayerName;
+            name.name = Player.LocalPlayer.Instance.PlayerName;
             Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
             
             ToggleStartGameButton();

@@ -356,6 +356,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f48cc10eb3ef146910f0f8c45e5eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   PlayerName: Player1
   playerGraphics: {fileID: 0}
   playerScore: 1
@@ -633,9 +642,7 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   _components: []
-  _gameObjects:
-  - target: {fileID: 3857149077806430327}
-    activeAsOwner: 1
+  _gameObjects: []
   _toActivate: []
   _toDeactivate: []
   _toEnable: []

@@ -63,13 +63,13 @@ namespace GameLoop
                 currentCard = card1;
             }
         
-            Player.Player.Instance.wormPartsInInventory.Add(currentCard);
+            Player.LocalPlayer.Instance.wormPartsInInventory.Add(currentCard);
         
             //TODO: discard card and get discarded card from opponent
         
             //fake discarded card
             int discardCardIndex = Random.Range(0, partCards.Count); ////HHHHHHHHHEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPPPP
-            Player.Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
+            Player.LocalPlayer.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
             
             ResetPartSelection();
         }

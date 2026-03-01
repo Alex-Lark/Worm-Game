@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
+using PurrNet;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,13 +16,11 @@ namespace Player
         AttackCooldown
     }
 
-    public class Player : MonoBehaviour
+    public class Player : NetworkBehaviour
     {
         
         #region Public Properties
         [Header("Public Properties")]
-        
-        public static Player Instance { get; private set; }
 
         public string PlayerName = "Player1";
         
@@ -66,21 +65,6 @@ namespace Player
         #endregion
     
         #region Built-In Methods
-        
-        void Awake()
-        {
-            //TODO: reconfigure usage of instance once multiplayer is introduced
-            
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
 
         void Start()
         {
@@ -121,6 +105,16 @@ namespace Player
             {
                 wormHeadBut.WormheadbutCoolDown();
             }
+        }
+        
+        protected override void OnSpawned(bool asServer) {
+            if (isOwner) {
+                LocalPlayer.Register(this);
+            }
+        }
+
+        protected override void OnDespawned() {
+            LocalPlayer.Unregister(this);
         }
         
         #endregion

@@ -130,7 +130,7 @@ namespace Player
         }
 
         private void RotateHeadUngrounded(float speed) {
-            Vector3 camDirFlat = Flatten(global::Player.Player.Instance.thirdPersonCamera.transform.forward);
+            Vector3 camDirFlat = Flatten(global::Player.LocalPlayer.Instance.thirdPersonCamera.transform.forward);
             Quaternion targetYaw = Quaternion.LookRotation(camDirFlat);
     
             wormHead.rotation = Quaternion.Slerp(
@@ -146,7 +146,7 @@ namespace Player
         }
     
         private void SnapHeadRotation() {
-            Vector3 camDir = global::Player.Player.Instance.thirdPersonCamera.transform.forward.normalized;
+            Vector3 camDir = global::Player.LocalPlayer.Instance.thirdPersonCamera.transform.forward.normalized;
             float pitch = CalculatePitch(camDir);
     
             // Clamp pitch to the allowed range
@@ -165,7 +165,7 @@ namespace Player
             float camPitch = Vector3.SignedAngle(
                 Vector3.ProjectOnPlane(camDir, Vector3.up),
                 camDir,
-                global::Player.Player.Instance.thirdPersonCamera.transform.right
+                global::Player.LocalPlayer.Instance.thirdPersonCamera.transform.right
             );
     
             float normalized = Mathf.InverseLerp(GameParameters.MinCameraPitch, GameParameters.MaxCameraPitch, camPitch);

@@ -17,7 +17,7 @@ namespace GameLoop
             GameLoop.Instance?.Reset();
             Destroy(Network.instance);
             Destroy(GameLoop.Instance?.gameObject);
-            Destroy(Player.Player.Instance?.gameObject);
+            Destroy(Player.LocalPlayer.Instance?.gameObject);
         }
 
         public void LoadSettingsScene()
