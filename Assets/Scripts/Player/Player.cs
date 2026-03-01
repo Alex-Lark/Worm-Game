@@ -66,8 +66,14 @@ namespace Player
     
         #region Built-In Methods
 
-        void Start()
-        {
+        protected override void OnSpawned(bool asServer) {
+            Debug.Log($"OnSpawned | asServer={asServer} | isOwner={isOwner} | wormHead={wormHead}");
+            if (asServer) return; // Skip on server pass
+            
+            if (isOwner) {
+                LocalPlayer.Register(this);
+            }
+            
             CurrentState = WormState.Idle;
             IsWormGrounded = false;
             MaxVelocity = GameParameters.WormMaxVelocity;
@@ -81,6 +87,7 @@ namespace Player
             wormConstructor.CreateWormSegments();
             wormConstructor.ConstructWorm();
             
+            Debug.Log($"Segment count before AddColliders: {wormBodySegments.Count}");
             GetComponent<WormPhysics>().AddCollidersToSegments();
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -104,12 +111,6 @@ namespace Player
             if (IsWormInAttackCooldown)
             {
                 wormHeadBut.WormheadbutCoolDown();
-            }
-        }
-        
-        protected override void OnSpawned(bool asServer) {
-            if (isOwner) {
-                LocalPlayer.Register(this);
             }
         }
 
