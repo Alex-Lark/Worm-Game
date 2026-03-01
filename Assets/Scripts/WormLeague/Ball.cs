@@ -22,36 +22,7 @@ namespace WormLeague
             if (collision.gameObject.CompareTag("CreaturePart") || collision.gameObject.CompareTag("WormBodySegment"))
             {
                 LastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
-                if (LastTouchingPlayer == null) return;
-                
-                Vector3 impulse = Vector3.zero;
-                foreach (ContactPoint contact in collision.contacts)
-                    impulse += contact.normal;
-            
-                impulse = -impulse.normalized * collision.relativeVelocity.magnitude;
-
-                // Send collision to server
-                if (isServer)
-                {
-                    ApplyCollisionForce(impulse, LastTouchingPlayer.PlayerName);
-                }
-                else
-                {
-                    ServerHandleCollision(impulse, LastTouchingPlayer.PlayerName);
-                }
             }
-        }
-        
-        [ServerRpc(requireOwnership: false)]
-        private void ServerHandleCollision(Vector3 impulse, string playerName)
-        {
-            ApplyCollisionForce(impulse, playerName);
-        }
-        
-        private void ApplyCollisionForce(Vector3 impulse, string playerName)
-        {
-            GetComponent<Rigidbody>().AddForce(impulse, ForceMode.Impulse);
-            //UpdateLastTouchingPlayer(playerName);
         }
     }
 }

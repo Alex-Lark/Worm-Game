@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
 using PurrNet;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -91,6 +92,19 @@ namespace Player
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 SetWormInGameScene();
+            }
+            
+            wormHead.AddComponent<NetworkTransform>();
+            wormVisualHead.AddComponent<NetworkTransform>();
+
+            foreach (Transform bodySegment in wormBodySegments)
+            {
+                bodySegment.gameObject.AddComponent<NetworkTransform>();
+            }
+
+            foreach (GameObject attachedPart in attachedWormParts)
+            {
+               attachedPart.AddComponent<NetworkTransform>();
             }
         }
 
