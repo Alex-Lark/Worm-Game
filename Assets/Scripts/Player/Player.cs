@@ -67,8 +67,7 @@ namespace Player
         #region Built-In Methods
 
         protected override void OnSpawned(bool asServer) {
-            Debug.Log($"OnSpawned | asServer={asServer} | isOwner={isOwner} | wormHead={wormHead}");
-            if (asServer) return; // Skip on server pass
+            if (asServer) return;
             
             if (isOwner) {
                 LocalPlayer.Register(this);
@@ -87,7 +86,6 @@ namespace Player
             wormConstructor.CreateWormSegments();
             wormConstructor.ConstructWorm();
             
-            Debug.Log($"Segment count before AddColliders: {wormBodySegments.Count}");
             GetComponent<WormPhysics>().AddCollidersToSegments();
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -101,7 +99,11 @@ namespace Player
             if (!isPlayerActive) return;
             
             SetWormGrounding();
-            RotateVisualHead();
+
+            if (thirdPersonCamera != null)
+            {
+                RotateVisualHead();
+            }
 
             if (IsWormAttacking)
             {
@@ -215,6 +217,8 @@ namespace Player
         private IEnumerator SetupAfterSceneLoad()
         {
             yield return null;
+            
+            if (!isOwner) yield break;
 
             Scene activeScene = SceneManager.GetActiveScene();
             GameObject[] rootObjects = activeScene.GetRootGameObjects();

@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/LocalPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/LocalPlayer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormPhysics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormPhysics.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerCamera.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,14 +203,6 @@
       <workItem from="1771978488407" duration="4230000" />
       <workItem from="1772081909389" duration="2999000" />
       <workItem from="1772332020164" duration="1841000" />
-    </task>
-    <task id="LOCAL-00023" summary="inventory system wip">
-      <option name="closed" value="true" />
-      <created>1760582339058</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1760582339059</updated>
     </task>
     <task id="LOCAL-00024" summary="inventory system kinda working, sprites don't work though??">
       <option name="closed" value="true" />
@@ -594,7 +588,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772332095847</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="both worms have gravity and stuff working and input">
+      <option name="closed" value="true" />
+      <created>1772351421622</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1772351421623</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -627,7 +629,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="working on attaching parts" />
     <MESSAGE value=" pushing test object in scene" />
     <MESSAGE value="test2" />
     <MESSAGE value="UI timer works" />
@@ -652,7 +653,8 @@
     <MESSAGE value="re-enabled other menu buttons, username entered in menu is now saved" />
     <MESSAGE value="color selection updates wip" />
     <MESSAGE value="updated purrnet to most recent version, testing syncing in minigame" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated purrnet to most recent version, testing syncing in minigame" />
+    <MESSAGE value="both worms have gravity and stuff working and input" />
+    <option name="LAST_COMMIT_MESSAGE" value="both worms have gravity and stuff working and input" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
