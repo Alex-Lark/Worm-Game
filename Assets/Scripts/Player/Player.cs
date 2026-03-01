@@ -217,8 +217,6 @@ namespace Player
         private IEnumerator SetupAfterSceneLoad()
         {
             yield return null;
-            
-            if (!isOwner) yield break;
 
             Scene activeScene = SceneManager.GetActiveScene();
             GameObject[] rootObjects = activeScene.GetRootGameObjects();
