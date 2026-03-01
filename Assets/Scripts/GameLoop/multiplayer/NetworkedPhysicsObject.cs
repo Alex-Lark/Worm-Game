@@ -6,18 +6,26 @@ namespace GameLoop.multiplayer
 {
     public class NetworkedPhysicsObject : NetworkBehaviour
     {
-        private Rigidbody rigibody;
+        private NetworkRigidbody networkRigidbody;
         
         protected override void OnSpawned(bool asServer)
         {
             base.OnSpawned(asServer);
-            rigibody = GetComponent<Rigidbody>();
-            rigibody.interpolation = RigidbodyInterpolation.Interpolate;
+            networkRigidbody = GetComponent<NetworkRigidbody>();
+            GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
+        }
+
+        void Update()
+        {
+            if (Input.GetKey(KeyCode.B))
+            {
+                ApplyForce(new Vector3(100, 0, 0));
+            }
         }
 
         public void ApplyForce(Vector3 impulse)
         {
-            rigibody.AddForce(impulse, ForceMode.Impulse); // Local prediction for all
+            networkRigidbody.AddForce(impulse); // Local prediction for all
             
             if (!isServer)
                 ServerHandleCollision(impulse);
@@ -38,7 +46,7 @@ namespace GameLoop.multiplayer
         [ServerRpc(requireOwnership: false)]
         private void ServerHandleCollision(Vector3 impulse)
         {
-            rigibody.AddForce(impulse, ForceMode.Impulse);
+            networkRigidbody.AddForce(impulse);
         }
     }
 }

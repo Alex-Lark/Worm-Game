@@ -6,8 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs 1.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs 1.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/GameScene - default.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/GameScene - default.unity.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,15 +212,7 @@
       <workItem from="1771978488407" duration="4230000" />
       <workItem from="1772081909389" duration="2999000" />
       <workItem from="1772332020164" duration="1841000" />
-      <workItem from="1772368981264" duration="947000" />
-    </task>
-    <task id="LOCAL-00026" summary="fixed jumping, changed head to blue">
-      <option name="closed" value="true" />
-      <created>1760851257433</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1760851257433</updated>
+      <workItem from="1772368981264" duration="5267000" />
     </task>
     <task id="LOCAL-00027" summary="worm physics fix wip">
       <option name="closed" value="true" />
@@ -597,7 +598,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772359563652</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="syncing better">
+      <option name="closed" value="true" />
+      <created>1772370144016</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1772370144017</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -630,7 +639,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="UI timer works" />
     <MESSAGE value="card images and names populate when entering part selection" />
     <MESSAGE value="fixed loop skipping first round" />
     <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
@@ -655,7 +663,8 @@
     <MESSAGE value="both worms have gravity and stuff working and input" />
     <MESSAGE value="worms both have physics and can interact, though are totally desynced" />
     <MESSAGE value="ball technically synced, but really weird" />
-    <option name="LAST_COMMIT_MESSAGE" value="ball technically synced, but really weird" />
+    <MESSAGE value="syncing better" />
+    <option name="LAST_COMMIT_MESSAGE" value="syncing better" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
