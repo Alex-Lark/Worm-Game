@@ -12,35 +12,19 @@ namespace GameLoop.multiplayer
         {
             base.OnSpawned(asServer);
             rigibody = GetComponent<Rigidbody>();
-            
-            if (asServer) //if this is being called from the server creation
-            {
-                return;
-            }
-
-            if (!isServer)
-            {
-                gameObject.AddComponent<NetworkRigidbody>();
-                rigibody.isKinematic = true;
-            }
+            rigibody.interpolation = RigidbodyInterpolation.Interpolate;
         }
 
         public void ApplyForce(Vector3 impulse)
         {
-            if (isServer)
-            {
-                ApplyForceAsServer(impulse);
-            }
-            else
-            {
+            rigibody.AddForce(impulse, ForceMode.Impulse); // Local prediction for all
+            
+            if (!isServer)
                 ServerHandleCollision(impulse);
-            }
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (isServer) return;
-            
             Vector3 impulse = Vector3.zero;
             foreach (ContactPoint contact in collision.contacts)
             {
@@ -54,17 +38,6 @@ namespace GameLoop.multiplayer
         [ServerRpc(requireOwnership: false)]
         private void ServerHandleCollision(Vector3 impulse)
         {
-            ApplyForceAsServer(impulse);
-        }
-        
-        //this method should only ever be called from the server
-        private void ApplyForceAsServer(Vector3 impulse)
-        {
-            if (!isServer)
-            {
-                return;
-            }
-            
             rigibody.AddForce(impulse, ForceMode.Impulse);
         }
     }

@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormLeague/Ball.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormLeague/Ball.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="94ca662cef2bd1ce7172e2dd2853909ca95af716" />
+        <entry key="$PROJECT_DIR$" value="168b6aa12901dad03c8311f824b2def75cbcb562" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -203,6 +203,7 @@
       <workItem from="1771978488407" duration="4230000" />
       <workItem from="1772081909389" duration="2999000" />
       <workItem from="1772332020164" duration="1841000" />
+      <workItem from="1772368981264" duration="947000" />
     </task>
     <task id="LOCAL-00026" summary="fixed jumping, changed head to blue">
       <option name="closed" value="true" />
@@ -662,7 +663,14 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs</url>
           <line>81</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'OnPlayerDataRequest'" />
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'OnPlayerDataRequest'">
+            <startOffsets>
+              <option value="2699" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2700" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
