@@ -125,7 +125,7 @@ namespace Player
 
         #region Private Methods
         
-        private void IgnoreWormSelfCollision()
+        public void IgnoreWormSelfCollision()
         {
             List<Collider> allWormColliders = new List<Collider>();
         

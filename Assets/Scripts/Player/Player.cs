@@ -50,6 +50,9 @@ namespace Player
         public List<GameObject> attachedWormParts;
         public List<GameObject> wormPartsInInventory;
         
+        public SyncVar<Vector3> moveDirection = new SyncVar<Vector3>();
+        public Vector3 NetworkedMoveDirection => moveDirection.value;
+        
         #endregion
         
         #region private variables
@@ -63,38 +66,162 @@ namespace Player
         private readonly int wormSegmentCount = GameParameters.WormSegmentCount;
         private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
         
+        private bool _hasBeenSetup = false;
+        
         #endregion
     
         #region Built-In Methods
-
-        protected override void OnSpawned(bool asServer) {
-            if (asServer) return;
-            
-            if (isOwner) {
-                LocalPlayer.Register(this);
-                CurrentState = WormState.Idle;
-                IsWormGrounded = false;
-                MaxVelocity = GameParameters.WormMaxVelocity;
-
-                wormForwardMovement = GetComponent<WormForwardMovement>();
-                wormJump = GetComponent<WormJump>();
-                wormHeadBut = GetComponent<WormHeadBut>();
         
-                wormBodySegments.Clear();
-                wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
-                wormConstructor.CreateWormSegments();
-                wormConstructor.ConstructWorm();
-            
-                GetComponent<WormPhysics>().AddCollidersToSegments();
+        [ServerRpc]
+        public void SetMoveDirection(Vector3 direction)
+        {
+            moveDirection.value = direction;
+        }
 
-                if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+        protected override void OnSpawned(bool asServer)
+        {
+            if (asServer)
+            {
+                if (isOwner)
                 {
-                    SetWormInGameScene();
+                    OwnerSetup();
+                }
+                else if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+                {
+                    StartCoroutine(FindRemoteSegments());
+                    StartCoroutine(ServerSideWormSetup());
+                }
+                return;
+            }
+            if (isOwner && !isServer)
+            {
+                OwnerSetup();
+            }
+            else if (!isOwner)
+            {
+                if (!_hasBeenSetup)
+                {
+                    StartCoroutine(FindRemoteSegments());
+                    StartCoroutine(ServerSideWormSetup());
                 }
             }
-            else
+        }
+        
+        private void OwnerSetup()
+        {
+            LocalPlayer.Register(this);
+            CurrentState = WormState.Idle;
+            IsWormGrounded = false;
+            MaxVelocity = GameParameters.WormMaxVelocity;
+
+            wormForwardMovement = GetComponent<WormForwardMovement>();
+            wormJump = GetComponent<WormJump>();
+            wormHeadBut = GetComponent<WormHeadBut>();
+
+            wormBodySegments.Clear();
+            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
+            wormConstructor.CreateWormSegments();
+            wormConstructor.ConstructWorm();
+
+            GetComponent<WormPhysics>().AddCollidersToSegments();
+
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                StartCoroutine(FindRemoteSegments());
+                SetWormInGameScene();
+            }
+        }
+        
+        private IEnumerator ServerSideWormSetup()
+        {
+            _hasBeenSetup = true;
+
+            // Wait for segments to be synced
+            float timeout = 3f;
+            float elapsed = 0f;
+            while (wormBodySegments.Count < wormSegmentCount && elapsed < timeout)
+            {
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+
+                if (wormBodySegments.Count == 0)
+                {
+                    foreach (Transform child in transform)
+                    {
+                        if (child.GetComponent<CreatureBodySegment>() != null)
+                            wormBodySegments.Add(child);
+                    }
+                }
+            }
+
+            if (wormBodySegments.Count < wormSegmentCount)
+            {
+                Debug.LogError($"ServerSideWormSetup timed out");
+                yield break;
+            }
+            
+            wormHead.GetComponent<Rigidbody>().isKinematic = true;
+            wormHead.GetComponent<Rigidbody>().useGravity = false;
+            foreach (Transform segment in wormBodySegments)
+            {
+                segment.GetComponent<Rigidbody>().isKinematic = true;
+                segment.GetComponent<Rigidbody>().useGravity = false;
+            }
+            
+            yield return null;
+            
+            RebuildSegmentReferences();
+            GetComponent<WormPhysics>().AddCollidersToSegments();
+
+            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab,
+                transform, wormSegmentCount, maxPartDistance);
+            
+            // 2. THEN set up joints on correctly positioned segments
+            wormConstructor.ConstructWorm();
+            GetComponent<WormPhysics>().IgnoreWormSelfCollision();
+            
+            //if (isServer) Debug.Break();
+
+            // 3. THEN enable physics
+            wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            foreach (Transform segment in wormBodySegments)
+                segment.GetComponent<Rigidbody>().isKinematic = false;
+            
+            //if (isServer) Debug.Break();
+
+            // 4. Wait one frame then reset
+            yield return null;
+
+            GetComponent<WormPhysics>().ResetWormPosition();
+            //if (isServer) Debug.Break();
+        }
+        
+        private IEnumerator FindRemoteSegments()
+        {
+            yield return new WaitForSeconds(0.5f);
+    
+            wormBodySegments.Clear();
+            foreach (Transform child in transform)
+            {
+                if (child.GetComponent<CreatureBodySegment>() != null)
+                    wormBodySegments.Add(child);
+            }
+        }
+        
+        private void RebuildSegmentReferences()
+        {
+            CreaturePart previousSegment = wormHead.GetComponent<CreaturePart>();
+    
+            for (int i = 0; i < wormBodySegments.Count; i++)
+            {
+                CreatureBodySegment seg = wormBodySegments[i].GetComponent<CreatureBodySegment>();
+                seg.previousSegment = previousSegment;
+                previousSegment = seg;
+            }
+
+            for (int i = 0; i < wormBodySegments.Count - 1; i++)
+            {
+                wormBodySegments[i].GetComponent<CreatureBodySegment>().nextSegment =
+                    wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
             }
         }
 
@@ -287,16 +414,40 @@ namespace Player
             wormVisualHead.rotation = Quaternion.AngleAxis(clampedAngle, Vector3.up) * wormHead.rotation;
         }
         
-        private IEnumerator FindRemoteSegments()
+        private IEnumerator SetupRemoteWorm()
         {
-            yield return new WaitForSeconds(0.5f);
-    
+            // Wait until segments have synced from owner
+            yield return new WaitUntil(() =>
+                GetComponentsInChildren<CreatureBodySegment>().Length >= wormSegmentCount);
+
+            // Populate wormBodySegments
             wormBodySegments.Clear();
-            foreach (Transform child in transform)
+            var segments = GetComponentsInChildren<CreatureBodySegment>();
+            foreach (var seg in segments)
+                wormBodySegments.Add(seg.transform);
+
+            // Add joints first (before kinematic, as kinematic may affect joint setup)
+            Rigidbody previousRb = wormHead.GetComponent<Rigidbody>();
+            foreach (Transform segment in wormBodySegments)
             {
-                if (child.GetComponent<CreatureBodySegment>() != null)
-                    wormBodySegments.Add(child);
+                if (segment.GetComponent<ConfigurableJoint>() == null)
+                    previousRb = segment.GetComponent<CreatureBodySegment>().AddJoint(segment, previousRb);
+                else
+                    previousRb = segment.GetComponent<Rigidbody>();
             }
+            
+            foreach (Transform segment in wormBodySegments)
+            {
+                Rigidbody rb = segment.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                    rb.useGravity = true;
+                }
+            }
+
+            wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            wormHead.GetComponent<Rigidbody>().useGravity = true;
         }
         
         #endregion

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using CreatureParts;
+using GameLoop.multiplayer;
+using PurrNet;
 using UnityEngine;
 
 namespace Player
@@ -9,7 +11,8 @@ namespace Player
         #region Private Variables
         
         private List<Transform> wormParts;
-        private Rigidbody wormHead;
+        private NetworkRigidbody wormHead;
+        private NetworkedPhysicsObject wormHeadNetworkedPhysicsObject;
         private Player player;
         
         #endregion
@@ -20,7 +23,8 @@ namespace Player
         {
             player = GetComponent<Player>();
             wormParts = player.wormBodySegments;
-            wormHead = player.wormHead.GetComponent<Rigidbody>();
+            wormHead = player.wormHead.GetComponent<NetworkRigidbody>();
+            wormHeadNetworkedPhysicsObject = player.wormHead.GetComponent<NetworkedPhysicsObject>();
         }
         
         #endregion
@@ -38,20 +42,22 @@ namespace Player
             }
         
             //TODO: fix lifting logic
-            LiftFrontSegments(wormHead, segmentCount, segmentCount);
+            LiftFrontSegments(wormHead, wormHeadNetworkedPhysicsObject, segmentCount, segmentCount);
         
             for (int i = 0; i < wormParts.Count; i++)
             {
                 Transform wormPart = wormParts[i];
-                Rigidbody wormPartRigidBody = wormPart.GetComponent<Rigidbody>();
+                NetworkRigidbody wormPartRigidBody = wormPart.GetComponent<NetworkRigidbody>();
+                NetworkedPhysicsObject wormPartNetworkedPhysicsObject = wormPart.GetComponent<NetworkedPhysicsObject>();
+                
                 if (i > segmentCount / 2)
                 {
-                    GroundBackSegment(wormPartRigidBody);
+                    GroundBackSegment(wormPartRigidBody, wormPartNetworkedPhysicsObject);
                 }
                 else
                 {
                     liftedSegment++;
-                    LiftFrontSegments(wormPartRigidBody, liftedSegment, segmentCount);
+                    LiftFrontSegments(wormPartRigidBody, wormPartNetworkedPhysicsObject, liftedSegment, segmentCount);
                 }
             }
 
@@ -61,17 +67,18 @@ namespace Player
         public void EndHeadBut()
         {
             SnapHeadRotation();
-            wormHead.AddForce(wormHead.transform.forward * GameParameters.WormHeadButHeadForce);
+            wormHeadNetworkedPhysicsObject.AddForce(wormHead.transform.forward * GameParameters.WormHeadButHeadForce);
             for (int i = 0; i < wormParts.Count; i++)
             {
-                Rigidbody wormPartRigidBody = wormParts[i].GetComponent<Rigidbody>();
+                NetworkRigidbody wormPartRigidBody = wormParts[i].GetComponent<NetworkRigidbody>();
+                NetworkedPhysicsObject wormPartNetworkedPhysicsObject = wormParts[i].GetComponent<NetworkedPhysicsObject>();
                 if (i < ((GameParameters.WormSegmentCount + 1) / 2))
                 {
                     wormPartRigidBody.AddForce(wormHead.transform.forward * (GameParameters.WormHeadButForce/(i + 1)));
                 }
                 else
                 {
-                    GroundBackSegment(wormPartRigidBody);
+                    GroundBackSegment(wormPartRigidBody, wormPartNetworkedPhysicsObject);
                 }
             }
         }
@@ -82,8 +89,9 @@ namespace Player
             {
                 if (i > ((GameParameters.WormSegmentCount + 1) / 2))
                 {
-                    Rigidbody wormPartRigidBody = wormParts[i].GetComponent<Rigidbody>();
-                    GroundBackSegment(wormPartRigidBody);
+                    NetworkRigidbody wormPartRigidBody = wormParts[i].GetComponent<NetworkRigidbody>();
+                    NetworkedPhysicsObject wormPartNetworkedPhysicsObject = wormParts[i].GetComponent<NetworkedPhysicsObject>();
+                    GroundBackSegment(wormPartRigidBody, wormPartNetworkedPhysicsObject);
                 }
             }
         }
@@ -92,19 +100,19 @@ namespace Player
         
         #region Private Methods
 
-        private void LiftFrontSegments(Rigidbody wormPart, int liftedSegment, int segmentCount)
+        private void LiftFrontSegments(NetworkRigidbody wormPart, NetworkedPhysicsObject networkedPhysicsObject, int liftedSegment, int segmentCount)
         {
             float maxSegmentHeight = GameParameters.WormMaxHeightPerSegment / liftedSegment;
 
             if (wormPart.position.y < maxSegmentHeight)
             {
                 float forceMultiplier = liftedSegment / (segmentCount/2); //Do not update to a float, it breaks
-                wormPart.AddForce((Vector3.up + (wormPart.transform.forward * GameParameters.WormHeadButForwardPercent)) * (GameParameters.WormHeadButLiftingForce * forceMultiplier));
+                networkedPhysicsObject.AddForce((Vector3.up + (wormPart.transform.forward * GameParameters.WormHeadButForwardPercent)) * (GameParameters.WormHeadButLiftingForce * forceMultiplier));
             }
         
         }
 
-        private void GroundBackSegment(Rigidbody wormPart) {
+        private void GroundBackSegment(NetworkRigidbody wormPart, NetworkedPhysicsObject networkedPhysicsObject) {
             CreatureBodySegment segment = wormPart.GetComponent<CreatureBodySegment>();
             if (segment.IsGrounded)
             {
@@ -119,14 +127,14 @@ namespace Player
                 }
         
                 // Optional: gentle downward force
-                wormPart.AddForce(-groundNormal * GameParameters.WormHeadbutGroundingForce);
+                networkedPhysicsObject.AddForce(-groundNormal * GameParameters.WormHeadbutGroundingForce);
             }
         }
     
         private void MoveHead()
         {
             RotateHeadUngrounded(GameParameters.WormHeadRotationSpeedWhileAttacking);
-            wormHead.AddForce(GameParameters.WormMoveForce * wormHead.transform.forward);
+            wormHeadNetworkedPhysicsObject.AddForce(GameParameters.WormMoveForce * wormHead.transform.forward);
         }
 
         private void RotateHeadUngrounded(float speed) {

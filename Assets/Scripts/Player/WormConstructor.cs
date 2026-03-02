@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CreatureParts;
+using PurrNet;
 using UnityEngine;
 
 namespace Player
@@ -12,9 +13,6 @@ namespace Player
         private readonly Transform parentTransform;
         private readonly int wormSegmentCount;
         private readonly float maxPartDistance;
-        
-        private bool hasBeenCreated = false;
-        private bool hasBeenConstructed = false;
 
         public WormConstructor(Transform wormHead, List<Transform> wormBodySegments, GameObject wormSegmentPrefab, Transform parentTransform, int segmentCount, float partDistance)
         {
@@ -28,13 +26,13 @@ namespace Player
 
         public void CreateWormSegments()
         {
-            if (hasBeenCreated) return;
-            hasBeenCreated = true;
+            Debug.Log("CreateWormSegments called.");
             
             CreaturePart previousSegment = wormHead.GetComponent<CreaturePart>();
     
             for (int i = 0; i < wormSegmentCount; i++)
             {
+                Debug.Log("creating new segment. i: " + i + ", parentTransform: " + parentTransform + ", previousSegment: " + previousSegment);
                 GameObject newSegment = Object.Instantiate(wormSegmentPrefab, parentTransform);
                 newSegment.GetComponent<CreatureBodySegment>().previousSegment = previousSegment;
                 wormBodySegments.Add(newSegment.transform);
@@ -50,9 +48,6 @@ namespace Player
 
         public void ConstructWorm()
         {
-            if (hasBeenConstructed) return;
-            hasBeenConstructed = true;
-            
             Vector3 currentPos = wormHead.position;
             Vector3 backDir = -wormHead.forward;
             Rigidbody previousRb = wormHead.GetComponent<Rigidbody>();
@@ -67,4 +62,6 @@ namespace Player
             }
         }
     }
+    
+    
 }

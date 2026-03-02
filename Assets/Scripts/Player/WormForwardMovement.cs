@@ -3,6 +3,7 @@ using CreatureParts;
 using GameLoop.multiplayer;
 using PurrNet;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Player
 {
@@ -50,10 +51,19 @@ namespace Player
 
         public void MoveHead()
         {
+            Vector3 direction = new Vector3(0, 0, 0);
             float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
-
-            RotateHeadGrounded(rotationSpeed);
+            if (player.isOwner)
+            {
+                direction = player.thirdPersonCamera.transform.forward;
+                player.SetMoveDirection(direction);
+            }
+            else
+            {
+                direction = player.NetworkedMoveDirection;
+            }
+            RotateHeadGrounded(rotationSpeed, direction);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
         }
     
@@ -266,9 +276,9 @@ namespace Player
 
         #region Private Methods - Head Movement
         
-        private void RotateHeadGrounded(float speed)
+        private void RotateHeadGrounded(float speed, Vector3 direction)
         {
-            Vector3 targetDir = Flatten(camera.transform.forward);
+            Vector3 targetDir = Flatten(direction);
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
             wormHead.rotation = Quaternion.Slerp(wormHead.rotation, targetRot, speed * Time.fixedDeltaTime);
         }
