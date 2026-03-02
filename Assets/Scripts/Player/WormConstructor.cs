@@ -12,6 +12,9 @@ namespace Player
         private readonly Transform parentTransform;
         private readonly int wormSegmentCount;
         private readonly float maxPartDistance;
+        
+        private bool hasBeenCreated = false;
+        private bool hasBeenConstructed = false;
 
         public WormConstructor(Transform wormHead, List<Transform> wormBodySegments, GameObject wormSegmentPrefab, Transform parentTransform, int segmentCount, float partDistance)
         {
@@ -25,6 +28,9 @@ namespace Player
 
         public void CreateWormSegments()
         {
+            if (hasBeenCreated) return;
+            hasBeenCreated = true;
+            
             CreaturePart previousSegment = wormHead.GetComponent<CreaturePart>();
     
             for (int i = 0; i < wormSegmentCount; i++)
@@ -44,6 +50,9 @@ namespace Player
 
         public void ConstructWorm()
         {
+            if (hasBeenConstructed) return;
+            hasBeenConstructed = true;
+            
             Vector3 currentPos = wormHead.position;
             Vector3 backDir = -wormHead.forward;
             Rigidbody previousRb = wormHead.GetComponent<Rigidbody>();

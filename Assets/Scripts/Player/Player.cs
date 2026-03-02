@@ -74,6 +74,8 @@ namespace Player
                 LocalPlayer.Register(this);
             }
             
+            if (!isOwner) return;
+            
             CurrentState = WormState.Idle;
             IsWormGrounded = false;
             MaxVelocity = GameParameters.WormMaxVelocity;
@@ -94,18 +96,18 @@ namespace Player
                 SetWormInGameScene();
             }
             
-            wormHead.AddComponent<NetworkTransform>();
-            wormVisualHead.AddComponent<NetworkTransform>();
-
-            foreach (Transform bodySegment in wormBodySegments)
-            {
-                bodySegment.gameObject.AddComponent<NetworkTransform>();
-            }
-
-            foreach (GameObject attachedPart in attachedWormParts)
-            {
-               attachedPart.AddComponent<NetworkTransform>();
-            }
+            // // wormHead.AddComponent<NetworkTransform>();
+            // // wormVisualHead.AddComponent<NetworkTransform>();
+            //
+            // foreach (Transform bodySegment in wormBodySegments)
+            // {
+            //     bodySegment.gameObject.AddComponent<NetworkTransform>();
+            // }
+            //
+            // foreach (GameObject attachedPart in attachedWormParts)
+            // {
+            //    attachedPart.AddComponent<NetworkTransform>();
+            // }
         }
 
         private void FixedUpdate()

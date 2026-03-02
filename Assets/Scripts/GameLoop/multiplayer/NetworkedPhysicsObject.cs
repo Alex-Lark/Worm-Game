@@ -1,3 +1,4 @@
+using System;
 using PurrNet;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,23 +8,27 @@ namespace GameLoop.multiplayer
     public class NetworkedPhysicsObject : NetworkBehaviour
     {
         private NetworkRigidbody networkRigidbody;
-        
-        protected override void OnSpawned(bool asServer)
+
+        private void Awake()
         {
-            base.OnSpawned(asServer);
             networkRigidbody = GetComponent<NetworkRigidbody>();
             GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
         }
 
-        void Update()
+        protected override void OnSpawned(bool asServer)
         {
-            if (Input.GetKey(KeyCode.B))
-            {
-                ApplyForce(new Vector3(100, 0, 0));
-            }
+            base.OnSpawned(asServer);
         }
 
-        public void ApplyForce(Vector3 impulse)
+        // void Update()
+        // {
+        //     if (Input.GetKey(KeyCode.B))
+        //     {
+        //         ApplyForce(new Vector3(100, 0, 0));
+        //     }
+        // }
+
+        public void AddForce(Vector3 impulse)
         {
             networkRigidbody.AddForce(impulse); // Local prediction for all
             
@@ -33,6 +38,8 @@ namespace GameLoop.multiplayer
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (!isSpawned) return;
+            
             Vector3 impulse = Vector3.zero;
             foreach (ContactPoint contact in collision.contacts)
             {
@@ -40,7 +47,7 @@ namespace GameLoop.multiplayer
             }
             
             impulse = impulse.normalized * collision.relativeVelocity.magnitude;
-            ApplyForce(impulse);
+            AddForce(impulse);
         }
         
         [ServerRpc(requireOwnership: false)]
