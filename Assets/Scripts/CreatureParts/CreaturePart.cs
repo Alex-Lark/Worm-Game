@@ -102,7 +102,7 @@ namespace CreatureParts
 
         void OnCollisionStay(Collision collision)
         {
-            Debug.Log("segment collision. Gameobject " + gameObject + "is being hit by " + collision.gameObject);
+            //Debug.Log("segment collision. Gameobject " + gameObject + "is being hit by " + collision.gameObject);
         }
         
         #endregion

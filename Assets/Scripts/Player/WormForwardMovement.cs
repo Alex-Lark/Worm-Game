@@ -51,18 +51,17 @@ namespace Player
 
         public void MoveHead()
         {
-            Vector3 direction = new Vector3(0, 0, 0);
+            Debug.Log("moveHead called");
+            //Vector3 direction = new Vector3(0, 0, 0);
             float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
-            if (player.isOwner)
-            {
-                direction = player.thirdPersonCamera.transform.forward;
+            //if (player.isOwner)
+                Vector3 direction = player.thirdPersonCamera.transform.forward;
                 player.SetMoveDirection(direction);
-            }
-            else
-            {
-                direction = player.NetworkedMoveDirection;
-            }
+            // else
+            // {
+            //     direction = player.NetworkedMoveDirection;
+            // }
             RotateHeadGrounded(rotationSpeed, direction);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
         }
@@ -278,10 +277,31 @@ namespace Player
         
         private void RotateHeadGrounded(float speed, Vector3 direction)
         {
+            Debug.Log("rotate head grounded called");
             Vector3 targetDir = Flatten(direction);
+            if (targetDir.magnitude < 0.01f) return;
+            
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
-            wormHead.rotation = Quaternion.Slerp(wormHead.rotation, targetRot, speed * Time.fixedDeltaTime);
+            Quaternion newRotation = Quaternion.Slerp(wormHead.GetComponent<NetworkRigidbody>().rotation, targetRot, speed * Time.fixedDeltaTime);
+            
+            Debug.Log("Network rigidBody set to: " + newRotation);
+            wormHead.GetComponent<NetworkRigidbody>().rotation = newRotation;
+
+            // if (player.isOwner)
+            // {
+            //     Debug.Log("setting head rotation");
+            //     player.SetHeadRotation(newRotation);
+            // }
         }
+        
+        // public void Update()
+        // {
+        //     if (Input.GetKey(KeyCode.R))
+        //     {
+        //         Quaternion extraRotation = Quaternion.Euler(0, 0, 15f);
+        //         wormHead.GetComponent<NetworkRigidbody>().rotation = wormHead.GetComponent<NetworkRigidbody>().rotation * extraRotation;
+        //     }
+        // }
 
         private void MoveHeadGrounded(CreaturePart part)
         {

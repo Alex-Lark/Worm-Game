@@ -51,6 +51,7 @@ namespace Player
         public List<GameObject> wormPartsInInventory;
         
         public SyncVar<Vector3> moveDirection = new SyncVar<Vector3>();
+        public SyncVar<Quaternion> headRotation = new SyncVar<Quaternion>();
         public Vector3 NetworkedMoveDirection => moveDirection.value;
         
         #endregion
@@ -76,6 +77,12 @@ namespace Player
         public void SetMoveDirection(Vector3 direction)
         {
             moveDirection.value = direction;
+        }
+        
+        [ServerRpc]
+        public void SetHeadRotation(Quaternion rotation)
+        {
+            headRotation.value = rotation;
         }
 
         protected override void OnSpawned(bool asServer)
@@ -193,6 +200,7 @@ namespace Player
 
             GetComponent<WormPhysics>().ResetWormPosition();
             //if (isServer) Debug.Break();
+            GetComponent<WormForwardMovement>().SetVariables();
         }
         
         private IEnumerator FindRemoteSegments()
@@ -264,6 +272,7 @@ namespace Player
         {
             if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown) return;
             
+            Debug.Log("moveForward called");
             wormForwardMovement.MoveHead();
             wormForwardMovement.MoveWormBody();
 
