@@ -72,42 +72,30 @@ namespace Player
             
             if (isOwner) {
                 LocalPlayer.Register(this);
-            }
-            
-            if (!isOwner) return;
-            
-            CurrentState = WormState.Idle;
-            IsWormGrounded = false;
-            MaxVelocity = GameParameters.WormMaxVelocity;
+                CurrentState = WormState.Idle;
+                IsWormGrounded = false;
+                MaxVelocity = GameParameters.WormMaxVelocity;
 
-            wormForwardMovement = GetComponent<WormForwardMovement>();
-            wormJump = GetComponent<WormJump>();
-            wormHeadBut = GetComponent<WormHeadBut>();
+                wormForwardMovement = GetComponent<WormForwardMovement>();
+                wormJump = GetComponent<WormJump>();
+                wormHeadBut = GetComponent<WormHeadBut>();
         
-            wormBodySegments.Clear();
-            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
-            wormConstructor.CreateWormSegments();
-            wormConstructor.ConstructWorm();
+                wormBodySegments.Clear();
+                wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
+                wormConstructor.CreateWormSegments();
+                wormConstructor.ConstructWorm();
             
-            GetComponent<WormPhysics>().AddCollidersToSegments();
+                GetComponent<WormPhysics>().AddCollidersToSegments();
 
-            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-            {
-                SetWormInGameScene();
+                if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+                {
+                    SetWormInGameScene();
+                }
             }
-            
-            // // wormHead.AddComponent<NetworkTransform>();
-            // // wormVisualHead.AddComponent<NetworkTransform>();
-            //
-            // foreach (Transform bodySegment in wormBodySegments)
-            // {
-            //     bodySegment.gameObject.AddComponent<NetworkTransform>();
-            // }
-            //
-            // foreach (GameObject attachedPart in attachedWormParts)
-            // {
-            //    attachedPart.AddComponent<NetworkTransform>();
-            // }
+            else
+            {
+                StartCoroutine(FindRemoteSegments());
+            }
         }
 
         private void FixedUpdate()
@@ -297,6 +285,18 @@ namespace Player
             float signedAngle = Vector3.SignedAngle(wormHead.forward, cameraForward, Vector3.up);
             float clampedAngle = Mathf.Clamp(signedAngle, -90f, 90f);
             wormVisualHead.rotation = Quaternion.AngleAxis(clampedAngle, Vector3.up) * wormHead.rotation;
+        }
+        
+        private IEnumerator FindRemoteSegments()
+        {
+            yield return new WaitForSeconds(0.5f);
+    
+            wormBodySegments.Clear();
+            foreach (Transform child in transform)
+            {
+                if (child.GetComponent<CreatureBodySegment>() != null)
+                    wormBodySegments.Add(child);
+            }
         }
         
         #endregion

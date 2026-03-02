@@ -34,8 +34,7 @@ namespace Player
         {
             player = GetComponent<global::Player.Player>();
             SetupWormRenderer();
-    
-            // Force an initial update after a frame to ensure positions are set
+            
             StartCoroutine(DelayedInitialUpdate());
         }
     
@@ -71,6 +70,7 @@ namespace Player
 
         void Update()
         {
+            if (player.wormBodySegments == null || player.wormBodySegments.Count == 0) return;
             UpdateWormVisual();
         }
 
@@ -115,6 +115,8 @@ namespace Player
 
         List<Vector3> GenerateSmoothCurve(List<Vector3> originalPositions)
         {
+            if (originalPositions.Count < 2) return originalPositions;
+            
             List<Vector3> wormPositions = new List<Vector3>();
         
             for (int i = 0; i < originalPositions.Count - 1; i++)
@@ -155,6 +157,11 @@ namespace Player
 
         List<Vector3> CalculateSmoothedDirections(List<Vector3> positions)
         {
+            if (positions.Count < 2)
+            {
+                return new List<Vector3> { Vector3.forward };
+            }
+            
             List<Vector3> directions = new List<Vector3>();
         
             for (int i = 0; i < positions.Count; i++)
