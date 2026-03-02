@@ -35,6 +35,14 @@ namespace GameLoop.multiplayer
             if (!isServer)
                 ServerHandleCollision(impulse);
         }
+        
+        public void AddForceAtPosition(Vector3 force, Vector3 position)
+        {
+            networkRigidbody.AddForceAtPosition(force, position);
+    
+            if (!isServer)
+                ServerHandleForceAtPosition(force, position);
+        }
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -54,6 +62,12 @@ namespace GameLoop.multiplayer
         private void ServerHandleCollision(Vector3 impulse)
         {
             networkRigidbody.AddForce(impulse);
+        }
+        
+        [ServerRpc(requireOwnership: false)]
+        private void ServerHandleForceAtPosition(Vector3 force, Vector3 position)
+        {
+            networkRigidbody.AddForceAtPosition(force, position);
         }
     }
 }
