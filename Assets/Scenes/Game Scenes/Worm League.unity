@@ -869,7 +869,7 @@ MonoBehaviour:
   _networkRules: {fileID: 11400000, guid: d8799083b96579a42b8b2d03e4ceae98, type: 2}
   _visibilityRules: {fileID: 11400000, guid: 8f014a5bd8dc68646a2a3c0b18c5bbd8, type: 2}
   _authenticator: {fileID: 0}
-  _tickRate: 20
+  _tickRate: 60
   _patchLingeringProcessBug: 0
 --- !u!4 &422120763
 Transform:
@@ -4440,7 +4440,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 0
 --- !u!33 &6470940527061962429
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4554,17 +4554,17 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _ownerAuth: 1
+  _ownerAuth: 0
   _acceptableError: 0.05
-  _hardCorrectionThreshold: 2
-  _maxCorrectionTime: -1
+  _hardCorrectionThreshold: 10
+  _maxCorrectionTime: 0.5
   _springConstant: 100
   _dampingConstant: 15
   _rotationSpringMultiplier: 0.3
   _minRotationCorrectionAngle: 1
-  _uncertaintySpringDampening: 0.5
+  _uncertaintySpringDampening: 5
   _accelerationDecay: 0.85
-  _hardCorrectionAccelerationScale: 0.1
+  _hardCorrectionAccelerationScale: 3
   _maxHardCorrectionMultiplier: 5
   _lowSpeedThreshold: 1.5
   _lowSpeedSpringMultiplier: 0.1

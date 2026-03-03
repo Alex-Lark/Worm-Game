@@ -170,6 +170,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37c1d747845f75488f350baea6781eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormBodySegment
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   previousSegment: {fileID: 0}
   nextSegment: {fileID: 0}
 --- !u!114 &7490919322442053948

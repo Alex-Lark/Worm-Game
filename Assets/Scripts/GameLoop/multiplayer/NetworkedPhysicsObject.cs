@@ -15,59 +15,26 @@ namespace GameLoop.multiplayer
             GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
         }
 
-        protected override void OnSpawned(bool asServer)
-        {
-            base.OnSpawned(asServer);
-        }
-
-        // void Update()
-        // {
-        //     if (Input.GetKey(KeyCode.B))
-        //     {
-        //         ApplyForce(new Vector3(100, 0, 0));
-        //     }
-        // }
-
         public void AddForce(Vector3 impulse)
-        {
-            networkRigidbody.AddForce(impulse); // Local prediction for all
-            
-            if (!isServer)
-                ServerHandleCollision(impulse);
-        }
-        
-        public void AddForceAtPosition(Vector3 force, Vector3 position)
-        {
-            networkRigidbody.AddForceAtPosition(force, position);
-    
-            if (!isServer)
-                ServerHandleForceAtPosition(force, position);
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (!isSpawned) return;
-            
-            Vector3 impulse = Vector3.zero;
-            foreach (ContactPoint contact in collision.contacts)
-            {
-                impulse += contact.normal;
-            }
-            
-            impulse = impulse.normalized * collision.relativeVelocity.magnitude;
-            AddForce(impulse);
-        }
-        
-        [ServerRpc(requireOwnership: false)]
-        private void ServerHandleCollision(Vector3 impulse)
         {
             networkRigidbody.AddForce(impulse);
         }
-        
-        [ServerRpc(requireOwnership: false)]
-        private void ServerHandleForceAtPosition(Vector3 force, Vector3 position)
+
+        public void AddForceAtPosition(Vector3 force, Vector3 position)
         {
             networkRigidbody.AddForceAtPosition(force, position);
         }
-    }
+
+        [ServerRpc(requireOwnership: false)]
+        private void ServerHandleCollision(Vector3 impulse)
+        {
+            networkRigidbody.AddForce(impulse, ForceMode.Impulse);
+        }
+
+        [ServerRpc(requireOwnership: false)]
+        private void ServerHandleForceAtPosition(Vector3 force, Vector3 position)
+        {
+            networkRigidbody.AddForceAtPosition(force, position, ForceMode.Impulse);
+        }
+    } 
 }

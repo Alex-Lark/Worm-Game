@@ -184,23 +184,20 @@ namespace Player
             
             // 2. THEN set up joints on correctly positioned segments
             wormConstructor.ConstructWorm();
-            GetComponent<WormPhysics>().IgnoreWormSelfCollision();
+            //GetComponent<WormPhysics>().IgnoreWormSelfCollision();
             
-            //if (isServer) Debug.Break();
-
-            // 3. THEN enable physics
-            wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            foreach (Transform segment in wormBodySegments)
-                segment.GetComponent<Rigidbody>().isKinematic = false;
             
-            //if (isServer) Debug.Break();
-
-            // 4. Wait one frame then reset
             yield return null;
 
             GetComponent<WormPhysics>().ResetWormPosition();
-            //if (isServer) Debug.Break();
-            GetComponent<WormForwardMovement>().SetVariables();
+            
+            wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            wormHead.GetComponent<Rigidbody>().useGravity = true;
+            foreach (Transform segment in wormBodySegments)
+            {
+                segment.GetComponent<Rigidbody>().isKinematic = false;
+                segment.GetComponent<Rigidbody>().isKinematic = false;
+            }
         }
         
         private IEnumerator FindRemoteSegments()

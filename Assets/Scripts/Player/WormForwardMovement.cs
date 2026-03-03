@@ -277,14 +277,12 @@ namespace Player
         
         private void RotateHeadGrounded(float speed, Vector3 direction)
         {
-            Debug.Log("rotate head grounded called");
             Vector3 targetDir = Flatten(direction);
             if (targetDir.magnitude < 0.01f) return;
             
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
             Quaternion newRotation = Quaternion.Slerp(wormHead.GetComponent<NetworkRigidbody>().rotation, targetRot, speed * Time.fixedDeltaTime);
             
-            Debug.Log("Network rigidBody set to: " + newRotation);
             wormHead.GetComponent<NetworkRigidbody>().rotation = newRotation;
 
             // if (player.isOwner)

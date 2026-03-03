@@ -1,4 +1,5 @@
 using System;
+using GameLoop.multiplayer;
 using PurrNet;
 using UnityEngine;
 
@@ -23,6 +24,12 @@ namespace WormLeague
             {
                 LastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
             }
+        }
+        
+        [ServerRpc]
+        public void ApplyForceToObject(NetworkedPhysicsObject obj, Vector3 force, Vector3 position)
+        {
+            obj.AddForceAtPosition(force, position);
         }
     }
 }
