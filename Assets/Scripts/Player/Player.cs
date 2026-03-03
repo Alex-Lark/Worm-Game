@@ -177,12 +177,23 @@ namespace Player
                     collisionForce *= GameParameters.HeadDamageMultiplier;
                 }
             }
-                
+            if (other.gameObject.GetComponent<ShellPart>() != null)
+            {
+                collisionForce *= GameParameters.ShellDamageReduction;
+            }
             if (other.gameObject.GetComponent<SpikePart>() != null)
             {
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
+                    currentPlayerHealth -= damage;
+                }
+            }
+            if (other.gameObject.GetComponent<FiredProjectile>() != null)
+            {
+                if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
+                {
+                    float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;
                     currentPlayerHealth -= damage;
                 }
             }
