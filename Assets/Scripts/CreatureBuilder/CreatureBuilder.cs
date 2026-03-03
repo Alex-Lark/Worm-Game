@@ -303,53 +303,8 @@ namespace CreatureBuilder
 
         Player.Player.Instance.attachedWormParts.Add(creaturePart);
 
-        IgnorePartCollisionWithWorm(creaturePart, wormSegment);
+        creaturePart.GetComponent<AttachablePart>().IgnorePartCollisionWithWorm(creaturePart, wormSegment);
     }
-
-        private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
-        {
-            int numSegments = GameParameters.NumSegmentCollisionsIgnored;
-
-            // Get all colliders on the part and its children
-            Collider[] partColliders = part.GetComponentsInChildren<Collider>();
-
-            // Ignore collisions in both directions along the worm
-            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
-            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
-
-            //ignore collisions with all other attached parts
-            foreach (var attachedWormPart in Player.Player.Instance.attachedWormParts)
-            {
-                Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
-            }
-        }
-
-        private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
-        {
-            Transform current = startSegment;
-
-            for (int i = 0; i < numSegments && current != null; i++)
-            { 
-                Collider[] segmentColliders = current.GetComponentsInChildren<Collider>();
-                
-                foreach (var pCol in partColliders)
-                {
-                    foreach (var sCol in segmentColliders)
-                    {
-                        Physics.IgnoreCollision(pCol, sCol, true);
-                    }
-                }
-                
-                if (forward)
-                {
-                    current = current.childCount > 0 ? current.GetChild(0) : null;
-                }
-                else
-                {
-                    current = current.parent;
-                }
-            }
-        }
     
         private Transform FindNearestWormSegment(GameObject part) 
         {
