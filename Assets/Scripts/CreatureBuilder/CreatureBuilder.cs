@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
+using Player;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace CreatureBuilder
         private void Awake()
         {
             InitializePrefabMapping();
-            player = Player.LocalPlayer.Instance;
+            player = LocalPlayer.Instance;
             cinemachineCamera.Follow = player.transform;
         }
 

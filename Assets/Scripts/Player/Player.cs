@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
@@ -61,12 +62,27 @@ namespace Player
         private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
         
         private bool hasBeenSetup = false;
+
+        private bool isRegistered = false;
         
         #endregion
     
         #region Built-In Methods
+        
+        private void Start()
+        {
+            if (!isRegistered)
+            {
+                LocalPlayer.Register(this); 
+            }
+        }
+
         protected override void OnSpawned(bool asServer)
         {
+            isRegistered = true;
+            if (isOwner && !asServer)
+                LocalPlayer.Register(this);
+            
             bool shouldDoOwnerSetup = isOwner && (asServer || !isServer);
             bool shouldDoRemoteSetup = !isOwner || (asServer && !isOwner);
 
@@ -274,7 +290,6 @@ namespace Player
         
         private void OwnerSetup()
         {
-            LocalPlayer.Register(this);
             CurrentState = WormState.Idle;
             IsWormGrounded = false;
             MaxVelocity = GameParameters.WormMaxVelocity;

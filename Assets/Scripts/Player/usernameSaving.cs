@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -22,8 +23,8 @@ namespace Player
             {
                 Destroy(gameObject);
             }
-            
-            SceneManager.sceneLoaded += OnSceneLoaded;
+
+            LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
         }
         
         public void SaveUsername()
@@ -34,19 +35,38 @@ namespace Player
             }
         }
 
+        private void OnLocalPlayerReady()
+        {
+            if (SceneManager.GetActiveScene().name == "GameLobbyScene")
+            {
+                OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+                return;
+            }
+            
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (scene.name == "GameLobbyScene")
             {
                 Debug.Log("switched to game lobby in username saving, username: " + username);
                 LocalPlayer.Instance.PlayerName = username;
-                Destroy(gameObject);
+
+                StartCoroutine(WaitToDestroy());
             }
+        }
+
+        private IEnumerator WaitToDestroy()
+        {
+            yield return new WaitForSeconds(0.5f);
+            Destroy(gameObject);
         }
         
         void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            LocalPlayer.OnLocalPlayerReady -= OnLocalPlayerReady;
         }
     }
 }

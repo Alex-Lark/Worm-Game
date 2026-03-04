@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Player
 {
     public static class LocalPlayer {
@@ -6,6 +8,7 @@ namespace Player
 
         public static void Register(Player player)
         {
+            Debug.Log("local player register called");
             Instance = player;
             OnLocalPlayerReady?.Invoke();
         }
