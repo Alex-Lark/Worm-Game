@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using GameLoop;
+using PurrNet;
 
 namespace WormLeague
 {
-    public class WormLeague : MonoBehaviour
+    public class WormLeague : NetworkBehaviour
     {
         #region Public Variables
         
         public WormLeagueUI wormLeagueUI;
-
+        
         public Ball ball;
 
         public int teamRedScore = 0;

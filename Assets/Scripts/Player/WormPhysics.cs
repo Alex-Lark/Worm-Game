@@ -16,7 +16,7 @@ namespace Player
         
         #region Built-In Methods
 
-        public void Start()
+        public void Awake()
         {
             player = GetComponent<Player>();
         }
@@ -28,11 +28,8 @@ namespace Player
         public void AddCollidersToSegments()
         {
             SphereCollider headCollider = player.wormHead.GetComponent<SphereCollider>();
-
             if (headCollider == null)
-            {
-                headCollider = player.wormHead.GetComponent<SphereCollider>();
-            }
+                headCollider = player.wormHead.gameObject.AddComponent<SphereCollider>();
         
             headCollider.radius = GameParameters.WormBodyWidth * 4;
         
@@ -128,7 +125,7 @@ namespace Player
 
         #region Private Methods
         
-        private void IgnoreWormSelfCollision()
+        public void IgnoreWormSelfCollision()
         {
             List<Collider> allWormColliders = new List<Collider>();
         

@@ -7,22 +7,22 @@ namespace InputHandling
         public void HandleUpdate()
         {
             if (Input.GetKeyDown(KeyCode.W))
-                Player.Player.Instance?.StartWormMoving();
+                Player.LocalPlayer.Instance?.StartWormMoving();
         
             if (Input.GetKeyUp(KeyCode.W))
-                Player.Player.Instance?.StopWormMoving();
+                Player.LocalPlayer.Instance?.StopWormMoving();
         
             if (Input.GetKeyDown(KeyCode.Space))
-                Player.Player.Instance?.Jump();
+                Player.LocalPlayer.Instance?.Jump();
             
             if (Input.GetKeyDown(KeyCode.Mouse0))
-                Player.Player.Instance?.Attack();
+                Player.LocalPlayer.Instance?.Attack();
         }
         
         public void HandleFixedUpdate()
         {
             if (Input.GetKey(KeyCode.W))
-                Player.Player.Instance?.MoveForward();
+                Player.LocalPlayer.Instance?.MoveForward();
         }
     }
 }

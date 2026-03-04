@@ -39,7 +39,7 @@ namespace Player
             if (scene.name == "GameLobbyScene")
             {
                 Debug.Log("switched to game lobby in username saving, username: " + username);
-                Player.Instance.PlayerName = username;
+                LocalPlayer.Instance.PlayerName = username;
                 Destroy(gameObject);
             }
         }

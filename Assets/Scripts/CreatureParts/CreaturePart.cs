@@ -1,8 +1,10 @@
+using PurrNet;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CreatureParts
 {
-    public class CreaturePart : MonoBehaviour
+    public class CreaturePart : NetworkBehaviour
     {
         #region Public Variables
         [Header("Public Variables")]
@@ -96,6 +98,11 @@ namespace CreatureParts
 
             TimeSinceLastGrounded += Time.fixedDeltaTime;
             return Vector3.up;
+        }
+
+        void OnCollisionStay(Collision collision)
+        {
+            //Debug.Log("segment collision. Gameobject " + gameObject + "is being hit by " + collision.gameObject);
         }
         
         #endregion

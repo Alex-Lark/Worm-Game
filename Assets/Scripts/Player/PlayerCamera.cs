@@ -1,68 +1,73 @@
-using System;
-using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine;
 
-public class PlayerCamera : MonoBehaviour
+namespace Player
 {
-    private CinemachineOrbitalFollow orbitalFollow;
-
-    public float maxAngle = GameParameters.MaxCameraTurnAngle;
-
-    void Awake()
+    public class PlayerCamera : MonoBehaviour
     {
+        private CinemachineOrbitalFollow orbitalFollow;
 
-        var cam = gameObject.GetComponent<CinemachineCamera>();
-        if (cam == null)
+        public float maxAngle = GameParameters.MaxCameraTurnAngle;
+
+        void Awake()
         {
-            return;
-        }
-        
-        orbitalFollow = cam.GetComponent<CinemachineOrbitalFollow>();
-        
-        
-        cam.Follow = Player.Player.Instance.wormVisualHead;
-        cam.LookAt = Player.Player.Instance.wormVisualHead;
+            var cam = gameObject.GetComponent<CinemachineCamera>();
+            if (cam == null) return;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+            orbitalFollow = cam.GetComponent<CinemachineOrbitalFollow>();
 
-    private void OnDestroy()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    void OnEnable()
-    {
-        CinemachineCore.CameraUpdatedEvent.AddListener(OnCinemachineLateUpdate);
-    }
-
-    void OnDisable()
-    {
-        CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCinemachineLateUpdate);
-    }
-
-    void OnCinemachineLateUpdate(CinemachineBrain brain)
-    {
-
-        if (orbitalFollow == null)
-        {
-            return;
+            if (LocalPlayer.Instance != null)
+                SetupCamera(cam);
+            else
+                LocalPlayer.OnLocalPlayerReady += () => SetupCamera(cam);
         }
 
-        if (Player.Player.Instance == null || Player.Player.Instance.wormHead == null)
+        private void OnDestroy()
         {
-            return;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
-        float headYaw = Player.Player.Instance.wormHead.eulerAngles.y;
-        float camYaw  = orbitalFollow.HorizontalAxis.Value;
+        void OnEnable()
+        {
+            CinemachineCore.CameraUpdatedEvent.AddListener(OnCinemachineLateUpdate);
+        }
 
-        float angle = Mathf.DeltaAngle(headYaw, camYaw);
-        float clampedAngle = Mathf.Clamp(angle, -maxAngle, maxAngle);
+        void OnDisable()
+        {
+            CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCinemachineLateUpdate);
+        }
 
-        float final = headYaw + clampedAngle;
-        orbitalFollow.HorizontalAxis.Value = final;
+        void OnCinemachineLateUpdate(CinemachineBrain brain)
+        {
+
+            if (orbitalFollow == null)
+            {
+                return;
+            }
+
+            if (LocalPlayer.Instance == null || LocalPlayer.Instance.wormHead == null)
+            {
+                return;
+            }
+
+            float headYaw = LocalPlayer.Instance.wormHead.eulerAngles.y;
+            float camYaw  = orbitalFollow.HorizontalAxis.Value;
+
+            float angle = Mathf.DeltaAngle(headYaw, camYaw);
+            float clampedAngle = Mathf.Clamp(angle, -maxAngle, maxAngle);
+
+            float final = headYaw + clampedAngle;
+            orbitalFollow.HorizontalAxis.Value = final;
+        }
+        
+        private void SetupCamera(CinemachineCamera cam)
+        {
+            cam.Follow = LocalPlayer.Instance.wormVisualHead;
+            cam.LookAt = LocalPlayer.Instance.wormVisualHead;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
+using PurrNet;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,13 +17,11 @@ namespace Player
         AttackCooldown
     }
 
-    public class Player : MonoBehaviour
+    public class Player : NetworkBehaviour
     {
         
         #region Public Properties
         [Header("Public Properties")]
-        
-        public static Player Instance { get; private set; }
 
         public string PlayerName = "Player1";
         
@@ -30,12 +30,9 @@ namespace Player
         public bool IsWormGrounded { get; private set; }
         
         public float MaxVelocity { get; set; }
-        public bool IsWormMovingForward => CurrentState == WormState.Moving;
         public bool IsWormJumping => CurrentState == WormState.Jumping;
         public bool IsWormAttacking => CurrentState == WormState.Attacking;
         public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
-        
-        public PlayerGraphics playerGraphics;
         
         #endregion
         
@@ -63,45 +60,25 @@ namespace Player
         private readonly int wormSegmentCount = GameParameters.WormSegmentCount;
         private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
         
+        private bool hasBeenSetup = false;
+        
         #endregion
     
         #region Built-In Methods
-        
-        void Awake()
+        protected override void OnSpawned(bool asServer)
         {
-            //TODO: reconfigure usage of instance once multiplayer is introduced
-            
-            if (Instance == null)
+            bool shouldDoOwnerSetup = isOwner && (asServer || !isServer);
+            bool shouldDoRemoteSetup = !isOwner || (asServer && !isOwner);
+
+            if (shouldDoOwnerSetup)
             {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
+                OwnerSetup();
+                return;
             }
-            else
+
+            if (shouldDoRemoteSetup && !hasBeenSetup && GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                Destroy(gameObject);
-            }
-        }
-
-        void Start()
-        {
-            CurrentState = WormState.Idle;
-            IsWormGrounded = false;
-            MaxVelocity = GameParameters.WormMaxVelocity;
-
-            wormForwardMovement = GetComponent<WormForwardMovement>();
-            wormJump = GetComponent<WormJump>();
-            wormHeadBut = GetComponent<WormHeadBut>();
-        
-            wormBodySegments.Clear();
-            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
-            wormConstructor.CreateWormSegments();
-            wormConstructor.ConstructWorm();
-            
-            GetComponent<WormPhysics>().AddCollidersToSegments();
-
-            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-            {
-                SetWormInGameScene();
+                StartCoroutine(FindAndSetupRemoteWorm());
             }
         }
 
@@ -110,7 +87,11 @@ namespace Player
             if (!isPlayerActive) return;
             
             SetWormGrounding();
-            RotateVisualHead();
+
+            if (thirdPersonCamera != null)
+            {
+                RotateVisualHead();
+            }
 
             if (IsWormAttacking)
             {
@@ -121,6 +102,10 @@ namespace Player
             {
                 wormHeadBut.WormheadbutCoolDown();
             }
+        }
+
+        protected override void OnDespawned() {
+            LocalPlayer.Unregister(this);
         }
         
         #endregion
@@ -136,6 +121,7 @@ namespace Player
         {
             if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown) return;
             
+            Debug.Log("moveForward called");
             wormForwardMovement.MoveHead();
             wormForwardMovement.MoveWormBody();
 
@@ -284,6 +270,104 @@ namespace Player
             float signedAngle = Vector3.SignedAngle(wormHead.forward, cameraForward, Vector3.up);
             float clampedAngle = Mathf.Clamp(signedAngle, -90f, 90f);
             wormVisualHead.rotation = Quaternion.AngleAxis(clampedAngle, Vector3.up) * wormHead.rotation;
+        }
+        
+        private void OwnerSetup()
+        {
+            LocalPlayer.Register(this);
+            CurrentState = WormState.Idle;
+            IsWormGrounded = false;
+            MaxVelocity = GameParameters.WormMaxVelocity;
+
+            wormForwardMovement = GetComponent<WormForwardMovement>();
+            wormJump = GetComponent<WormJump>();
+            wormHeadBut = GetComponent<WormHeadBut>();
+
+            wormBodySegments.Clear();
+            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
+            wormConstructor.CreateWormSegments();
+            wormConstructor.ConstructWorm();
+            GetComponent<WormPhysics>().AddCollidersToSegments();
+
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+                SetWormInGameScene();
+        }
+        
+        private IEnumerator FindAndSetupRemoteWorm()
+        {
+            hasBeenSetup = true;
+            
+            yield return new WaitForSeconds(0.5f);
+            RefreshSegmentsFromChildren();
+            
+            float elapsed = 0.5f;
+            while (wormBodySegments.Count < wormSegmentCount && elapsed < 3f)
+            {
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+                if (wormBodySegments.Count == 0) RefreshSegmentsFromChildren();
+            }
+
+            if (wormBodySegments.Count < wormSegmentCount)
+            {
+                Debug.LogError("FindAndSetupRemoteWorm timed out waiting for segments.");
+                yield break;
+            }
+
+            SetSegmentsKinematic(true);
+            yield return null;
+
+            RebuildSegmentReferences();
+            var physics = GetComponent<WormPhysics>();
+            physics.AddCollidersToSegments();
+
+            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
+            wormConstructor.ConstructWorm();
+            yield return null;
+
+            physics.ResetWormPosition();
+            SetSegmentsKinematic(false);
+        }
+        
+        private void RefreshSegmentsFromChildren()
+        {
+            wormBodySegments.Clear();
+            foreach (Transform child in transform)
+            {
+                if (child.GetComponent<CreatureBodySegment>() != null)
+                    wormBodySegments.Add(child);
+            }
+        }
+        
+        private void SetSegmentsKinematic(bool kinematic)
+        {
+            var headRb = wormHead.GetComponent<Rigidbody>();
+            headRb.isKinematic = kinematic;
+            headRb.useGravity = !kinematic;
+
+            foreach (Transform segment in wormBodySegments)
+            {
+                var rb = segment.GetComponent<Rigidbody>();
+                rb.isKinematic = kinematic;
+                rb.useGravity = !kinematic;
+            }
+        }
+
+        private void RebuildSegmentReferences()
+        {
+            CreaturePart previous = wormHead.GetComponent<CreaturePart>();
+
+            for (int i = 0; i < wormBodySegments.Count; i++)
+            {
+                var seg = wormBodySegments[i].GetComponent<CreatureBodySegment>();
+                seg.previousSegment = previous;
+
+                // Link next segment while we're already iterating
+                if (i < wormBodySegments.Count - 1)
+                    seg.nextSegment = wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
+
+                previous = seg;
+            }
         }
         
         #endregion

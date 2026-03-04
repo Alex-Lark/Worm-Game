@@ -34,7 +34,7 @@ namespace CreatureBuilder
         private void Awake()
         {
             InitializePrefabMapping();
-            player = Player.Player.Instance;
+            player = Player.LocalPlayer.Instance;
             cinemachineCamera.Follow = player.transform;
         }
 
@@ -113,11 +113,11 @@ namespace CreatureBuilder
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(0.5f);
 
-            foreach (GameObject part in Player.Player.Instance.attachedWormParts)
+            foreach (GameObject part in Player.LocalPlayer.Instance.attachedWormParts)
             {
                 AddAlreadyAttachedPart(part);
             }
-            Player.Player.Instance.attachedWormParts.Clear();
+            Player.LocalPlayer.Instance.attachedWormParts.Clear();
         }
 
         private void AddAlreadyAttachedPart(GameObject part)
@@ -135,7 +135,7 @@ namespace CreatureBuilder
             LegPart legPart = part.GetComponent<LegPart>();
             if (legPart != null)
             {
-                Player.Player.Instance.MaxVelocity -= GameParameters.LegMaxVelocityIncrease;
+                Player.LocalPlayer.Instance.MaxVelocity -= GameParameters.LegMaxVelocityIncrease;
                 legPart.enabled = false;
             }
     
@@ -210,7 +210,7 @@ namespace CreatureBuilder
             {
                 if (pair.part3DPrefab != null && pair.part3DPrefab.name == partName)
                 {
-                    Player.Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
+                    Player.LocalPlayer.Instance.wormPartsInInventory.Add(pair.cardPrefab);
                     Destroy(part);
                     return;
                 }
@@ -243,7 +243,7 @@ namespace CreatureBuilder
                     {
                         if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
                         {
-                            Player.Player.Instance.wormPartsInInventory.Add(pair.cardPrefab);
+                            Player.LocalPlayer.Instance.wormPartsInInventory.Add(pair.cardPrefab);
                             break;
                         }
                     }
@@ -256,13 +256,13 @@ namespace CreatureBuilder
 
     private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     {
-        creaturePart.transform.parent = Player.Player.Instance.transform;
+        creaturePart.transform.parent = Player.LocalPlayer.Instance.transform;
         creaturePart.GetComponent<PartDragging>().enabled = false;
         
         LegPart legPart = creaturePart.GetComponent<LegPart>();
         if (legPart != null)
         {
-            Player.Player.Instance.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
+            Player.LocalPlayer.Instance.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
             legPart.enabled = true;
             legs.Add(creaturePart);
         }
@@ -290,7 +290,7 @@ namespace CreatureBuilder
         // Add hinge joint
         creaturePart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
 
-        Player.Player.Instance.attachedWormParts.Add(creaturePart);
+        Player.LocalPlayer.Instance.attachedWormParts.Add(creaturePart);
 
         IgnorePartCollisionWithWorm(creaturePart, wormSegment);
     }
@@ -307,7 +307,7 @@ namespace CreatureBuilder
             IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
 
             //ignore collisions with all other attached parts
-            foreach (var attachedWormPart in Player.Player.Instance.attachedWormParts)
+            foreach (var attachedWormPart in Player.LocalPlayer.Instance.attachedWormParts)
             {
                 Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
             }

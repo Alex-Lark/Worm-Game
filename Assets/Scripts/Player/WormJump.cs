@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CreatureParts;
+using GameLoop.multiplayer;
 using UnityEngine;
 
 namespace Player
@@ -53,7 +54,7 @@ namespace Player
                 Transform wormPart = wormParts[i];
                 if (middleIndices != null && (middleIndices.Contains(i)))
                 {
-                    wormPart.GetComponent<Rigidbody>().AddForce(Vector3.down * GameParameters.WormMiddleSegmentScrunchForce);
+                    wormPart.GetComponent<NetworkedPhysicsObject>().AddForce(Vector3.down * GameParameters.WormMiddleSegmentScrunchForce);
                 }
                 else
                 {
@@ -61,7 +62,7 @@ namespace Player
                     {
                         Vector3 forwardDirection = Vector3.Slerp(previousPart.forward, wormHead.forward, GameParameters.WormJumpPreviousPartVsHeadAngle);
                         Vector3 jumpDirection = Vector3.Slerp(forwardDirection, Vector3.up, GameParameters.WormJumpAngle).normalized;
-                        wormPart.GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.WormJumpForce);
+                        wormPart.GetComponent<NetworkedPhysicsObject>().AddForce(jumpDirection * GameParameters.WormJumpForce);
                     }
                 }
                 previousPart = wormParts[i];
