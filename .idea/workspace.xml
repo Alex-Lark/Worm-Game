@@ -67,7 +67,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1771443873064</updated>
-      <workItem from="1771443874884" duration="6186000" />
+      <workItem from="1771443874884" duration="7523000" />
     </task>
     <task id="LOCAL-00001" summary="First push">
       <option name="closed" value="true" />
@@ -93,7 +93,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771485514410</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Finish new soccer Goal mesh with detection mesh">
+      <option name="closed" value="true" />
+      <created>1771492234663</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1771492234663</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,7 +117,8 @@
     <MESSAGE value="First push" />
     <MESSAGE value="3D models" />
     <MESSAGE value="Ok new fixed 3D meshes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ok new fixed 3D meshes" />
+    <MESSAGE value="Finish new soccer Goal mesh with detection mesh" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish new soccer Goal mesh with detection mesh" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
