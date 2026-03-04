@@ -73,7 +73,9 @@ namespace Player
         {
             if (!isRegistered)
             {
+                DontDestroyOnLoad(gameObject);
                 LocalPlayer.Register(this); 
+                OwnerSetup();
             }
         }
 
@@ -81,7 +83,10 @@ namespace Player
         {
             isRegistered = true;
             if (isOwner && !asServer)
+            {
+                DontDestroyOnLoad(gameObject);
                 LocalPlayer.Register(this);
+            }
             
             bool shouldDoOwnerSetup = isOwner && (asServer || !isServer);
             bool shouldDoRemoteSetup = !isOwner || (asServer && !isOwner);

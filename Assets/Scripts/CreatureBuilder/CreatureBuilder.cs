@@ -34,15 +34,17 @@ namespace CreatureBuilder
         #region MonoBehaviour Methods
         private void Awake()
         {
+            LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
+        }
+        
+        private void OnLocalPlayerReady()
+        {
             InitializePrefabMapping();
             player = LocalPlayer.Instance;
             cinemachineCamera.Follow = player.transform;
-        }
-
-        private void Start()
-        {
             StartCoroutine(AddAlreadyAttachedPartsDelayed());
         }
+        
         #endregion
 
         #region public methods

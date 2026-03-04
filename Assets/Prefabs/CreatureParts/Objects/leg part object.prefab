@@ -1077,10 +1077,8 @@ GameObject:
   - component: {fileID: 7749280335906171322}
   - component: {fileID: 9157339348592596700}
   - component: {fileID: 9045488090939722094}
-  - component: {fileID: -7508076889482283871}
   - component: {fileID: 2091517974953068112}
   - component: {fileID: 1227255661137215562}
-  - component: {fileID: 5475280894177721409}
   - component: {fileID: -1695563857794630915}
   m_Layer: 5
   m_Name: leg part object
@@ -1222,6 +1220,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1fad15e3244652bca82eaf498e4694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.LegPart
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   foot: {fileID: 2609974457177635915}
   timeOffset: 0.1
   liftHeight: 0.15
@@ -1251,34 +1258,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-7508076889482283871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294173655021920613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0db3b2b58a41c954cba9d814012536c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LifelikeMotion.IKFootPlacement.IKSetup
-  upLeg: {fileID: 7440901302574330479}
-  leg: {fileID: 7723322483284710538}
-  foot: {fileID: 5741824455940831016}
-  upLegPattern: UpLeg
-  legPattern: Leg
-  footPattern: Foot
-  hips: {fileID: 7440901302574330479}
-  leftLegsTransforms: []
-  rightLegsTransforms: []
-  hipsName: Hips
-  leftUpLegName: LeftUpLeg
-  leftLegName: LeftLeg
-  leftFootName: LeftFoot
-  rightUpLegName: RightUpLeg
-  rightLegName: RightLeg
-  rightFootName: RightFoot
 --- !u!114 &2091517974953068112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1309,27 +1288,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
   m_Weight: 1
   m_Effectors: []
---- !u!114 &5475280894177721409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294173655021920613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf07c10aa1a84b247859948b35f0eab4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LifelikeMotion.IKFootPlacement.IKFootPlacement
-  ikConstraint: {fileID: 5008447919558933718}
-  hips: {fileID: 7440901302574330479}
-  raycastHeight: 0.5
-  raycastLength: 1
-  feetPositionOffsetWeight: 1
-  feetRotationOffsetWeight: 1
-  isGrounded: 1
-  jumped: 0
-  isMoving: 1
 --- !u!114 &-1695563857794630915
 MonoBehaviour:
   m_ObjectHideFlags: 0

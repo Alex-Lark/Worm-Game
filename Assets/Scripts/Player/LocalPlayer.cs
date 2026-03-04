@@ -8,7 +8,11 @@ namespace Player
 
         public static void Register(Player player)
         {
-            Debug.Log("local player register called");
+            if (Instance != null)
+            {
+                Object.Destroy(player.gameObject);
+                return;
+            }
             Instance = player;
             OnLocalPlayerReady?.Invoke();
         }
