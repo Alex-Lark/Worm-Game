@@ -34,7 +34,17 @@ namespace CreatureBuilder
         #region MonoBehaviour Methods
         private void Awake()
         {
-            LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
+            if (LocalPlayer.Instance == null)
+            {
+                LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
+            }
+            else
+            {
+                InitializePrefabMapping();
+                player = LocalPlayer.Instance;
+                cinemachineCamera.Follow = player.transform;
+                StartCoroutine(AddAlreadyAttachedPartsDelayed());
+            }
         }
         
         private void OnLocalPlayerReady()
@@ -52,6 +62,7 @@ namespace CreatureBuilder
         public void SwitchFromCardTo3DPart(GameObject cardPrefab)
         {
             string cardName = cardPrefab.name.Replace("(Clone)", "").Trim();
+            Debug.Log($"Looking up: '{cardName}' | Available keys: {string.Join(", ", prefabMapping.Keys)}");
             
             if (prefabMapping.TryGetValue(cardName, out GameObject prefab3D))
             {

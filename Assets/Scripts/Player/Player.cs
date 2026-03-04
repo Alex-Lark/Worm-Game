@@ -77,6 +77,9 @@ namespace Player
                 LocalPlayer.Register(this); 
                 OwnerSetup();
             }
+            
+            if (isOwner || !isRegistered)
+                SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         protected override void OnSpawned(bool asServer)
@@ -127,6 +130,24 @@ namespace Player
 
         protected override void OnDespawned() {
             LocalPlayer.Unregister(this);
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == "CreatureBuilderScene")
+            {
+                SetWormInCreatureBuilderScene();
+            }
+            else if (GameSceneList.IsSceneAGameScene(scene.name))
+            {
+                SetWormInGameScene();
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         
         #endregion
