@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace CreatureBuilder
                 slot.Initialize(this);
             }
             
-            AddStartingCardsToInventory();
+            StartCoroutine(AddStartingCardsToInventory());
         }
         
         #region public methods
@@ -61,8 +62,10 @@ namespace CreatureBuilder
         
         #region private methods
         
-        private void AddStartingCardsToInventory()
+        private IEnumerator AddStartingCardsToInventory()
         {
+            yield return new WaitForSeconds(0.1f);
+            
             List<GameObject> partCards = Player.Player.Instance.wormPartsInInventory;
             foreach (var part in partCards)
             {

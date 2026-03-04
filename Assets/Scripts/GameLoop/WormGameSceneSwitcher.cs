@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace GameLoop
 {
-    public class WormGameSceneSwitcher : PurrMonoBehaviour
+    public class WormGameSceneSwitcher : MonoBehaviour
     {
         public event Action OnSceneLoaded;
     
@@ -16,8 +16,8 @@ namespace GameLoop
             SceneManager.LoadScene("MainMenuScene");
             GameLoop.Instance?.Reset();
             Destroy(Network.instance);
-            Destroy(GameLoop.Instance?.gameObject);
-            Destroy(Player.Player.Instance?.gameObject);
+            if(GameLoop.Instance!=null)Destroy(GameLoop.Instance?.gameObject);
+            if(Player.Player.Instance)Destroy(Player.Player.Instance?.gameObject);
         }
 
         public void LoadSettingsScene()
@@ -40,12 +40,6 @@ namespace GameLoop
             if (delay >= 0) yield return new WaitForSeconds(delay);
             SceneManager.LoadScene("GameLobbyScene");
         }
-    
-        public void LoadPartSelectionScene()
-        {
-            SendSceneChangeRequest("PartSelectionScene");
-        }
-    
         public void LoadCreatureBuilderScene()
         {
             SceneManager.LoadScene("CreatureBuilderScene");
@@ -89,18 +83,8 @@ namespace GameLoop
                             Application.Quit();
             #endif
         }
-
-        public void SendSceneChangeRequest(string sceneName)
-        {
-            if (!Network.instance.manager.isServer)
-            {
-                Debug.LogError("Cannot send scene change request as client: "+sceneName);
-                return;
-            }
-            SceneChange scene = new SceneChange();
-            scene.name = sceneName;
-            Network.instance.manager.SendToAll<SceneChange>(scene);
-        }
+        
+        
         void OnSceneChangeRequest(PlayerID player, SceneChange scene, bool asServer)
         {
             SceneManager.LoadScene(scene.name);
@@ -109,17 +93,6 @@ namespace GameLoop
         public struct SceneChange : IPackedAuto
         {
             public string name;
-        }
-    
-        public override void Subscribe(NetworkManager manager, bool asServer)
-        {
-            manager.Subscribe<SceneChange>(OnSceneChangeRequest, asServer);
-        }
-        
-        public override void Unsubscribe(NetworkManager manager, bool asServer)
-        {
-            manager.Unsubscribe<SceneChange>(OnSceneChangeRequest, asServer);
-            
         }
     }
 

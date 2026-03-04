@@ -7,9 +7,9 @@ namespace GameLoop
     {
         void Update()
         {
-            if (GameLoop.Instance)
+            if (GameLoop.Instance||GameLoopTimeSyncer.Instance)
             {
-                gameObject.GetComponent<TextMeshProUGUI>().text = ((int)GameLoop.Instance.TimeLeftInScene).ToString();
+                gameObject.GetComponent<TextMeshProUGUI>().text = ((int)GameLoop.TimeLeftInScene).ToString();
             }
         }
     }

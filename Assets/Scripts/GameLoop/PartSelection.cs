@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using CreatureBuilder;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +29,8 @@ namespace GameLoop
     
         private GameObject currentCard;
         private GameObject discardedCard;
+        
+        public PartSelectionManager.SelectableCardsPacket selectableCards;
 
         public static PartSelection Instance;
         
@@ -37,7 +41,18 @@ namespace GameLoop
         void Start()
         {
             Instance = this;
-            partCards = GameLoop.Instance.partCards;
+            partCards = GameLoop.partCardsStatic;
+            gameObject.GetOrAddComponent<PartSelectionManager>();
+        }
+
+        private void Update()
+        {
+            if(GameLoop.TimeLeftInScene <= 0&&card1!=null)EndCardSelection();
+        }
+
+        void OnDestroy()
+        {
+            if(card1!=null)EndCardSelection();
         }
         
         #endregion
@@ -46,6 +61,7 @@ namespace GameLoop
 
         public void SetCardOptions(PurrNet.PlayerID player, PartSelectionManager.SelectableCardsPacket packet, bool asServer)
         {
+            selectableCards = packet;
             card1 = partCards[packet.Card1Index];
             card2 = partCards[packet.Card2Index];
             
@@ -60,17 +76,20 @@ namespace GameLoop
             //if no card was selected, auto select card 1
             if (currentCard == null)
             {
+                if(card1==null) return;
                 currentCard = card1;
             }
         
             Player.Player.Instance.wormPartsInInventory.Add(currentCard);
-        
+            
             //TODO: discard card and get discarded card from opponent
+            PartSelectionManager.ReturnCard(selectableCards, currentCard==card1);
         
+            /*
             //fake discarded card
             int discardCardIndex = Random.Range(0, partCards.Count); ////HHHHHHHHHEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPPPP
             Player.Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
-            
+            */
             ResetPartSelection();
         }
 

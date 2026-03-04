@@ -135,11 +135,8 @@ public class PlayerRegister : PurrMonoBehaviour
 
     public static void ResetRegister()
     {
-        if (Network.instance.manager == null)
-        {
-            Debug.LogError("Network manager is null! Can not reset player register.");
-            return;
-        }
+        if (Network.instance?.manager == null)return;
+        
         Network.instance.manager.onPlayerJoined -= RegisterClient;
         Network.instance.manager.onPlayerLeft -= RemoveClient;
         Players.Clear();
