@@ -137,7 +137,7 @@ namespace Player
         {
             if (scene.name == "CreatureBuilderScene")
             {
-                SetWormInCreatureBuilderScene();
+                StartCoroutine(SetWormInCreatureBuilderScene());
             }
             else if (GameSceneList.IsSceneAGameScene(scene.name))
             {
@@ -211,12 +211,23 @@ namespace Player
             DeactivatePlayer();
         }
         
-        public void SetWormInCreatureBuilderScene()
+        public IEnumerator SetWormInCreatureBuilderScene()
         {
-            WormPhysics wormPhysics = GetComponent<WormPhysics>();
+            yield return null;
+    
+            var wormPhysics = GetComponent<WormPhysics>();
+            
             wormPhysics.ResetWormPhysics();
             wormPhysics.ResetWormOrientation();
+            
             wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
+            
+            yield return null;
+            
+            wormConstructor.ConstructWorm();
+    
+            yield return null;
+    
             DeactivatePlayer();
         }
         
@@ -332,6 +343,10 @@ namespace Player
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
                 SetWormInGameScene();
+            else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
+            {
+                StartCoroutine(SetWormInCreatureBuilderScene());
+            }
         }
         
         private IEnumerator FindAndSetupRemoteWorm()

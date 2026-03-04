@@ -174,7 +174,7 @@ namespace GameLoop
         public IEnumerator StartCreatureBuilding()
         {
             yield return Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
-            LocalPlayer.Instance.SetWormInCreatureBuilderScene();
+            StartCoroutine(LocalPlayer.Instance.SetWormInCreatureBuilderScene());
             yield return StartCoroutine(CreatureBuilderTimer());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();
