@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5851217073293154061}
   - component: {fileID: 1126647823413555111}
   - component: {fileID: 3017496557872028079}
+  - component: {fileID: 4966652834487999919}
   m_Layer: 0
   m_Name: Sphere - visual head
   m_TagString: Untagged
@@ -123,6 +124,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.49999997
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4966652834487999919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321674048429313736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817fe5016bd0a2a49a95b6eb338bb132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkTransform
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 1
+  _syncParent: 1
+  _interpolateSettings: 7
+  _minBufferSize: 1
+  _maxBufferSize: 2
+  _characterControllerPatch: 0
+  _ownerAuth: 1
+  _interpolationTiming: 0
 --- !u!1 &3378935721403069532
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +409,7 @@ MonoBehaviour:
   wormPartsInInventory: []
   moveDirection:
     _value: {x: 0, y: 0, z: 0}
-    _ownerAuth: 0
+    _ownerAuth: 1
     _sendIntervalInSeconds: 0
   headRotation:
     _value: {x: 0, y: 0, z: 0, w: 0}
@@ -626,7 +658,7 @@ MonoBehaviour:
   _minBufferSize: 1
   _maxBufferSize: 2
   _characterControllerPatch: 0
-  _ownerAuth: 1
+  _ownerAuth: 0
   _interpolationTiming: 0
 --- !u!114 &4446911218883556763
 MonoBehaviour:
@@ -672,7 +704,7 @@ GameObject:
   - component: {fileID: 7238659562307412318}
   - component: {fileID: 8129715246127715587}
   - component: {fileID: 1591429414908112517}
-  - component: {fileID: 6313843806139347569}
+  - component: {fileID: 8053956676285027813}
   m_Layer: 0
   m_Name: Sphere - head
   m_TagString: WormBodySegment
@@ -809,9 +841,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &7502773944600098116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -910,7 +942,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
---- !u!114 &6313843806139347569
+--- !u!114 &8053956676285027813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -52,16 +52,10 @@ namespace Player
         public void MoveHead()
         {
             Debug.Log("moveHead called");
-            //Vector3 direction = new Vector3(0, 0, 0);
             float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
-            //if (player.isOwner)
-                Vector3 direction = player.thirdPersonCamera.transform.forward;
-                player.SetMoveDirection(direction);
-            // else
-            // {
-            //     direction = player.NetworkedMoveDirection;
-            // }
+            Vector3 direction = player.thirdPersonCamera.transform.forward;
+            
             RotateHeadGrounded(rotationSpeed, direction);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
         }

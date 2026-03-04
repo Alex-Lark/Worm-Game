@@ -9,6 +9,14 @@ namespace WormLeague
     {
         public Player.Player LastTouchingPlayer { get; private set; }
 
+        protected override void OnSpawned(bool asServer)
+        {
+            if (!isServer)
+            {
+                //GetComponent<Rigidbody>().isKinematic = true;
+            }
+        }
+
         public void Reset()
         {
             NetworkRigidbody rigidBody = gameObject.GetComponent<NetworkRigidbody>();
@@ -20,16 +28,12 @@ namespace WormLeague
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("CreaturePart") || collision.gameObject.CompareTag("WormBodySegment"))
-            {
-                LastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
-            }
-        }
-        
-        [ServerRpc]
-        public void ApplyForceToObject(NetworkedPhysicsObject obj, Vector3 force, Vector3 position)
-        {
-            obj.AddForceAtPosition(force, position);
+            if (!collision.gameObject.CompareTag("CreaturePart") && 
+                !collision.gameObject.CompareTag("WormBodySegment"))
+                return;
+            
+            LastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
+            
         }
     }
 }
