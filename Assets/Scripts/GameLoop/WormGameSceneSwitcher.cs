@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Player;
 using PurrNet;
 using PurrNet.Packing;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace GameLoop
             GameLoop.Instance?.Reset();
             Destroy(Network.instance);
             if(GameLoop.Instance!=null)Destroy(GameLoop.Instance?.gameObject);
-            if(Player.Player.Instance)Destroy(Player.Player.Instance?.gameObject);
+            if(LocalPlayer.Instance)Destroy(LocalPlayer.Instance?.gameObject);
         }
 
         public void LoadSettingsScene()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CreatureBuilder;
+using Player;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -80,7 +81,7 @@ namespace GameLoop
                 currentCard = card1;
             }
         
-            Player.Player.Instance.wormPartsInInventory.Add(currentCard);
+            LocalPlayer.Instance.wormPartsInInventory.Add(currentCard);
             
             //TODO: discard card and get discarded card from opponent
             PartSelectionManager.ReturnCard(selectableCards, currentCard==card1);

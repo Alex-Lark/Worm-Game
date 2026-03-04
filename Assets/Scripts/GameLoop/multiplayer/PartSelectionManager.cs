@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CreatureBuilder;
 using GameLoop;
+using Player;
 using PurrNet;
 using PurrNet.Packing;
 using PurrNet.Transports;
@@ -143,7 +144,7 @@ public class PartSelectionManager : PurrMonoBehaviour
     
     private void HandleResentCard(PlayerID player, ResentCardPacket data, bool asServer)
     {
-        Player.Player.Instance.wormPartsInInventory.Add(GameLoop.GameLoop.partCardsStatic[data.CardIndex]);
+        LocalPlayer.Instance.wormPartsInInventory.Add(GameLoop.GameLoop.partCardsStatic[data.CardIndex]);
     }
     
     

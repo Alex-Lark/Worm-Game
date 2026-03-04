@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using PurrNet;
 using PurrNet.Packing;
 using UnityEngine;
@@ -173,7 +174,7 @@ namespace GameLoop
         public IEnumerator StartCreatureBuilding()
         {
             yield return Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
-            Player.Player.Instance.SetWormInCreatureBuilderScene();
+            LocalPlayer.Instance.SetWormInCreatureBuilderScene();
             yield return StartCoroutine(CreatureBuilderTimer());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();

@@ -51,7 +51,6 @@ namespace Player
 
         public void MoveHead()
         {
-            Debug.Log("moveHead called");
             float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
             Vector3 direction = player.thirdPersonCamera.transform.forward;

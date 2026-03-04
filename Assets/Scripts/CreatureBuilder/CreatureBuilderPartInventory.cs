@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 namespace CreatureBuilder
@@ -66,12 +67,12 @@ namespace CreatureBuilder
         {
             yield return new WaitForSeconds(0.1f);
             
-            List<GameObject> partCards = Player.Player.Instance.wormPartsInInventory;
+            List<GameObject> partCards = LocalPlayer.Instance.wormPartsInInventory;
             foreach (var part in partCards)
             {
                 AddCardToInventory(part);
             }
-            Player.Player.Instance.wormPartsInInventory.Clear();
+            LocalPlayer.Instance.wormPartsInInventory.Clear();
         }
 
         private InventorySlot GetEmptySlot()
