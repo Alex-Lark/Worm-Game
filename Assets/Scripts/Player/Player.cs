@@ -87,8 +87,11 @@ namespace Player
             isRegistered = true;
             if (isOwner && !asServer)
             {
-                DontDestroyOnLoad(gameObject);
                 LocalPlayer.Register(this);
+                if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+                {
+                    DontDestroyOnLoad(gameObject);
+                }
             }
             
             bool shouldDoOwnerSetup = isOwner && (asServer || !isServer);
@@ -163,7 +166,6 @@ namespace Player
         {
             if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown) return;
             
-            Debug.Log("moveForward called");
             wormForwardMovement.MoveHead();
             wormForwardMovement.MoveWormBody();
 
