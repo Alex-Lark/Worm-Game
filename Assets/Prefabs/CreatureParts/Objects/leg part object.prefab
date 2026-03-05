@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 7732976664597786209}
   - component: {fileID: 5640140517965345529}
   - component: {fileID: 8918525676529996198}
+  - component: {fileID: 1157651836923235874}
   m_Layer: 5
   m_Name: RightArrow
   m_TagString: TranslationHandle
@@ -303,6 +304,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1157651836923235874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284096734433105168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8aeecf02d1f804db3ab826ab664bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.AxisTranslationHandler
+  localAxis: {x: 1, y: 0, z: 0}
+  moveSpeed: 0.01
+  targetPart: {fileID: 4496886996731937265}
 --- !u!1 &2418238902470076476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,6 +1016,7 @@ GameObject:
   - component: {fileID: 6948165029470907080}
   - component: {fileID: 2848539517113693355}
   - component: {fileID: 4100864680143351436}
+  - component: {fileID: 9114621483209505303}
   m_Layer: 5
   m_Name: Cylinder
   m_TagString: RotationHandle
@@ -1105,6 +1122,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &9114621483209505303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5188815540806325393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c9568b68049bb47bd92c4619969901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AxisRotationHandler
+  localAxis: {x: 0, y: 1, z: 0}
+  rotationSpeed: 0.4
+  targetPart: {fileID: 4496886996731937265}
+  hostPart: {fileID: 6294173655021920613}
 --- !u!1 &5224665997531979457
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1475,7 @@ MonoBehaviour:
   endPoint: {fileID: 3091684890137113386}
   isClamped: 0
   dragDistance: 5
+  axisVisual: {fileID: 0}
 --- !u!114 &9157339348592596700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1463,6 +1497,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
+  defaultConnectedAnchor: {x: 0, y: 0, z: 0}
   foot: {fileID: 2609974457177635915}
   timeOffset: 0.1
   liftHeight: 0.15
@@ -1884,6 +1919,7 @@ GameObject:
   - component: {fileID: 3396110490892635680}
   - component: {fileID: 3465297706019013666}
   - component: {fileID: 8969971762133167979}
+  - component: {fileID: 2929414302945149942}
   m_Layer: 5
   m_Name: ForwardArrow
   m_TagString: TranslationHandle
@@ -1987,6 +2023,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2929414302945149942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8385653835251119351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8aeecf02d1f804db3ab826ab664bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.AxisTranslationHandler
+  localAxis: {x: 1, y: 0, z: 0}
+  moveSpeed: 0.01
+  targetPart: {fileID: 4496886996731937265}
 --- !u!1 &8942471879736811849
 GameObject:
   m_ObjectHideFlags: 0

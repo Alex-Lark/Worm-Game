@@ -317,7 +317,7 @@ namespace Player
             StartCoroutine(SetupAfterSceneLoad());
             ActivatePlayer();
         }
-
+        
         public void OnPlayerDeath()
         {
             if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -331,6 +331,16 @@ namespace Player
 
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
             
+            playerSpawning.deathScreenUI.EnableDeathUI();
+            
+            ServerSideDeath();
+            
+            playerSpawning.TryToRespawn();
+        }
+
+        [ServerRpc]
+        private void ServerSideDeath()
+        {
             GetComponent<WormRenderer>().enabled = false;
             GetComponent<LineRenderer>().enabled = false;
             
@@ -338,8 +348,6 @@ namespace Player
             {
                 Destroy(transform.Find("WormMesh").gameObject);
             }
-            
-            playerSpawning.deathScreenUI.EnableDeathUI();
             
             wormHeadCopy = DuplicatePart(wormHead.gameObject);
             wormHead.gameObject.SetActive(false);
@@ -356,8 +364,6 @@ namespace Player
                 attachedPart.gameObject.SetActive(false);
                 attachedPart.GetComponent<AttachablePart>().enabled = false;
             }
-            
-            playerSpawning.TryToRespawn();
         }
         
         public void CancelDeath()

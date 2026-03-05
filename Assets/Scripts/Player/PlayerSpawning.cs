@@ -27,6 +27,8 @@ namespace Player
             {
                 SpawnInGameScene();
             }
+
+            deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
         }
         
         #endregion
@@ -49,17 +51,17 @@ namespace Player
         
         public void SpawnInGameScene()
         {
-            Debug.Log("Spawning in game scene");
-            player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                segment.GetComponent<Rigidbody>().isKinematic = false;
-            }
-            StartCoroutine(SetupAfterSceneLoad());
-            player.ActivatePlayer();
-            player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
-            player.CurrentState = WormState.Idle;
+            // Debug.Log("Spawning in game scene");
+            // player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            //
+            // foreach (Transform segment in player.wormBodySegments)
+            // {
+            //     segment.GetComponent<Rigidbody>().isKinematic = false;
+            // }
+            // StartCoroutine(SetupAfterSceneLoad());
+            // player.ActivatePlayer();
+            // player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
+            // player.CurrentState = WormState.Idle;
         }
 
         public void TryToRespawn()
