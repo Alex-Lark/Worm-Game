@@ -1359,6 +1359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd65dc35566dae64f899beed9f4ed545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.FinPart
+  defaultConnectedAnchor: {x: 0, y: 0, z: 0}
 --- !u!1 &4438569925093941789
 GameObject:
   m_ObjectHideFlags: 0
