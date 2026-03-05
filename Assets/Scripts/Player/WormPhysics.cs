@@ -54,16 +54,6 @@ namespace Player
             }
         }
 
-        public void ResetWormOrientation()
-        {
-            player.wormVisualHead.rotation = Quaternion.identity;
-            player.wormHead.rotation = Quaternion.identity;
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                segment.rotation = Quaternion.identity;
-            }
-        }
-
         public void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
         {
             Rigidbody rb = segment.GetComponent<Rigidbody>();
@@ -92,7 +82,58 @@ namespace Player
                 player.wormBodySegments[i].rotation = player.wormHead.rotation;
             }
         }
+        
+        public void ResetPlayerPhysics()
+        {
+            player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
+            foreach (Transform segment in player.wormBodySegments)
+            {
+                Rigidbody rb = segment.GetComponent<Rigidbody>();
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.useGravity = true;
+            }
+
+            foreach (GameObject part in player.attachedWormParts)
+            {
+                Rigidbody rb = part.GetComponent<Rigidbody>();
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.useGravity = true;
+            }
+        }
+        
+        public void IgnoreWormSelfCollision()
+        {
+            List<Collider> allWormColliders = new List<Collider>();
+        
+            Collider headCollider = player.wormHead.GetComponent<Collider>();
+            if (headCollider != null)
+                allWormColliders.Add(headCollider);
+        
+            foreach (var segment in player.wormBodySegments)
+            {
+                Collider segmentCollider = segment.GetComponent<Collider>();
+                if (segmentCollider != null)
+                    allWormColliders.Add(segmentCollider);
+            }
+        
+            int ignoreDistance = GameParameters.NumSegmentCollisionsIgnored;
+        
+            for (int i = 0; i < allWormColliders.Count; i++)
+            {
+                for (int j = i + 1; j < allWormColliders.Count; j++)
+                {
+                    if (Mathf.Abs(i - j) <= ignoreDistance)
+                    {
+                        Physics.IgnoreCollision(allWormColliders[i], allWormColliders[j], true);
+                    }
+                }
+            }
+        }
+        
         public void ResetWormPosition()
         {
             if (player.wormHead == null) return;
@@ -125,38 +166,19 @@ namespace Player
             }
         }
         
+        public void ResetWormOrientation()
+        {
+            player.wormVisualHead.rotation = Quaternion.identity;
+            player.wormHead.rotation = Quaternion.identity;
+            foreach (Transform segment in player.wormBodySegments)
+            {
+                segment.rotation = Quaternion.identity;
+            }
+        }
+        
         #endregion
 
         #region Private Methods
-        
-        public void IgnoreWormSelfCollision()
-        {
-            List<Collider> allWormColliders = new List<Collider>();
-        
-            Collider headCollider = player.wormHead.GetComponent<Collider>();
-            if (headCollider != null)
-                allWormColliders.Add(headCollider);
-        
-            foreach (var segment in player.wormBodySegments)
-            {
-                Collider segmentCollider = segment.GetComponent<Collider>();
-                if (segmentCollider != null)
-                    allWormColliders.Add(segmentCollider);
-            }
-        
-            int ignoreDistance = GameParameters.NumSegmentCollisionsIgnored;
-        
-            for (int i = 0; i < allWormColliders.Count; i++)
-            {
-                for (int j = i + 1; j < allWormColliders.Count; j++)
-                {
-                    if (Mathf.Abs(i - j) <= ignoreDistance)
-                    {
-                        Physics.IgnoreCollision(allWormColliders[i], allWormColliders[j], true);
-                    }
-                }
-            }
-        }
         
         #endregion
     }

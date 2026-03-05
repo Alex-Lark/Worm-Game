@@ -1237,6 +1237,10 @@ MonoBehaviour:
   partCards:
   - {fileID: 6895014049120698220, guid: 97f4ff1f42ccb87428513446a8b2c436, type: 3}
   - {fileID: 6895014049120698220, guid: 9ef4c396336956b4c95236d27c2ee832, type: 3}
+  - {fileID: 6895014049120698220, guid: 021157b093a727343be037f512319b97, type: 3}
+  - {fileID: 6895014049120698220, guid: 997a49d13a5459d41a04bd9e9054df21, type: 3}
+  - {fileID: 6895014049120698220, guid: b9d1885ef1c2d0348b070c2f731bca12, type: 3}
+  - {fileID: 6895014049120698220, guid: 0e2e517242568f546a7213e79feda78a, type: 3}
 --- !u!114 &1001892349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1662,6 +1666,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3405035023818385786, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      propertyPath: finCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3857149077806430327, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
       propertyPath: m_Name
       value: Player

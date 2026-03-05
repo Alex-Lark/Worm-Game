@@ -1,3 +1,5 @@
+using System;
+using Player;
 using PurrNet;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -29,7 +31,7 @@ namespace CreatureParts
 
         #region Built-In Methods
         
-        private void Awake()
+        protected void Awake()
         {
             partCollider = GetComponent<Collider>();
             GroundObject = null;
@@ -38,9 +40,8 @@ namespace CreatureParts
         protected virtual void FixedUpdate()
         {
             CheckGrounded();
-        
         }
-        
+
         #endregion
         
         #region Public Methods
@@ -98,6 +99,11 @@ namespace CreatureParts
 
             TimeSinceLastGrounded += Time.fixedDeltaTime;
             return Vector3.up;
+        }
+        
+        private void OnCollisionEnter(Collision other)
+        {
+            LocalPlayer.Instance.DamagePlayer(other, gameObject);
         }
 
         void OnCollisionStay(Collision collision)

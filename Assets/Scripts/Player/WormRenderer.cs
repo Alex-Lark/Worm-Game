@@ -37,6 +37,11 @@ namespace Player
             
             StartCoroutine(DelayedInitialUpdate());
         }
+
+        public void Restart()
+        {
+            Start();
+        }
     
         IEnumerator DelayedInitialUpdate()
         {

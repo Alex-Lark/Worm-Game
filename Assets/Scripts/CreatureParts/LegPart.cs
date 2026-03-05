@@ -138,6 +138,14 @@ namespace CreatureParts
             if (canStep)
                 isMoving = false;
         }
+        
+        private void OnEnable()
+        {
+            movementCoroutine = null;
+            isMoving = false;
+            canStep = true;
+            stepTimer = 0f;
+        }
 
         private float stepTimer = 0f;
 

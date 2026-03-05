@@ -12,7 +12,7 @@ public class JumpPad : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //hi
     }
     
     void OnCollisionEnter(Collision collision)

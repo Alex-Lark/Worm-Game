@@ -15,6 +15,7 @@ namespace CreatureBuilder
         public Transform endPoint;
         public bool isClamped;
         public float dragDistance = 0f;
+        public GameObject axisVisual;
         
         #endregion
         
@@ -31,6 +32,7 @@ namespace CreatureBuilder
         
         private bool isSelected;
         private bool isDragging;
+        private bool doubleSelected;
         
         #endregion
     
@@ -82,7 +84,7 @@ namespace CreatureBuilder
 
         public void StartDragging()
         {
-            isSelected = true;
+            SelectPart();
             isDragging = true;
             
             if (dragDistance == 0f)
@@ -91,15 +93,53 @@ namespace CreatureBuilder
             lastValidPosition = transform.position;
             Vector3 viewportPos = targetCamera.WorldToViewportPoint(transform.position);
             lastValidViewport = new Vector2(viewportPos.x, viewportPos.y);
-    
-            GetComponent<PartDraggingUI>().HighlightPart();
+        }
+
+        public void SelectPart()
+        {
+            if (isSelected) doubleSelected = true;
+            isSelected = true;
+            
+            if (axisVisual != null)
+                axisVisual.SetActive(true);
+            
+            if (!doubleSelected) GetComponent<PartDraggingUI>().HighlightPart();
         }
     
         public void StopDragging()
         {
+            isDragging = false;
+        }
+
+        public void DeselectPart()
+        {
             isSelected = false;
             isDragging = false;
-            GetComponent<PartDraggingUI>().RemoveHighlight();
+            doubleSelected = false;
+    
+            PartDraggingUI draggingUI = GetComponent<PartDraggingUI>();
+            if (draggingUI != null)
+            {
+                draggingUI.RemoveHighlight();
+            }
+            else
+            {
+                Debug.LogError($"PartDraggingUI component not found on {gameObject.name}");
+            }
+    
+            if (axisVisual != null)
+            {
+                axisVisual.SetActive(false);
+            }
+        }
+        
+        public void Delete3DPart()
+        {
+            if (isSelected)
+            {
+                creatureBuilder.SwitchFrom3DPartToCard(Prefab, gameObject);
+                Destroy(gameObject);
+            }
         }
         
         #endregion
@@ -237,15 +277,6 @@ namespace CreatureBuilder
                 }
             }
             return true;
-        }
-        
-        private void Delete3DPart()
-        {
-            if (isSelected)
-            {
-                creatureBuilder.SwitchFrom3DPartToCard(Prefab, gameObject);
-                Destroy(gameObject);
-            }
         }
         
         #endregion

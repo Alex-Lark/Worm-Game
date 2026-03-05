@@ -165,7 +165,7 @@ namespace GameLoop
             for (int j = 0; j < numberOfPartsPerRound; j++)
             {
                 yield return StartCoroutine(PartSelectionTimer());
-                
+
                 //PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
                 //partSelection.EndCardSelection();
             }
@@ -175,12 +175,14 @@ namespace GameLoop
         {
             yield return Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
             StartCoroutine(LocalPlayer.Instance.SetWormInCreatureBuilderScene());
+            //Player.Player.Instance.playerSpawning.SpawnInCreatureBuildingScene();
             yield return StartCoroutine(CreatureBuilderTimer());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();
 
             readyForGame = true;
         }
+        
 
         #endregion
 

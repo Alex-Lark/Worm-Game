@@ -18,6 +18,7 @@ namespace CreatureBuilder
         public Camera targetCamera;
         public CinemachineCamera cinemachineCamera;
         public RectTransform creatureBuilderWindow;
+        public CreatureBuilderWindow creatureBuilderScript;
         #endregion
         
         #region private variables
@@ -31,7 +32,7 @@ namespace CreatureBuilder
         private readonly Dictionary<string, GameObject> prefabMapping = new Dictionary<string, GameObject>();
         #endregion
 
-        #region MonoBehaviour Methods
+        #region Built-In Methods
         private void Awake()
         {
             if (LocalPlayer.Instance == null)
@@ -67,7 +68,15 @@ namespace CreatureBuilder
             if (prefabMapping.TryGetValue(cardName, out GameObject prefab3D))
             {
                 Vector3 spawnPosition = CalculateWorldSpawnPosition();
-                SpawnPartInWorld(prefab3D, spawnPosition);
+                if (creatureBuilderScript.selectedPart)
+                {
+                    creatureBuilderScript.selectedPart
+                        .GetComponent<PartDragging>()
+                        .DeselectPart();
+                }
+                GameObject spawnedPart = SpawnPartInWorld(prefab3D, spawnPosition);
+                creatureBuilderScript.selectedPart = spawnedPart;
+                creatureBuilderScript.selectedPart.GetComponent<PartDragging>().SelectPart();
             }
             else
             {
@@ -190,6 +199,7 @@ namespace CreatureBuilder
             partDragging.targetCamera = targetCamera;
             partDragging.creatureBuilderWindow = creatureBuilderWindow;
             partDragging.dragDistance = spawnDistance;
+            partDragging.axisVisual.SetActive(false);
         }
 
         private void InitializePrefabMapping()
@@ -271,6 +281,7 @@ namespace CreatureBuilder
     private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     {
         creaturePart.transform.parent = Player.LocalPlayer.Instance.transform;
+        creaturePart.GetComponent<PartDragging>().DeselectPart();
         creaturePart.GetComponent<PartDragging>().enabled = false;
         
         LegPart legPart = creaturePart.GetComponent<LegPart>();
@@ -412,7 +423,7 @@ namespace CreatureBuilder
             return ray.GetPoint(spawnDistance);
         }
         
-        private void SpawnPartInWorld(GameObject prefab, Vector3 position)
+        private GameObject SpawnPartInWorld(GameObject prefab, Vector3 position)
         {
             GameObject instance = Instantiate(prefab, position, Quaternion.identity);
             instance.name = prefab.name;
@@ -429,6 +440,7 @@ namespace CreatureBuilder
             {
                 legPart.enabled = false;
             }
+            return instance;
         }
         
         #endregion
