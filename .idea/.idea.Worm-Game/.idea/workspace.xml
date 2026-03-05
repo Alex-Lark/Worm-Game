@@ -8,13 +8,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormOutsideMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormOutsideMaterial.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/TimerText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/TimerText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/WormGameSceneSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/WormGameSceneSwitcher.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,17 +60,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/BitPacker/OptimizedTypes/PackedUInt.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Components/NetworkBehaviour/NetworkRules.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Components/NetworkIdentity/NetworkIdentity.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/CoreModules/Broadcast/BroadcastModule.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/CoreModules/Players/PlayerID.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/CoreModules/Players/PlayersBroadcaster.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/ModulesCollection.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/NetworkManager.Broadcasting.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/Managers/PurrMonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@d2fbc960bd24/Runtime/UnityProxy/UnityProxy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkIdentity/NetworkIdentity.Broadcasting.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Managers/PurrMonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -134,10 +124,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="31316">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="20368">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="31316" />
+      <option name="pid" value="20368" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -201,7 +191,7 @@
       <workItem from="1772081909389" duration="2999000" />
       <workItem from="1772151343654" duration="1539000" />
       <workItem from="1772381532855" duration="3000" />
-      <workItem from="1772381543270" duration="31385000" />
+      <workItem from="1772381543270" duration="44429000" />
     </task>
     <task id="LOCAL-00022" summary="creature builder window wip">
       <option name="closed" value="true" />
@@ -659,69 +649,56 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderPartInventory.cs</url>
-          <line>19</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\CreatureBuilder\CreatureBuilderPartInventory.cs" containingFunctionPresentation="Method 'Awake'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs</url>
+          <line>99</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\Player\Player.cs" containingFunctionPresentation="Method 'OnSpawned'">
             <startOffsets>
-              <option value="454" />
+              <option value="2840" />
             </startOffsets>
             <endOffsets>
-              <option value="500" />
+              <option value="2867" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="67" />
+          <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
-          <line>85</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'EndCardSelection'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs</url>
+          <line>96</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\Player\Player.cs" containingFunctionPresentation="Method 'OnSpawned'">
             <startOffsets>
-              <option value="2455" />
+              <option value="2751" />
             </startOffsets>
             <endOffsets>
-              <option value="2524" />
+              <option value="2771" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="69" />
+          <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
-          <line>63</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'SetCardOptions'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs</url>
+          <line>106</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\Player\Player.cs" containingFunctionPresentation="Method 'OnSpawned'">
             <startOffsets>
-              <option value="1598" />
+              <option value="3084" />
             </startOffsets>
             <endOffsets>
-              <option value="1623" />
+              <option value="3145" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="70" />
+          <option name="timeStamp" value="77" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
-          <line>76</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'EndCardSelection'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs</url>
+          <line>109</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\Player\Player.cs" containingFunctionPresentation="Method 'OnSpawned'">
             <startOffsets>
-              <option value="2147" />
+              <option value="3234" />
             </startOffsets>
             <endOffsets>
-              <option value="2171" />
+              <option value="3257" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
-          <line>145</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'">
-            <startOffsets>
-              <option value="5188" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5287" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="72" />
+          <option name="timeStamp" value="78" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

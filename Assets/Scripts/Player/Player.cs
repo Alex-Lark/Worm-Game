@@ -113,7 +113,7 @@ namespace Player
                 return;
             }
 
-            if (shouldDoRemoteSetup && !hasBeenSetup && GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            if (shouldDoRemoteSetup && !hasBeenSetup /*&& GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name)*/)
             {
                 StartCoroutine(FindAndSetupRemoteWorm());
             }

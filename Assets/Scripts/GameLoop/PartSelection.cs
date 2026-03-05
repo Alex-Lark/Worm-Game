@@ -77,20 +77,14 @@ namespace GameLoop
             //if no card was selected, auto select card 1
             if (currentCard == null)
             {
-                if(card1==null) return;
                 currentCard = card1;
             }
-        
+            if(card1==null) return;
             LocalPlayer.Instance.wormPartsInInventory.Add(currentCard);
             
             //TODO: discard card and get discarded card from opponent
             PartSelectionManager.ReturnCard(selectableCards, currentCard==card1);
-        
-            /*
-            //fake discarded card
-            int discardCardIndex = Random.Range(0, partCards.Count); ////HHHHHHHHHEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLPPPPPPPPPPPPPPPPPPPPPPPPPP
-            Player.Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
-            */
+            
             ResetPartSelection();
         }
 

@@ -4,6 +4,7 @@ using PurrNet;
 using PurrNet.Packing;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class PlayerRegister : PurrMonoBehaviour
@@ -39,6 +40,7 @@ public class PlayerRegister : PurrMonoBehaviour
         public ushort score;
         public bool isDead;
         public bool isDisconected;
+        public string Scene;
     }
     
     private void OnPlayerDataRequest(PlayerID playerID, PlayerData player, bool asServer)
@@ -53,6 +55,7 @@ public class PlayerRegister : PurrMonoBehaviour
                 PlayerData existing = Players[playerID];
                 player.name = existing.name;
                 player.score = existing.score;
+                
             }
             else
             {

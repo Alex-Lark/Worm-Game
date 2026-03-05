@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using GameLoop;
 using Player;
@@ -9,6 +10,7 @@ using PurrNet.Packing;
 using PurrNet.Transports;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class Network : MonoBehaviour
@@ -18,6 +20,7 @@ public class Network : MonoBehaviour
     public NetworkManager manager;
     
     public static Network instance;
+    
 
     
     bool Init = false;
@@ -89,6 +92,16 @@ public class Network : MonoBehaviour
             gameObject.GetOrAddComponent<WormGameSceneSwitcher>().LoadMainMenuScene();
             Destroy(gameObject);
         }
-
     }
+    
+    public bool AllClientsReady()
+    {
+        manager.sceneModule.TryGetSceneID(SceneManager.GetActiveScene(), out SceneID scene);
+        foreach (PlayerID player in manager.players)
+        {
+            if(!manager.scenePlayersModule.IsPlayerLoadedInScene(player,scene))return false;
+        }
+        return true;
+    }
+    
 }

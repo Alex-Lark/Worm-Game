@@ -27,7 +27,7 @@ public class PartSelectionManager : PurrMonoBehaviour
 
     public IEnumerator PickCardOptions()
     {
-        yield return new WaitForSeconds(0.1f);//not a great solution, but lets client fully load scene before sending packets
+        yield return new WaitUntil(() => Network.instance.AllClientsReady());
         SelectableCardsPacket packet = new SelectableCardsPacket();
         List<PlayerID> players = new List<PlayerID>(Network.instance.manager.players);
         while (players.Count > 0)
@@ -45,7 +45,7 @@ public class PartSelectionManager : PurrMonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitUntil(() => Network.instance.AllClientsReady());
             print(ReturnedCardIdexes.Count +"  "+ SentSelectionPackets.Count);
             if (ReturnedCardIdexes.Count >= SentSelectionPackets.Count)
             {
