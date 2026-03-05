@@ -286,11 +286,16 @@ namespace Player
         
         public IEnumerator SetWormInCreatureBuilderScene()
         {
+            yield return new WaitForSeconds(0.2f);
             Debug.Log("Setting worm in creature builder scene");
+            Debug.Break();
+            yield return null;
     
             var wormPhysics = GetComponent<WormPhysics>();
             
             wormPhysics.ResetWormPhysics();
+            
+            yield return null;
             
             wormPhysics.ResetWormOrientation();
             
@@ -298,8 +303,9 @@ namespace Player
             
             yield return null;
             
+            yield return null;
+            
             DeactivatePlayer();
-            Debug.Log("Deactivated player");
         }
         
         public void SetWormInGameScene()
