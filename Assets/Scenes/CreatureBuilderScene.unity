@@ -3083,6 +3083,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8071018323496679240, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3140,7 +3144,7 @@ MonoBehaviour:
   targetCamera: {fileID: 703386959}
   cinemachineCamera: {fileID: 1046272548}
   creatureBuilderWindow: {fileID: 22838372}
-  creatureBuilderScript: {fileID: 0}
+  creatureBuilderScript: {fileID: 22838376}
   spawnDistance: 5
   partPairs:
   - cardPrefab: {fileID: 6895014049120698220, guid: 9ef4c396336956b4c95236d27c2ee832, type: 3}

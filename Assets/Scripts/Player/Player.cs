@@ -287,8 +287,6 @@ namespace Player
         public IEnumerator SetWormInCreatureBuilderScene()
         {
             yield return new WaitForSeconds(0.2f);
-            Debug.Log("Setting worm in creature builder scene");
-            Debug.Break();
             yield return null;
     
             var wormPhysics = GetComponent<WormPhysics>();
