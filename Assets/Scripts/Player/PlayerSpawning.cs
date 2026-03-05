@@ -121,7 +121,7 @@ namespace Player
             }
             
             player.CurrentState = WormState.Idle;
-            player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
+            if (LocalPlayer.Instance == gameObject.GetComponent<Player>()) player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             deathScreenUI.DisableDeathUI();
             

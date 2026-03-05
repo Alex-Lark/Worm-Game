@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CreatureParts;
 using PurrNet;
 using Unity.VisualScripting;
@@ -44,6 +45,7 @@ namespace Player
         public int playerScore = 1;
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
+        
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
@@ -138,9 +140,12 @@ namespace Player
                 wormHeadBut.WormheadbutCoolDown();
             }
 
-            if (currentPlayerHealth < maxPlayerHealth && CurrentState != WormState.Dead)
+            if (isOwner)
             {
-                currentPlayerHealth += GameParameters.PlayerHealthRegen;
+                if (currentPlayerHealth < maxPlayerHealth && CurrentState != WormState.Dead)
+                {
+                    currentPlayerHealth += GameParameters.PlayerHealthRegen;
+                }
             }
         }
 
@@ -200,6 +205,14 @@ namespace Player
 
         public void DamagePlayer(Collision other, GameObject hitGameObject)
         {
+            if (!isOwner) return;
+            
+            if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
+                attachedWormParts.Contains(hitGameObject))
+            {
+                return;
+            }
+            
             float collisionForce = other.impulse.magnitude;
 
             if (hitGameObject.GetComponent<WormHead>() != null)
@@ -222,7 +235,7 @@ namespace Player
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-                    currentPlayerHealth -= damage;
+                    if (isOwner) currentPlayerHealth -= damage;
                 }
             }
             if (other.gameObject.GetComponent<FiredProjectile>() != null)
@@ -230,19 +243,22 @@ namespace Player
                 if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;
-                    currentPlayerHealth -= damage;
+                    if (isOwner) currentPlayerHealth -= damage;
                 }
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
                 Debug.Log("Blunt collision between " + other.gameObject + " and " + hitGameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
-                currentPlayerHealth -= damage;
+                if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
             }
 
-            if (CurrentState != WormState.Dead && currentPlayerHealth < 0)
+            if (isOwner)
             {
-                OnPlayerDeath();
+                if (CurrentState != WormState.Dead && currentPlayerHealth < 0)
+                {
+                    OnPlayerDeath();
+                }
             }
         }
 
@@ -327,7 +343,7 @@ namespace Player
             if (CurrentState == WormState.Dead) return;
             
             CurrentState = WormState.Dead;
-            currentPlayerHealth = 0;
+            if (isOwner) currentPlayerHealth = 0;
 
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
             

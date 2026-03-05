@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Player;
 using PurrNet;
 using Unity.VisualScripting;
@@ -103,6 +104,18 @@ namespace CreatureParts
         
         private void OnCollisionEnter(Collision other)
         {
+            if (LocalPlayer.Instance == null) return;
+    
+            bool isMySegment = LocalPlayer.Instance.wormBodySegments.Any(s => s.gameObject == gameObject)
+                               || LocalPlayer.Instance.wormHead.gameObject == gameObject
+                               || LocalPlayer.Instance.attachedWormParts.Contains(gameObject);
+        
+            if (!isMySegment) return;
+
+            if (LocalPlayer.Instance.wormBodySegments.Any(s => s.gameObject == other.gameObject) || 
+                LocalPlayer.Instance.attachedWormParts.Contains(other.gameObject))
+                return;
+
             LocalPlayer.Instance.DamagePlayer(other, gameObject);
         }
 
