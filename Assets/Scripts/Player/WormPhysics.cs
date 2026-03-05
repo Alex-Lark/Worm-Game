@@ -85,6 +85,7 @@ namespace Player
         
         public void ResetPlayerPhysics()
         {
+            Debug.Log("Resetting player physics");
             player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
