@@ -35,16 +35,16 @@ namespace Player
         
         public void SpawnInCreatureBuildingScene()
         {
-            Debug.Log("Spawning in creature builder scene");
-            
-            StopAllCoroutines();
-            player.CancelDeath();
-            
-            WormPhysics wormPhysics = GetComponent<WormPhysics>();
-            wormPhysics.ResetWormPhysics();
-            SetWormSpawnOrientation(Quaternion.identity);
-            wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
-            player.DeactivatePlayer();
+            // Debug.Log("Spawning in creature builder scene");
+            //
+            // StopAllCoroutines();
+            // player.CancelDeath();
+            //
+            // WormPhysics wormPhysics = GetComponent<WormPhysics>();
+            // wormPhysics.ResetWormPhysics();
+            // SetWormSpawnOrientation(Quaternion.identity);
+            // wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
+            // player.DeactivatePlayer();
         }
         
         public void SpawnInGameScene()
@@ -169,6 +169,7 @@ namespace Player
         
         public void SetWormSpawnPosition(Vector3 spawnPosition)
         {
+            Debug.Log("SetWormPosition called");
             if (player.wormHead == null) return;
         
             player.wormHead.position = spawnPosition;

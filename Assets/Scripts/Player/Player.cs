@@ -286,22 +286,28 @@ namespace Player
         
         public IEnumerator SetWormInCreatureBuilderScene()
         {
+            Debug.Log("Setting worm in creature builder scene");
             yield return null;
     
             var wormPhysics = GetComponent<WormPhysics>();
             
             wormPhysics.ResetWormPhysics();
+            Debug.Log("Worm physics reset");
             wormPhysics.ResetWormOrientation();
+            Debug.Log("Worm orientation reset");
             
             wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
-            
+            Debug.Log("Positon Worm segments called");
+
+            Debug.Log("Worm segments positoned");
             yield return null;
             
             wormConstructor.ConstructWorm();
-    
+            Debug.Log("Worm Constructed");
             yield return null;
-    
+            
             DeactivatePlayer();
+            Debug.Log("Deactivated player");
         }
         
         public void SetWormInGameScene()

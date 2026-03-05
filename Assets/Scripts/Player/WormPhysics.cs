@@ -47,11 +47,13 @@ namespace Player
     
         public void ResetWormPhysics()
         {
+            Debug.Log("Reset worm physics called");
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {
                 SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
             }
+            Debug.Log("Reset worm physics ended");
         }
 
         public void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
