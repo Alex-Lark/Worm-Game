@@ -1,12 +1,13 @@
 using System.Collections;
 using CreatureParts;
+using PurrNet;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Player
 {
-    public class PlayerSpawning : MonoBehaviour
+    public class PlayerSpawning : NetworkBehaviour
     {
         #region public variables
         
@@ -123,10 +124,20 @@ namespace Player
             player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             deathScreenUI.DisableDeathUI();
-
-            player.wormHead.gameObject.SetActive(true);
             
-            //ClearDuplicateParts();
+            ServerSideRespawn();
+        }
+        
+        [ServerRpc(requireOwnership: true)]
+        private void ServerSideRespawn()
+        {
+            ObserverSideRespawn();
+        }
+        
+        [ObserversRpc(runLocally: true)]
+        private void ObserverSideRespawn()
+        {
+            player.wormHead.gameObject.SetActive(true);
             
             foreach (Transform bodySegment in player.wormBodySegments)
             {

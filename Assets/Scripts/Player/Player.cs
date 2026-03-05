@@ -338,17 +338,21 @@ namespace Player
             playerSpawning.TryToRespawn();
         }
 
-        [ServerRpc]
+        [ServerRpc(requireOwnership: true)]
         private void ServerSideDeath()
+        {
+            ObserversSideDeath();
+        }
+
+        [ObserversRpc(runLocally: true)]
+        private void ObserversSideDeath()
         {
             GetComponent<WormRenderer>().enabled = false;
             GetComponent<LineRenderer>().enabled = false;
-            
-            if (transform.Find("WormMesh").gameObject)
-            {
+    
+            if (transform.Find("WormMesh") != null)
                 Destroy(transform.Find("WormMesh").gameObject);
-            }
-            
+    
             wormHeadCopy = DuplicatePart(wormHead.gameObject);
             wormHead.gameObject.SetActive(false);
 
@@ -357,7 +361,7 @@ namespace Player
                 DuplicatePart(bodySegment.gameObject);
                 bodySegment.gameObject.SetActive(false);
             }
-            
+    
             foreach (GameObject attachedPart in attachedWormParts)
             {
                 DuplicatePart(attachedPart);
