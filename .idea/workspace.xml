@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17b3b6b8-0a41-4354-9649-5f8b1f5da24e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="17b3b6b8-0a41-4354-9649-5f8b1f5da24e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,7 +68,7 @@
       <workItem from="1771443874884" duration="7523000" />
       <workItem from="1772614778270" duration="1115000" />
       <workItem from="1772656454980" duration="82000" />
-      <workItem from="1772656666347" duration="1847000" />
+      <workItem from="1772656666347" duration="3901000" />
     </task>
     <task id="LOCAL-00001" summary="First push">
       <option name="closed" value="true" />
@@ -112,7 +110,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772614930067</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="New Worm Parts in Folder, New Goal mesh">
+      <option name="closed" value="true" />
+      <created>1772675403613</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1772675403613</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,7 +147,8 @@
     <MESSAGE value="Ok new fixed 3D meshes" />
     <MESSAGE value="Finish new soccer Goal mesh with detection mesh" />
     <MESSAGE value="The completed stadium" />
-    <option name="LAST_COMMIT_MESSAGE" value="The completed stadium" />
+    <MESSAGE value="New Worm Parts in Folder, New Goal mesh" />
+    <option name="LAST_COMMIT_MESSAGE" value="New Worm Parts in Folder, New Goal mesh" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
