@@ -6,6 +6,7 @@ public class AxisRotationHandler : MonoBehaviour
     public Vector3 localAxis = Vector3.up;
     public float rotationSpeed = 0.4f;
     public Transform targetPart;
+    public GameObject hostPart;
 
     private bool isDragging;
     private Vector3 lastMousePosition;
@@ -14,9 +15,6 @@ public class AxisRotationHandler : MonoBehaviour
     void Awake()
     {
         partDragging = GetComponentInParent<PartDragging>();
-
-        if (partDragging != null)
-            targetPart = partDragging.transform;
     }
 
     void Update()
@@ -36,18 +34,24 @@ public class AxisRotationHandler : MonoBehaviour
     
     public void StartRotation()
     {
+        if (partDragging == null) return;
+        
         isDragging = true;
         lastMousePosition = Input.mousePosition;
 
-        if (targetPart != null)
-            targetPart.GetComponent<PartDragging>().enabled = false; ;
+        if (partDragging != null)
+            partDragging.enabled = false;
+        partDragging.isClamped = true;
     }
 
     public void StopRotation()
     {
+        if (partDragging == null) return;
+        
         isDragging = false;
+        partDragging.isClamped = true;
 
-        if (targetPart != null)
-            targetPart.GetComponent<PartDragging>().enabled = true;
+        if (partDragging != null)
+            partDragging.enabled = true;
     }
 }

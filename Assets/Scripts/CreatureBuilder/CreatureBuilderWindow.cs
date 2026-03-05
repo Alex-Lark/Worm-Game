@@ -26,6 +26,12 @@ namespace CreatureBuilder
         private bool isDragging = false;
         private bool isDraggingPart = false;
         private IInputAxisController inputProvider;
+        private CinemachineCamera cmCam;
+        private float scrollActiveTimer = 0f;
+        [SerializeField] private float zoomSpeed = 10f;
+        [SerializeField] private float minFOV = 20f;
+        [SerializeField] private float maxFOV = 60f;
+        [SerializeField] private float scrollCameraHoldTime = 0.15f;
         
         #endregion
 
@@ -45,6 +51,7 @@ namespace CreatureBuilder
                 
             }
             targetCamera = targetCameraObject.GetComponent<Camera>();
+            cmCam = cinemachineCamera.GetComponent<CinemachineCamera>();
         }
         
         void Update()
@@ -53,6 +60,36 @@ namespace CreatureBuilder
                 deletePartButton.SetActive(true);
             else
                 deletePartButton.SetActive(false);
+            
+            if (isMouseOver && !isDraggingPart)
+            {
+                float scroll = Input.mouseScrollDelta.y;
+
+                if (Mathf.Abs(scroll) > 0.01f)
+                {
+                    cmCam.Lens.FieldOfView -= scroll * zoomSpeed;
+                    cmCam.Lens.FieldOfView = Mathf.Clamp(
+                        cmCam.Lens.FieldOfView,
+                        minFOV,
+                        maxFOV
+                    );
+                    cinemachineCamera.SetActive(true);
+
+                    scrollActiveTimer = scrollCameraHoldTime;
+                }
+            }
+            
+            if (!isDragging)
+            {
+                if (scrollActiveTimer > 0f)
+                {
+                    scrollActiveTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    cinemachineCamera.SetActive(false);
+                }
+            }
         }
         
         void OnDisable()
@@ -75,7 +112,8 @@ namespace CreatureBuilder
             
             if (!isDraggingPart)
             {
-                isDragging = false;
+                //isDragging = false;
+                //^ feel free to toggle this back on i just personally didnt like it when testing
             }
         }
     
@@ -88,26 +126,47 @@ namespace CreatureBuilder
                     if (hitPart.CompareTag("RotationHandle"))
                     {
                         AxisRotationHandler handler = hitPart.GetComponent<AxisRotationHandler>();
+                        if (selectedPart != handler.hostPart)
+                        {
+                            if (selectedPart)
+                            {
+                                selectedPart.GetComponent<PartDragging>().DeselectPart();
+                            }
+                            selectedPart = handler.hostPart;
+                            selectedPart.GetComponent<PartDragging>().SelectPart();
+                        }
                         if (handler != null)
                             handler.StartRotation();
-
-                        selectedPart = hitPart.GetComponent<AxisRotationHandler>().targetPart.gameObject;
-                        selectedPart.GetComponent<PartDragging>().SelectPart();
                         return;
                     }
                     
                     if (hitPart.CompareTag("TranslationHandle"))
                     {
-                        print("hit arrow");
                         AxisTranslationHandler handler = hitPart.GetComponent<AxisTranslationHandler>();
-                        if (handler != null)
+                        if (selectedPart != handler.targetPart.gameObject)
                         {
-                            handler.StartTranslation();
-
+                            if (selectedPart)
+                            {
+                                selectedPart.GetComponent<PartDragging>().DeselectPart();
+                            }
                             selectedPart = handler.targetPart.gameObject;
                             selectedPart.GetComponent<PartDragging>().SelectPart();
                         }
+                        if (handler != null)
+                        {
+                            handler.StartTranslation();
+                        }
                         return;
+                    }
+                    
+                    if (hitPart.CompareTag("Axis"))
+                    {
+                        PartDragging parentPart = hitPart.GetComponentInParent<PartDragging>();
+
+                        if (parentPart != null)
+                        {
+                            hitPart = parentPart.gameObject;
+                        }
                     }
                     
                     if (hitPart != selectedPart)

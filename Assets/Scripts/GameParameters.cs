@@ -62,7 +62,7 @@ public static class GameParameters
     #region Worm Movement
     [Header("Worm Movement")]
     
-    public static readonly float MaxWormTurnAngle = 5f;
+    public static readonly float MaxWormTurnAngle = 500f;
     public static readonly float WormMoveForce = 300f;
     public static readonly float WormCorrectionForceMultiplier = 1f;
     public static readonly float WormHeadRotationSpeed = 1.5f;
@@ -174,12 +174,17 @@ public static class GameParameters
 
     public static readonly float MinSpikeCollisionForceToDamage = 50f;
     public static readonly float SpikeForceToDamageMultiplier = 0.04f;
+    
+    public static readonly float MinProjectileCollisionForceToDamage = 50f;
+    public static readonly float ProjectileForceToDamageMultiplier = 0.04f;
 
     public static readonly float MinBluntCollisionForceToDamage = 200f;
     public static readonly float BluntForceToDamageMultiplier = 0.02f;
 
     public static readonly float HeadbutDamageReductionOnHead = 0.05f; //head takes less damage when actively headbutting
     public static readonly float HeadDamageMultiplier = 1.25f; //head takes more damage normally
+    
+    public static readonly float ShellDamageReduction = 0.05f;
 
     public static readonly float PlayerRespawnTimeInSeconds = 3f;
 

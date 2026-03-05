@@ -208,6 +208,10 @@ MonoBehaviour:
   targetCameraObject: {fileID: 703386955}
   selectedPart: {fileID: 0}
   deletePartButton: {fileID: 1474677743}
+  zoomSpeed: 10
+  minFOV: 20
+  maxFOV: 60
+  scrollCameraHoldTime: 0.15
 --- !u!1 &62629972
 GameObject:
   m_ObjectHideFlags: 0
@@ -3157,6 +3161,14 @@ MonoBehaviour:
     part3DPrefab: {fileID: 4212110029664344896, guid: 66fa66cd86cbaa8439c74f46f6a7244c, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: 97f4ff1f42ccb87428513446a8b2c436, type: 3}
     part3DPrefab: {fileID: 6294173655021920613, guid: 49716e0f920649e45ab0f0131a2ec8bc, type: 3}
+  - cardPrefab: {fileID: 6895014049120698220, guid: 021157b093a727343be037f512319b97, type: 3}
+    part3DPrefab: {fileID: 4212110029664344896, guid: eec5e8d09c6d06a46b8e3a3b8e24ef35, type: 3}
+  - cardPrefab: {fileID: 6895014049120698220, guid: 997a49d13a5459d41a04bd9e9054df21, type: 3}
+    part3DPrefab: {fileID: 4212110029664344896, guid: 759b5b79fd11d694f9ca16ae1055b2c5, type: 3}
+  - cardPrefab: {fileID: 6895014049120698220, guid: b9d1885ef1c2d0348b070c2f731bca12, type: 3}
+    part3DPrefab: {fileID: 4212110029664344896, guid: e50cfc3f0c3acdd4b8fa462c48c2fb0d, type: 3}
+  - cardPrefab: {fileID: 6895014049120698220, guid: 0e2e517242568f546a7213e79feda78a, type: 3}
+    part3DPrefab: {fileID: 4212110029664344896, guid: d1224792c86b80c47b5f140615d2892c, type: 3}
 --- !u!114 &1941135657
 MonoBehaviour:
   m_ObjectHideFlags: 0

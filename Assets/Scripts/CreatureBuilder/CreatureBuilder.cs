@@ -31,7 +31,7 @@ namespace CreatureBuilder
         private readonly Dictionary<string, GameObject> prefabMapping = new Dictionary<string, GameObject>();
         #endregion
 
-        #region MonoBehaviour Methods
+        #region Built-In Methods
         private void Awake()
         {
             InitializePrefabMapping();
@@ -267,6 +267,7 @@ namespace CreatureBuilder
     private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     {
         creaturePart.transform.parent = Player.Player.Instance.transform;
+        creaturePart.GetComponent<PartDragging>().DeselectPart();
         creaturePart.GetComponent<PartDragging>().enabled = false;
         
         LegPart legPart = creaturePart.GetComponent<LegPart>();
