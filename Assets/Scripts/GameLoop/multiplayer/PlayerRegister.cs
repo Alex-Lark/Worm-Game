@@ -107,6 +107,7 @@ public class PlayerRegister : PurrMonoBehaviour
         PlayerData playerData = Players[playerID];
         playerData.isDisconected = false;
         
+        
         OnPlayerRegistered?.Invoke(playerID);
     }
 

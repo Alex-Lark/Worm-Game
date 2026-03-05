@@ -81,11 +81,16 @@ namespace Player
         
         private void Start()
         {
-            if (!isRegistered)
+            if (LocalPlayer.Instance == null)
             {
+                Debug.Log("registering localPlayer");
                 DontDestroyOnLoad(gameObject);
                 LocalPlayer.Register(this); 
                 OwnerSetup();
+            }
+            else
+            {
+                //Destroy(gameObject);
             }
             
             if (isOwner || !isRegistered)
@@ -94,9 +99,23 @@ namespace Player
 
         protected override void OnSpawned(bool asServer)
         {
+            Debug.Log("Player spawn called");
+            Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
+            if (asServer) return;
+
+            var networkID = localPlayer.Value;
+            Debug.Log("networkID: " + networkID);
+            {
+                RequestOwnershipServerRpc(networkID);
+            }
+            
+            Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
+            
             isRegistered = true;
+            
             if (isOwner && !asServer)
             {
+                Debug.Log("registering local player in OnSpawned");
                 LocalPlayer.Register(this);
                 if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
                 {
@@ -116,6 +135,38 @@ namespace Player
             if (shouldDoRemoteSetup && !hasBeenSetup /*&& GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name)*/)
             {
                 StartCoroutine(FindAndSetupRemoteWorm());
+            }
+        }
+        
+        [ServerRpc(requireOwnership: false)]
+        private void RequestOwnershipServerRpc(PlayerID caller = default)
+        {
+            Debug.Log("Ownership requested");
+            // Only give ownership if unclaimed
+            Debug.Log("Owner: " + owner.ToString());
+            if (owner == null || owner.ToString() == "Server")
+            {
+                Debug.Log("giving ownership");
+                GiveOwnership(caller);
+            }
+            
+        }
+        
+        protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
+        {
+            Debug.Log($"Owner changed: {oldOwner} -> {newOwner} | isOwner: {isOwner} | asServer: {asServer}");
+    
+            // This fires on the client once ownership is confirmed
+            if (!asServer && isOwner)
+            {
+                LocalPlayer.Register(this);
+        
+                if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+                {
+                    DontDestroyOnLoad(gameObject);
+                }
+
+                OwnerSetup();
             }
         }
 
@@ -304,7 +355,7 @@ namespace Player
         {
             yield return new WaitForSeconds(0.2f);
             yield return null;
-    
+            
             var wormPhysics = GetComponent<WormPhysics>();
             
             wormPhysics.ResetWormPhysics();
@@ -441,6 +492,9 @@ namespace Player
             yield return null;
 
             Scene activeScene = SceneManager.GetActiveScene();
+            
+            SceneManager.MoveGameObjectToScene(this.gameObject, activeScene);
+            
             GameObject[] rootObjects = activeScene.GetRootGameObjects();
 
             foreach (GameObject rootObj in rootObjects)
