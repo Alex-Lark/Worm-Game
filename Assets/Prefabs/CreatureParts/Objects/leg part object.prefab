@@ -1475,7 +1475,7 @@ MonoBehaviour:
   endPoint: {fileID: 3091684890137113386}
   isClamped: 0
   dragDistance: 5
-  axisVisual: {fileID: 0}
+  axisVisual: {fileID: 3726162112954677860}
 --- !u!114 &9157339348592596700
 MonoBehaviour:
   m_ObjectHideFlags: 0

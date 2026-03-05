@@ -742,10 +742,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120741946}
   m_CullTransparentMesh: 1
---- !u!114 &214722132 stripped
+--- !u!114 &214722132
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 7294720926454559192, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
-  m_PrefabInstance: {fileID: 214722131}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -753,6 +754,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f48cc10eb3ef146910f0f8c45e5eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  PlayerName: Player1
+  playerScore: 1
+  maxPlayerHealth: 100
+  currentPlayerHealth: 100
+  thirdPersonCamera: {fileID: 0}
+  wormSegmentPrefab: {fileID: 0}
+  wormHead: {fileID: 0}
+  wormVisualHead: {fileID: 0}
+  wormBodySegments: []
+  attachedWormParts: []
+  wormPartsInInventory: []
+  playerSpawning: {fileID: 0}
+  wormForwardMovement: {fileID: 0}
+  wormHeadCopy: {fileID: 0}
 --- !u!1 &218510798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &422120760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4162,7 +4186,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1369311477896255580, guid: ab653e66c09e2bf40a4270cf86c15b1e, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4068a73b763a0a0419db47d05aea8908, type: 2}
     - target: {fileID: 4159326027500267414, guid: ab653e66c09e2bf40a4270cf86c15b1e, type: 3}
@@ -4674,7 +4698,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1369311477896255580, guid: ab653e66c09e2bf40a4270cf86c15b1e, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f713eb0a634ebf443ae1ed9a7ba405f9, type: 2}
     - target: {fileID: 4159326027500267414, guid: ab653e66c09e2bf40a4270cf86c15b1e, type: 3}

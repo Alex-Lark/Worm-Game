@@ -147,6 +147,7 @@ namespace GameLoop
 
                 yield return new WaitUntil(() => readyForGame);
                 readyForGame = false;
+                Debug.Log("loading game scene");
                 Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
 
                 yield return StartCoroutine(MinigameTimer());
@@ -173,14 +174,12 @@ namespace GameLoop
 
         public IEnumerator StartCreatureBuilding()
         {
-            yield return Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
-            StartCoroutine(LocalPlayer.Instance.SetWormInCreatureBuilderScene());
-            //Player.Player.Instance.playerSpawning.SpawnInCreatureBuildingScene();
+            TimeLeftInScene = 0;
+            Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
             yield return StartCoroutine(CreatureBuilderTimer());
+            StartCoroutine(LocalPlayer.Instance.SetWormInCreatureBuilderScene());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();
-
-            readyForGame = true;
         }
         
 
@@ -208,10 +207,14 @@ namespace GameLoop
                 TimeLeftInScene -= Time.deltaTime;
                 yield return null;
             }
+            
+            Debug.Log("ready for game set to true");
+            readyForGame = true;
         }
 
         private IEnumerator MinigameTimer()
         {
+            LocalPlayer.Instance.SetWormInGameScene();
             TimeLeftInScene = timePerMinigame;
 
             while (TimeLeftInScene > 0)
@@ -255,6 +258,7 @@ namespace GameLoop
         {
             while (true)
             {
+                //Debug.Log("Sending time left in scene: " + GameLoop.TimeLeftInScene);
                 yield return new WaitForSeconds(0.1f);
                 Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = GameLoop.TimeLeftInScene });
             }

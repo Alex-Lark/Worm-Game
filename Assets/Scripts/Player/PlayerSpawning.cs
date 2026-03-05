@@ -28,8 +28,6 @@ namespace Player
             {
                 SpawnInGameScene();
             }
-
-            deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
         }
         
         #endregion
@@ -52,6 +50,7 @@ namespace Player
         
         public void SpawnInGameScene()
         {
+            deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
             // Debug.Log("Spawning in game scene");
             // player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
             //
