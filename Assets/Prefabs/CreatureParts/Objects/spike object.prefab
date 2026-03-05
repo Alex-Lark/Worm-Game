@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AxisTranslationHandler
   localAxis: {x: 0, y: 0, z: 1}
   moveSpeed: 0.01
-  targetPart: {fileID: 0}
+  targetPart: {fileID: 6101045407416421325}
 --- !u!1 &2889431657191027969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,7 +1505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AxisTranslationHandler
   localAxis: {x: 1, y: 0, z: 0}
   moveSpeed: 0.01
-  targetPart: {fileID: 0}
+  targetPart: {fileID: 6101045407416421325}
 --- !u!1 &7512640008430943475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AxisRotationHandler
   localAxis: {x: 0, y: 1, z: 0}
   rotationSpeed: 0.4
-  targetPart: {fileID: 902011806095002947}
+  targetPart: {fileID: 6101045407416421325}
   hostPart: {fileID: 4212110029664344896}
 --- !u!1 &8178076054996162649
 GameObject:
