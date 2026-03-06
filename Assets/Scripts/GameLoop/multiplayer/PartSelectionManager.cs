@@ -46,7 +46,6 @@ public class PartSelectionManager : PurrMonoBehaviour
         while (true)
         {
             yield return new WaitUntil(() => Network.instance.AllClientsReady());
-            print(ReturnedCardIdexes.Count +"  "+ SentSelectionPackets.Count);
             if (ReturnedCardIdexes.Count >= SentSelectionPackets.Count)
             {
                 StartCoroutine(GameLoop.GameLoop.Instance.StartCreatureBuilding());
@@ -87,11 +86,11 @@ public class PartSelectionManager : PurrMonoBehaviour
         ReturnedCardPacket returnPacket = new ReturnedCardPacket();
         if (selectedFirst)
         {
-            returnPacket.CardIndex = packet.Card1Index;
+            returnPacket.CardIndex = packet.Card2Index;
         }
         else
         {
-            returnPacket.CardIndex = packet.Card2Index;
+            returnPacket.CardIndex = packet.Card1Index;
         }
         returnPacket.sender = packet.receiver;
         Network.instance.manager.SendToServer<ReturnedCardPacket>(returnPacket,Channel.ReliableUnordered);
