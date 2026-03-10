@@ -28,65 +28,33 @@ namespace Player
         void Start()
         {
             player = GetComponent<Player>();
-            
-            if (LocalPlayer.Instance == null)
-            {
-                Debug.Log("registering localPlayer");
-                //DontDestroyOnLoad(gameObject);
-                LocalPlayer.Register(player); 
-                OwnerSetup();
-            }
-            else
-            {
-                //Destroy(gameObject);
-            }
-            
-            if (isOwner || !isRegistered)
-                SceneManager.sceneLoaded += OnSceneLoaded;
-            
+    
+            // Only safe non-networked init here
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                SetWormInGameScene();
+                // Safe: just finds DeathScreenUI reference, no worm setup
+                deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             }
         }
         
         protected override void OnSpawned(bool asServer)
         {
-            Debug.Log("Player spawn called");
-            Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
+            // Ensure player ref is set even if Start() hasn't fired yet
+            if (player == null) player = GetComponent<Player>();
+    
+            Debug.Log($"OnSpawned - isOwner: {isOwner} asServer: {asServer} isServer: {isServer}");
+    
             if (asServer) return;
 
-            var networkID = localPlayer.Value;
-            Debug.Log("networkID: " + networkID);
-            {
-                RequestOwnershipServerRpc(networkID);
-            }
-            
-            Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
-            
             isRegistered = true;
-            
-            if (isOwner && !asServer)
-            {
-                Debug.Log("registering local player in OnSpawned");
-                LocalPlayer.Register(player);
-                player = GetComponent<Player>();
-                if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-                {
-                    //DontDestroyOnLoad(gameObject);
-                }
-            }
-            
-            bool shouldDoOwnerSetup = isOwner && (asServer || !isServer);
-            bool shouldDoRemoteSetup = !isOwner || (asServer && !isOwner);
 
-            if (shouldDoOwnerSetup)
-            {
-                OwnerSetup();
-                return;
-            }
+            // Request ownership — OwnerSetup will fire in OnOwnerChanged once confirmed
+            RequestOwnershipServerRpc(localPlayer.Value);
 
-            if (shouldDoRemoteSetup && !hasBeenSetup)
+            // Remote players (non-owner) set up their local representation
+            if (!isOwner && !hasBeenSetup)
             {
                 StartCoroutine(FindAndSetupRemoteWorm());
             }
@@ -104,20 +72,21 @@ namespace Player
         
         protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
         {
-            // Debug.Log($"Owner changed: {oldOwner} -> {newOwner} | isOwner: {isOwner} | asServer: {asServer}");
-            //
-            // // This fires on the client once ownership is confirmed
-            // if (!asServer && isOwner)
-            // {
-            //     LocalPlayer.Register(player);
-            //
-            //     if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-            //     {
-            //         //stroyOnLoad(gameObject);
-            //     }
-            //
-            //     OwnerSetup();
-            // }
+            Debug.Log($"Owner changed: {oldOwner} -> {newOwner} | isOwner: {isOwner} | asServer: {asServer}");
+
+            if (!asServer && isOwner)
+            {
+                if (player == null) player = GetComponent<Player>();
+        
+                LocalPlayer.Register(player);
+
+                if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+                {
+                    DontDestroyOnLoad(gameObject);
+                }
+
+                OwnerSetup();
+            }
         }
         
         #endregion
