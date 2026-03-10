@@ -54,6 +54,27 @@ namespace GameLoop
         {
             partCardsStatic = partCards;
             gameObject.AddComponent<GameLoopTimeSyncer>();
+
+            // Guard against Network.instance not being ready yet
+            if (Network.instance == null || Network.instance.manager == null)
+            {
+                Debug.LogWarning("GameLoop awoke before Network was ready — deferring setup.");
+                StartCoroutine(DeferredAwake());
+                return;
+            }
+
+            InitializeGameLoop();
+        }
+
+        private IEnumerator DeferredAwake()
+        {
+            // Wait until Network.instance and manager are available
+            yield return new WaitUntil(() => Network.instance != null && Network.instance.manager != null);
+            InitializeGameLoop();
+        }
+
+        private void InitializeGameLoop()
+        {
             if (!Network.instance.manager.isServer && !Network.instance.manager.isHost)
             {
                 Destroy(this);
@@ -73,6 +94,7 @@ namespace GameLoop
 
         private void Start()
         {
+            // Network.instance.manager.Spawn(LocalPlayer.Instance.gameObject);
             sceneSwitcher = gameObject.GetComponent<WormGameSceneSwitcher>();
             sceneSwitcher.OnSceneLoaded += HandleSceneLoaded;
             SetDefaultGameLoopSettings();

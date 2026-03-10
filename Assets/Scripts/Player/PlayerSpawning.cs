@@ -28,20 +28,23 @@ namespace Player
         void Start()
         {
             player = GetComponent<Player>();
-    
-            // Only safe non-networked init here
+            
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                // Safe: just finds DeathScreenUI reference, no worm setup
                 deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             }
+
+            // if (LocalPlayer.Instance == null)
+            // {
+            //     Debug.Log("registering local player in start");
+            //     LocalPlayer.Register(player);
+            // }
         }
         
         protected override void OnSpawned(bool asServer)
         {
-            // Ensure player ref is set even if Start() hasn't fired yet
             if (player == null) player = GetComponent<Player>();
     
             Debug.Log($"OnSpawned - isOwner: {isOwner} asServer: {asServer} isServer: {isServer}");
@@ -49,11 +52,9 @@ namespace Player
             if (asServer) return;
 
             isRegistered = true;
-
-            // Request ownership — OwnerSetup will fire in OnOwnerChanged once confirmed
+            
             RequestOwnershipServerRpc(localPlayer.Value);
-
-            // Remote players (non-owner) set up their local representation
+            
             if (!isOwner && !hasBeenSetup)
             {
                 StartCoroutine(FindAndSetupRemoteWorm());
@@ -119,6 +120,41 @@ namespace Player
     
             deathScreenUI.respawnText.text = "Respawning...";
             RespawnPlayer();
+        }
+        
+        public void SetWormInGameScene()
+        {
+            deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
+            player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            foreach (Transform segment in player.wormBodySegments)
+            {
+                segment.GetComponent<Rigidbody>().isKinematic = false;
+            }
+            
+            StartCoroutine(SetupAfterSceneLoad());
+            player.ActivatePlayer();
+        }
+        
+        public IEnumerator SetWormInCreatureBuilderScene()
+        {
+            yield return new WaitForSeconds(0.2f);
+            yield return null;
+            
+            var wormPhysics = GetComponent<WormPhysics>();
+            
+            wormPhysics.ResetWormPhysics();
+            
+            yield return null;
+            
+            wormPhysics.ResetWormOrientation();
+            
+            wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
+            
+            yield return null;
+            
+            yield return null;
+            
+            player.DeactivatePlayer();
         }
         
         #endregion
@@ -235,7 +271,7 @@ namespace Player
             GetComponent<WormPhysics>().IgnoreWormSelfCollision();
         }
         
-        public void SetWormSpawnPosition(Vector3 spawnPosition)
+        private void SetWormSpawnPosition(Vector3 spawnPosition)
         {
             Debug.Log("SetWormPosition called");
             if (player.wormHead == null) return;
@@ -361,7 +397,6 @@ namespace Player
         private void RequestOwnershipServerRpc(PlayerID caller = default)
         {
             Debug.Log("Ownership requested");
-            // Only give ownership if unclaimed
             Debug.Log("Owner: " + owner.ToString());
             if (owner == null || owner.ToString() == "Server")
             {
@@ -369,42 +404,6 @@ namespace Player
                 GiveOwnership(caller);
             }
         }
-        
-        public void SetWormInGameScene()
-        {
-            deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
-            player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                segment.GetComponent<Rigidbody>().isKinematic = false;
-            }
-            
-            StartCoroutine(SetupAfterSceneLoad());
-            player.ActivatePlayer();
-        }
-        
-        public IEnumerator SetWormInCreatureBuilderScene()
-        {
-            yield return new WaitForSeconds(0.2f);
-            yield return null;
-            
-            var wormPhysics = GetComponent<WormPhysics>();
-            
-            wormPhysics.ResetWormPhysics();
-            
-            yield return null;
-            
-            wormPhysics.ResetWormOrientation();
-            
-            wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
-            
-            yield return null;
-            
-            yield return null;
-            
-            player.DeactivatePlayer();
-        }
-        
         #endregion
     }
 }
