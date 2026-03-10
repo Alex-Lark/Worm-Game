@@ -31,7 +31,7 @@ namespace Player
         
         public WormState CurrentState { get; set; }
         
-        public bool IsWormGrounded { get; private set; }
+        public bool IsWormGrounded { get; set; }
         
         public float MaxVelocity { get; set; }
         public bool IsWormJumping => CurrentState == WormState.Jumping;
@@ -60,115 +60,112 @@ namespace Player
         
         public GameObject wormHeadCopy;
         
+        public WormJump wormJump;
+        public WormHeadBut wormHeadBut;
+    
+        public readonly int WormSegmentCount = GameParameters.WormSegmentCount;
+        public readonly float MaxPartDistance = GameParameters.SegmentMaxPartDistance;
+        
         #endregion
         
         #region private variables
 
         private bool isPlayerActive = false;
-        private WormJump wormJump;
-        private WormHeadBut wormHeadBut;
-    
-        private readonly int wormSegmentCount = GameParameters.WormSegmentCount;
-        private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
-        
-        private bool hasBeenSetup = false;
-
-        private bool isRegistered = false;
         
         #endregion
     
         #region Built-In Methods
         
-        private void Start()
-        {
-            if (LocalPlayer.Instance == null)
-            {
-                Debug.Log("registering localPlayer");
-                DontDestroyOnLoad(gameObject);
-                LocalPlayer.Register(this); 
-                OwnerSetup();
-            }
-            else
-            {
-                //Destroy(gameObject);
-            }
-            
-            if (isOwner || !isRegistered)
-                SceneManager.sceneLoaded += OnSceneLoaded;
-        }
+        // private void Start()
+        // {
+        //     if (LocalPlayer.Instance == null)
+        //     {
+        //         Debug.Log("registering localPlayer");
+        //         DontDestroyOnLoad(gameObject);
+        //         LocalPlayer.Register(this); 
+        //         OwnerSetup();
+        //     }
+        //     else
+        //     {
+        //         //Destroy(gameObject);
+        //     }
+        //     
+        //     if (isOwner || !isRegistered)
+        //         SceneManager.sceneLoaded += OnSceneLoaded;
+        // }
 
-        protected override void OnSpawned(bool asServer)
-        {
-            Debug.Log("Player spawn called");
-            Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
-            if (asServer) return;
-
-            var networkID = localPlayer.Value;
-            Debug.Log("networkID: " + networkID);
-            {
-                RequestOwnershipServerRpc(networkID);
-            }
-            
-            Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
-            
-            isRegistered = true;
-            
-            if (isOwner && !asServer)
-            {
-                Debug.Log("registering local player in OnSpawned");
-                LocalPlayer.Register(this);
-                if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-                {
-                    DontDestroyOnLoad(gameObject);
-                }
-            }
-            
-            bool shouldDoOwnerSetup = isOwner && (asServer || !isServer);
-            bool shouldDoRemoteSetup = !isOwner || (asServer && !isOwner);
-
-            if (shouldDoOwnerSetup)
-            {
-                OwnerSetup();
-                return;
-            }
-
-            if (shouldDoRemoteSetup && !hasBeenSetup /*&& GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name)*/)
-            {
-                StartCoroutine(FindAndSetupRemoteWorm());
-            }
-        }
+        // protected override void OnSpawned(bool asServer)
+        // {
+        //     Debug.Log("Player spawn called");
+        //     Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
+        //     if (asServer) return;
+        //
+        //     var networkID = localPlayer.Value;
+        //     Debug.Log("networkID: " + networkID);
+        //     {
+        //         RequestOwnershipServerRpc(networkID);
+        //     }
+        //     
+        //     Debug.Log("isOwner: " + isOwner + " asServer: " + asServer + " isServer " + isServer);
+        //     
+        //     isRegistered = true;
+        //     
+        //     if (isOwner && !asServer)
+        //     {
+        //         Debug.Log("registering local player in OnSpawned");
+        //         LocalPlayer.Register(this);
+        //         if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+        //         {
+        //             DontDestroyOnLoad(gameObject);
+        //         }
+        //     }
+        //     
+        //     bool shouldDoOwnerSetup = isOwner && (asServer || !isServer);
+        //     bool shouldDoRemoteSetup = !isOwner || (asServer && !isOwner);
+        //
+        //     if (shouldDoOwnerSetup)
+        //     {
+        //         OwnerSetup();
+        //         return;
+        //     }
+        //
+        //     if (shouldDoRemoteSetup && !hasBeenSetup /*&& GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name)*/)
+        //     {
+        //         StartCoroutine(FindAndSetupRemoteWorm());
+        //     }
+        // }
         
-        [ServerRpc(requireOwnership: false)]
-        private void RequestOwnershipServerRpc(PlayerID caller = default)
-        {
-            Debug.Log("Ownership requested");
-            // Only give ownership if unclaimed
-            Debug.Log("Owner: " + owner.ToString());
-            if (owner == null || owner.ToString() == "Server")
-            {
-                Debug.Log("giving ownership");
-                GiveOwnership(caller);
-            }
-            
-        }
+        // [ServerRpc(requireOwnership: false)]
+        // private void RequestOwnershipServerRpc(PlayerID caller = default)
+        // {
+        //     Debug.Log("Ownership requested");
+        //     // Only give ownership if unclaimed
+        //     Debug.Log("Owner: " + owner.ToString());
+        //     if (owner == null || owner.ToString() == "Server")
+        //     {
+        //         Debug.Log("giving ownership");
+        //         GiveOwnership(caller);
+        //     }
+        //     
+        // }
         
-        protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
-        {
-            Debug.Log($"Owner changed: {oldOwner} -> {newOwner} | isOwner: {isOwner} | asServer: {asServer}");
-    
-            // This fires on the client once ownership is confirmed
-            if (!asServer && isOwner)
-            {
-                LocalPlayer.Register(this);
-        
-                if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-                {
-                    DontDestroyOnLoad(gameObject);
-                }
-
-                OwnerSetup();
-            }
-        }
+        // protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
+        // {
+        //     Debug.Log($"Owner changed: {oldOwner} -> {newOwner} | isOwner: {isOwner} | asServer: {asServer}");
+        //
+        //     // This fires on the client once ownership is confirmed
+        //     if (!asServer && isOwner)
+        //     {
+        //         LocalPlayer.Register(this);
+        //
+        //         if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+        //         {
+        //             DontDestroyOnLoad(gameObject);
+        //         }
+        //
+        //         OwnerSetup();
+        //     }
+        // }
 
         private void FixedUpdate()
         {
@@ -200,27 +197,27 @@ namespace Player
             }
         }
 
-        protected override void OnDespawned() {
-            LocalPlayer.Unregister(this);
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
+        // protected override void OnDespawned() {
+        //     LocalPlayer.Unregister(this);
+        //     SceneManager.sceneLoaded -= OnSceneLoaded;
+        // }
 
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            if (scene.name == "CreatureBuilderScene")
-            {
-                StartCoroutine(SetWormInCreatureBuilderScene());
-            }
-            else if (GameSceneList.IsSceneAGameScene(scene.name))
-            {
-                SetWormInGameScene();
-            }
-        }
+        // private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        // {
+        //     if (scene.name == "CreatureBuilderScene")
+        //     {
+        //         StartCoroutine(SetWormInCreatureBuilderScene());
+        //     }
+        //     else if (GameSceneList.IsSceneAGameScene(scene.name))
+        //     {
+        //         SetWormInGameScene();
+        //     }
+        // }
         
-        private void OnDestroy()
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
+        // private void OnDestroy()
+        // {
+        //     SceneManager.sceneLoaded -= OnSceneLoaded;
+        // }
         
         #endregion
 
@@ -351,39 +348,39 @@ namespace Player
             DeactivatePlayer();
         }
         
-        public IEnumerator SetWormInCreatureBuilderScene()
-        {
-            yield return new WaitForSeconds(0.2f);
-            yield return null;
-            
-            var wormPhysics = GetComponent<WormPhysics>();
-            
-            wormPhysics.ResetWormPhysics();
-            
-            yield return null;
-            
-            wormPhysics.ResetWormOrientation();
-            
-            wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
-            
-            yield return null;
-            
-            yield return null;
-            
-            DeactivatePlayer();
-        }
+        // public IEnumerator SetWormInCreatureBuilderScene()
+        // {
+        //     yield return new WaitForSeconds(0.2f);
+        //     yield return null;
+        //     
+        //     var wormPhysics = GetComponent<WormPhysics>();
+        //     
+        //     wormPhysics.ResetWormPhysics();
+        //     
+        //     yield return null;
+        //     
+        //     wormPhysics.ResetWormOrientation();
+        //     
+        //     wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
+        //     
+        //     yield return null;
+        //     
+        //     yield return null;
+        //     
+        //     DeactivatePlayer();
+        // }
         
-        public void SetWormInGameScene()
-        {
-            wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            foreach (Transform segment in wormBodySegments)
-            {
-                segment.GetComponent<Rigidbody>().isKinematic = false;
-            }
-            
-            StartCoroutine(SetupAfterSceneLoad());
-            ActivatePlayer();
-        }
+        // public void SetWormInGameScene()
+        // {
+        //     wormHead.GetComponent<Rigidbody>().isKinematic = false;
+        //     foreach (Transform segment in wormBodySegments)
+        //     {
+        //         segment.GetComponent<Rigidbody>().isKinematic = false;
+        //     }
+        //     
+        //     StartCoroutine(SetupAfterSceneLoad());
+        //     ActivatePlayer();
+        // }
         
         public void OnPlayerDeath()
         {
@@ -559,108 +556,108 @@ namespace Player
             wormVisualHead.rotation = Quaternion.AngleAxis(clampedAngle, Vector3.up) * wormHead.rotation;
         }
         
-        private void OwnerSetup()
-        {
-            CurrentState = WormState.Idle;
-            IsWormGrounded = false;
-            MaxVelocity = GameParameters.WormMaxVelocity;
-
-            wormForwardMovement = GetComponent<WormForwardMovement>();
-            wormJump = GetComponent<WormJump>();
-            wormHeadBut = GetComponent<WormHeadBut>();
-            playerSpawning = GetComponent<PlayerSpawning>();
-
-            wormBodySegments.Clear();
-            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
-            wormConstructor.CreateWormSegments();
-            wormConstructor.ConstructWorm();
-            GetComponent<WormPhysics>().AddCollidersToSegments();
-            GetComponent<WormPhysics>().ResetWormPhysics();
-
-            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-                SetWormInGameScene();
-            else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
-            {
-                StartCoroutine(SetWormInCreatureBuilderScene());
-            }
-        }
+        // private void OwnerSetup()
+        // {
+        //     CurrentState = WormState.Idle;
+        //     IsWormGrounded = false;
+        //     MaxVelocity = GameParameters.WormMaxVelocity;
+        //
+        //     wormForwardMovement = GetComponent<WormForwardMovement>();
+        //     wormJump = GetComponent<WormJump>();
+        //     wormHeadBut = GetComponent<WormHeadBut>();
+        //     playerSpawning = GetComponent<PlayerSpawning>();
+        //
+        //     wormBodySegments.Clear();
+        //     wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
+        //     wormConstructor.CreateWormSegments();
+        //     wormConstructor.ConstructWorm();
+        //     GetComponent<WormPhysics>().AddCollidersToSegments();
+        //     GetComponent<WormPhysics>().ResetWormPhysics();
+        //
+        //     if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+        //         SetWormInGameScene();
+        //     else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
+        //     {
+        //         StartCoroutine(SetWormInCreatureBuilderScene());
+        //     }
+        // }
         
-        private IEnumerator FindAndSetupRemoteWorm()
-        {
-            hasBeenSetup = true;
-            
-            yield return new WaitForSeconds(0.5f);
-            RefreshSegmentsFromChildren();
-            
-            float elapsed = 0.5f;
-            while (wormBodySegments.Count < wormSegmentCount && elapsed < 3f)
-            {
-                yield return new WaitForSeconds(0.1f);
-                elapsed += 0.1f;
-                if (wormBodySegments.Count == 0) RefreshSegmentsFromChildren();
-            }
-
-            if (wormBodySegments.Count < wormSegmentCount)
-            {
-                Debug.LogError("FindAndSetupRemoteWorm timed out waiting for segments.");
-                yield break;
-            }
-
-            SetSegmentsKinematic(true);
-            yield return null;
-
-            RebuildSegmentReferences();
-            var physics = GetComponent<WormPhysics>();
-            physics.AddCollidersToSegments();
-
-            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
-            wormConstructor.ConstructWorm();
-            yield return null;
-
-            physics.ResetWormPosition();
-            SetSegmentsKinematic(false);
-        }
+        // private IEnumerator FindAndSetupRemoteWorm()
+        // {
+        //     hasBeenSetup = true;
+        //     
+        //     yield return new WaitForSeconds(0.5f);
+        //     RefreshSegmentsFromChildren();
+        //     
+        //     float elapsed = 0.5f;
+        //     while (wormBodySegments.Count < WormSegmentCount && elapsed < 3f)
+        //     {
+        //         yield return new WaitForSeconds(0.1f);
+        //         elapsed += 0.1f;
+        //         if (wormBodySegments.Count == 0) RefreshSegmentsFromChildren();
+        //     }
+        //
+        //     if (wormBodySegments.Count < WormSegmentCount)
+        //     {
+        //         Debug.LogError("FindAndSetupRemoteWorm timed out waiting for segments.");
+        //         yield break;
+        //     }
+        //
+        //     SetSegmentsKinematic(true);
+        //     yield return null;
+        //
+        //     RebuildSegmentReferences();
+        //     var physics = GetComponent<WormPhysics>();
+        //     physics.AddCollidersToSegments();
+        //
+        //     wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, WormSegmentCount, MaxPartDistance);
+        //     wormConstructor.ConstructWorm();
+        //     yield return null;
+        //
+        //     physics.ResetWormPosition();
+        //     SetSegmentsKinematic(false);
+        // }
         
-        private void RefreshSegmentsFromChildren()
-        {
-            wormBodySegments.Clear();
-            foreach (Transform child in transform)
-            {
-                if (child.GetComponent<CreatureBodySegment>() != null)
-                    wormBodySegments.Add(child);
-            }
-        }
-        
-        private void SetSegmentsKinematic(bool kinematic)
-        {
-            var headRb = wormHead.GetComponent<Rigidbody>();
-            headRb.isKinematic = kinematic;
-            headRb.useGravity = !kinematic;
-
-            foreach (Transform segment in wormBodySegments)
-            {
-                var rb = segment.GetComponent<Rigidbody>();
-                rb.isKinematic = kinematic;
-                rb.useGravity = !kinematic;
-            }
-        }
-
-        private void RebuildSegmentReferences()
-        {
-            CreaturePart previous = wormHead.GetComponent<CreaturePart>();
-
-            for (int i = 0; i < wormBodySegments.Count; i++)
-            {
-                var seg = wormBodySegments[i].GetComponent<CreatureBodySegment>();
-                seg.previousSegment = previous;
-
-                // Link next segment while we're already iterating
-                if (i < wormBodySegments.Count - 1)
-                    seg.nextSegment = wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
-
-                previous = seg;
-            }
-        }
+        // private void RefreshSegmentsFromChildren()
+        // {
+        //     wormBodySegments.Clear();
+        //     foreach (Transform child in transform)
+        //     {
+        //         if (child.GetComponent<CreatureBodySegment>() != null)
+        //             wormBodySegments.Add(child);
+        //     }
+        // }
+        //
+        // private void SetSegmentsKinematic(bool kinematic)
+        // {
+        //     var headRb = wormHead.GetComponent<Rigidbody>();
+        //     headRb.isKinematic = kinematic;
+        //     headRb.useGravity = !kinematic;
+        //
+        //     foreach (Transform segment in wormBodySegments)
+        //     {
+        //         var rb = segment.GetComponent<Rigidbody>();
+        //         rb.isKinematic = kinematic;
+        //         rb.useGravity = !kinematic;
+        //     }
+        // }
+        //
+        // private void RebuildSegmentReferences()
+        // {
+        //     CreaturePart previous = wormHead.GetComponent<CreaturePart>();
+        //
+        //     for (int i = 0; i < wormBodySegments.Count; i++)
+        //     {
+        //         var seg = wormBodySegments[i].GetComponent<CreatureBodySegment>();
+        //         seg.previousSegment = previous;
+        //
+        //         // Link next segment while we're already iterating
+        //         if (i < wormBodySegments.Count - 1)
+        //             seg.nextSegment = wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
+        //
+        //         previous = seg;
+        //     }
+        // }
         
         #endregion
     }
