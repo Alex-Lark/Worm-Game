@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Multiplayer/Network-Config.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Multiplayer/Network-Config.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,14 +204,6 @@
       <workItem from="1772151343654" duration="1539000" />
       <workItem from="1772381532855" duration="3000" />
       <workItem from="1772381543270" duration="31385000" />
-    </task>
-    <task id="LOCAL-00024" summary="inventory system kinda working, sprites don't work though??">
-      <option name="closed" value="true" />
-      <created>1760583193351</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1760583193352</updated>
     </task>
     <task id="LOCAL-00025" summary="trying to get worm to persist between scenes">
       <option name="closed" value="true" />
@@ -597,7 +589,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773127479489</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="code refactored, still triyng to fix lobby bug though">
+      <option name="closed" value="true" />
+      <created>1773128904874</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1773128904874</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -630,7 +630,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value=" pushing test object in scene" />
     <MESSAGE value="test2" />
     <MESSAGE value="UI timer works" />
     <MESSAGE value="card images and names populate when entering part selection" />
@@ -655,7 +654,8 @@
     <MESSAGE value="color selection updates wip" />
     <MESSAGE value="moved code to playerSpawning, kinda broken" />
     <MESSAGE value="refactored code back to working in game scene" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactored code back to working in game scene" />
+    <MESSAGE value="code refactored, still triyng to fix lobby bug though" />
+    <option name="LAST_COMMIT_MESSAGE" value="code refactored, still triyng to fix lobby bug though" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

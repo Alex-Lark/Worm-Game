@@ -83,7 +83,7 @@ namespace Player
 
                 if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
                 {
-                    DontDestroyOnLoad(gameObject);
+                    //DontDestroyOnLoad(gameObject);
                 }
 
                 OwnerSetup();

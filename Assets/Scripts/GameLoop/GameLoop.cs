@@ -282,7 +282,10 @@ namespace GameLoop
             {
                 //Debug.Log("Sending time left in scene: " + GameLoop.TimeLeftInScene);
                 yield return new WaitForSeconds(0.1f);
-                Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = GameLoop.TimeLeftInScene });
+                if (Network.instance != null)
+                {
+                    Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = GameLoop.TimeLeftInScene });
+                }
             }
         }
         public override void Subscribe(NetworkManager manager, bool asServer)

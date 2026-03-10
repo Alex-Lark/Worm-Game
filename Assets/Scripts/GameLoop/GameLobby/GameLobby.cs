@@ -45,8 +45,6 @@ namespace GameLoop.GameLobby
                 // Wait for the local player to finish spawning and registering
                 Player.LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
             }
-    
-            ToggleStartGameButton();
         }
 
         private void OnLocalPlayerReady()
@@ -59,7 +57,10 @@ namespace GameLoop.GameLobby
         {
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.LocalPlayer.Instance.PlayerName;
-            Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
+            if (Network.instance != null)
+            {
+                Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
+            }
         }
 
         private void OnDestroy()
@@ -88,8 +89,8 @@ namespace GameLoop.GameLobby
             {
                 colorSelection.SetInitialColor();
             }
-            
             colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+            ToggleStartGameButton();
         }
         
         #endregion
