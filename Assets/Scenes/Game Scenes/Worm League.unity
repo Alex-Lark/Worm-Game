@@ -777,6 +777,8 @@ MonoBehaviour:
   playerSpawning: {fileID: 0}
   wormForwardMovement: {fileID: 0}
   wormHeadCopy: {fileID: 0}
+  wormJump: {fileID: 0}
+  wormHeadBut: {fileID: 0}
 --- !u!1 &218510798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &422120760
 MonoBehaviour:
   m_ObjectHideFlags: 0

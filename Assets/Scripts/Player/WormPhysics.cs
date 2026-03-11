@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PurrNet;
 using UnityEngine;
 
 namespace Player
@@ -68,7 +69,18 @@ namespace Player
             {
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
+                // if (segment.GetComponent<NetworkRigidbody>() != null)
+                // {
+                //     segment.GetComponent<NetworkRigidbody>().enabled = true;
+                // }
             }
+            // else
+            // {
+            //     if (segment.GetComponent<NetworkRigidbody>() != null)
+            //     {
+            //         segment.GetComponent<NetworkRigidbody>().enabled = false;
+            //     }
+            // }
         }
 
         public void PositionWormSegments(Vector3 headPosition)

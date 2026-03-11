@@ -174,8 +174,8 @@ namespace GameLoop
 
                 yield return StartCoroutine(MinigameTimer());
 
-                sceneSwitcher.LoadLeaderboardScene();
-                yield return StartCoroutine(LeaderboardTimer());
+                // sceneSwitcher.LoadLeaderboardScene();
+                // yield return StartCoroutine(LeaderboardTimer());
             }
 
             sceneSwitcher.LoadGameEndScene();
@@ -237,7 +237,6 @@ namespace GameLoop
         private IEnumerator MinigameTimer()
         {
             LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetWormInGameScene();
-            TimeLeftInScene = timePerMinigame;
 
             while (TimeLeftInScene > 0)
             {

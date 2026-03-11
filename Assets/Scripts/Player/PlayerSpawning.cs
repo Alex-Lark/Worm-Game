@@ -163,6 +163,7 @@ namespace Player
         
         private void OwnerSetup()
         {
+            Debug.Log("Owner setup called");
             player.CurrentState = WormState.Idle;
             player.IsWormGrounded = false;
             player.MaxVelocity = GameParameters.WormMaxVelocity;

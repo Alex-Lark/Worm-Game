@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Player;
 using PurrNet;
@@ -41,6 +42,59 @@ namespace CreatureParts
         protected virtual void FixedUpdate()
         {
             CheckGrounded();
+        }
+
+        protected override void OnSpawned(bool asServer)
+        {
+            if (asServer) return; // server doesn't need to request ownership
+    
+            if (owner != null) return; // already has an owner
+    
+            var parentPlayer = GetComponentInParent<Player.Player>();
+            if (parentPlayer == null)
+            {
+                StartCoroutine(WaitForParentAndClaimOwnership());
+                return;
+            }
+    
+            if (parentPlayer.owner != null)
+            {
+                GiveOwnership(parentPlayer.owner.Value);
+            }
+            else
+            {
+                StartCoroutine(WaitForParentAndClaimOwnership());
+            }
+        }
+
+        private IEnumerator WaitForParentAndClaimOwnership()
+        {
+            Player.Player parentPlayer = null;
+            PlayerID? parentOwner = null;
+    
+            float elapsed = 0f;
+            while (elapsed < 3f)
+            {
+                parentPlayer = GetComponentInParent<Player.Player>();
+                if (parentPlayer != null && parentPlayer.owner != null)
+                {
+                    parentOwner = parentPlayer.owner;
+                    break;
+                }
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+    
+            if (parentOwner == null)
+            {
+                Debug.LogError($"WaitForParentAndClaimOwnership timed out on {gameObject.name}");
+                yield break;
+            }
+    
+            if (owner == null)
+            {
+                GiveOwnership(parentOwner.Value);
+            }
         }
 
         #endregion
