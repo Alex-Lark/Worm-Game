@@ -171,11 +171,12 @@ namespace GameLoop
                 readyForGame = false;
                 Debug.Log("loading game scene");
                 Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
+                Debug.Log("Scene load called, about to start MinigameTimer");
 
                 yield return StartCoroutine(MinigameTimer());
 
-                // sceneSwitcher.LoadLeaderboardScene();
-                // yield return StartCoroutine(LeaderboardTimer());
+                sceneSwitcher.LoadLeaderboardScene();
+                yield return StartCoroutine(LeaderboardTimer());
             }
 
             sceneSwitcher.LoadGameEndScene();
@@ -236,10 +237,11 @@ namespace GameLoop
 
         private IEnumerator MinigameTimer()
         {
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetWormInGameScene();
-
+            Debug.Log("starting minigame timer with " + TimeLeftInScene);
+            TimeLeftInScene = timePerMinigame;
             while (TimeLeftInScene > 0)
             {
+                Debug.Log("minigame timer " + TimeLeftInScene);
                 TimeLeftInScene -= Time.deltaTime;
                 yield return null;
             }

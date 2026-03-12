@@ -5,6 +5,7 @@ using Player;
 using PurrNet;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CreatureParts
 {
@@ -53,11 +54,18 @@ namespace CreatureParts
             var parentPlayer = GetComponentInParent<Player.Player>();
             if (parentPlayer == null)
             {
-                StartCoroutine(WaitForParentAndClaimOwnership());
-                return;
+                if (SceneManager.GetActiveScene().name == "CreatureBuilderScene")
+                {
+                    GiveOwnership(localPlayer);
+                }
+                else
+                {
+                    StartCoroutine(WaitForParentAndClaimOwnership());
+                    return;
+                }
             }
     
-            if (parentPlayer.owner != null)
+            if (parentPlayer != null && parentPlayer.owner != null)
             {
                 GiveOwnership(parentPlayer.owner.Value);
             }

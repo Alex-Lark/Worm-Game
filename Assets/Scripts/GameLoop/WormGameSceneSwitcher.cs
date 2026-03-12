@@ -49,11 +49,6 @@ namespace GameLoop
         public void LoadGameScene()
         {
             SceneManager.LoadScene(GameSceneList.GetRandomGameScene());
-            
-            foreach (Player.Player player in GameLoop.Instance.players)
-            {
-                player.playerSpawning.SetWormInGameScene();
-            }
         }
     
         public void LoadLeaderboardScene()
