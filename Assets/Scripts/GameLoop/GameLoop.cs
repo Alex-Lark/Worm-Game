@@ -168,6 +168,7 @@ namespace GameLoop
                 }
 
                 yield return new WaitUntil(() => readyForGame);
+                GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>().AttachCreatureParts();
                 readyForGame = false;
                 Debug.Log("loading game scene");
                 Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
@@ -202,7 +203,6 @@ namespace GameLoop
             yield return StartCoroutine(CreatureBuilderTimer());
             StartCoroutine(LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetWormInCreatureBuilderScene());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
-            creatureBuilder.AttachCreatureParts();
         }
         
 
@@ -237,11 +237,9 @@ namespace GameLoop
 
         private IEnumerator MinigameTimer()
         {
-            Debug.Log("starting minigame timer with " + TimeLeftInScene);
             TimeLeftInScene = timePerMinigame;
             while (TimeLeftInScene > 0)
             {
-                Debug.Log("minigame timer " + TimeLeftInScene);
                 TimeLeftInScene -= Time.deltaTime;
                 yield return null;
             }

@@ -44,28 +44,21 @@ namespace CreatureParts
         {
             CheckGrounded();
         }
-
+        
         protected override void OnSpawned(bool asServer)
         {
-            if (asServer) return; // server doesn't need to request ownership
-    
-            if (owner != null) return; // already has an owner
-    
+            if (asServer) return;
+            if (owner != null) return;
+
             var parentPlayer = GetComponentInParent<Player.Player>();
+
             if (parentPlayer == null)
             {
-                if (SceneManager.GetActiveScene().name == "CreatureBuilderScene")
-                {
-                    GiveOwnership(localPlayer);
-                }
-                else
-                {
-                    StartCoroutine(WaitForParentAndClaimOwnership());
-                    return;
-                }
+                GiveOwnership(localPlayer);
+                return;
             }
-    
-            if (parentPlayer != null && parentPlayer.owner != null)
+
+            if (parentPlayer.owner.HasValue)
             {
                 GiveOwnership(parentPlayer.owner.Value);
             }

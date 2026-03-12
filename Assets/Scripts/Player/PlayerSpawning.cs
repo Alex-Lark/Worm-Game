@@ -124,6 +124,7 @@ namespace Player
         
         public void SetWormInGameScene()
         {
+            Debug.Log("setting worm in game scene"); 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
             player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
             foreach (Transform segment in player.wormBodySegments)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
 using Player;
+using PurrNet;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -103,12 +104,14 @@ namespace CreatureBuilder
         
         public void AttachCreatureParts()
         {
+            Debug.Log("attaching all creature parts");
             foreach (GameObject part in parts)
             {
                 PartDragging partDragging = part.GetComponent<PartDragging>();
         
                 if (partDragging != null && partDragging.isClamped)
                 {
+                    Debug.Log("attaching specific creature part");
                     Transform wormSegment = FindNearestWormSegment(part);
                     AddPartToWorm(part, wormSegment);
                 }
@@ -145,6 +148,9 @@ namespace CreatureBuilder
 
         private void AddAlreadyAttachedPart(GameObject part)
         {
+            var netRb = part.GetComponent<NetworkRigidbody>();
+            if (netRb != null) netRb.enabled = false;
+            
             PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
             GameObject prefab = partDraggingComponent.Prefab;
 
@@ -280,9 +286,20 @@ namespace CreatureBuilder
 
     private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     {
+        var netRb = creaturePart.GetComponent<NetworkRigidbody>();
+        if (netRb != null) netRb.enabled = true;
+
+        
         creaturePart.transform.parent = Player.LocalPlayer.Instance.transform;
         creaturePart.GetComponent<PartDragging>().DeselectPart();
         creaturePart.GetComponent<PartDragging>().enabled = false;
+        
+        var rb = creaturePart.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        }
         
         LegPart legPart = creaturePart.GetComponent<LegPart>();
         if (legPart != null)
@@ -426,6 +443,10 @@ namespace CreatureBuilder
         private GameObject SpawnPartInWorld(GameObject prefab, Vector3 position)
         {
             GameObject instance = Instantiate(prefab, position, Quaternion.identity);
+            
+            var netRb = instance.GetComponent<NetworkRigidbody>();
+            if (netRb != null) netRb.enabled = false;
+            
             instance.name = prefab.name;
     
             PartDragging partDragging = instance.GetComponent<PartDragging>();
