@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/wing object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/wing object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/ProjectilePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/ProjectilePart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/WingPart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/WingPart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormForwardMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormForwardMovement.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Damaging-parts" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -42,12 +46,11 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisRotationHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisTranslationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartPair.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/FinPart.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/DeadBodyPart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/DeathScreenUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@f250afc9b68d/Runtime/UGUI/EventSystem/ExecuteEvents.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -67,7 +70,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "bugFIxing",
+    "git-widget-placeholder": "partRework",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
