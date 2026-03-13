@@ -286,55 +286,56 @@ namespace CreatureBuilder
 
     private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     {
-        var netRb = creaturePart.GetComponent<NetworkRigidbody>();
-        if (netRb != null) netRb.enabled = true;
+        // Capture transform data before destroying local instance
+        Vector3 position = creaturePart.transform.position;
+        Quaternion rotation = creaturePart.transform.rotation;
+        GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
+        
+        Destroy(creaturePart);
+        
+        // Spawn networked version
+        GameObject networkedPart = Instantiate(prefab, position, rotation);
+        Network.instance.manager.Spawn(networkedPart);
+        networkedPart.GetComponent<AttachablePart>().GiveOwnership(Player.LocalPlayer.Instance.localPlayer.Value);
+        
+        // Now parent and configure the networked part
+        networkedPart.transform.SetParent(LocalPlayer.Instance.transform);
+        networkedPart.GetComponent<PartDragging>().DeselectPart();
+        networkedPart.GetComponent<PartDragging>().enabled = false;
 
-        
-        creaturePart.transform.parent = Player.LocalPlayer.Instance.transform;
-        creaturePart.GetComponent<PartDragging>().DeselectPart();
-        creaturePart.GetComponent<PartDragging>().enabled = false;
-        
-        var rb = creaturePart.GetComponent<Rigidbody>();
+        var rb = networkedPart.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.isKinematic = false;
             rb.useGravity = true;
         }
-        
-        LegPart legPart = creaturePart.GetComponent<LegPart>();
+
+        LegPart legPart = networkedPart.GetComponent<LegPart>();
         if (legPart != null)
         {
             Player.LocalPlayer.Instance.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
             legPart.enabled = true;
-            legs.Add(creaturePart);
+            legs.Add(networkedPart);
         }
-        
-        Rigidbody partRigidbody = creaturePart.GetComponent<Rigidbody>();
-        
+
+        Rigidbody partRigidbody = networkedPart.GetComponent<Rigidbody>();
         if (partRigidbody == null)
-        {
-            partRigidbody = creaturePart.AddComponent<Rigidbody>();
-        }
-        
+            partRigidbody = networkedPart.AddComponent<Rigidbody>();
+
         Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
         if (segmentRigidbody != null)
-        {
-            creaturePart.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, creaturePart.GetComponent<PartDragging>().partData.mass);
-        }
-        
-        Transform endPoint = creaturePart.GetComponent<PartDragging>().endPoint;
+            networkedPart.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, networkedPart.GetComponent<PartDragging>().partData.mass);
+
+        Transform endPoint = networkedPart.GetComponent<PartDragging>().endPoint;
         if (endPoint == null)
         {
-            Debug.LogError("No endPoint found on part: " + creaturePart.name);
+            Debug.LogError("No endPoint found on part: " + networkedPart.name);
             return;
         }
 
-        // Add hinge joint
-        creaturePart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
-
-        Player.LocalPlayer.Instance.attachedWormParts.Add(creaturePart);
-
-        IgnorePartCollisionWithWorm(creaturePart, wormSegment);
+        networkedPart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
+        Player.LocalPlayer.Instance.attachedWormParts.Add(networkedPart);
+        IgnorePartCollisionWithWorm(networkedPart, wormSegment);
     }
 
         private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)

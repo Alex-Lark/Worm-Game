@@ -194,12 +194,18 @@ namespace Player
 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>(); 
             player.thirdPersonCamera = Camera.main?.gameObject;
+            Debug.Break();
             
-            GetComponent<WormPhysics>().ResetPlayerPhysics();
+            //GetComponent<WormPhysics>().ResetPlayerPhysics();
+            Debug.Break();
+            
             GetComponent<WormPhysics>().AddCollidersToSegments();
+            Debug.Break();
             SetWormSpawnPosition(new Vector3(0, 2, 0));
             SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
+            Debug.Break();
             player.wormConstructor.ConstructWorm();
+            Debug.Break();
             
             player.wormForwardMovement.SetVariables();
         }
@@ -240,7 +246,7 @@ namespace Player
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
             
-            GetComponent<WormPhysics>().ResetPlayerPhysics();
+            //GetComponent<WormPhysics>().ResetPlayerPhysics();
             GetComponent<PlayerSpawning>().SetWormSpawnPosition(new Vector3(0, 2, 0));
             GetComponent<PlayerSpawning>().SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
             player.wormConstructor.ConstructWorm();

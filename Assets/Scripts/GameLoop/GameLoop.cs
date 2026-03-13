@@ -169,6 +169,7 @@ namespace GameLoop
 
                 yield return new WaitUntil(() => readyForGame);
                 GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>().AttachCreatureParts();
+                Debug.Break();
                 readyForGame = false;
                 Debug.Log("loading game scene");
                 Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
