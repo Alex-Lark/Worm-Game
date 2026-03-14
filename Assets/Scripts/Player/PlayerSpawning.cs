@@ -127,10 +127,10 @@ namespace Player
             Debug.Log("setting worm in game scene"); 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
             player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                segment.GetComponent<Rigidbody>().isKinematic = false;
-            }
+             foreach (Transform segment in player.wormBodySegments)
+             {
+                 segment.GetComponent<Rigidbody>().isKinematic = false;
+             }
             
             StartCoroutine(SetupAfterSceneLoad());
             player.ActivatePlayer();
@@ -196,7 +196,7 @@ namespace Player
             player.thirdPersonCamera = Camera.main?.gameObject;
             Debug.Break();
             
-            //GetComponent<WormPhysics>().ResetPlayerPhysics();
+            GetComponent<WormPhysics>().ResetPlayerPhysics();
             Debug.Break();
             
             GetComponent<WormPhysics>().AddCollidersToSegments();

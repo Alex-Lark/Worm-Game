@@ -104,6 +104,13 @@ namespace CreatureBuilder
         
         public void AttachCreatureParts()
         {
+            if (Network.instance.manager.isServer)
+            {
+                Debug.Log("Running on server");
+            }
+            if (!Network.instance.manager.isServer)
+                return;
+            
             Debug.Log("attaching all creature parts");
             foreach (GameObject part in parts)
             {
@@ -223,6 +230,7 @@ namespace CreatureBuilder
 
         private void SetLegOrder()
         {
+            Debug.Log("Setting leg order");
             int numLegs = legs.Count;
             float totalTime = GameParameters.LegMoveTime;
 
@@ -251,6 +259,7 @@ namespace CreatureBuilder
         
         private void ReturnAllCardsToPlayerInventory()
         {
+            Debug.Log("returning all cards");
             CreatureBuilderPartInventory inventory = FindFirstObjectByType<CreatureBuilderPartInventory>();
             
             if (inventory == null)
@@ -292,14 +301,19 @@ namespace CreatureBuilder
         GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
         
         Destroy(creaturePart);
+        Debug.Log("destroyed creature part non-networked");
         
-        // Spawn networked version
-        GameObject networkedPart = Instantiate(prefab, position, rotation);
-        Network.instance.manager.Spawn(networkedPart);
-        networkedPart.GetComponent<AttachablePart>().GiveOwnership(Player.LocalPlayer.Instance.localPlayer.Value);
+    
+        // Instantiate already parented under the player, like worm segments are
+        GameObject networkedPart = Instantiate(prefab, position, rotation, LocalPlayer.Instance.transform);
+
+        //Network.instance.manager.Spawn(networkedPart);
+        //networkedPart.transform.SetParent(LocalPlayer.Instance.transform);
+        
+        networkedPart.GetComponent<AttachablePart>().GiveOwnership(LocalPlayer.Instance.localPlayer.Value);
+        Debug.Log("networked part owner: " + networkedPart.GetComponent<NetworkRigidbody>().owner);
         
         // Now parent and configure the networked part
-        networkedPart.transform.SetParent(LocalPlayer.Instance.transform);
         networkedPart.GetComponent<PartDragging>().DeselectPart();
         networkedPart.GetComponent<PartDragging>().enabled = false;
 
@@ -340,6 +354,7 @@ namespace CreatureBuilder
 
         private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
         {
+            Debug.Log("ignoring part collision with worm");
             int numSegments = GameParameters.NumSegmentCollisionsIgnored;
 
             // Get all colliders on the part and its children

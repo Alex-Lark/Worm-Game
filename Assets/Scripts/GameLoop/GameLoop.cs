@@ -169,10 +169,11 @@ namespace GameLoop
 
                 yield return new WaitUntil(() => readyForGame);
                 GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>().AttachCreatureParts();
-                Debug.Break();
                 readyForGame = false;
+                yield return new WaitForSeconds(0.5f);
                 Debug.Log("loading game scene");
                 Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
+                Debug.Break();
                 Debug.Log("Scene load called, about to start MinigameTimer");
 
                 yield return StartCoroutine(MinigameTimer());

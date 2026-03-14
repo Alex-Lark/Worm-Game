@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CreatureParts;
+using JamesFrowen.SimpleWeb;
 using PurrNet;
 using Unity.VisualScripting;
 using Unity.Cinemachine;
@@ -237,6 +238,7 @@ namespace Player
         
         public void OnPlayerDeath()
         {
+            Debug.Log("Player died");
             if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 return;
