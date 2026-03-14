@@ -21,8 +21,6 @@ public class Network : MonoBehaviour
     
     public static Network instance;
     
-
-    
     bool Init = false;
 
     private GameObject networkObject;

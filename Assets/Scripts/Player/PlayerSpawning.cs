@@ -35,19 +35,11 @@ namespace Player
             {
                 deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             }
-
-            // if (LocalPlayer.Instance == null)
-            // {
-            //     Debug.Log("registering local player in start");
-            //     LocalPlayer.Register(player);
-            // }
         }
         
         protected override void OnSpawned(bool asServer)
         {
             if (player == null) player = GetComponent<Player>();
-    
-            Debug.Log($"OnSpawned - isOwner: {isOwner} asServer: {asServer} isServer: {isServer}");
     
             if (asServer) return;
 
@@ -73,17 +65,16 @@ namespace Player
         
         protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
         {
-            Debug.Log($"Owner changed: {oldOwner} -> {newOwner} | isOwner: {isOwner} | asServer: {asServer}");
-
+        
             if (asServer && newOwner.HasValue)
             {
                 // Only server creates networked segments
                 if (player == null) player = GetComponent<Player>();
                 player.wormBodySegments.Clear();
                 player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-                player.wormConstructor.CreateWormSegments(); // server spawns, clients receive
+                player.wormConstructor.CreateWormSegments();
             }
-
+        
             if (!asServer && isOwner)
             {
                 if (player == null) player = GetComponent<Player>();
@@ -126,7 +117,6 @@ namespace Player
         
         public void SetWormInGameScene()
         {
-            Debug.Log("setting worm in game scene"); 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
             player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
              foreach (Transform segment in player.wormBodySegments)
@@ -173,8 +163,7 @@ namespace Player
             player.wormForwardMovement = GetComponent<WormForwardMovement>();
             player.wormJump = GetComponent<WormJump>();
             player.wormHeadBut = GetComponent<WormHeadBut>();
-
-            // Wait for server-spawned segments to replicate, then configure
+            
             StartCoroutine(WaitForSegmentsThenSetup());
         }
         
@@ -222,8 +211,6 @@ namespace Player
             player.wormForwardMovement.SetVariables();
         }
         
-        
-        
         private void RespawnPlayer()
         {
             if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -258,7 +245,7 @@ namespace Player
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
             
-            //GetComponent<WormPhysics>().ResetPlayerPhysics();
+            GetComponent<WormPhysics>().ResetPlayerPhysics();
             GetComponent<PlayerSpawning>().SetWormSpawnPosition(new Vector3(0, 2, 0));
             GetComponent<PlayerSpawning>().SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
             player.wormConstructor.ConstructWorm();
@@ -293,7 +280,6 @@ namespace Player
         
         private void SetWormSpawnPosition(Vector3 spawnPosition)
         {
-            Debug.Log("SetWormPosition called");
             if (player.wormHead == null) return;
         
             player.wormHead.position = spawnPosition;
@@ -416,11 +402,8 @@ namespace Player
         [ServerRpc(requireOwnership: false)]
         private void RequestOwnershipServerRpc(PlayerID caller = default)
         {
-            Debug.Log("Ownership requested");
-            Debug.Log("Owner: " + owner.ToString());
             if (owner == null || owner.ToString() == "Server")
             {
-                Debug.Log("giving ownership");
                 GiveOwnership(caller);
             }
         }

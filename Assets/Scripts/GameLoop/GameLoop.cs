@@ -170,10 +170,7 @@ namespace GameLoop
                 yield return new WaitUntil(() => readyForGame);
                 GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>().AttachCreatureParts();
                 readyForGame = false;
-                yield return new WaitForSeconds(0.5f);
-                Debug.Log("loading game scene");
                 Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
-                Debug.Log("Scene load called, about to start MinigameTimer");
 
                 yield return StartCoroutine(MinigameTimer());
 
@@ -280,7 +277,6 @@ namespace GameLoop
         {
             while (true)
             {
-                //Debug.Log("Sending time left in scene: " + GameLoop.TimeLeftInScene);
                 yield return new WaitForSeconds(0.1f);
                 if (Network.instance != null)
                 {

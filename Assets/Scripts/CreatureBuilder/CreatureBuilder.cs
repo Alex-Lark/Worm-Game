@@ -277,7 +277,6 @@ namespace CreatureBuilder
                     GameObject cardInstance = slot.currentItem.gameObject;
                     string cardName = cardInstance.name.Replace("(Clone)", "").Trim();
                     
-                    // Find the original prefab
                     foreach (var pair in partPairs)
                     {
                         if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
@@ -287,7 +286,6 @@ namespace CreatureBuilder
                         }
                     }
                     
-                    // Destroy the card instance
                     Destroy(cardInstance);
                 }
             }
@@ -295,7 +293,6 @@ namespace CreatureBuilder
 
     private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
     {
-        // Capture transform data before destroying local instance
         Vector3 position = creaturePart.transform.position;
         Quaternion rotation = creaturePart.transform.rotation;
         GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
@@ -351,15 +348,12 @@ namespace CreatureBuilder
         {
             Debug.Log("ignoring part collision with worm");
             int numSegments = GameParameters.NumSegmentCollisionsIgnored;
-
-            // Get all colliders on the part and its children
+            
             Collider[] partColliders = part.GetComponentsInChildren<Collider>();
-
-            // Ignore collisions in both directions along the worm
+            
             IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
             IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
-
-            //ignore collisions with all other attached parts
+            
             foreach (var attachedWormPart in Player.LocalPlayer.Instance.attachedWormParts)
             {
                 Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);

@@ -48,13 +48,11 @@ namespace Player
     
         public void ResetWormPhysics()
         {
-            Debug.Log("Reset worm physics called");
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {
                 SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
             }
-            Debug.Log("Reset worm physics ended");
         }
 
         public void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
@@ -69,18 +67,7 @@ namespace Player
             {
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-                // if (segment.GetComponent<NetworkRigidbody>() != null)
-                // {
-                //     segment.GetComponent<NetworkRigidbody>().enabled = true;
-                // }
             }
-            // else
-            // {
-            //     if (segment.GetComponent<NetworkRigidbody>() != null)
-            //     {
-            //         segment.GetComponent<NetworkRigidbody>().enabled = false;
-            //     }
-            // }
         }
 
         public void PositionWormSegments(Vector3 headPosition)
@@ -99,7 +86,6 @@ namespace Player
         
         public void ResetPlayerPhysics()
         {
-            Debug.Log("Resetting player physics");
             player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
@@ -151,34 +137,34 @@ namespace Player
         
         public void ResetWormPosition()
         {
-            // if (player.wormHead == null) return;
-            //
-            // player.wormHead.position = new Vector3(0, 2, 0);
-            // Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
-            // if (headRb != null)
-            // {
-            //     headRb.useGravity = true;
-            //     headRb.isKinematic = false;
-            //     headRb.linearVelocity = Vector3.zero;
-            //     headRb.angularVelocity = Vector3.zero;
-            // }
-            //
-            // Vector3 currentPos = player.wormHead.position;
-            // Vector3 backDir = -player.wormHead.forward;
-            //
-            // for (int i = 0; i < player.wormBodySegments.Count; i++)
-            // {
-            //     currentPos += backDir * GameParameters.SegmentMaxPartDistance;
-            //     Transform segment = player.wormBodySegments[i];
-            //     segment.position = currentPos;
-            //     segment.rotation = player.wormHead.rotation;
-            //
-            //     Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
-            //     segmentRb.useGravity = true;
-            //     segmentRb.isKinematic = false;
-            //     segmentRb.linearVelocity = Vector3.zero;
-            //     segmentRb.angularVelocity = Vector3.zero;
-            // }
+            if (player.wormHead == null) return;
+            
+            player.wormHead.position = new Vector3(0, 2, 0);
+            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
+            if (headRb != null)
+            {
+                headRb.useGravity = true;
+                headRb.isKinematic = false;
+                headRb.linearVelocity = Vector3.zero;
+                headRb.angularVelocity = Vector3.zero;
+            }
+            
+            Vector3 currentPos = player.wormHead.position;
+            Vector3 backDir = -player.wormHead.forward;
+            
+            for (int i = 0; i < player.wormBodySegments.Count; i++)
+            {
+                currentPos += backDir * GameParameters.SegmentMaxPartDistance;
+                Transform segment = player.wormBodySegments[i];
+                segment.position = currentPos;
+                segment.rotation = player.wormHead.rotation;
+            
+                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
+                segmentRb.useGravity = true;
+                segmentRb.isKinematic = false;
+                segmentRb.linearVelocity = Vector3.zero;
+                segmentRb.angularVelocity = Vector3.zero;
+            }
         }
         
         public void ResetWormOrientation()
@@ -190,10 +176,6 @@ namespace Player
                 segment.rotation = Quaternion.identity;
             }
         }
-        
-        #endregion
-
-        #region Private Methods
         
         #endregion
     }
