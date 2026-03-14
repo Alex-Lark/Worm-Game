@@ -7,16 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WormOutsideMaterial
+  m_Name: Worm Glow_4
   m_Shader: {fileID: -6465566751694194690, guid: dc3a836a55e748f48b955c872b4773ff, type: 3}
-  m_Parent: {fileID: 2100000, guid: 08ed4e0b08e865f488a34ca22b58d44a, type: 2}
-  m_ModifiedSerializedProperties: 2
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
-  - _DETAIL_MULX2
-  - _OCCLUSIONMAP
-  - _PARALLAXMAP
-  m_LightmapFlags: 4
+  - _EMISSION
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -28,22 +26,40 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 7efcc7143422d5547bb7d000ee33bc82, type: 3}
+        m_Texture: {fileID: 2800000, guid: b1dd016ccd5d9a747bf5c574bc0dbe99, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic_Smoothness:
-        m_Texture: {fileID: 2800000, guid: 122b40245a905a441950d1f5700dccfe, type: 3}
+        m_Texture: {fileID: 2800000, guid: b257f3baa88c9944d91e8ef79a062b9c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
+        m_Texture: {fileID: 2800000, guid: a11bcb12a47f3d944833efb908dca92e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fresnel_Power: 10
+    - _Fresnel_Power: 6
+    - _QueueControl: 0
+    - _QueueOffset: 0
     m_Colors:
-    - _Base_Color: {r: 0, g: 0.94768524, b: 1, a: 0}
-    - _Fresnel_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Base_Color: {r: 1, g: 0, b: 0.044383526, a: 0}
+    - _Fresnel_Color: {r: 15.999998, g: 3.2338934, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &5106615200098589033
+--- !u!114 &7747413917927083320
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,5 +70,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  m_EditorClassIdentifier: 
   version: 10

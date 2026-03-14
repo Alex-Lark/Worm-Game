@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: dc3a836a55e748f48b955c872b4773ff
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 342926
+  packageName: Worms FREE
+  packageVersion: 1.0
+  assetPath: Assets/Worms FREE/Shadergraph/Glowing Shader.shadergraph
+  uploadId: 813578

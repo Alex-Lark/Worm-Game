@@ -7,8 +7,6 @@ namespace Player
     [RequireComponent(typeof(LineRenderer))]
     public class WormRenderer : MonoBehaviour
     {
-        /* THIS IS AFFECTS NO GAMEPLAY MECHANICS, ONLY VISUAL APPEARANCE OF WORM. TO BE REFACTORED AT A LATER DATE. */
-
         [Header("Worm Visual Settings")]
         public Material wormMaterial;
         public int tubeResolution = 8;
