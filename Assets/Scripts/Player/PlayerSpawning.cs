@@ -75,17 +75,19 @@ namespace Player
         {
             Debug.Log($"Owner changed: {oldOwner} -> {newOwner} | isOwner: {isOwner} | asServer: {asServer}");
 
+            if (asServer && newOwner.HasValue)
+            {
+                // Only server creates networked segments
+                if (player == null) player = GetComponent<Player>();
+                player.wormBodySegments.Clear();
+                player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
+                player.wormConstructor.CreateWormSegments(); // server spawns, clients receive
+            }
+
             if (!asServer && isOwner)
             {
                 if (player == null) player = GetComponent<Player>();
-        
                 LocalPlayer.Register(player);
-
-                if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-                {
-                    //DontDestroyOnLoad(gameObject);
-                }
-
                 OwnerSetup();
             }
         }
@@ -164,7 +166,6 @@ namespace Player
         
         private void OwnerSetup()
         {
-            Debug.Log("Owner setup called");
             player.CurrentState = WormState.Idle;
             player.IsWormGrounded = false;
             player.MaxVelocity = GameParameters.WormMaxVelocity;
@@ -173,9 +174,27 @@ namespace Player
             player.wormJump = GetComponent<WormJump>();
             player.wormHeadBut = GetComponent<WormHeadBut>();
 
-            player.wormBodySegments.Clear();
+            // Wait for server-spawned segments to replicate, then configure
+            StartCoroutine(WaitForSegmentsThenSetup());
+        }
+        
+        private IEnumerator WaitForSegmentsThenSetup()
+        {
+            float elapsed = 0f;
+            while (player.wormBodySegments.Count < player.WormSegmentCount && elapsed < 3f)
+            {
+                RefreshSegmentsFromChildren();
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+
+            if (player.wormBodySegments.Count < player.WormSegmentCount)
+            {
+                Debug.LogError("WaitForSegmentsThenSetup timed out.");
+                yield break;
+            }
+
             player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-            player.wormConstructor.CreateWormSegments();
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
             GetComponent<WormPhysics>().ResetWormPhysics();
@@ -183,9 +202,7 @@ namespace Player
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
                 SetWormInGameScene();
             else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
-            {
                 StartCoroutine(SetWormInCreatureBuilderScene());
-            }
         }
         
         private IEnumerator SetupAfterSceneLoad()
@@ -194,18 +211,13 @@ namespace Player
 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>(); 
             player.thirdPersonCamera = Camera.main?.gameObject;
-            Debug.Break();
             
             GetComponent<WormPhysics>().ResetPlayerPhysics();
-            Debug.Break();
             
             GetComponent<WormPhysics>().AddCollidersToSegments();
-            Debug.Break();
             SetWormSpawnPosition(new Vector3(0, 2, 0));
             SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
-            Debug.Break();
             player.wormConstructor.ConstructWorm();
-            Debug.Break();
             
             player.wormForwardMovement.SetVariables();
         }

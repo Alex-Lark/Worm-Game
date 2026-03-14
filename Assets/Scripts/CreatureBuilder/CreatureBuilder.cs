@@ -303,12 +303,7 @@ namespace CreatureBuilder
         Destroy(creaturePart);
         Debug.Log("destroyed creature part non-networked");
         
-    
-        // Instantiate already parented under the player, like worm segments are
         GameObject networkedPart = Instantiate(prefab, position, rotation, LocalPlayer.Instance.transform);
-
-        //Network.instance.manager.Spawn(networkedPart);
-        //networkedPart.transform.SetParent(LocalPlayer.Instance.transform);
         
         networkedPart.GetComponent<AttachablePart>().GiveOwnership(LocalPlayer.Instance.localPlayer.Value);
         Debug.Log("networked part owner: " + networkedPart.GetComponent<NetworkRigidbody>().owner);

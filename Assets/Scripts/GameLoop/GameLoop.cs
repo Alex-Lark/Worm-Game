@@ -173,7 +173,6 @@ namespace GameLoop
                 yield return new WaitForSeconds(0.5f);
                 Debug.Log("loading game scene");
                 Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
-                Debug.Break();
                 Debug.Log("Scene load called, about to start MinigameTimer");
 
                 yield return StartCoroutine(MinigameTimer());
