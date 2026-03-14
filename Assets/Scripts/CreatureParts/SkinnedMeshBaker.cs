@@ -24,7 +24,7 @@ namespace CreatureParts
         private MeshFilter _outlineMeshFilter;
         private int _lastAnimatorHash;
 
-        private void Start()
+        private void Awake()
         {
             if (skinnedMeshRenderer == null)
                 skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
