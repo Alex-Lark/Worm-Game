@@ -14,6 +14,7 @@ namespace CreatureParts
         [Header("Settings")] public BakeMode bakeMode = BakeMode.OnceOnStart;
         public bool bakeCollider = true;
         public bool bakeOutlineMesh = false;
+        public Vector3 meshScale = Vector3.one;
 
         [Header("References (auto-found if empty)")]
         public SkinnedMeshRenderer skinnedMeshRenderer;
@@ -82,8 +83,11 @@ namespace CreatureParts
             Vector3[] vertices = bakedMesh.vertices;
             for (int i = 0; i < vertices.Length; i++)
             {
-                // Rotate from SMR space to world, then to root local - NO scale
                 vertices[i] = rootInvRot * (smrRot * vertices[i]) + posOffset;
+                // Apply scale after rotation
+                vertices[i].x *= meshScale.x;
+                vertices[i].y *= meshScale.y;
+                vertices[i].z *= meshScale.z;
             }
             bakedMesh.vertices = vertices;
             bakedMesh.RecalculateBounds();
@@ -107,6 +111,16 @@ namespace CreatureParts
             Gizmos.color = Color.green;
             Gizmos.matrix = transform.localToWorldMatrix;
             Gizmos.DrawWireMesh(col.sharedMesh);
+        }
+        
+        private void OnValidate()
+        {
+            if (!Application.isPlaying) return;
+            if (skinnedMeshRenderer == null)
+                skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (_meshCollider == null)
+                _meshCollider = GetComponent<MeshCollider>();
+            Bake();
         }
     }
 }
