@@ -9,6 +9,7 @@ namespace CreatureParts
         [SerializeField] private float wingForceDebuff;
         [SerializeField] private Transform forcePointA;
         [SerializeField] private Transform forcePointB;
+        [SerializeField] private Animation wingAnimation;
 
         private Rigidbody wormRb;
         private float currentForce;
@@ -37,17 +38,17 @@ namespace CreatureParts
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                //wingAnimation.Stop();
+                wingAnimation.Play();
                 ApplyThrust();
             }
         }
 
         private void ApplyThrust()
         {
-            print("called");
             if (wormRb == null || savedLaunchDirection == null) return;
             if (currentForce >= 0)
             {
-                print("winged");
                 wormRb.AddForce(savedLaunchDirection * currentForce, ForceMode.Force);
                 currentForce = currentForce - wingForceDebuff;
                 if (currentForce < 0)

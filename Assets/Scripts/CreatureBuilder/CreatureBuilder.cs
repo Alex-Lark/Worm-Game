@@ -24,6 +24,8 @@ namespace CreatureBuilder
         [Header("Private Variables")]
         
         private Player.Player player;
+
+        private InventoryItem hiddenCard;
         
         [SerializeField] private float spawnDistance = 5f;
         
@@ -43,13 +45,26 @@ namespace CreatureBuilder
         {
             StartCoroutine(AddAlreadyAttachedPartsDelayed());
         }
+        
+        void Update()
+        {
+            if (Input.GetMouseButtonUp(0) && hiddenCard != null)
+            {
+                hiddenCard.gameObject.SetActive(true);
+                hiddenCard = null;
+            }
+        }
         #endregion
 
         #region public methods
         
-        public void SwitchFromCardTo3DPart(GameObject cardPrefab)
+        public void SwitchFromCardTo3DPart(GameObject cardPrefab, InventoryItem card)
         {
             string cardName = cardPrefab.name.Replace("(Clone)", "").Trim();
+            if (card.infiniteSlot = true)
+            {
+                hiddenCard = card;
+            }
             
             if (prefabMapping.TryGetValue(cardName, out GameObject prefab3D))
             {
