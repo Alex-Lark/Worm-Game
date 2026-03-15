@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
   prefab: {fileID: 6895014049120698220}
   originalSlot: {fileID: 0}
+  infiniteSlot: 0
 --- !u!114 &2972389066813752137
 MonoBehaviour:
   m_ObjectHideFlags: 0

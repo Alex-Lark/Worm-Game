@@ -126,22 +126,28 @@ namespace CreatureBuilder
                 }
             }
         }
-        
+
         private void OnEnterCreatureBuilder()
         {
-            if (infiniteSlot)
+            if (infiniteSlot == true)
             {
                 canvasGroup.alpha = 1f;
                 canvasGroup.blocksRaycasts = true;
                 transform.SetParent(originalSlot.transform);
                 rectTransform.anchoredPosition = Vector2.zero;
             }
+
             creatureBuilder.SwitchFromCardTo3DPart(prefab, this);
             gameObject.SetActive(false);
-            if (!infiniteSlot)
+            if (infiniteSlot == false)
             {
-                Destroy(gameObject);
+                DestroySelf();
             }
+        }
+
+        public void DestroySelf()
+        {
+            Destroy(gameObject);
         }
         
         #endregion

@@ -725,7 +725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8433c1fe2117348ace9256eb06512c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.PartDragging
-  partData: {fileID: 11400000, guid: eab5bd48e1e0dd344b857d308fdb38a5, type: 2}
+  partData: {fileID: 11400000, guid: 2c61b9b64dea98b4d978f78c4cdc4b7d, type: 2}
   targetCamera: {fileID: 0}
   creatureBuilderWindow: {fileID: 0}
   endPoint: {fileID: 2854166833099561645}

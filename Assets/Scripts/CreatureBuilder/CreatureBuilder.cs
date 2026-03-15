@@ -60,11 +60,15 @@ namespace CreatureBuilder
         
         public void SwitchFromCardTo3DPart(GameObject cardPrefab, InventoryItem card)
         {
-            string cardName = cardPrefab.name.Replace("(Clone)", "").Trim();
-            if (card.infiniteSlot = true)
+            if (card.infiniteSlot == true)
             {
                 hiddenCard = card;
             }
+            else
+            {
+                card.DestroySelf();
+            }
+            string cardName = cardPrefab.name.Replace("(Clone)", "").Trim();
             
             if (prefabMapping.TryGetValue(cardName, out GameObject prefab3D))
             {

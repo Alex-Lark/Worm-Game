@@ -12,6 +12,7 @@ TagManager:
   - RotationHandle
   - TranslationHandle
   - Axis
+  - RecordingCamera
   layers:
   - Default
   - TransparentFX
