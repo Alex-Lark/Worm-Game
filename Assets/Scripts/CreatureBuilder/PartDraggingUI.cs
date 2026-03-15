@@ -14,8 +14,11 @@ namespace CreatureBuilder
         {
             foreach (Renderer partRenderer in GetComponentsInChildren<Renderer>())
             {
+                if (!partRenderer.enabled) continue;
+                
                 if (partRenderer is SkinnedMeshRenderer skinnedRenderer)
                 {
+                    
                     SkinnedMeshBaker baker = partRenderer.GetComponentInParent<SkinnedMeshBaker>();
                     MeshCollider col = baker != null ? baker.GetComponent<MeshCollider>() : null;
                     Mesh meshToUse = (col != null && col.sharedMesh != null) ? col.sharedMesh : null;
