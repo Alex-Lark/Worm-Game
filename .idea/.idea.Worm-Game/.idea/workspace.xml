@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormOutsideMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormOutsideMaterial.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Multiplayer/Network-Config.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Multiplayer/Network-Config.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +39,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/41b87322553648a1a76174c5109c71f91f7000/e1/e5cccafd/Object.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
@@ -117,10 +114,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="26372">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="30584">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="26372" />
+      <option name="pid" value="30584" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -185,7 +182,10 @@
       <workItem from="1772151343654" duration="1539000" />
       <workItem from="1772381532855" duration="3000" />
       <workItem from="1772381543270" duration="31385000" />
-      <workItem from="1772827974074" duration="2541000" />
+      <workItem from="1772827974074" duration="2591000" />
+      <workItem from="1773094690517" duration="471000" />
+      <workItem from="1773184626244" duration="2143000" />
+      <workItem from="1773357289627" duration="2382000" />
     </task>
     <task id="LOCAL-00022" summary="creature builder window wip">
       <option name="closed" value="true" />
@@ -656,17 +656,30 @@
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
-          <line>85</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'EndCardSelection'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
+          <line>146</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'RunGameLoop'">
             <startOffsets>
-              <option value="2454" />
+              <option value="4003" />
             </startOffsets>
             <endOffsets>
-              <option value="2523" />
+              <option value="4004" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="73" />
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
+          <line>175</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartMinigame'">
+            <startOffsets>
+              <option value="5188" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5220" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="87" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

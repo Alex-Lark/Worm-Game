@@ -36,7 +36,7 @@ namespace GameLoop
         private int timeForLeaderboard;
         private bool skipCreatureBuilding1StRound = false;
 
-        private bool readyForGame = false;
+        private bool EndOfRound = false;
 
         #endregion
 
@@ -76,7 +76,6 @@ namespace GameLoop
             sceneSwitcher = gameObject.GetComponent<WormGameSceneSwitcher>();
             sceneSwitcher.OnSceneLoaded += HandleSceneLoaded;
             SetDefaultGameLoopSettings();
-            StartCoroutine(gameObject.GetComponent<GameLoopTimeSyncer>().SendTimePacket());
         }
 
         private void OnDestroy()
@@ -143,20 +142,12 @@ namespace GameLoop
                 if (!skipCreatureBuilding1StRound || (i > 0))
                 {
                     yield return StartCoroutine(RunPartSelectionAndCreatureBuilding());
+                    yield return new WaitUntil(() => EndOfRound);
+                    EndOfRound = false;
                 }
-
-                yield return new WaitUntil(() => readyForGame);
-                readyForGame = false;
-                Debug.Log("loading game scene");
-                Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
-
-                yield return StartCoroutine(MinigameTimer());
-
-                sceneSwitcher.LoadLeaderboardScene();
-                yield return StartCoroutine(LeaderboardTimer());
             }
 
-            sceneSwitcher.LoadGameEndScene();
+            Network.instance.manager.sceneModule.LoadSceneAsync("GameEndScene");
         }
 
         private IEnumerator RunPartSelectionAndCreatureBuilding()
@@ -165,10 +156,7 @@ namespace GameLoop
             Network.instance.manager.sceneModule.LoadSceneAsync("PartSelectionScene");
             for (int j = 0; j < numberOfPartsPerRound; j++)
             {
-                yield return StartCoroutine(PartSelectionTimer());
-
-                //PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
-                //partSelection.EndCardSelection();
+                yield return StartCoroutine(GameLoopTimeSyncer.Timer(timePerPartSelection));
             }
         }
 
@@ -176,17 +164,29 @@ namespace GameLoop
         {
             TimeLeftInScene = 0;
             Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
-            yield return StartCoroutine(CreatureBuilderTimer());
+            yield return StartCoroutine(GameLoopTimeSyncer.Timer(timePerCreatureBuilding));
             StartCoroutine(LocalPlayer.Instance.SetWormInCreatureBuilderScene());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();
+            yield return StartCoroutine(StartMinigame());
         }
-        
+
+        private IEnumerator StartMinigame()
+        {
+            Debug.Log("loading game scene");
+            Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
+
+            yield return StartCoroutine(GameLoopTimeSyncer.Timer(timePerMinigame));
+
+            Network.instance.manager.sceneModule.LoadSceneAsync("LeaderboardScene");
+            yield return StartCoroutine(GameLoopTimeSyncer.Timer(timeForLeaderboard));
+            EndOfRound = true;
+        }
 
         #endregion
 
         #region Game Loop Timers
-
+/*
         private IEnumerator PartSelectionTimer()
         {
             TimeLeftInScene = timePerPartSelection;
@@ -235,18 +235,20 @@ namespace GameLoop
                 yield return null;
             }
         }
-
+*/
         #endregion
 
     }
     
     public class GameLoopTimeSyncer : PurrMonoBehaviour
     {
+        static float TimeLeftInScene;
         public static GameLoopTimeSyncer Instance;
         void Start()
         {
             Instance = this;
             DontDestroyOnLoad(this);
+            StartCoroutine(gameObject.GetComponent<GameLoopTimeSyncer>().SendTimePacket());
         }
 
         public struct TimePacket : IPackedAuto
@@ -261,6 +263,20 @@ namespace GameLoop
                 //Debug.Log("Sending time left in scene: " + GameLoop.TimeLeftInScene);
                 yield return new WaitForSeconds(0.1f);
                 Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = GameLoop.TimeLeftInScene });
+                GameLoop.TimeLeftInScene = TimeLeftInScene;
+            }
+        }
+        
+        public static IEnumerator Timer(float time)
+        {
+            if (Network.instance.manager.isServer || Network.instance.manager.isHost)
+            {
+                TimeLeftInScene = time;
+                while (TimeLeftInScene > 0)
+                {
+                    TimeLeftInScene -= Time.deltaTime;
+                    yield return null;
+                }
             }
         }
         public override void Subscribe(NetworkManager manager, bool asServer)
