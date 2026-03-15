@@ -50,20 +50,31 @@ namespace CreatureBuilder
                 
                 else if (partRenderer.TryGetComponent<MeshFilter>(out MeshFilter meshFilter))
                 {
+                    if (!meshFilter.mesh.isReadable)
+                    {
+                        Debug.LogWarning($"[PartDraggingUI] Mesh '{meshFilter.mesh.name}' is not readable.");
+                        continue;
+                    }
+
                     GameObject outlineObj = new GameObject(partRenderer.name + "_Outline");
+                    // Parent to the renderer's transform like before
                     outlineObj.transform.SetParent(partRenderer.transform);
                     outlineObj.transform.localPosition = Vector3.zero;
                     outlineObj.transform.localRotation = Quaternion.identity;
+                    // Match the local scale exactly so the outline sits in the same space
                     outlineObj.transform.localScale = Vector3.one;
 
                     MeshFilter outlineMeshFilter = outlineObj.AddComponent<MeshFilter>();
                     MeshRenderer outlineMeshRenderer = outlineObj.AddComponent<MeshRenderer>();
 
-                    outlineMeshFilter.mesh = CreateInvertedMesh(meshFilter.mesh, GameParameters.PartDraggingOutlineWidth);
+                    // Scale thickness by the inverse of the object's lossy scale
+                    // so outline width appears consistent regardless of object scale
+                    float scaledThickness = GameParameters.PartDraggingOutlineWidth / partRenderer.transform.lossyScale.x;
+    
+                    outlineMeshFilter.mesh = CreateInvertedMesh(meshFilter.mesh, scaledThickness);
 
                     Material outlineMat = new Material(Shader.Find("Unlit/Color")) { color = GameParameters.PartDraggingOutlineColor };
                     outlineMeshRenderer.material = outlineMat;
-                    outlineMeshRenderer.sortingOrder = -1;
 
                     outlineObjects.Add(outlineObj);
                 }
