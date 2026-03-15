@@ -44,14 +44,24 @@ namespace CreatureParts
                 _meshCollider = GetComponent<MeshCollider>();
                 if (_meshCollider == null)
                     _meshCollider = gameObject.AddComponent<MeshCollider>();
-                
-                _meshCollider.convex = true;
             }
 
             Bake();
 
             if (bakeMode == BakeMode.OnceOnStart)
                 enabled = false;
+        }
+
+        public void EnableConvex()
+        {
+            //TODO: call this from creatureBuilding after multiplayer has been merged
+            _meshCollider.convex = true;
+        }
+
+        public void DisableConvex()
+        {
+            //TODO: call this from creatureBuilding after multiplayer has been merged
+            _meshCollider.convex = false;
         }
 
         public void Bake()
@@ -83,7 +93,6 @@ namespace CreatureParts
 
             if (bakeCollider && _meshCollider != null)
             {
-                _meshCollider.convex = true;
                 _meshCollider.sharedMesh = null;
                 _meshCollider.sharedMesh = bakedMesh;
                 Debug.Log($"[SkinnedMeshBaker] Collider world bounds: {_meshCollider.bounds}");
