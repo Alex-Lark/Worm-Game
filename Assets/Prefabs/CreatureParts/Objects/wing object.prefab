@@ -307,7 +307,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2854166833099561645}
   - component: {fileID: 2500504895883439413}
-  - component: {fileID: 1825892476553802429}
   m_Layer: 5
   m_Name: EndPoint
   m_TagString: Untagged
@@ -342,54 +341,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7512640008430943475}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1825892476553802429
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7512640008430943475}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8f3899a8e788c9448b1158b202f661e6, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7645826116521181914
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +367,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7645826116521181914}
   m_LocalRotation: {x: -1, y: -0, z: -0, w: 0.0000000754979}
-  m_LocalPosition: {x: 0, y: 0, z: -0.632}
+  m_LocalPosition: {x: 0, y: 0, z: -0.37}
   m_LocalScale: {x: 0.25, y: 0.24999999, z: 0.24999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -424,7 +375,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.484, y: -0}
+  m_AnchoredPosition: {x: 0.7, y: -0.77}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &7300175556819304476
@@ -442,7 +393,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7645826116521181914}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -763,7 +714,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9004540696427092719}
   m_LocalRotation: {x: -1, y: -0, z: -0, w: 0.0000000754979}
-  m_LocalPosition: {x: 0, y: 0, z: -0.58}
+  m_LocalPosition: {x: 0, y: 0, z: -0.29}
   m_LocalScale: {x: 0.25, y: 0.24999999, z: 0.24999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -771,7 +722,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.904, y: -0.445}
+  m_AnchoredPosition: {x: -0.904, y: -0.612}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &1975521904658617748
@@ -789,7 +740,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9004540696427092719}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -953,6 +904,10 @@ PrefabInstance:
     - target: {fileID: 2743427389004631919, guid: 06f0e55c79aaacd4793489290ae5cb14, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2743427389004631919, guid: 06f0e55c79aaacd4793489290ae5cb14, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: 2743427389004631919, guid: 06f0e55c79aaacd4793489290ae5cb14, type: 3}
       propertyPath: m_ConstrainProportionsScale
