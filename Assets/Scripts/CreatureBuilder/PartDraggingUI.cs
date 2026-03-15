@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CreatureParts;
 using UnityEngine;
 
 namespace CreatureBuilder
@@ -13,24 +14,56 @@ namespace CreatureBuilder
         {
             foreach (Renderer partRenderer in GetComponentsInChildren<Renderer>())
             {
-                if (!partRenderer.TryGetComponent<MeshFilter>(out MeshFilter meshFilter)) continue;
+                if (partRenderer is SkinnedMeshRenderer skinnedRenderer)
+                {
+                    SkinnedMeshBaker baker = partRenderer.GetComponentInParent<SkinnedMeshBaker>();
+                    MeshCollider col = baker != null ? baker.GetComponent<MeshCollider>() : null;
+                    Mesh meshToUse = (col != null && col.sharedMesh != null) ? col.sharedMesh : null;
+
+                    if (meshToUse == null)
+                    {
+                        Mesh bakedMesh = new Mesh();
+                        skinnedRenderer.BakeMesh(bakedMesh);
+                        meshToUse = bakedMesh;
+                    }
+
+                    GameObject outlineObj = new GameObject(partRenderer.name + "_Outline");
+                    outlineObj.transform.SetParent(baker != null ? baker.transform : transform);
+                    outlineObj.transform.localPosition = Vector3.zero;
+                    outlineObj.transform.localRotation = Quaternion.identity;
+                    outlineObj.transform.localScale = Vector3.one;
+
+                    MeshFilter outlineMeshFilter = outlineObj.AddComponent<MeshFilter>();
+                    MeshRenderer outlineMeshRenderer = outlineObj.AddComponent<MeshRenderer>();
+
+                    // Pass directly - inverted triangles + inward normals = expands outward
+                    outlineMeshFilter.mesh = CreateInvertedMesh(meshToUse, GameParameters.PartDraggingOutlineWidth);
+
+                    Material outlineMat = new Material(Shader.Find("Unlit/Color")) { color = GameParameters.PartDraggingOutlineColor };
+                    outlineMeshRenderer.material = outlineMat;
+
+                    outlineObjects.Add(outlineObj);
+                }
                 
-                GameObject outlineObj = new GameObject(partRenderer.name + "_Outline");
-                outlineObj.transform.SetParent(partRenderer.transform);
-                outlineObj.transform.localPosition = Vector3.zero;
-                outlineObj.transform.localRotation = Quaternion.identity;
-                outlineObj.transform.localScale = Vector3.one;
-            
-                MeshFilter outlineMeshFilter = outlineObj.AddComponent<MeshFilter>();
-                MeshRenderer outlineMeshRenderer = outlineObj.AddComponent<MeshRenderer>();
-            
-                outlineMeshFilter.mesh = CreateInvertedMesh(meshFilter.mesh, GameParameters.PartDraggingOutlineWidth);
-                
-                Material outlineMat = new Material(Shader.Find("Unlit/Color")) { color = GameParameters.PartDraggingOutlineColor };
-                outlineMeshRenderer.material = outlineMat;
-                outlineMeshRenderer.sortingOrder = -1;
-            
-                outlineObjects.Add(outlineObj);
+                else if (partRenderer.TryGetComponent<MeshFilter>(out MeshFilter meshFilter))
+                {
+                    GameObject outlineObj = new GameObject(partRenderer.name + "_Outline");
+                    outlineObj.transform.SetParent(partRenderer.transform);
+                    outlineObj.transform.localPosition = Vector3.zero;
+                    outlineObj.transform.localRotation = Quaternion.identity;
+                    outlineObj.transform.localScale = Vector3.one;
+
+                    MeshFilter outlineMeshFilter = outlineObj.AddComponent<MeshFilter>();
+                    MeshRenderer outlineMeshRenderer = outlineObj.AddComponent<MeshRenderer>();
+
+                    outlineMeshFilter.mesh = CreateInvertedMesh(meshFilter.mesh, GameParameters.PartDraggingOutlineWidth);
+
+                    Material outlineMat = new Material(Shader.Find("Unlit/Color")) { color = GameParameters.PartDraggingOutlineColor };
+                    outlineMeshRenderer.material = outlineMat;
+                    outlineMeshRenderer.sortingOrder = -1;
+
+                    outlineObjects.Add(outlineObj);
+                }
             }
         }
         
@@ -66,6 +99,23 @@ namespace CreatureBuilder
             mesh.vertices = vertices;
         
             mesh.RecalculateBounds();
+            return mesh;
+        }
+        
+        private Mesh FlipNormals(Mesh original)
+        {
+            Mesh mesh = new Mesh
+            {
+                vertices = original.vertices,
+                triangles = original.triangles,
+                uv = original.uv
+            };
+    
+            Vector3[] normals = original.normals;
+            for (int i = 0; i < normals.Length; i++)
+                normals[i] = -normals[i];
+            mesh.normals = normals;
+    
             return mesh;
         }
         

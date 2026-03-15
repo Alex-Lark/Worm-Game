@@ -77,6 +77,7 @@ namespace CreatureParts
             }
             bakedMesh.vertices = vertices;
             bakedMesh.RecalculateBounds();
+            bakedMesh.RecalculateNormals();
 
             Debug.Log($"[SkinnedMeshBaker] After transform - bounds: {bakedMesh.bounds}");
 
