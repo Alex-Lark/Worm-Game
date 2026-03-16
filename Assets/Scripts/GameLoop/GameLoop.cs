@@ -203,7 +203,7 @@ namespace GameLoop
 
         #endregion
 
-        public void StartMiniGame()
+        public void StartCreatureBuildingCoroutine()
         {
             StartCoroutine(StartCreatureBuilding());
         }

@@ -20,6 +20,7 @@ public class Network : MonoBehaviour
     public NetworkManager manager;
     
     public static Network instance;
+    public static SimplePing pinger;
     
     bool Init = false;
 
@@ -55,6 +56,8 @@ public class Network : MonoBehaviour
             instance = this;
             Init = true;
             networkObject = Instantiate(Resources.Load<GameObject>("Multiplayer/Network-Config"));
+            
+            pinger = gameObject.GetOrAddComponent<SimplePing>();
 
             manager = networkObject.GetComponent<NetworkManager>();
             udpTransport = manager.transport as UDPTransport;
@@ -94,12 +97,59 @@ public class Network : MonoBehaviour
     
     public bool AllClientsReady()
     {
+        if (!SceneManager.GetActiveScene().isLoaded) return false;
         manager.sceneModule.TryGetSceneID(SceneManager.GetActiveScene(), out SceneID scene);
         foreach (PlayerID player in manager.players)
         {
             if(!manager.scenePlayersModule.IsPlayerLoadedInScene(player,scene))return false;
         }
+        print("All Client's Synced");
         return true;
     }
-    
+}
+
+public class SimplePing : PurrMonoBehaviour
+{
+    private int Responces = 0;
+
+    struct ping : IPackedAuto
+    {
+        public bool isResponse;
+    }
+    public IEnumerator Ping()
+    {
+        Responces = 0;
+        Network.instance.manager.SendToAll<ping>(new ping(), Channel.ReliableOrdered);
+        yield return new WaitUntil(() => Responces == Network.instance.manager.playerCount);
+    }
+
+    private void Pong(PlayerID id, ping p, bool asserver)
+    {
+        if (!p.isResponse)
+        {
+            p.isResponse = true;
+            manager.SendToServer<ping>(p, Channel.ReliableOrdered);
+        }
+        else
+        {
+            if (Network.instance.manager.isServer || Network.instance.manager.isHost)
+            {
+                Responces++;
+            }
+            else
+            {
+                Debug.LogWarning("A Client has received a ping response. This should not happen!");
+            }
+        }
+    }
+
+    public override void Subscribe(NetworkManager manager, bool asServer)
+    {
+        manager.Subscribe<ping>(Pong, asServer);
+    }
+
+    public override void Unsubscribe(NetworkManager manager, bool asServer)
+    {
+        throw new NotImplementedException();
+    }
 }

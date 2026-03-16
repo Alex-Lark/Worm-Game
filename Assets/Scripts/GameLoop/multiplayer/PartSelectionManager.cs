@@ -48,8 +48,6 @@ public class PartSelectionManager : PurrMonoBehaviour
             yield return new WaitUntil(() => Network.instance.AllClientsReady());
             if (ReturnedCardIdexes.Count >= SentSelectionPackets.Count)
             {
-                GameLoop.GameLoop.Instance.StartMiniGame();
-
                 Shuffle(ReturnedCardIdexes);
                 for (int i = 0; i < SentSelectionPackets.Count; i++)
                 {
@@ -66,6 +64,11 @@ public class PartSelectionManager : PurrMonoBehaviour
                     };
                     print("Sending card to: "+packet.receiver);
                     Network.instance.manager.Send<ResentCardPacket>(packet.receiver, packet, Channel.ReliableOrdered);
+                    
+                    yield return StartCoroutine(Network.pinger.Ping());
+                    
+                    GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
+                    
  
                 }
                 break;
@@ -144,6 +147,7 @@ public class PartSelectionManager : PurrMonoBehaviour
     private void HandleResentCard(PlayerID player, ResentCardPacket data, bool asServer)
     {
         LocalPlayer.Instance.wormPartsInInventory.Add(GameLoop.GameLoop.partCardsStatic[data.CardIndex]);
+        print("Recived resent packet");
     }
     
     

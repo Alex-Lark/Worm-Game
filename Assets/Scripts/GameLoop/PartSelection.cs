@@ -84,7 +84,6 @@ namespace GameLoop
             
             //TODO: discard card and get discarded card from opponent
             PartSelectionManager.ReturnCard(selectableCards, currentCard==card1);
-            
             ResetPartSelection();
         }
 
