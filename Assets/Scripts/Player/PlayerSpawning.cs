@@ -117,12 +117,13 @@ namespace Player
         
         public void SetWormInGameScene()
         {
-            deathScreenUI = FindFirstObjectByType<DeathScreenUI>().GetComponent<DeathScreenUI>();
-            player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-             foreach (Transform segment in player.wormBodySegments)
-             {
-                 segment.GetComponent<Rigidbody>().isKinematic = false;
-             }
+            Debug.Log("setting worm in game scene");
+            
+            // player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
+             // foreach (Transform segment in player.wormBodySegments)
+             // {
+             //     segment.GetComponent<Rigidbody>().isKinematic = false;
+             // }
             
             StartCoroutine(SetupAfterSceneLoad());
             player.ActivatePlayer();
@@ -196,6 +197,7 @@ namespace Player
         
         private IEnumerator SetupAfterSceneLoad()
         {
+            Debug.Log("setting up after scene load");
             yield return null;
 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>(); 
