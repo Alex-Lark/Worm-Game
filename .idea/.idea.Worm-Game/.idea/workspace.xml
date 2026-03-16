@@ -6,10 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PurrVersion.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PurrVersion.json.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +69,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@f250afc9b68d/Runtime/UGUI/EventSystem/ExecuteEvents.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkBehaviour/PlayerSpawner.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkIdentity/NetworkIdentity.Broadcasting.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/CoreModules/Ownership/GlobalOwnershipModule.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Managers/NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Managers/PurrMonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -80,6 +88,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "XThreadsFramesViewSplitterKey": "0.46593407",
     "git-widget-placeholder": "Multiplayer",
     "node.js.detected.package.eslint": "true",
@@ -93,7 +102,7 @@
 }]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Battle Worms Builds/Sprint 1\Worm Game.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Builds\Worm Game.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\WormGameBuilds" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -135,10 +144,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="8976">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="19784">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="8976" />
+      <option name="pid" value="19784" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
         <list>
@@ -150,7 +159,7 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Device" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
+    <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
       <method v="2" />
     </configuration>
   </component>
@@ -209,6 +218,7 @@
       <workItem from="1772381532855" duration="3000" />
       <workItem from="1772381543270" duration="31385000" />
       <workItem from="1773240909517" duration="6890000" />
+      <workItem from="1773691873553" duration="9580000" />
     </task>
     <task id="LOCAL-00028" summary="current version for sprint review, movement updates wip">
       <option name="closed" value="true" />
@@ -666,20 +676,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
-          <line>76</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'EndCardSelection'" />
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
-          <line>148</line>
+          <line>152</line>
           <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'">
             <startOffsets>
-              <option value="5237" />
+              <option value="5438" />
             </startOffsets>
             <endOffsets>
-              <option value="5334" />
+              <option value="5535" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="72" />

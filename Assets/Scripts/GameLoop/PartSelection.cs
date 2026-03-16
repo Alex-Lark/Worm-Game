@@ -48,7 +48,7 @@ namespace GameLoop
 
         private void Update()
         {
-            if(GameLoop.gameLoopTimer.TimeLeftInScene <= 0&&card1!=null)EndCardSelection();
+            GameLoop.gameLoopTimer.TimeExpired.AddListener(EndCardSelection);
         }
 
         void OnDestroy()
@@ -70,6 +70,8 @@ namespace GameLoop
             card2Slot.sprite = card2.GetComponent<PartCard>().sprite;
             card1Name.text = card1.GetComponent<PartCard>().cardName;
             card2Name.text = card2.GetComponent<PartCard>().cardName;
+            
+            print("card1Name: " + card1Name.name + " card2Name: " + card2Name.name);
         }
 
         public void EndCardSelection()
@@ -84,6 +86,7 @@ namespace GameLoop
             
             //TODO: discard card and get discarded card from opponent
             PartSelectionManager.ReturnCard(selectableCards, currentCard==card1);
+            print("end");
             ResetPartSelection();
         }
 

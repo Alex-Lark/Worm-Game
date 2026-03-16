@@ -6,6 +6,7 @@ using PurrNet;
 using PurrNet.Modules;
 using PurrNet.Packing;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace GameLoop
@@ -31,7 +32,7 @@ namespace GameLoop
 
         private int numberOfRounds;
         private int numberOfPartsPerRound;
-        private int timePerPartSelection;
+        public static int timePerPartSelection;
         private int timePerCreatureBuilding;
         private int timePerMinigame;
         private int timeForLeaderboard;
@@ -56,7 +57,7 @@ namespace GameLoop
         private void Awake()
         {
             partCardsStatic = partCards;
-            gameLoopTimer = gameObject.AddComponent<GameLoopTimeSyncer>();
+            gameLoopTimer = new GameObject("Timer").AddComponent<GameLoopTimeSyncer>();
 
             // Guard against Network.instance not being ready yet
             if (Network.instance == null || Network.instance.manager == null)
@@ -174,11 +175,7 @@ namespace GameLoop
         private IEnumerator RunPartSelectionAndCreatureBuilding()
         {
             sceneReady = false;
-            Network.instance.manager.sceneModule.LoadSceneAsync("PartSelectionScene");
-            for (int j = 0; j < numberOfPartsPerRound; j++)
-            {
-                yield return StartCoroutine(gameLoopTimer.Timer(timePerPartSelection));
-            }
+            yield return Network.instance.manager.sceneModule.LoadSceneAsync("PartSelectionScene");
         }
 
         public IEnumerator StartCreatureBuilding()
@@ -253,6 +250,8 @@ namespace GameLoop
     public class GameLoopTimeSyncer : PurrMonoBehaviour
     {
         public float TimeLeftInScene;
+        private float ServerTime;
+        public UnityEvent TimeExpired = new UnityEvent();
 
         void Start()
         {
@@ -272,7 +271,8 @@ namespace GameLoop
                 yield return new WaitForSeconds(0.1f);
                 if (Network.instance != null)
                 {
-                    Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = TimeLeftInScene });
+                    Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = ServerTime });
+                    yield return new WaitUntil(() => ServerTime > 0);
                 }
             }
         }
@@ -281,12 +281,14 @@ namespace GameLoop
         {
             if (Network.instance.manager.isServer || Network.instance.manager.isHost)
             {
-                TimeLeftInScene = time;
-                while (TimeLeftInScene > 0)
+                ServerTime = time;
+                while (ServerTime > 0)
                 {
-                    TimeLeftInScene -= Time.deltaTime;
+                    ServerTime -= Time.deltaTime;
                     yield return null;
                 }
+
+                ServerTime = -1;
             }
         }
 
@@ -302,8 +304,8 @@ namespace GameLoop
 
         void SyncClock(PlayerID playerID, TimePacket timePacket, bool asServer)
         {
-            if (Network.instance.manager.isServer || Network.instance.manager.isHost) return;
-            GameLoop.gameLoopTimer.TimeLeftInScene = timePacket.time;
+            TimeLeftInScene = timePacket.time;
+            if(timePacket.time < 0)TimeExpired.Invoke();
         }
     }
 }

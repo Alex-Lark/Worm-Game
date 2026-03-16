@@ -6,6 +6,7 @@ using Player;
 using PurrNet;
 using PurrNet.Packing;
 using PurrNet.Transports;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PartSelectionManager : PurrMonoBehaviour
@@ -28,6 +29,9 @@ public class PartSelectionManager : PurrMonoBehaviour
     public IEnumerator PickCardOptions()
     {
         yield return new WaitUntil(() => Network.instance.AllClientsReady());
+        yield return StartCoroutine(Network.pinger.Ping());
+        StartCoroutine(GameLoop.GameLoop.gameLoopTimer.Timer(GameLoop.GameLoop.timePerPartSelection));
+        
         SelectableCardsPacket packet = new SelectableCardsPacket();
         List<PlayerID> players = new List<PlayerID>(Network.instance.manager.players);
         while (players.Count > 0)

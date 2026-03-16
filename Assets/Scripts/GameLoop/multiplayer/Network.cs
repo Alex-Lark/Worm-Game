@@ -120,6 +120,7 @@ public class SimplePing : PurrMonoBehaviour
     {
         Responces = 0;
         Network.instance.manager.SendToAll<ping>(new ping(), Channel.ReliableOrdered);
+        print("Ping");
         yield return new WaitUntil(() => Responces == Network.instance.manager.playerCount);
     }
 
@@ -129,6 +130,7 @@ public class SimplePing : PurrMonoBehaviour
         {
             p.isResponse = true;
             manager.SendToServer<ping>(p, Channel.ReliableOrdered);
+            print("Pong");
         }
         else
         {
