@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Player;
 using PurrNet;
+using PurrNet.Modules;
 using PurrNet.Packing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,6 +46,8 @@ namespace GameLoop
         private Coroutine gameLoop;
         private WormGameSceneSwitcher sceneSwitcher;
         private bool sceneReady = false;
+        
+        private Dictionary<PlayerID, (Scene unityScene, SceneID sceneID)> playerScenes = new Dictionary<PlayerID, (Scene, SceneID)>();
 
         #endregion
 
@@ -180,11 +183,50 @@ namespace GameLoop
 
         public IEnumerator StartCreatureBuilding()
         {
+            var connectedPlayers = Network.instance.manager.playerModule.players;
+    
+            Debug.Log("starting creature building, players: " + connectedPlayers.Count);
             gameLoopTimer.TimeLeftInScene = 0;
-            Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
+            playerScenes.Clear();
+
+            foreach (PlayerID playerId in connectedPlayers)
+            {
+                var settings = new PurrSceneSettings
+                {
+                    isPublic = false,
+                    mode = LoadSceneMode.Single
+                };
+
+                AsyncOperation loadOp = Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene", settings);
+                yield return loadOp;
+
+                Scene scene = SceneManager.GetSceneByName("CreatureBuilderScene");
+                Network.instance.manager.sceneModule.TryGetSceneID(scene, out SceneID sceneID);
+                Network.instance.manager.scenePlayersModule.AddPlayerToScene(playerId, sceneID);
+                playerScenes[playerId] = (scene, sceneID);
+            }
+
             yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
-            CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
-            creatureBuilder.AttachCreatureParts();
+
+            foreach (var (playerId, data) in playerScenes)
+            {
+                foreach (GameObject root in data.unityScene.GetRootGameObjects())
+                {
+                    CreatureBuilder.CreatureBuilder creatureBuilder = root.GetComponent<CreatureBuilder.CreatureBuilder>();
+                    if (creatureBuilder != null)
+                    {
+                        creatureBuilder.AttachCreatureParts();
+                        break;
+                    }
+                }
+            }
+
+            foreach (var (playerId, data) in playerScenes)
+            {
+                Network.instance.manager.sceneModule.UnloadSceneAsync(data.sceneID);
+            }
+            playerScenes.Clear();
+
             yield return StartCoroutine(StartMinigame());
         }
 
