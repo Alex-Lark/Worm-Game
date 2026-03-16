@@ -48,6 +48,7 @@ namespace Player
     
         public void ResetWormPhysics()
         {
+            Debug.Log("Reset worm physics called\n" + StackTraceUtility.ExtractStackTrace());
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {

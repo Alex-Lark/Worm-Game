@@ -183,7 +183,6 @@ namespace GameLoop
             gameLoopTimer.TimeLeftInScene = 0;
             Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
             yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
-            StartCoroutine(LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetWormInCreatureBuilderScene());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();
             yield return StartCoroutine(StartMinigame());

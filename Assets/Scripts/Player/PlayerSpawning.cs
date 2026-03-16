@@ -65,7 +65,7 @@ namespace Player
         
         protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
         {
-        
+            Debug.Log("Player owner changed");
             if (asServer && newOwner.HasValue)
             {
                 // Only server creates networked segments
@@ -131,6 +131,7 @@ namespace Player
         
         public IEnumerator SetWormInCreatureBuilderScene()
         {
+            Debug.Log("setting worm in creature builder");
             yield return new WaitForSeconds(0.2f);
             yield return null;
             
@@ -157,6 +158,7 @@ namespace Player
         
         private void OwnerSetup()
         {
+            Debug.Log("player owner setup");
             player.CurrentState = WormState.Idle;
             player.IsWormGrounded = false;
             player.MaxVelocity = GameParameters.WormMaxVelocity;
@@ -170,6 +172,7 @@ namespace Player
         
         private IEnumerator WaitForSegmentsThenSetup()
         {
+            Debug.Log("waiting for segments then setting up");
             float elapsed = 0f;
             while (player.wormBodySegments.Count < player.WormSegmentCount && elapsed < 3f)
             {
@@ -197,7 +200,7 @@ namespace Player
         
         private IEnumerator SetupAfterSceneLoad()
         {
-            Debug.Log("setting up after scene load");
+            Debug.Log("setting up after scene load as server: " + isServer);
             yield return null;
 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>(); 
@@ -206,9 +209,12 @@ namespace Player
             GetComponent<WormPhysics>().ResetPlayerPhysics();
             
             GetComponent<WormPhysics>().AddCollidersToSegments();
+            Debug.Log("added colliders to segments");
+            
             SetWormSpawnPosition(new Vector3(0, 2, 0));
             SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
             player.wormConstructor.ConstructWorm();
+            Debug.Log("constructed worm");
             
             player.wormForwardMovement.SetVariables();
         }
@@ -326,6 +332,7 @@ namespace Player
         
         private IEnumerator FindAndSetupRemoteWorm()
         {
+            Debug.Log("setting up remote worm");
             hasBeenSetup = true;
             
             yield return new WaitForSeconds(0.5f);
