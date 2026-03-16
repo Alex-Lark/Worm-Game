@@ -48,7 +48,7 @@ namespace GameLoop
 
         private void Update()
         {
-            if(GameLoop.gameLoopTimer.TimeLeftInScene <= 0&&card1!=null)EndCardSelection();
+            //if(GameLoop.gameLoopTimer.TimeLeftInScene <= 0&&card1!=null)EndCardSelection();
         }
 
         void OnDestroy()
