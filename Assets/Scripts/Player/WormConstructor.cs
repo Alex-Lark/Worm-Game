@@ -26,13 +26,11 @@ namespace Player
 
         public void CreateWormSegments()
         {
-            Debug.Log("CreateWormSegments called.");
             
             CreaturePart previousSegment = wormHead.GetComponent<CreaturePart>();
     
             for (int i = 0; i < wormSegmentCount; i++)
             {
-                Debug.Log("creating new segment. i: " + i + ", parentTransform: " + parentTransform + ", previousSegment: " + previousSegment);
                 GameObject newSegment = Object.Instantiate(wormSegmentPrefab, parentTransform);
                 newSegment.GetComponent<CreatureBodySegment>().previousSegment = previousSegment;
                 wormBodySegments.Add(newSegment.transform);

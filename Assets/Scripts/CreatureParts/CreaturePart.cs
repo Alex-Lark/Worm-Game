@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Linq;
 using Player;
 using PurrNet;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CreatureParts
 {
@@ -41,6 +43,59 @@ namespace CreatureParts
         protected virtual void FixedUpdate()
         {
             CheckGrounded();
+        }
+        
+        protected override void OnSpawned(bool asServer)
+        {
+            if (asServer) return;
+            if (owner != null) return;
+
+            var parentPlayer = GetComponentInParent<Player.Player>();
+
+            if (parentPlayer == null)
+            {
+                GiveOwnership(localPlayer);
+                return;
+            }
+
+            if (parentPlayer.owner.HasValue)
+            {
+                GiveOwnership(parentPlayer.owner.Value);
+            }
+            else
+            {
+                StartCoroutine(WaitForParentAndClaimOwnership());
+            }
+        }
+
+        private IEnumerator WaitForParentAndClaimOwnership()
+        {
+            Player.Player parentPlayer = null;
+            PlayerID? parentOwner = null;
+    
+            float elapsed = 0f;
+            while (elapsed < 3f)
+            {
+                parentPlayer = GetComponentInParent<Player.Player>();
+                if (parentPlayer != null && parentPlayer.owner != null)
+                {
+                    parentOwner = parentPlayer.owner;
+                    break;
+                }
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+    
+            if (parentOwner == null)
+            {
+                Debug.LogError($"WaitForParentAndClaimOwnership timed out on {gameObject.name}");
+                yield break;
+            }
+    
+            if (owner == null)
+            {
+                GiveOwnership(parentOwner.Value);
+            }
         }
 
         #endregion

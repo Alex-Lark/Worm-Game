@@ -75,7 +75,7 @@ namespace WormLeague
             
             titleText.alpha = 1f;
             
-            titleText.DoFade(0f, GameParameters.TitleFadeTime).SetDelay(GameParameters.TitleShowTime).OnComplete(DisplayTeam);
+            //titleText.DoFade(0f, GameParameters.TitleFadeTime).SetDelay(GameParameters.TitleShowTime).OnComplete(DisplayTeam);
         }
     }
 }

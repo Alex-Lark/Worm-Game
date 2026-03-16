@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PurrNet;
 using UnityEngine;
 
 namespace Player
@@ -47,13 +48,11 @@ namespace Player
     
         public void ResetWormPhysics()
         {
-            Debug.Log("Reset worm physics called");
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {
                 SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
             }
-            Debug.Log("Reset worm physics ended");
         }
 
         public void SetSegmentPhysics(Transform segment, bool isKinematic, bool useGravity)
@@ -87,7 +86,6 @@ namespace Player
         
         public void ResetPlayerPhysics()
         {
-            Debug.Log("Resetting player physics");
             player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
@@ -140,7 +138,7 @@ namespace Player
         public void ResetWormPosition()
         {
             if (player.wormHead == null) return;
-        
+            
             player.wormHead.position = new Vector3(0, 2, 0);
             Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
             if (headRb != null)
@@ -150,10 +148,10 @@ namespace Player
                 headRb.linearVelocity = Vector3.zero;
                 headRb.angularVelocity = Vector3.zero;
             }
-
+            
             Vector3 currentPos = player.wormHead.position;
             Vector3 backDir = -player.wormHead.forward;
-
+            
             for (int i = 0; i < player.wormBodySegments.Count; i++)
             {
                 currentPos += backDir * GameParameters.SegmentMaxPartDistance;
@@ -178,10 +176,6 @@ namespace Player
                 segment.rotation = Quaternion.identity;
             }
         }
-        
-        #endregion
-
-        #region Private Methods
         
         #endregion
     }

@@ -64,9 +64,12 @@ namespace Player
         private void SetupCamera(CinemachineCamera cam)
         {
             Debug.Log("Local player is ready");
-            cam.Follow = LocalPlayer.Instance.wormVisualHead;
-            cam.LookAt = LocalPlayer.Instance.wormVisualHead;
+            if (LocalPlayer.Instance != null)
+            {
+                cam.Follow = LocalPlayer.Instance.wormVisualHead;
+                cam.LookAt = LocalPlayer.Instance.wormVisualHead;
 
+            }
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }

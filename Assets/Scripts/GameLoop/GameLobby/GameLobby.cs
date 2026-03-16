@@ -28,25 +28,46 @@ namespace GameLoop.GameLobby
         #endregion
 
         #region Built-In Methods
-
+        
         void Start()
         {
             Debug.Log("Game Lobby start method called");
             playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
             PlayerRegister.OnPlayerRegisterChanged += OnPlayerRegisterChanged;
             PlayerRegister.OnPlayerRegistered += OnPlayerRegistered;
-            
+
+            if (Player.LocalPlayer.Instance != null)
+            {
+                RegisterLocalPlayer();
+            }
+            else
+            {
+                // Wait for the local player to finish spawning and registering
+                Player.LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
+            }
+        }
+
+        private void OnLocalPlayerReady()
+        {
+            Player.LocalPlayer.OnLocalPlayerReady -= OnLocalPlayerReady;
+            RegisterLocalPlayer();
+        }
+
+        private void RegisterLocalPlayer()
+        {
             PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
             name.name = Player.LocalPlayer.Instance.PlayerName;
-            Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
-            
-            ToggleStartGameButton();
+            if (Network.instance != null)
+            {
+                Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
+            }
         }
 
         private void OnDestroy()
         {
             PlayerRegister.OnPlayerRegisterChanged -= OnPlayerRegisterChanged;
             PlayerRegister.OnPlayerRegistered -= OnPlayerRegistered;
+            Player.LocalPlayer.OnLocalPlayerReady -= OnLocalPlayerReady; // safety cleanup
         }
 
         #endregion
@@ -68,8 +89,8 @@ namespace GameLoop.GameLobby
             {
                 colorSelection.SetInitialColor();
             }
-            
             colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+            ToggleStartGameButton();
         }
         
         #endregion

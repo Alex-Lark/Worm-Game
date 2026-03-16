@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/TimerText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/TimerText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,13 +45,23 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisRotationHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisTranslationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartPair.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/CreatureParts/CreaturePart.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/FinPart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DontDestroyOnLoad.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Chat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ClientStarter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkRigidBodyDebugger.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (3).unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@f250afc9b68d/Runtime/UGUI/EventSystem/ExecuteEvents.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkBehaviour/PlayerSpawner.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkIdentity/NetworkIdentity.Broadcasting.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Managers/PurrMonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -67,37 +72,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Attach to Unity Editor.Attach to Unity Editor & Play.executor": "Debug",
-    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
-    "Device#class com.jetbrains.rider.plugins.unity.run.devices.UnityEditorDeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider#Unity Attach To: Attach to": "Unity Editor",
-    "DeviceKind#com.jetbrains.rider.plugins.unity.run.devices.UnityDevicesProvider": "Unity Editor",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Unity Attach To.Attach to.executor": "Debug",
-    "XThreadsFramesViewSplitterKey": "0.46593407",
-    "git-widget-placeholder": "Multiplayer",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.46593407&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;spawning-refactoring&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/Builds\Worm Game.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Battle Worms Builds/Sprint 1\Worm Game.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\WormGameBuilds" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -106,8 +107,10 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -116,12 +119,14 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
@@ -132,24 +137,24 @@
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="8976">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="8976" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
+    <configuration name="Attach to Device" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
       <method v="2" />
     </configuration>
   </component>
@@ -207,63 +212,7 @@
       <workItem from="1772151343654" duration="1539000" />
       <workItem from="1772381532855" duration="3000" />
       <workItem from="1772381543270" duration="31385000" />
-      <workItem from="1772827974074" duration="2591000" />
-      <workItem from="1773094690517" duration="471000" />
-      <workItem from="1773184626244" duration="2143000" />
-      <workItem from="1773357289627" duration="2382000" />
-      <workItem from="1773614568698" duration="288000" />
-      <workItem from="1773614903218" duration="225000" />
-      <workItem from="1773615160748" duration="2234000" />
-      <workItem from="1773618306144" duration="327000" />
-      <workItem from="1773619467465" duration="2108000" />
-    </task>
-    <task id="LOCAL-00022" summary="creature builder window wip">
-      <option name="closed" value="true" />
-      <created>1760580426870</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1760580426870</updated>
-    </task>
-    <task id="LOCAL-00023" summary="inventory system wip">
-      <option name="closed" value="true" />
-      <created>1760582339058</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1760582339059</updated>
-    </task>
-    <task id="LOCAL-00024" summary="inventory system kinda working, sprites don't work though??">
-      <option name="closed" value="true" />
-      <created>1760583193351</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1760583193352</updated>
-    </task>
-    <task id="LOCAL-00025" summary="trying to get worm to persist between scenes">
-      <option name="closed" value="true" />
-      <created>1760585933662</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1760585933663</updated>
-    </task>
-    <task id="LOCAL-00026" summary="fixed jumping, changed head to blue">
-      <option name="closed" value="true" />
-      <created>1760851257433</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1760851257433</updated>
-    </task>
-    <task id="LOCAL-00027" summary="worm physics fix wip">
-      <option name="closed" value="true" />
-      <created>1761258655582</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1761258655582</updated>
+      <workItem from="1773240909517" duration="6890000" />
     </task>
     <task id="LOCAL-00028" summary="current version for sprint review, movement updates wip">
       <option name="closed" value="true" />
@@ -609,7 +558,55 @@
       <option name="project" value="LOCAL" />
       <updated>1771372011381</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="moved code to playerSpawning, kinda broken">
+      <option name="closed" value="true" />
+      <created>1773125339398</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1773125339399</updated>
+    </task>
+    <task id="LOCAL-00072" summary="refactored code back to working in game scene">
+      <option name="closed" value="true" />
+      <created>1773127479489</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1773127479489</updated>
+    </task>
+    <task id="LOCAL-00073" summary="code refactored, still triyng to fix lobby bug though">
+      <option name="closed" value="true" />
+      <created>1773128904874</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1773128904874</updated>
+    </task>
+    <task id="LOCAL-00074" summary="player is observed">
+      <option name="closed" value="true" />
+      <created>1773212003832</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1773212003832</updated>
+    </task>
+    <task id="LOCAL-00075" summary="player can spawn and move in mingamescene">
+      <option name="closed" value="true" />
+      <created>1773299907102</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1773299907102</updated>
+    </task>
+    <task id="LOCAL-00076" summary="trying to get creature part to carry over to minigame.">
+      <option name="closed" value="true" />
+      <created>1773304005520</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1773304005520</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -642,12 +639,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="clamping improved" />
-    <MESSAGE value="working on attaching parts" />
-    <MESSAGE value=" pushing test object in scene" />
-    <MESSAGE value="test2" />
-    <MESSAGE value="UI timer works" />
-    <MESSAGE value="card images and names populate when entering part selection" />
     <MESSAGE value="fixed loop skipping first round" />
     <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
     <MESSAGE value="can select parts and they carry over to creature builder" />
@@ -667,152 +658,59 @@
     <MESSAGE value="CreatureBuilder script refactored a bit/cleaned" />
     <MESSAGE value="re-enabled other menu buttons, username entered in menu is now saved" />
     <MESSAGE value="color selection updates wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="color selection updates wip" />
+    <MESSAGE value="moved code to playerSpawning, kinda broken" />
+    <MESSAGE value="refactored code back to working in game scene" />
+    <MESSAGE value="code refactored, still triyng to fix lobby bug though" />
+    <MESSAGE value="player is observed" />
+    <MESSAGE value="player can spawn and move in mingamescene" />
+    <MESSAGE value="trying to get creature part to carry over to minigame." />
+    <option name="LAST_COMMIT_MESSAGE" value="trying to get creature part to carry over to minigame." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
+          <line>85</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'EndCardSelection'" />
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
+          <line>63</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'SetCardOptions'" />
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs</url>
+          <line>76</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\PartSelection.cs" containingFunctionPresentation="Method 'EndCardSelection'" />
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
-          <line>144</line>
+          <line>145</line>
           <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'">
             <startOffsets>
-              <option value="5072" />
+              <option value="5175" />
             </startOffsets>
             <endOffsets>
-              <option value="5073" />
+              <option value="5176" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>170</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartCreatureBuilding'">
-            <startOffsets>
-              <option value="5096" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5134" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="92" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>176</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartMinigame'">
-            <startOffsets>
-              <option value="5270" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5302" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="93" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>165</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartCreatureBuilding'">
-            <startOffsets>
-              <option value="4655" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4731" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="94" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>166</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartCreatureBuilding'">
-            <startOffsets>
-              <option value="4744" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4818" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="95" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>168</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartCreatureBuilding'">
-            <startOffsets>
-              <option value="4868" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4937" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>169</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartCreatureBuilding'">
-            <startOffsets>
-              <option value="4950" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5083" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
-          <line>50</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'ResendCards'">
-            <startOffsets>
-              <option value="1765" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1808" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="98" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>281</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'Timer'">
-            <startOffsets>
-              <option value="8339" />
-            </startOffsets>
-            <endOffsets>
-              <option value="8340" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="110" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs</url>
-          <line>167</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLoop.cs" containingFunctionPresentation="Method 'StartCreatureBuilding'">
-            <startOffsets>
-              <option value="4831" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4855" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="117" />
-        </line-breakpoint>
         <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
           <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
-          <option name="timeStamp" value="88" />
+          <option name="timeStamp" value="73" />
         </breakpoint>
         <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
           <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
-          <option name="timeStamp" value="89" />
+          <option name="timeStamp" value="74" />
         </breakpoint>
         <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
-          <option name="timeStamp" value="90" />
+          <option name="timeStamp" value="75" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

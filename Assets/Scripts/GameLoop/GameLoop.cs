@@ -21,6 +21,7 @@ namespace GameLoop
         public static List<GameObject> partCardsStatic;
 
         public static GameLoopTimeSyncer gameLoopTimer;
+
         #endregion
 
         #region Modifiable Loop Settings
@@ -28,7 +29,6 @@ namespace GameLoop
         [Header("modifiable game loop settings")]
 
         private int numberOfRounds;
-
         private int numberOfPartsPerRound;
         private int timePerPartSelection;
         private int timePerCreatureBuilding;
@@ -54,6 +54,26 @@ namespace GameLoop
         {
             partCardsStatic = partCards;
             gameLoopTimer = gameObject.AddComponent<GameLoopTimeSyncer>();
+
+            // Guard against Network.instance not being ready yet
+            if (Network.instance == null || Network.instance.manager == null)
+            {
+                Debug.LogWarning("GameLoop awoke before Network was ready — deferring setup.");
+                StartCoroutine(DeferredAwake());
+                return;
+            }
+
+            InitializeGameLoop();
+        }
+
+        private IEnumerator DeferredAwake()
+        {
+            yield return new WaitUntil(() => Network.instance != null && Network.instance.manager != null);
+            InitializeGameLoop();
+        }
+
+        private void InitializeGameLoop()
+        {
             if (!Network.instance.manager.isServer && !Network.instance.manager.isHost)
             {
                 Destroy(this);
@@ -80,7 +100,7 @@ namespace GameLoop
 
         private void OnDestroy()
         {
-            ///Destroy(GameLoopTimeSyncer.Instance);
+            // Reserved for future cleanup
         }
 
         #endregion
@@ -126,7 +146,6 @@ namespace GameLoop
             timePerPartSelection = GameParameters.DefaultTimePerPartSelection;
             timePerCreatureBuilding = GameParameters.DefaultTimePerCreatureBuilding;
             timePerMinigame = GameParameters.DefaultTimePerMinigame;
-
             timeForLeaderboard = GameParameters.TimeForLeaderboard;
         }
 
@@ -136,7 +155,6 @@ namespace GameLoop
 
         private IEnumerator RunGameLoop()
         {
-
             for (int i = 0; i < numberOfRounds; i++)
             {
                 if (!skipCreatureBuilding1StRound || (i > 0))
@@ -165,8 +183,7 @@ namespace GameLoop
             gameLoopTimer.TimeLeftInScene = 0;
             Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
             yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
-            print("FUCK YOU UNITY");
-            StartCoroutine(LocalPlayer.Instance.SetWormInCreatureBuilderScene());
+            StartCoroutine(LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetWormInCreatureBuilderScene());
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
             creatureBuilder.AttachCreatureParts();
             yield return StartCoroutine(StartMinigame());
@@ -174,7 +191,7 @@ namespace GameLoop
 
         private IEnumerator StartMinigame()
         {
-            Debug.Log("loading game scene");
+            Debug.Log("Loading game scene");
             Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
 
             yield return StartCoroutine(gameLoopTimer.Timer(timePerMinigame));
@@ -186,72 +203,20 @@ namespace GameLoop
 
         #endregion
 
-        #region Game Loop Timers
-/*
-        private IEnumerator PartSelectionTimer()
-        {
-            TimeLeftInScene = timePerPartSelection;
-
-            while (TimeLeftInScene > 0)
-            {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
-            }
-        }
-
-        private IEnumerator CreatureBuilderTimer()
-        {
-            TimeLeftInScene = timePerCreatureBuilding;
-
-            while (TimeLeftInScene > 0)
-            {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
-            }
-            
-            Debug.Log("ready for game set to true");
-            readyForGame = true;
-        }
-
-        private IEnumerator MinigameTimer()
-        {
-            LocalPlayer.Instance.SetWormInGameScene();
-            TimeLeftInScene = timePerMinigame;
-
-            while (TimeLeftInScene > 0)
-            {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
-            }
-
-        }
-
-        private IEnumerator LeaderboardTimer()
-        {
-            TimeLeftInScene = timeForLeaderboard;
-
-            while (TimeLeftInScene > 0)
-            {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
-            }
-        }
-*/
-        #endregion
-
         public void StartMiniGame()
         {
-            StartCoroutine(StartCreatureBuilding()); // to stop the garbage collecter from stopping the corutine early
+            StartCoroutine(StartCreatureBuilding());
         }
     }
-    
+
     public class GameLoopTimeSyncer : PurrMonoBehaviour
     {
         public float TimeLeftInScene;
+
         void Start()
         {
             DontDestroyOnLoad(this);
-            StartCoroutine(gameObject.GetComponent<GameLoopTimeSyncer>().SendTimePacket());
+            StartCoroutine(SendTimePacket());
         }
 
         public struct TimePacket : IPackedAuto
@@ -263,12 +228,14 @@ namespace GameLoop
         {
             while (true)
             {
-                //Debug.Log("Sending time left in scene: " + GameLoop.TimeLeftInScene);
                 yield return new WaitForSeconds(0.1f);
-                Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = TimeLeftInScene });
+                if (Network.instance != null)
+                {
+                    Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = TimeLeftInScene });
+                }
             }
         }
-        
+
         public IEnumerator Timer(float time)
         {
             if (Network.instance.manager.isServer || Network.instance.manager.isHost)
@@ -281,6 +248,7 @@ namespace GameLoop
                 }
             }
         }
+
         public override void Subscribe(NetworkManager manager, bool asServer)
         {
             manager.Subscribe<TimePacket>(SyncClock, asServer);
@@ -293,11 +261,8 @@ namespace GameLoop
 
         void SyncClock(PlayerID playerID, TimePacket timePacket, bool asServer)
         {
-            if(Network.instance.manager.isServer || Network.instance.manager.isHost) return;
+            if (Network.instance.manager.isServer || Network.instance.manager.isHost) return;
             GameLoop.gameLoopTimer.TimeLeftInScene = timePacket.time;
         }
     }
 }
-
-
-
