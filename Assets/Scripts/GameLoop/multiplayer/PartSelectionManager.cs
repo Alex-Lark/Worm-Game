@@ -48,7 +48,7 @@ public class PartSelectionManager : PurrMonoBehaviour
             yield return new WaitUntil(() => Network.instance.AllClientsReady());
             if (ReturnedCardIdexes.Count >= SentSelectionPackets.Count)
             {
-                StartCoroutine(GameLoop.GameLoop.Instance.StartCreatureBuilding());
+                GameLoop.GameLoop.Instance.StartMiniGame();
 
                 Shuffle(ReturnedCardIdexes);
                 for (int i = 0; i < SentSelectionPackets.Count; i++)
