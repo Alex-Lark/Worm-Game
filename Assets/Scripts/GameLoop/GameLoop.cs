@@ -79,7 +79,7 @@ namespace GameLoop
         {
             if (!Network.instance.manager.isServer && !Network.instance.manager.isHost)
             {
-                Destroy(this);
+                Destroy(gameObject);
                 return;
             }
 
