@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/shell object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/shell object.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -211,14 +210,6 @@
       <workItem from="1772150358042" duration="4201000" />
       <workItem from="1772188371399" duration="2363000" />
       <workItem from="1773538812966" duration="6892000" />
-    </task>
-    <task id="LOCAL-00032" summary="worm movement feels pretty good with improved joint">
-      <option name="closed" value="true" />
-      <created>1761704995643</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1761704995643</updated>
     </task>
     <task id="LOCAL-00033" summary="worm headbut mostly working">
       <option name="closed" value="true" />
@@ -604,7 +595,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773785175258</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="shell mostly working">
+      <option name="closed" value="true" />
+      <created>1773787290310</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1773787290310</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -663,7 +662,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="wormLeague wip" />
     <MESSAGE value="worm orientation resets when going back to creature builder" />
     <MESSAGE value="can move parts from a previous round around" />
     <MESSAGE value="code better organized" />
@@ -688,6 +686,7 @@
     <MESSAGE value="fixed damage bug and updated wings/projectile to new specifications" />
     <MESSAGE value="infinite part now a thing + started on animations but i don't know what connects to what so i can't do it :(" />
     <MESSAGE value="spike part wip, model can be made child for much easier functioning" />
-    <option name="LAST_COMMIT_MESSAGE" value="spike part wip, model can be made child for much easier functioning" />
+    <MESSAGE value="shell mostly working" />
+    <option name="LAST_COMMIT_MESSAGE" value="shell mostly working" />
   </component>
 </project>
