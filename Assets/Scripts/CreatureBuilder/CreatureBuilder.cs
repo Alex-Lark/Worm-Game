@@ -185,6 +185,7 @@ namespace CreatureBuilder
             Vector3 worldScale = part.transform.lossyScale;
 
             GameObject newPart = Instantiate(prefab, worldPosition, worldRotation);
+            Destroy(newPart.GetComponent<NetworkRigidbody>());
             newPart.name = prefab.name;
             newPart.transform.localScale = worldScale;
                 
@@ -447,7 +448,8 @@ namespace CreatureBuilder
         
         private GameObject SpawnPartInWorld(GameObject prefab, Vector3 position)
         {
-            GameObject instance = Instantiate(prefab, position, Quaternion.identity);
+            Debug.Log("running spawn part in world");
+            GameObject instance = UnityProxy.InstantiateDirectly(prefab, position, Quaternion.identity);
             
             var netRb = instance.GetComponent<NetworkRigidbody>();
             if (netRb != null) netRb.enabled = false;

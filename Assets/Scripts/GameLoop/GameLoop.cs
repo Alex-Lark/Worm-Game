@@ -180,51 +180,59 @@ namespace GameLoop
 
         public IEnumerator StartCreatureBuilding()
         {
-            var connectedPlayers = Network.instance.manager.playerModule.players;
-    
-            Debug.Log("starting creature building, players: " + connectedPlayers.Count);
+            
             gameLoopTimer.TimeLeftInScene = 0;
-            playerScenes.Clear();
-
-            foreach (PlayerID playerId in connectedPlayers)
-            {
-                var settings = new PurrSceneSettings
-                {
-                    isPublic = false,
-                    mode = LoadSceneMode.Single
-                };
-
-                AsyncOperation loadOp = Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene", settings);
-                yield return loadOp;
-
-                Scene scene = SceneManager.GetSceneByName("CreatureBuilderScene");
-                Network.instance.manager.sceneModule.TryGetSceneID(scene, out SceneID sceneID);
-                Network.instance.manager.scenePlayersModule.AddPlayerToScene(playerId, sceneID);
-                playerScenes[playerId] = (scene, sceneID);
-            }
-
+            Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
             yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
-
-            foreach (var (playerId, data) in playerScenes)
-            {
-                foreach (GameObject root in data.unityScene.GetRootGameObjects())
-                {
-                    CreatureBuilder.CreatureBuilder creatureBuilder = root.GetComponent<CreatureBuilder.CreatureBuilder>();
-                    if (creatureBuilder != null)
-                    {
-                        creatureBuilder.AttachCreatureParts();
-                        break;
-                    }
-                }
-            }
-
-            foreach (var (playerId, data) in playerScenes)
-            {
-                Network.instance.manager.sceneModule.UnloadSceneAsync(data.sceneID);
-            }
-            playerScenes.Clear();
-
+            CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
+            creatureBuilder.AttachCreatureParts();
             yield return StartCoroutine(StartMinigame());
+            
+            // var connectedPlayers = Network.instance.manager.playerModule.players;
+            //
+            // Debug.Log("starting creature building, players: " + connectedPlayers.Count);
+            // gameLoopTimer.TimeLeftInScene = 0;
+            // playerScenes.Clear();
+            //
+            // foreach (PlayerID playerId in connectedPlayers)
+            // {
+            //     var settings = new PurrSceneSettings
+            //     {
+            //         isPublic = false,
+            //         mode = LoadSceneMode.Single
+            //     };
+            //
+            //     AsyncOperation loadOp = Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene", settings);
+            //     yield return loadOp;
+            //
+            //     Scene scene = SceneManager.GetSceneByName("CreatureBuilderScene");
+            //     Network.instance.manager.sceneModule.TryGetSceneID(scene, out SceneID sceneID);
+            //     Network.instance.manager.scenePlayersModule.AddPlayerToScene(playerId, sceneID);
+            //     playerScenes[playerId] = (scene, sceneID);
+            // }
+            //
+            // yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
+            //
+            // foreach (var (playerId, data) in playerScenes)
+            // {
+            //     foreach (GameObject root in data.unityScene.GetRootGameObjects())
+            //     {
+            //         CreatureBuilder.CreatureBuilder creatureBuilder = root.GetComponent<CreatureBuilder.CreatureBuilder>();
+            //         if (creatureBuilder != null)
+            //         {
+            //             creatureBuilder.AttachCreatureParts();
+            //             break;
+            //         }
+            //     }
+            // }
+            //
+            // foreach (var (playerId, data) in playerScenes)
+            // {
+            //     Network.instance.manager.sceneModule.UnloadSceneAsync(data.sceneID);
+            // }
+            // playerScenes.Clear();
+            //
+            // yield return StartCoroutine(StartMinigame());
         }
 
         private IEnumerator StartMinigame()
