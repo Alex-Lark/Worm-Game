@@ -3483,7 +3483,7 @@ MonoBehaviour:
   - cardPrefab: {fileID: 6895014049120698220, guid: 997a49d13a5459d41a04bd9e9054df21, type: 3}
     part3DPrefab: {fileID: 4212110029664344896, guid: 759b5b79fd11d694f9ca16ae1055b2c5, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: b9d1885ef1c2d0348b070c2f731bca12, type: 3}
-    part3DPrefab: {fileID: 4212110029664344896, guid: e50cfc3f0c3acdd4b8fa462c48c2fb0d, type: 3}
+    part3DPrefab: {fileID: 445051951603064812, guid: e50cfc3f0c3acdd4b8fa462c48c2fb0d, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: 0e2e517242568f546a7213e79feda78a, type: 3}
     part3DPrefab: {fileID: 4212110029664344896, guid: d1224792c86b80c47b5f140615d2892c, type: 3}
 --- !u!114 &1941135657
