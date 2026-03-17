@@ -95,7 +95,6 @@ namespace Player
 
             foreach (Transform segment in player.wormBodySegments)
             {
-                Debug.Log("resetting segment physics");
                 Rigidbody rb = segment.GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.linearVelocity = Vector3.zero;

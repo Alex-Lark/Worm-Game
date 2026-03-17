@@ -120,6 +120,7 @@ namespace CreatureBuilder
             Debug.Log("attaching all creature parts");
             foreach (GameObject part in parts)
             {
+                Debug.Log("attaching creature part " + part.name);
                 PartDragging partDragging = part.GetComponent<PartDragging>();
         
                 if (partDragging != null && partDragging.isClamped)
