@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
@@ -56,7 +57,12 @@ namespace CreatureBuilder
             cinemachineCamera.Follow = player.transform;
             StartCoroutine(AddAlreadyAttachedPartsDelayed());
         }
-        
+
+        private void OnDisable()
+        {
+            AttachCreatureParts();
+        }
+
         #endregion
 
         #region public methods

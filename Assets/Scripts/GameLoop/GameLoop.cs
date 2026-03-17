@@ -185,7 +185,7 @@ namespace GameLoop
             Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
             yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
-            creatureBuilder.AttachCreatureParts();
+            //creatureBuilder.AttachCreatureParts();
             yield return StartCoroutine(StartMinigame());
             
             // var connectedPlayers = Network.instance.manager.playerModule.players;
