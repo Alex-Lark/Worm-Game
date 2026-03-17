@@ -128,6 +128,7 @@ namespace CreatureBuilder
                     Debug.Log("attaching specific creature part");
                     Transform wormSegment = FindNearestWormSegment(part);
                     AddPartToWorm(part, wormSegment);
+                    Destroy(part);
                 }
                 else
                 {
@@ -191,8 +192,9 @@ namespace CreatureBuilder
             Quaternion worldRotation = part.transform.rotation;
             Vector3 worldScale = part.transform.lossyScale;
 
-            GameObject newPart = Instantiate(prefab, worldPosition, worldRotation);
+            GameObject newPart = UnityProxy.InstantiateDirectly(prefab, worldPosition, worldRotation);
             Destroy(newPart.GetComponent<NetworkRigidbody>());
+            DontDestroyOnLoad(newPart);
             newPart.name = prefab.name;
             newPart.transform.localScale = worldScale;
                 
@@ -456,26 +458,27 @@ namespace CreatureBuilder
         private GameObject SpawnPartInWorld(GameObject prefab, Vector3 position)
         {
             Debug.Log("running spawn part in world");
-            GameObject instance = UnityProxy.InstantiateDirectly(prefab, position, Quaternion.identity);
+            GameObject newPart = UnityProxy.InstantiateDirectly(prefab, position, Quaternion.identity);
+            DontDestroyOnLoad(newPart);
             
-            var netRb = instance.GetComponent<NetworkRigidbody>();
+            var netRb = newPart.GetComponent<NetworkRigidbody>();
             if (netRb != null) netRb.enabled = false;
             
-            instance.name = prefab.name;
+            newPart.name = prefab.name;
     
-            PartDragging partDragging = instance.GetComponent<PartDragging>();
+            PartDragging partDragging = newPart.GetComponent<PartDragging>();
             if (partDragging != null)
             {
                 ResetPartDragging(partDragging);
                 parts.Add(partDragging.gameObject);
             }
             
-            LegPart legPart = instance.GetComponent<LegPart>();
+            LegPart legPart = newPart.GetComponent<LegPart>();
             if (legPart != null)
             {
                 legPart.enabled = false;
             }
-            return instance;
+            return newPart;
         }
         
         #endregion
