@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/FiredProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/FiredProjectile.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/shell object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/shell object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilderWindow.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,14 +211,6 @@
       <workItem from="1772150358042" duration="4201000" />
       <workItem from="1772188371399" duration="2363000" />
       <workItem from="1773538812966" duration="6892000" />
-    </task>
-    <task id="LOCAL-00031" summary="worm movement improved, fixed gravity in partbuilder scene">
-      <option name="closed" value="true" />
-      <created>1761695996984</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1761695996984</updated>
     </task>
     <task id="LOCAL-00032" summary="worm movement feels pretty good with improved joint">
       <option name="closed" value="true" />
@@ -606,7 +596,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773544181341</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="spike part wip, model can be made child for much easier functioning">
+      <option name="closed" value="true" />
+      <created>1773785175258</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1773785175258</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,7 +663,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="part selection handles multiple parts" />
     <MESSAGE value="wormLeague wip" />
     <MESSAGE value="worm orientation resets when going back to creature builder" />
     <MESSAGE value="can move parts from a previous round around" />
@@ -690,6 +687,7 @@
     <MESSAGE value="fixed visual head orientation in creature builder" />
     <MESSAGE value="fixed damage bug and updated wings/projectile to new specifications" />
     <MESSAGE value="infinite part now a thing + started on animations but i don't know what connects to what so i can't do it :(" />
-    <option name="LAST_COMMIT_MESSAGE" value="infinite part now a thing + started on animations but i don't know what connects to what so i can't do it :(" />
+    <MESSAGE value="spike part wip, model can be made child for much easier functioning" />
+    <option name="LAST_COMMIT_MESSAGE" value="spike part wip, model can be made child for much easier functioning" />
   </component>
 </project>
