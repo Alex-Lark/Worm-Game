@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/JoinGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/JoinGameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputHandling/IPText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputHandling/IPText.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,7 +210,7 @@
       <workItem from="1773240909517" duration="6890000" />
       <workItem from="1773691873553" duration="12055000" />
       <workItem from="1773790309385" duration="5000" />
-      <workItem from="1773790413266" duration="1594000" />
+      <workItem from="1773790413266" duration="1916000" />
     </task>
     <task id="LOCAL-00028" summary="current version for sprint review, movement updates wip">
       <option name="closed" value="true" />

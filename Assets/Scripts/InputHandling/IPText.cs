@@ -12,6 +12,5 @@ public class IPText : MonoBehaviour
     public void OnUpdate()
     {
         Network.targetAddress = text.text;
-        ;
     }
 }
