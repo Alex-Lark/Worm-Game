@@ -21,6 +21,8 @@ public class Network : MonoBehaviour
     
     public static Network instance;
     public static SimplePing pinger;
+
+    public static string targetAddress;
     
     bool Init = false;
 
@@ -68,6 +70,7 @@ public class Network : MonoBehaviour
             }
 
             DontDestroyOnLoad(networkObject);
+            instance.udpTransport.address = targetAddress;
             udpTransport.serverPort = 5001;
             DontDestroyOnLoad(gameObject);
 
