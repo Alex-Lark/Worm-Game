@@ -38,6 +38,8 @@ namespace Player
         public bool IsWormJumping => CurrentState == WormState.Jumping;
         public bool IsWormAttacking => CurrentState == WormState.Attacking;
         public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
+
+        public bool canDie = false;
         
         #endregion
         
@@ -195,7 +197,7 @@ namespace Player
                 {
                     OnPlayerDeath();
                 }
-            }
+            } 
         }
 
         public void Jump()
@@ -244,6 +246,10 @@ namespace Player
                 return;
             }
             if (CurrentState == WormState.Dead) return;
+            if (!canDie)
+            {
+                return;
+            }
             
             CurrentState = WormState.Dead;
             if (isOwner) currentPlayerHealth = 0;

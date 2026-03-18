@@ -140,8 +140,15 @@ namespace CreatureBuilder
             parts.Clear();
             SetLegOrder();
             
-            // Return all remaining cards from the creature builder inventory to player
             ReturnAllCardsToPlayerInventory();
+        }
+        
+        
+
+        [ServerRpc]
+        public void AttachCreaturePartsForOtherClients()
+        {
+            
         }
         
         #endregion
@@ -238,7 +245,7 @@ namespace CreatureBuilder
             }
         }
 
-        private void SetLegOrder()
+        public void SetLegOrder()
         {
             Debug.Log("Setting leg order");
             int numLegs = legs.Count;
@@ -250,7 +257,7 @@ namespace CreatureBuilder
             }
         }
 
-        private void ReturnPartToPlayerInventory(GameObject part)
+        public void ReturnPartToPlayerInventory(GameObject part)
         {
             string partName = part.name.Replace("(Clone)", "").Trim();
             
@@ -267,7 +274,7 @@ namespace CreatureBuilder
             Destroy(part);
         }
         
-        private void ReturnAllCardsToPlayerInventory()
+        public void ReturnAllCardsToPlayerInventory()
         {
             Debug.Log("returning all cards");
             CreatureBuilderPartInventory inventory = FindFirstObjectByType<CreatureBuilderPartInventory>();
@@ -301,103 +308,26 @@ namespace CreatureBuilder
             }
         }
 
-    private void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
-    {
-        Vector3 position = creaturePart.transform.position;
-        Quaternion rotation = creaturePart.transform.rotation;
-        GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
-        
-        Destroy(creaturePart);
-        Debug.Log("destroyed creature part non-networked");
-        
-        GameObject networkedPart = Instantiate(prefab, position, rotation, LocalPlayer.Instance.transform);
-        
-        networkedPart.GetComponent<AttachablePart>().GiveOwnership(LocalPlayer.Instance.localPlayer.Value);
-        Debug.Log("networked part owner: " + networkedPart.GetComponent<NetworkRigidbody>().owner);
-        
-        // Now parent and configure the networked part
-        networkedPart.GetComponent<PartDragging>().DeselectPart();
-        networkedPart.GetComponent<PartDragging>().enabled = false;
-
-        var rb = networkedPart.GetComponent<Rigidbody>();
-        if (rb != null)
+        public void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
         {
-            rb.isKinematic = false;
-            rb.useGravity = true;
-        }
-
-        LegPart legPart = networkedPart.GetComponent<LegPart>();
-        if (legPart != null)
-        {
-            Player.LocalPlayer.Instance.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
-            legPart.enabled = true;
-            legs.Add(networkedPart);
-        }
-
-        Rigidbody partRigidbody = networkedPart.GetComponent<Rigidbody>();
-        if (partRigidbody == null)
-            partRigidbody = networkedPart.AddComponent<Rigidbody>();
-
-        Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
-        if (segmentRigidbody != null)
-            networkedPart.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, networkedPart.GetComponent<PartDragging>().partData.mass);
-
-        Transform endPoint = networkedPart.GetComponent<PartDragging>().endPoint;
-        if (endPoint == null)
-        {
-            Debug.LogError("No endPoint found on part: " + networkedPart.name);
-            return;
-        }
-
-        networkedPart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
-        Player.LocalPlayer.Instance.attachedWormParts.Add(networkedPart);
-        IgnorePartCollisionWithWorm(networkedPart, wormSegment);
-    }
-
-        private void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
-        {
-            Debug.Log("ignoring part collision with worm");
-            int numSegments = GameParameters.NumSegmentCollisionsIgnored;
-            
-            Collider[] partColliders = part.GetComponentsInChildren<Collider>();
-            
-            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
-            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
-            
-            foreach (var attachedWormPart in Player.LocalPlayer.Instance.attachedWormParts)
-            {
-                Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
-            }
-        }
-
-        private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
-        {
-            Transform current = startSegment;
-
-            for (int i = 0; i < numSegments && current != null; i++)
-            { 
-                Collider[] segmentColliders = current.GetComponentsInChildren<Collider>();
-                
-                foreach (var pCol in partColliders)
-                {
-                    foreach (var sCol in segmentColliders)
-                    {
-                        Physics.IgnoreCollision(pCol, sCol, true);
-                    }
-                }
-                
-                if (forward)
-                {
-                    current = current.childCount > 0 ? current.GetChild(0) : null;
-                }
-                else
-                {
-                    current = current.parent;
-                }
-            }
+            Vector3 position = creaturePart.transform.position;
+            Quaternion rotation = creaturePart.transform.rotation;
+            GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
+            float partMass = creaturePart.GetComponent<PartDragging>().partData.mass;
+    
+            Destroy(creaturePart);
+    
+            LocalPlayer.Instance.GetComponent<PlayerSpawning>().AddAttachedPartServerSide(
+                prefab,
+                position,
+                rotation,
+                wormSegment.gameObject,
+                partMass,
+                LocalPlayer.Instance.gameObject
+            );
         }
     
-        private Transform FindNearestWormSegment(GameObject part) 
+        public Transform FindNearestWormSegment(GameObject part) 
         {
             Transform nearestPart = null;
             float shortestDistance = Mathf.Infinity;
