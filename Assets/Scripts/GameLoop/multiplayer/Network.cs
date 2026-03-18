@@ -40,13 +40,13 @@ public class Network : MonoBehaviour
 
     public void StartServer()
     {
+        targetAddress = "127.0.0.1";
         StartCommon();
         manager.StartHost();
     }
     
-    public void StartClient(string address = null)
+    public void StartClient()
     {
-        if(address == null)address = "127.0.0.1";
         StartCommon();
         manager.StartClient();
     }
@@ -70,6 +70,7 @@ public class Network : MonoBehaviour
             }
 
             DontDestroyOnLoad(networkObject);
+            if(targetAddress==""||targetAddress==null)targetAddress = "127.0.0.1";
             instance.udpTransport.address = targetAddress;
             udpTransport.serverPort = 5001;
             DontDestroyOnLoad(gameObject);
@@ -81,6 +82,8 @@ public class Network : MonoBehaviour
 
             gameObject.AddComponent<WormGameSceneSwitcher>();
         }
+        print("Connecting to: "+Network.targetAddress);
+        
     }
 
     private void OnNetworkChangeScene(ConnectionState state)
@@ -155,6 +158,6 @@ public class SimplePing : PurrMonoBehaviour
 
     public override void Unsubscribe(NetworkManager manager, bool asServer)
     {
-        throw new NotImplementedException();
+        manager.Unsubscribe<ping>(Pong, asServer);
     }
 }
