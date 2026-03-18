@@ -184,6 +184,49 @@ namespace Player
             }
         }
         
+        public void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
+        {
+            Debug.Log("ignoring part collision with worm");
+            int numSegments = GameParameters.NumSegmentCollisionsIgnored;
+            
+            Collider[] partColliders = part.GetComponentsInChildren<Collider>();
+            
+            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
+            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
+            
+            foreach (var attachedWormPart in LocalPlayer.Instance.attachedWormParts)
+            {
+                Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
+            }
+        }
+
+        private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
+        {
+            Transform current = startSegment;
+
+            for (int i = 0; i < numSegments && current != null; i++)
+            { 
+                Collider[] segmentColliders = current.GetComponentsInChildren<Collider>();
+                
+                foreach (var pCol in partColliders)
+                {
+                    foreach (var sCol in segmentColliders)
+                    {
+                        Physics.IgnoreCollision(pCol, sCol, true);
+                    }
+                }
+                
+                if (forward)
+                {
+                    current = current.childCount > 0 ? current.GetChild(0) : null;
+                }
+                else
+                {
+                    current = current.parent;
+                }
+            }
+        }
+        
         #endregion
     }
 }

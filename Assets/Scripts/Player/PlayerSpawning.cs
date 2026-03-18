@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using CreatureBuilder;
 using CreatureParts;
 using PurrNet;
 using Unity.Cinemachine;
@@ -34,6 +36,7 @@ namespace Player
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
+                LocalPlayer.Instance.canDie = true;
             }
         }
         
@@ -87,6 +90,110 @@ namespace Player
 
         #region Public Methods
 
+        [ServerRpc]
+        public void AddAttachedPartServerSide(GameObject prefab, Vector3 position, Quaternion rotation, GameObject wormSegment, float partMass, GameObject player)
+        {
+            GameObject networkedPart = Instantiate(prefab, position, rotation, player.transform);
+            
+            networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
+            
+            networkedPart.GetComponent<PartDragging>().DeselectPart();
+            networkedPart.GetComponent<PartDragging>().enabled = false;
+            
+            var rb = networkedPart.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+            }
+            
+            LegPart legPart = networkedPart.GetComponent<LegPart>();
+            if (legPart != null)
+            {
+                player.GetComponent<Player>().MaxVelocity += GameParameters.LegMaxVelocityIncrease;
+                legPart.enabled = true;
+            }
+            
+            Rigidbody partRigidbody = networkedPart.GetComponent<Rigidbody>();
+            if (partRigidbody == null)
+                partRigidbody = networkedPart.AddComponent<Rigidbody>();
+            
+            Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
+            if (segmentRigidbody != null)
+                networkedPart.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, partMass);
+            
+            Transform endPoint = networkedPart.GetComponent<PartDragging>().endPoint;
+            if (endPoint == null)
+            {
+                Debug.LogError("No endPoint found on part: " + networkedPart.name);
+                return;
+            }
+            
+            networkedPart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
+            player.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(networkedPart, wormSegment.transform);
+            AddAttachedPartForClients(networkedPart, player, wormSegment);
+            SyncLegOrderRpc(player);
+            
+        }
+
+        [ObserversRpc]
+        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, GameObject wormSegment)
+        {
+            //this method adds the part that was already created server-side and attaches it for all clients for smoother appearance
+            part.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
+            
+            part.GetComponent<PartDragging>().DeselectPart();
+            part.GetComponent<PartDragging>().enabled = false;
+            
+            var rb = part.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.useGravity = true;
+            }
+            
+            LegPart legPart = part.GetComponent<LegPart>();
+            if (legPart != null)
+            {
+                player.GetComponent<Player>().MaxVelocity += GameParameters.LegMaxVelocityIncrease;
+                legPart.enabled = true;
+            }
+            
+            Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
+            if (partRigidbody == null)
+                partRigidbody = part.AddComponent<Rigidbody>();
+            
+            Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
+            if (segmentRigidbody != null)
+                part.GetComponent<AttachablePart>().ConfigureRigidBody(part.GetComponent<Rigidbody>(), segmentRigidbody, part.GetComponent<Rigidbody>().mass);
+            Transform endPoint = part.GetComponent<PartDragging>().endPoint;
+            if (endPoint == null)
+            {
+                Debug.LogError("No endPoint found on part: " + part.name);
+                return;
+            }
+            part.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
+            player.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, wormSegment.transform);
+        }
+        
+        [ObserversRpc]
+        public void SyncLegOrderRpc(GameObject specificPlayer)
+        {
+            List<LegPart> legParts = new List<LegPart>();
+            foreach (GameObject part in specificPlayer.GetComponent<Player>().attachedWormParts)
+            {
+                LegPart leg = part.GetComponent<LegPart>();
+                if (leg != null)
+                    legParts.Add(leg);
+            }
+
+            float totalTime = GameParameters.LegMoveTime;
+            for (int i = 0; i < legParts.Count; i++)
+            {
+                legParts[i].timeOffset = i * (totalTime / legParts.Count);
+            }
+        }
+
         public void TryToRespawn()
         {
             if (canRespawn && GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -131,6 +238,7 @@ namespace Player
         
         public IEnumerator SetWormInCreatureBuilderScene()
         {
+            LocalPlayer.Instance.canDie = false;
             Debug.Log("setting worm in creature builder");
             yield return new WaitForSeconds(0.2f);
             yield return null;
@@ -203,7 +311,11 @@ namespace Player
             Debug.Log("setting up after scene load as server: " + isServer);
             yield return null;
 
-            deathScreenUI = FindFirstObjectByType<DeathScreenUI>(); 
+            deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
+            if (deathScreenUI == null)
+            {
+                Debug.LogError("couldn't find death screen UI");
+            }
             player.thirdPersonCamera = Camera.main?.gameObject;
             
             GetComponent<WormPhysics>().ResetPlayerPhysics();
@@ -216,7 +328,8 @@ namespace Player
             player.wormConstructor.ConstructWorm();
             Debug.Log("constructed worm");
             
-            player.wormForwardMovement.SetVariables();
+            LocalPlayer.Instance.wormForwardMovement.SetVariables();
+            LocalPlayer.Instance.canDie = true;
         }
         
         private void RespawnPlayer()

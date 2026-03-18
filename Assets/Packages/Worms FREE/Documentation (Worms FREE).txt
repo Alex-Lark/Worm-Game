@@ -1,0 +1,67 @@
+
+- - - - - - - - - - - - - - - - - - - - - Worms FREE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+This pack contains a collection of realistic 3D worms featuring different variations.Pack comes with a customizable Glowing shader
+and PBR-textured Worms for high-quality visual detail and customization.Perfect for Open World, Survival, and 
+Fantasy-themed games, or any other genre. All assets are optimized and ready for commercial use in your projects.
+
+You can customize the Glowing Worms materials by adjusting parameters such as Frozen color and Power.
+Glowing worm materials created with Unity's shadergraph.And the asset uses Unity's standard material for PBR textured variation.
+
+Note: This is the free version of our asset Frozen Winter Worms.
+
+Technical Details:-
+		- Material(s) Used: Unity standard material, Custom Material (Made with Shadergraph) for Glowing shader.
+		- Model(s) : Small worms, Fat worms
+		- Animations count : 1 (Look animation)
+
+		- Poly count (in Tris) :  Small worms (736),  Fat worm 1(2376)
+		- Unwrapped : YES
+		- Prefab Variations : 16 (8 Small Worm, 8 Fat Worm)
+		- Texture Size : 512 x 512
+		- URP support : YES
+		- PBR Textures (Albedo, Metallic Roughness, Normal)
+	
+
+Features:-
+	- Customizable Glowing shader
+	- Unique skin's/material's
+	- Comes with one animation
+	- Best fit for Openworld 3D games and any other type games
+	- Optimized Lowpoly model's and Shaders
+	- Models comes with simple colliders
+	- Include many ready-to-use Prefab variations
+	- 3D Model's are completely unwrapped.
+	- All nodes, materials and textures are appropriately named.
+	- Arranged pivots, well named folders
+	- Easy to use (Drag and drop)
+
+Folder details:-
+
+	Materials : Where the materials for the model located.
+	
+	Meshes : Contain FBX format of the 3d model.
+	
+	Textures : Contains Textures, that are in (.PNG) file format
+	
+	(Other folders - Prefabs, Scenes)
+
+How to use:-
+	
+	Simply drag and drop the prefab to your scene and use it.
+	(Prefab(s) located under 
+	Asset > Worms FREE > Prefabs).
+
+❓ Frequently Asked Questions:
+
+Q: Will this shader work on URP, Built-in, and other render pipelines?
+A: Yes. This asset is compatible with any render pipeline. It was originally submitted using URP, but it also includes a setup guide for other pipelines. 
+You can get it working in different pipelines within seconds.
+
+..................................................................................
+
+About Me : "SR Studios Kerala", Indie Game developer & 3D-2D Artist from Alappuzha, Kerala, India
+
+Contact : srstudioskerala@gmail.com
+
+................Thank you for downloading this package................................

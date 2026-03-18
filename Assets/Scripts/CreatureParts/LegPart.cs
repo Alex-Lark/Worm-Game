@@ -81,10 +81,10 @@ namespace CreatureParts
                 if (foot != null)
                 {
                     Quaternion footTargetRotation =
-                        Quaternion.FromToRotation(foot.transform.up, groundNormal) * foot.transform.rotation;
+                        Quaternion.FromToRotation(foot.transform.up, groundNormal) * foot.transform.localRotation;
 
-                    foot.transform.rotation = Quaternion.RotateTowards(
-                        foot.transform.rotation,
+                    foot.transform.localRotation = Quaternion.RotateTowards(
+                        foot.transform.localRotation,
                         footTargetRotation,
                         footRotationSpeed * Time.fixedDeltaTime * 180f
                     );

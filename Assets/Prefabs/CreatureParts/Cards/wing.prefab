@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 96f211f4f941dca41bbef9c95ce934b2, type: 3}
+  m_Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -103,5 +103,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097d5b15947b57f48a9722af3f617c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartCard
-  sprite: {fileID: 21300000, guid: 96f211f4f941dca41bbef9c95ce934b2, type: 3}
+  sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   cardName: Wing
