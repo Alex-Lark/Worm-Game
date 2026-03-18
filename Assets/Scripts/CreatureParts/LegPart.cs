@@ -1,4 +1,6 @@
 using System.Collections;
+using GameLoop.multiplayer;
+using PurrNet;
 using UnityEngine;
 
 namespace CreatureParts
@@ -97,7 +99,7 @@ namespace CreatureParts
 
                 Vector3 swingTarget =
                     smoothedLocalPosition +
-                    Player.Player.Instance.wormVisualHead.forward.normalized * forwardSwingDistance * stepProgress;
+                    Player.LocalPlayer.Instance.wormVisualHead.forward.normalized * forwardSwingDistance * stepProgress;
 
                 Vector3 targetPos = swingTarget + Vector3.up * verticalOffset;
                 
@@ -192,7 +194,7 @@ namespace CreatureParts
                 Vector3 groundTangent = (groundUpward * 0.5f + legAngleOnGround * 0.2f).normalized;
                 
                 Vector3 legForward = transform.forward;
-                Vector3 headForward = Player.Player.Instance.wormVisualHead.forward;
+                Vector3 headForward = Player.LocalPlayer.Instance.wormVisualHead.forward;
 
                 float groundTangentWeight = 0.2f;
                 float legForwardWeight = 0.3f;
@@ -213,7 +215,7 @@ namespace CreatureParts
                 }
                 else
                 {
-                    GetComponent<Rigidbody>().AddForce(-GameParameters.LegMoveForce * (-arcDirection));
+                    GetComponent<NetworkedPhysicsObject>().AddForce(-GameParameters.LegMoveForce * (-arcDirection));
                 }
 
                 stepTimer = 0f;
@@ -225,7 +227,7 @@ namespace CreatureParts
 
         private IEnumerator StepRoutine(Vector3 moveDirection)
         {
-            Rigidbody rb = GetComponent<Rigidbody>();
+            NetworkedPhysicsObject rb = GetComponent<NetworkedPhysicsObject>();
 
             float liftTime = 0.08f;
             float pushTime = GameParameters.LegMoveTime;
@@ -257,7 +259,7 @@ namespace CreatureParts
                 Vector3 jumpDirection =
                     Vector3.Slerp(transform.up, Vector3.up, GameParameters.WormJumpAngle).normalized;
 
-                GetComponent<Rigidbody>().AddForce(jumpDirection * GameParameters.LegJumpForce);
+                GetComponent<NetworkedPhysicsObject>().AddForce(jumpDirection * GameParameters.LegJumpForce);
             }
         }
     }

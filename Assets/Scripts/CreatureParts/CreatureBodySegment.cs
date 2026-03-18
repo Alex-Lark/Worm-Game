@@ -45,6 +45,8 @@ namespace CreatureParts
             ConfigurableJoint joint = wormPart.AddComponent<ConfigurableJoint>();
             joint.connectedBody = previousSegmentRigidBody;
             joint.anchor = new Vector3(0, 0, -GameParameters.SegmentMaxPartDistance);
+            // joint.connectedAnchor = new Vector3(0, 0, GameParameters.SegmentMaxPartDistance);
+            // joint.autoConfigureConnectedAnchor = false;
 
             // Lock all position
             joint.xMotion = joint.yMotion = joint.zMotion = ConfigurableJointMotion.Locked;

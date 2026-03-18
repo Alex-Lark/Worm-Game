@@ -11,21 +11,15 @@ namespace Player
 
         void Awake()
         {
-
             var cam = gameObject.GetComponent<CinemachineCamera>();
-            if (cam == null)
-            {
-                return;
-            }
-        
-            orbitalFollow = cam.GetComponent<CinemachineOrbitalFollow>();
-        
-        
-            cam.Follow = global::Player.Player.Instance.wormVisualHead;
-            cam.LookAt = global::Player.Player.Instance.wormVisualHead;
+            if (cam == null) return;
 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            orbitalFollow = cam.GetComponent<CinemachineOrbitalFollow>();
+
+            if (LocalPlayer.Instance != null)
+                SetupCamera(cam);
+            else
+                LocalPlayer.OnLocalPlayerReady += () => SetupCamera(cam);
         }
 
         private void OnDestroy()
@@ -52,12 +46,12 @@ namespace Player
                 return;
             }
 
-            if (global::Player.Player.Instance == null || global::Player.Player.Instance.wormHead == null)
+            if (LocalPlayer.Instance == null || LocalPlayer.Instance.wormHead == null)
             {
                 return;
             }
 
-            float headYaw = global::Player.Player.Instance.wormHead.eulerAngles.y;
+            float headYaw = LocalPlayer.Instance.wormHead.eulerAngles.y;
             float camYaw  = orbitalFollow.HorizontalAxis.Value;
 
             float angle = Mathf.DeltaAngle(headYaw, camYaw);
@@ -65,6 +59,19 @@ namespace Player
 
             float final = headYaw + clampedAngle;
             orbitalFollow.HorizontalAxis.Value = final;
+        }
+        
+        private void SetupCamera(CinemachineCamera cam)
+        {
+            Debug.Log("Local player is ready");
+            if (LocalPlayer.Instance != null)
+            {
+                cam.Follow = LocalPlayer.Instance.wormVisualHead;
+                cam.LookAt = LocalPlayer.Instance.wormVisualHead;
+
+            }
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }

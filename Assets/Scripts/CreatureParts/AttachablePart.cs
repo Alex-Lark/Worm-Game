@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace CreatureParts
@@ -22,6 +23,23 @@ namespace CreatureParts
 
             ConfigureHingeJoint(attachedSegmentRigidbody, attachedEndPoint);
             IgnorePartCollisionWithWorm(gameObject, attachedSegmentRigidbody.transform);
+        }
+        
+        protected override void OnDespawned()
+        {
+            Debug.LogError($"[AttachablePart] {gameObject.name} is being despawned!\n{System.Environment.StackTrace}");
+            base.OnDespawned();
+        }
+    
+        protected override void OnDestroy()
+        {
+            Debug.LogError($"[AttachablePart] {gameObject.name} is being DESTROYED!\n{System.Environment.StackTrace}");
+            base.OnDestroy();
+        }
+        
+        private void OnDisable()
+        {
+            Debug.LogWarning($"[AttachablePart] {gameObject.name} disabled. Exists: {gameObject != null}, Scene: {gameObject.scene.name}\n{System.Environment.StackTrace}");
         }
         
         public void ConfigureRigidBody(Rigidbody partRigidbody, Rigidbody segmentRigidbody, float mass)
@@ -71,7 +89,7 @@ namespace CreatureParts
             IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
             IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
             
-            foreach (var attachedWormPart in Player.Player.Instance.attachedWormParts)
+            foreach (var attachedWormPart in LocalPlayer.Instance.attachedWormParts)
             {
                 Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
             }

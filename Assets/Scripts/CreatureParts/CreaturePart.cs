@@ -1,9 +1,15 @@
 using System;
+using System.Collections;
+using System.Linq;
+using Player;
+using PurrNet;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CreatureParts
 {
-    public class CreaturePart : MonoBehaviour
+    public class CreaturePart : NetworkBehaviour
     {
         #region Public Variables
         [Header("Public Variables")]
@@ -38,10 +44,58 @@ namespace CreatureParts
         {
             CheckGrounded();
         }
-
-        private void OnCollisionEnter(Collision other)
+        
+        protected override void OnSpawned(bool asServer)
         {
-            Player.Player.Instance.DamagePlayer(other, gameObject);
+            if (asServer) return;
+            if (owner != null) return;
+
+            var parentPlayer = GetComponentInParent<Player.Player>();
+
+            if (parentPlayer == null)
+            {
+                GiveOwnership(localPlayer);
+                return;
+            }
+
+            if (parentPlayer.owner.HasValue)
+            {
+                GiveOwnership(parentPlayer.owner.Value);
+            }
+            else
+            {
+                StartCoroutine(WaitForParentAndClaimOwnership());
+            }
+        }
+
+        private IEnumerator WaitForParentAndClaimOwnership()
+        {
+            Player.Player parentPlayer = null;
+            PlayerID? parentOwner = null;
+    
+            float elapsed = 0f;
+            while (elapsed < 3f)
+            {
+                parentPlayer = GetComponentInParent<Player.Player>();
+                if (parentPlayer != null && parentPlayer.owner != null)
+                {
+                    parentOwner = parentPlayer.owner;
+                    break;
+                }
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+    
+            if (parentOwner == null)
+            {
+                Debug.LogError($"WaitForParentAndClaimOwnership timed out on {gameObject.name}");
+                yield break;
+            }
+    
+            if (owner == null)
+            {
+                GiveOwnership(parentOwner.Value);
+            }
         }
 
         #endregion
@@ -101,6 +155,28 @@ namespace CreatureParts
 
             TimeSinceLastGrounded += Time.fixedDeltaTime;
             return Vector3.up;
+        }
+        
+        private void OnCollisionEnter(Collision other)
+        {
+            if (LocalPlayer.Instance == null) return;
+    
+            bool isMySegment = LocalPlayer.Instance.wormBodySegments.Any(s => s.gameObject == gameObject)
+                               || LocalPlayer.Instance.wormHead.gameObject == gameObject
+                               || LocalPlayer.Instance.attachedWormParts.Contains(gameObject);
+        
+            if (!isMySegment) return;
+
+            if (LocalPlayer.Instance.wormBodySegments.Any(s => s.gameObject == other.gameObject) || 
+                LocalPlayer.Instance.attachedWormParts.Contains(other.gameObject))
+                return;
+
+            LocalPlayer.Instance.DamagePlayer(other, gameObject);
+        }
+
+        void OnCollisionStay(Collision collision)
+        {
+            //Debug.Log("segment collision. Gameobject " + gameObject + "is being hit by " + collision.gameObject);
         }
         
         #endregion

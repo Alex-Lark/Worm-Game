@@ -1,47 +1,89 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
+using PurrNet;
+using PurrNet.Modules;
+using PurrNet.Packing;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace GameLoop
 {
     public class GameLoop : MonoBehaviour
     {
         #region Public variables
-        [Header("Public Variables")] 
-        
-        public static GameLoop Instance;
-        public float TimeLeftInScene { get; private set; }
+
+        [Header("Public Variables")] public static GameLoop Instance;
         public bool IsGameLoopRunning { get; private set; }
         public List<Player.Player> players;
+        public Dictionary<Player.Player, Player.Player> networkPlayersDictionary;
         public List<GameObject> partCards = new List<GameObject>();
-        
+        public static List<GameObject> partCardsStatic;
+
+        public static GameLoopTimeSyncer gameLoopTimer;
+
         #endregion
-    
+
         #region Modifiable Loop Settings
-        [Header("modifiable game loop settings")] 
-        
+
+        [Header("modifiable game loop settings")]
+
         private int numberOfRounds;
         private int numberOfPartsPerRound;
-        private int timePerPartSelection;
+        public static int timePerPartSelection;
         private int timePerCreatureBuilding;
         private int timePerMinigame;
         private int timeForLeaderboard;
         private bool skipCreatureBuilding1StRound = false;
-        
+
+        private bool EndOfRound = false;
+
         #endregion
-        
+
         #region Private Variables
 
         private Coroutine gameLoop;
         private WormGameSceneSwitcher sceneSwitcher;
         private bool sceneReady = false;
         
+        private Dictionary<PlayerID, (Scene unityScene, SceneID sceneID)> playerScenes = new Dictionary<PlayerID, (Scene, SceneID)>();
+
         #endregion
-        
+
         #region Built-In Methods
-        
+
         private void Awake()
         {
+            partCardsStatic = partCards;
+            gameLoopTimer = new GameObject("Timer").AddComponent<GameLoopTimeSyncer>();
+
+            // Guard against Network.instance not being ready yet
+            if (Network.instance == null || Network.instance.manager == null)
+            {
+                Debug.LogWarning("GameLoop awoke before Network was ready — deferring setup.");
+                StartCoroutine(DeferredAwake());
+                return;
+            }
+
+            InitializeGameLoop();
+        }
+
+        private IEnumerator DeferredAwake()
+        {
+            yield return new WaitUntil(() => Network.instance != null && Network.instance.manager != null);
+            InitializeGameLoop();
+        }
+
+        private void InitializeGameLoop()
+        {
+            if (!Network.instance.manager.isServer && !Network.instance.manager.isHost)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             if (Instance == null)
             {
                 Instance = this;
@@ -49,7 +91,7 @@ namespace GameLoop
             }
             else
             {
-                Destroy(gameObject);
+                Destroy(this);
             }
         }
 
@@ -59,20 +101,27 @@ namespace GameLoop
             sceneSwitcher.OnSceneLoaded += HandleSceneLoaded;
             SetDefaultGameLoopSettings();
         }
-        
+
+        private void OnDestroy()
+        {
+            // Reserved for future cleanup
+        }
+
         #endregion
-        
+
         #region Public Methods
-        
+
         public void Reset()
         {
+            if (gameLoop == null) return;
+
             StopCoroutine(gameLoop);
             StopAllCoroutines();
-            
-            TimeLeftInScene = 0;
+
+            gameLoopTimer.TimeLeftInScene = 0;
             IsGameLoopRunning = false;
             sceneReady = false;
-            
+
             foreach (Player.Player player in players)
             {
                 player.ResetPlayer();
@@ -84,11 +133,11 @@ namespace GameLoop
             IsGameLoopRunning = true;
             gameLoop = StartCoroutine(RunGameLoop());
         }
-        
+
         #endregion
-        
+
         #region Private Methods
-        
+
         private void HandleSceneLoaded()
         {
             sceneReady = true;
@@ -101,102 +150,170 @@ namespace GameLoop
             timePerPartSelection = GameParameters.DefaultTimePerPartSelection;
             timePerCreatureBuilding = GameParameters.DefaultTimePerCreatureBuilding;
             timePerMinigame = GameParameters.DefaultTimePerMinigame;
-
             timeForLeaderboard = GameParameters.TimeForLeaderboard;
         }
-        
+
         #endregion
-        
+
         #region Game Loop Logic
 
         private IEnumerator RunGameLoop()
         {
-    
             for (int i = 0; i < numberOfRounds; i++)
             {
                 if (!skipCreatureBuilding1StRound || (i > 0))
                 {
                     yield return StartCoroutine(RunPartSelectionAndCreatureBuilding());
+                    yield return new WaitUntil(() => EndOfRound);
+                    EndOfRound = false;
                 }
-            
-                sceneSwitcher.LoadGameScene();
-            
-                yield return StartCoroutine(MinigameTimer());
-            
-                sceneSwitcher.LoadLeaderboardScene();
-                yield return StartCoroutine(LeaderboardTimer());
             }
-        
-            sceneSwitcher.LoadGameEndScene();
+
+            Network.instance.manager.sceneModule.LoadSceneAsync("GameEndScene");
         }
 
         private IEnumerator RunPartSelectionAndCreatureBuilding()
         {
             sceneReady = false;
-            sceneSwitcher.LoadPartSelectionScene();
-            for (int j = 0; j < numberOfPartsPerRound; j++)
-            {
-                yield return StartCoroutine(PartSelectionTimer());
-                PartSelection partSelection = GameObject.FindGameObjectWithTag("PartSelection").GetComponent<PartSelection>();
-                partSelection.EndCardSelection();
-            }
-                
-            sceneSwitcher.LoadCreatureBuilderScene();
-            Player.Player.Instance.playerSpawning.SpawnInCreatureBuildingScene();
-            yield return StartCoroutine(CreatureBuilderTimer());
+            yield return Network.instance.manager.sceneModule.LoadSceneAsync("PartSelectionScene");
+        }
+
+        public IEnumerator StartCreatureBuilding()
+        {
+            
+            gameLoopTimer.TimeLeftInScene = 0;
+            Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene");
+            yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
             CreatureBuilder.CreatureBuilder creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder.CreatureBuilder>();
-            creatureBuilder.AttachCreatureParts();
+            //creatureBuilder.AttachCreatureParts();
+            yield return StartCoroutine(StartMinigame());
+            
+            // var connectedPlayers = Network.instance.manager.playerModule.players;
+            //
+            // Debug.Log("starting creature building, players: " + connectedPlayers.Count);
+            // gameLoopTimer.TimeLeftInScene = 0;
+            // playerScenes.Clear();
+            //
+            // foreach (PlayerID playerId in connectedPlayers)
+            // {
+            //     var settings = new PurrSceneSettings
+            //     {
+            //         isPublic = false,
+            //         mode = LoadSceneMode.Single
+            //     };
+            //
+            //     AsyncOperation loadOp = Network.instance.manager.sceneModule.LoadSceneAsync("CreatureBuilderScene", settings);
+            //     yield return loadOp;
+            //
+            //     Scene scene = SceneManager.GetSceneByName("CreatureBuilderScene");
+            //     Network.instance.manager.sceneModule.TryGetSceneID(scene, out SceneID sceneID);
+            //     Network.instance.manager.scenePlayersModule.AddPlayerToScene(playerId, sceneID);
+            //     playerScenes[playerId] = (scene, sceneID);
+            // }
+            //
+            // yield return StartCoroutine(gameLoopTimer.Timer(timePerCreatureBuilding));
+            //
+            // foreach (var (playerId, data) in playerScenes)
+            // {
+            //     foreach (GameObject root in data.unityScene.GetRootGameObjects())
+            //     {
+            //         CreatureBuilder.CreatureBuilder creatureBuilder = root.GetComponent<CreatureBuilder.CreatureBuilder>();
+            //         if (creatureBuilder != null)
+            //         {
+            //             creatureBuilder.AttachCreatureParts();
+            //             break;
+            //         }
+            //     }
+            // }
+            //
+            // foreach (var (playerId, data) in playerScenes)
+            // {
+            //     Network.instance.manager.sceneModule.UnloadSceneAsync(data.sceneID);
+            // }
+            // playerScenes.Clear();
+            //
+            // yield return StartCoroutine(StartMinigame());
         }
-        
+
+        private IEnumerator StartMinigame()
+        {
+            Debug.Log("Loading game scene");
+            Network.instance.manager.sceneModule.LoadSceneAsync(GameSceneList.GetRandomGameScene());
+
+            yield return StartCoroutine(gameLoopTimer.Timer(timePerMinigame));
+
+            Network.instance.manager.sceneModule.LoadSceneAsync("LeaderboardScene");
+            yield return StartCoroutine(gameLoopTimer.Timer(timeForLeaderboard));
+            EndOfRound = true;
+        }
+
         #endregion
-        
-        #region Game Loop Timers
 
-        private IEnumerator PartSelectionTimer()
+        public void StartCreatureBuildingCoroutine()
         {
-            TimeLeftInScene = timePerPartSelection;
+            StartCoroutine(StartCreatureBuilding());
+        }
+    }
 
-            while (TimeLeftInScene > 0)
+    public class GameLoopTimeSyncer : PurrMonoBehaviour
+    {
+        public float TimeLeftInScene;
+        private float ServerTime;
+        public UnityEvent TimeExpired = new UnityEvent();
+
+        void Start()
+        {
+            DontDestroyOnLoad(this);
+            StartCoroutine(SendTimePacket());
+        }
+
+        public struct TimePacket : IPackedAuto
+        {
+            public float time;
+        }
+
+        public IEnumerator SendTimePacket()
+        {
+            while (true)
             {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
+                yield return new WaitForSeconds(0.1f);
+                if (Network.instance != null)
+                {
+                    Network.instance.manager.SendToAll<TimePacket>(new TimePacket { time = ServerTime });
+                    yield return new WaitUntil(() => ServerTime > 0);
+                }
             }
         }
 
-        private IEnumerator CreatureBuilderTimer()
+        public IEnumerator Timer(float time)
         {
-            TimeLeftInScene = timePerCreatureBuilding;
-
-            while (TimeLeftInScene > 0)
+            if (Network.instance.manager.isServer || Network.instance.manager.isHost)
             {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
+                ServerTime = time;
+                while (ServerTime > 0)
+                {
+                    ServerTime -= Time.deltaTime;
+                    yield return null;
+                }
+
+                ServerTime = -1;
             }
         }
 
-        private IEnumerator MinigameTimer()
+        public override void Subscribe(NetworkManager manager, bool asServer)
         {
-            TimeLeftInScene = timePerMinigame;
-        
-            while (TimeLeftInScene > 0)
-            {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
-            }
-        
+            manager.Subscribe<TimePacket>(SyncClock, asServer);
         }
 
-        private IEnumerator LeaderboardTimer()
+        public override void Unsubscribe(NetworkManager manager, bool asServer)
         {
-            TimeLeftInScene = timeForLeaderboard;
-
-            while (TimeLeftInScene > 0)
-            {
-                TimeLeftInScene -= Time.deltaTime;
-                yield return null;
-            }
+            manager.Unsubscribe<TimePacket>(SyncClock, asServer);
         }
-        
-        #endregion
+
+        void SyncClock(PlayerID playerID, TimePacket timePacket, bool asServer)
+        {
+            TimeLeftInScene = timePacket.time;
+            if(timePacket.time < 0)TimeExpired.Invoke();
+        }
     }
 }

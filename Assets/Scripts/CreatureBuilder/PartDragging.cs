@@ -34,6 +34,8 @@ namespace CreatureBuilder
         private bool isDragging;
         private bool doubleSelected;
         
+        private Rigidbody rb;
+        
         #endregion
     
         #region Built-In Methods
@@ -42,10 +44,15 @@ namespace CreatureBuilder
             creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder>();
             falseWormBody = GameObject.Find("falseWormBody");
 
-            if (!isClamped)
+            rb = GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                StartDragging();
+                rb.isKinematic = true;
+                rb.useGravity = false;
             }
+
+            if (!isClamped)
+                StartDragging();
         }
     
         void Update()
@@ -71,6 +78,12 @@ namespace CreatureBuilder
             isSelected = false;
             isDragging = false;
             isClamped = false;
+    
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
         }
         
         #endregion

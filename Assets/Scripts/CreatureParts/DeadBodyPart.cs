@@ -1,16 +1,19 @@
 using System.Collections;
+using PurrNet;
 using UnityEngine;
 
 namespace CreatureParts
 {
-    public class DeadBodyPart : MonoBehaviour
+    public class DeadBodyPart : NetworkBehaviour
     {
         void Start()
         {
+            if (isServer) return;
+            
             gameObject.layer = LayerMask.NameToLayer("WormRagdoll");
             gameObject.tag = "Untagged";
             Destroy(gameObject.GetComponent<ConfigurableJoint>());
-            Destroy(gameObject.GetComponent<CreaturePart>());
+            gameObject.GetComponent<CreaturePart>().enabled = false;
             
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.linearDamping = GameParameters.DeadPartLinearDamping;

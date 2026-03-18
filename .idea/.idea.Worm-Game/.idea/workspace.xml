@@ -6,8 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunInfo.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PerformanceTestRunSettings.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PurrVersion.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PurrVersion.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLoop.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -15,10 +24,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Damaging-parts" />
+        <entry key="$PROJECT_DIR$" value="05bb11451bf9f31b062409555d44a1882f4541fb" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -41,18 +53,27 @@
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisRotationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisTranslationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartPair.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/FinPart.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/DontDestroyOnLoad.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Chat.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ClientStarter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkRigidBodyDebugger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (3).unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@f250afc9b68d/Runtime/UGUI/EventSystem/ExecuteEvents.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkBehaviour/PlayerSpawner.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkIdentity/NetworkIdentity.Broadcasting.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/CoreModules/Ownership/GlobalOwnershipModule.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Managers/NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Managers/PurrMonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="Toolset" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -63,27 +84,31 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "bugFIxing",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "XThreadsFramesViewSplitterKey": "0.46593407",
+    "git-widget-placeholder": "Multiplayer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+    "settings.editor.selected.configurable": "preferences.editor",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Battle Worms Builds/Sprint 1\Worm Game.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Builds\Worm Game.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\WormGameBuilds" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
@@ -91,7 +116,9 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
@@ -99,30 +126,40 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="19784">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="19784" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list>
+          <MonoRuntime />
+        </list>
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Device" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
+    <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
       <method v="2" />
     </configuration>
   </component>
@@ -174,13 +211,22 @@
       <workItem from="1763693285257" duration="11123000" />
       <workItem from="1770322555626" duration="1912000" />
       <workItem from="1770330786712" duration="4590000" />
-      <workItem from="1770770773150" duration="1647000" />
-      <workItem from="1770882367496" duration="4835000" />
-      <workItem from="1770940589308" duration="599000" />
-      <workItem from="1771284765012" duration="5669000" />
-      <workItem from="1771542823302" duration="1924000" />
-      <workItem from="1772150358042" duration="4201000" />
-      <workItem from="1772188371399" duration="2363000" />
+      <workItem from="1770770553116" duration="1923000" />
+      <workItem from="1771978488407" duration="4230000" />
+      <workItem from="1772081909389" duration="2999000" />
+      <workItem from="1772151343654" duration="1539000" />
+      <workItem from="1772381532855" duration="3000" />
+      <workItem from="1772381543270" duration="31385000" />
+      <workItem from="1773240909517" duration="6890000" />
+      <workItem from="1773691873553" duration="9580000" />
+    </task>
+    <task id="LOCAL-00028" summary="current version for sprint review, movement updates wip">
+      <option name="closed" value="true" />
+      <created>1761260915034</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1761260915034</updated>
     </task>
     <task id="LOCAL-00029" summary="movement updates wip">
       <option name="closed" value="true" />
@@ -502,79 +548,71 @@
       <option name="project" value="LOCAL" />
       <updated>1770335053725</updated>
     </task>
-    <task id="LOCAL-00069" summary="hi">
+    <task id="LOCAL-00069" summary="re-enabled other menu buttons, username entered in menu is now saved">
       <option name="closed" value="true" />
-      <created>1770770874784</created>
+      <created>1770765479848</created>
       <option name="number" value="00069" />
       <option name="presentableId" value="LOCAL-00069" />
       <option name="project" value="LOCAL" />
-      <updated>1770770874784</updated>
+      <updated>1770765479848</updated>
     </task>
-    <task id="LOCAL-00070" summary="im built different (parts stay selected)">
+    <task id="LOCAL-00070" summary="color selection updates wip">
       <option name="closed" value="true" />
-      <created>1770771708343</created>
+      <created>1771372011381</created>
       <option name="number" value="00070" />
       <option name="presentableId" value="LOCAL-00070" />
       <option name="project" value="LOCAL" />
-      <updated>1770771708343</updated>
+      <updated>1771372011381</updated>
     </task>
-    <task id="LOCAL-00071" summary="all selection bugs fixed">
+    <task id="LOCAL-00071" summary="moved code to playerSpawning, kinda broken">
       <option name="closed" value="true" />
-      <created>1770885166689</created>
+      <created>1773125339398</created>
       <option name="number" value="00071" />
       <option name="presentableId" value="LOCAL-00071" />
       <option name="project" value="LOCAL" />
-      <updated>1770885166689</updated>
+      <updated>1773125339399</updated>
     </task>
-    <task id="LOCAL-00072" summary="trash him for his crimes. (delete button added)">
+    <task id="LOCAL-00072" summary="refactored code back to working in game scene">
       <option name="closed" value="true" />
-      <created>1770885844414</created>
+      <created>1773127479489</created>
       <option name="number" value="00072" />
       <option name="presentableId" value="LOCAL-00072" />
       <option name="project" value="LOCAL" />
-      <updated>1770885844414</updated>
+      <updated>1773127479489</updated>
     </task>
-    <task id="LOCAL-00073" summary="added visual axis for future rotation/movement functionality">
+    <task id="LOCAL-00073" summary="code refactored, still triyng to fix lobby bug though">
       <option name="closed" value="true" />
-      <created>1770887205053</created>
+      <created>1773128904874</created>
       <option name="number" value="00073" />
       <option name="presentableId" value="LOCAL-00073" />
       <option name="project" value="LOCAL" />
-      <updated>1770887205053</updated>
+      <updated>1773128904874</updated>
     </task>
-    <task id="LOCAL-00074" summary="fixed the weird glowly glitch yayyyy">
+    <task id="LOCAL-00074" summary="player is observed">
       <option name="closed" value="true" />
-      <created>1770941172869</created>
+      <created>1773212003832</created>
       <option name="number" value="00074" />
       <option name="presentableId" value="LOCAL-00074" />
       <option name="project" value="LOCAL" />
-      <updated>1770941172869</updated>
+      <updated>1773212003832</updated>
     </task>
-    <task id="LOCAL-00075" summary="the nightmare beast is slain (part rotation implemented)">
+    <task id="LOCAL-00075" summary="player can spawn and move in mingamescene">
       <option name="closed" value="true" />
-      <created>1771290456017</created>
+      <created>1773299907102</created>
       <option name="number" value="00075" />
       <option name="presentableId" value="LOCAL-00075" />
       <option name="project" value="LOCAL" />
-      <updated>1771290456017</updated>
+      <updated>1773299907102</updated>
     </task>
-    <task id="LOCAL-00076" summary="death screen UI">
+    <task id="LOCAL-00076" summary="trying to get creature part to carry over to minigame.">
       <option name="closed" value="true" />
-      <created>1771974634431</created>
+      <created>1773304005520</created>
       <option name="number" value="00076" />
       <option name="presentableId" value="LOCAL-00076" />
       <option name="project" value="LOCAL" />
-      <updated>1771974634431</updated>
+      <updated>1773304005520</updated>
     </task>
-    <task id="LOCAL-00077" summary="fixed visual head orientation in creature builder">
-      <option name="closed" value="true" />
-      <created>1772153750566</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1772153750566</updated>
-    </task>
-    <option name="localTasksCounter" value="78" />
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,6 +645,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="fixed loop skipping first round" />
     <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
     <MESSAGE value="can select parts and they carry over to creature builder" />
     <MESSAGE value="part selection handles multiple parts" />
@@ -623,15 +662,45 @@
     <MESSAGE value="dragging improved" />
     <MESSAGE value="moved partPair to it's own script" />
     <MESSAGE value="CreatureBuilder script refactored a bit/cleaned" />
-    <MESSAGE value="hi" />
-    <MESSAGE value="im built different (parts stay selected)" />
-    <MESSAGE value="all selection bugs fixed" />
-    <MESSAGE value="trash him for his crimes. (delete button added)" />
-    <MESSAGE value="added visual axis for future rotation/movement functionality" />
-    <MESSAGE value="fixed the weird glowly glitch yayyyy" />
-    <MESSAGE value="the nightmare beast is slain (part rotation implemented)" />
-    <MESSAGE value="death screen UI" />
-    <MESSAGE value="fixed visual head orientation in creature builder" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed visual head orientation in creature builder" />
+    <MESSAGE value="re-enabled other menu buttons, username entered in menu is now saved" />
+    <MESSAGE value="color selection updates wip" />
+    <MESSAGE value="moved code to playerSpawning, kinda broken" />
+    <MESSAGE value="refactored code back to working in game scene" />
+    <MESSAGE value="code refactored, still triyng to fix lobby bug though" />
+    <MESSAGE value="player is observed" />
+    <MESSAGE value="player can spawn and move in mingamescene" />
+    <MESSAGE value="trying to get creature part to carry over to minigame." />
+    <option name="LAST_COMMIT_MESSAGE" value="trying to get creature part to carry over to minigame." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
+          <line>152</line>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'">
+            <startOffsets>
+              <option value="5438" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5535" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
+          <option name="timeStamp" value="73" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
+          <option name="timeStamp" value="74" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="75" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7732976664597786209}
   - component: {fileID: 5640140517965345529}
   - component: {fileID: 8918525676529996198}
-  - component: {fileID: 6165419506773103442}
+  - component: {fileID: 1157651836923235874}
   m_Layer: 5
   m_Name: RightArrow
   m_TagString: TranslationHandle
@@ -116,7 +116,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6165419506773103442
+--- !u!114 &1157651836923235874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,10 +127,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd8aeecf02d1f804db3ab826ab664bd5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AxisTranslationHandler
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.AxisTranslationHandler
   localAxis: {x: 1, y: 0, z: 0}
   moveSpeed: 0.01
-  targetPart: {fileID: 0}
+  targetPart: {fileID: 4496886996731937265}
 --- !u!1 &2609974457177635915
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 6948165029470907080}
   - component: {fileID: 2848539517113693355}
   - component: {fileID: 4100864680143351436}
-  - component: {fileID: 7264580707785725367}
+  - component: {fileID: 9114621483209505303}
   m_Layer: 5
   m_Name: Cylinder
   m_TagString: RotationHandle
@@ -602,7 +602,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &7264580707785725367
+--- !u!114 &9114621483209505303
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -729,6 +729,8 @@ GameObject:
   - component: {fileID: 2091517974953068112}
   - component: {fileID: 1227255661137215562}
   - component: {fileID: -1695563857794630915}
+  - component: {fileID: 5319103657931257947}
+  - component: {fileID: -4549782115335262024}
   m_Layer: 5
   m_Name: leg part object
   m_TagString: CreaturePart
@@ -869,6 +871,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1fad15e3244652bca82eaf498e4694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.LegPart
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   defaultConnectedAnchor: {x: 0, y: 0, z: 0}
   foot: {fileID: 2609974457177635915}
   timeOffset: 0.1
@@ -928,23 +939,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
   m_Weight: 1
-  m_Effectors:
-  - m_Transform: {fileID: 409074066363227634}
-    m_Style:
-      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
-      color: {r: 1, g: 0, b: 0, a: 0.5}
-      size: 0.1
-      position: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-    m_Visible: 1
-  - m_Transform: {fileID: 409074066363227634}
-    m_Style:
-      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
-      color: {r: 1, g: 0, b: 0, a: 0.5}
-      size: 0.1
-      position: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-    m_Visible: 1
+  m_Effectors: [{m_Transform: {fileID: 409074066363227634}, m_Style: {shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}, color: {r: 1, g: 0, b: 0, a: 0.5}, size: 0.1, position: {x: 0, y: 0, z: 0}, rotation: {x: 0, y: 0, z: 0}}, m_Visible: 1},
+    {m_Transform: {fileID: 409074066363227634}, m_Style: {shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}, color: {r: 1, g: 0, b: 0, a: 0.5}, size: 0.1, position: {x: 0, y: 0, z: 0}, rotation: {x: 0, y: 0, z: 0}}, m_Visible: 1}]
 --- !u!114 &-1695563857794630915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,6 +953,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacc8514d993067498c5d212d445e9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartDraggingUI
+--- !u!54 &5319103657931257947
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6294173655021920613}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-4549782115335262024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6294173655021920613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 11400000, guid: d8799083b96579a42b8b2d03e4ceae98, type: 2}
+  _visitiblityRules: {fileID: 0}
+  _ownerAuth: 1
+  _acceptableError: 0.05
+  _hardCorrectionThreshold: 2
+  _maxCorrectionTime: -1
+  _springConstant: 80
+  _dampingConstant: 5
+  _rotationSpringMultiplier: 0.3
+  _minRotationCorrectionAngle: 1
+  _uncertaintySpringDampening: 0.5
+  _accelerationDecay: 0.85
+  _hardCorrectionAccelerationScale: 0.1
+  _maxHardCorrectionMultiplier: 5
+  _lowSpeedThreshold: 1.5
+  _lowSpeedSpringMultiplier: 0.1
+  _extrapolateBasedOnPing: 0
+  _positionChangeThreshold: 0.001
+  _rotationChangeThreshold: 0.001
+  _velocityStopThreshold: 0.001
+  _debugGizmos: 0
+  _debugTextOffset: 2
 --- !u!1 &6302236165224316917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,7 +1195,7 @@ GameObject:
   - component: {fileID: 3396110490892635680}
   - component: {fileID: 3465297706019013666}
   - component: {fileID: 8969971762133167979}
-  - component: {fileID: 7388937380966994881}
+  - component: {fileID: 2929414302945149942}
   m_Layer: 5
   m_Name: ForwardArrow
   m_TagString: TranslationHandle
@@ -1235,7 +1299,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7388937380966994881
+--- !u!114 &2929414302945149942
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1246,10 +1310,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd8aeecf02d1f804db3ab826ab664bd5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AxisTranslationHandler
-  localAxis: {x: 0, y: 0, z: 1}
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.AxisTranslationHandler
+  localAxis: {x: 1, y: 0, z: 0}
   moveSpeed: 0.01
-  targetPart: {fileID: 0}
+  targetPart: {fileID: 4496886996731937265}
 --- !u!1001 &3212865691211194105
 PrefabInstance:
   m_ObjectHideFlags: 0

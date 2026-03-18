@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using CreatureBuilder;
+using Player;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,28 +31,47 @@ namespace GameLoop
         private GameObject currentCard;
         private GameObject discardedCard;
         
+        public PartSelectionManager.SelectableCardsPacket selectableCards;
+
+        public static PartSelection Instance;
+        
         #endregion
     
         #region Built-In Methods
         
         void Start()
         {
-            partCards = GameLoop.Instance.partCards;
-            PickCardOptions();
+            Instance = this;
+            partCards = GameLoop.partCardsStatic;
+            gameObject.GetOrAddComponent<PartSelectionManager>();
+        }
+
+        private void Update()
+        {
+            GameLoop.gameLoopTimer.TimeExpired.AddListener(EndCardSelection);
+        }
+
+        void OnDestroy()
+        {
+            if(card1!=null)EndCardSelection();
         }
         
         #endregion
         
         #region Public Methods
 
-        public void PickCardOptions()
+        public void SetCardOptions(PurrNet.PlayerID player, PartSelectionManager.SelectableCardsPacket packet, bool asServer)
         {
-            (card1, card2) = Pick2RandomCards();
-        
+            selectableCards = packet;
+            card1 = partCards[packet.Card1Index];
+            card2 = partCards[packet.Card2Index];
+            
             card1Slot.sprite = card1.GetComponent<PartCard>().sprite;
             card2Slot.sprite = card2.GetComponent<PartCard>().sprite;
             card1Name.text = card1.GetComponent<PartCard>().cardName;
             card2Name.text = card2.GetComponent<PartCard>().cardName;
+            
+            print("card1Name: " + card1Name.name + " card2Name: " + card2Name.name);
         }
 
         public void EndCardSelection()
@@ -59,15 +81,12 @@ namespace GameLoop
             {
                 currentCard = card1;
             }
-        
-            Player.Player.Instance.wormPartsInInventory.Add(currentCard);
-        
-            //TODO: discard card and get discarded card from opponent
-        
-            //fake discarded card
-            int discardCardIndex = Random.Range(0, partCards.Count);
-            Player.Player.Instance.wormPartsInInventory.Add(partCards[discardCardIndex]);
+            if(card1==null) return;
+            LocalPlayer.Instance.wormPartsInInventory.Add(currentCard);
             
+            //TODO: discard card and get discarded card from opponent
+            PartSelectionManager.ReturnCard(selectableCards, currentCard==card1);
+            print("end");
             ResetPartSelection();
         }
 
@@ -90,16 +109,6 @@ namespace GameLoop
         #endregion
         
         #region Private Methods
-        
-        private (GameObject, GameObject) Pick2RandomCards()
-        {
-            int card1Index = Random.Range(0, partCards.Count);
-            int card2Index = Random.Range(0, partCards.Count);
-            card1 = partCards[card1Index];
-            card2 = partCards[card2Index];
-
-            return (card1, card2);
-        }
 
         private void ResetPartSelection()
         {

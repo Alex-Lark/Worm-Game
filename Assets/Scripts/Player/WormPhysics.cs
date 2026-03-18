@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using PurrNet;
 using UnityEngine;
 
 namespace Player
@@ -16,7 +17,7 @@ namespace Player
         
         #region Built-In Methods
 
-        public void Start()
+        public void Awake()
         {
             player = GetComponent<Player>();
         }
@@ -28,11 +29,8 @@ namespace Player
         public void AddCollidersToSegments()
         {
             SphereCollider headCollider = player.wormHead.GetComponent<SphereCollider>();
-
             if (headCollider == null)
-            {
-                headCollider = player.wormHead.GetComponent<SphereCollider>();
-            }
+                headCollider = player.wormHead.gameObject.AddComponent<SphereCollider>();
         
             headCollider.radius = GameParameters.WormBodyWidth * 4;
         
@@ -50,6 +48,7 @@ namespace Player
     
         public void ResetWormPhysics()
         {
+            Debug.Log("Reset worm physics called\n" + StackTraceUtility.ExtractStackTrace());
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {
@@ -61,9 +60,15 @@ namespace Player
         {
             Rigidbody rb = segment.GetComponent<Rigidbody>();
             if (rb == null) return;
-
+            
             rb.isKinematic = isKinematic;
             rb.useGravity = useGravity;
+
+            if (isKinematic == false)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
         }
 
         public void PositionWormSegments(Vector3 headPosition)
@@ -82,12 +87,16 @@ namespace Player
         
         public void ResetPlayerPhysics()
         {
+            Debug.Log("resetting player physics");
+            player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
+            player.wormHead.GetComponent<Rigidbody>().useGravity = true;
             player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
             foreach (Transform segment in player.wormBodySegments)
             {
                 Rigidbody rb = segment.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
                 rb.useGravity = true;
@@ -95,7 +104,9 @@ namespace Player
 
             foreach (GameObject part in player.attachedWormParts)
             {
+                Debug.Log("resetting attached part physics");
                 Rigidbody rb = part.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
                 rb.useGravity = true;
@@ -127,6 +138,91 @@ namespace Player
                     {
                         Physics.IgnoreCollision(allWormColliders[i], allWormColliders[j], true);
                     }
+                }
+            }
+        }
+        
+        public void ResetWormPosition()
+        {
+            if (player.wormHead == null) return;
+            
+            player.wormHead.position = new Vector3(0, 2, 0);
+            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
+            if (headRb != null)
+            {
+                headRb.useGravity = true;
+                headRb.isKinematic = false;
+                headRb.linearVelocity = Vector3.zero;
+                headRb.angularVelocity = Vector3.zero;
+            }
+            
+            Vector3 currentPos = player.wormHead.position;
+            Vector3 backDir = -player.wormHead.forward;
+            
+            for (int i = 0; i < player.wormBodySegments.Count; i++)
+            {
+                currentPos += backDir * GameParameters.SegmentMaxPartDistance;
+                Transform segment = player.wormBodySegments[i];
+                segment.position = currentPos;
+                segment.rotation = player.wormHead.rotation;
+            
+                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
+                segmentRb.useGravity = true;
+                segmentRb.isKinematic = false;
+                segmentRb.linearVelocity = Vector3.zero;
+                segmentRb.angularVelocity = Vector3.zero;
+            }
+        }
+        
+        public void ResetWormOrientation()
+        {
+            player.wormVisualHead.rotation = Quaternion.identity;
+            player.wormHead.rotation = Quaternion.identity;
+            foreach (Transform segment in player.wormBodySegments)
+            {
+                segment.rotation = Quaternion.identity;
+            }
+        }
+        
+        public void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
+        {
+            Debug.Log("ignoring part collision with worm");
+            int numSegments = GameParameters.NumSegmentCollisionsIgnored;
+            
+            Collider[] partColliders = part.GetComponentsInChildren<Collider>();
+            
+            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, true, numSegments);
+            IgnoreCollisionsInDirection(partColliders, nearestWormSegment, false, numSegments);
+            
+            foreach (var attachedWormPart in LocalPlayer.Instance.attachedWormParts)
+            {
+                Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
+            }
+        }
+
+        private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
+        {
+            Transform current = startSegment;
+
+            for (int i = 0; i < numSegments && current != null; i++)
+            { 
+                Collider[] segmentColliders = current.GetComponentsInChildren<Collider>();
+                
+                foreach (var pCol in partColliders)
+                {
+                    foreach (var sCol in segmentColliders)
+                    {
+                        Physics.IgnoreCollision(pCol, sCol, true);
+                    }
+                }
+                
+                if (forward)
+                {
+                    current = current.childCount > 0 ? current.GetChild(0) : null;
+                }
+                else
+                {
+                    current = current.parent;
                 }
             }
         }

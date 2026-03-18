@@ -1,0 +1,157 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using GameLoop;
+using Player;
+using UnityEngine;
+using PurrNet;
+using PurrNet.Modules;
+using PurrNet.Packing;
+using PurrNet.Transports;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
+
+public class Network : MonoBehaviour
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public UDPTransport udpTransport;
+    public NetworkManager manager;
+    
+    public static Network instance;
+    public static SimplePing pinger;
+    
+    bool Init = false;
+
+    private GameObject networkObject;
+
+    private void OnDestroy()
+    {
+        {
+            PlayerRegister.ResetRegister();
+            manager?.StopClient();
+            if(manager?.isServer == true) manager.StopServer();
+            Destroy(manager?.gameObject);
+        }
+    }
+
+    public void StartServer()
+    {
+        StartCommon();
+        manager.StartHost();
+    }
+    
+    public void StartClient(string address = null)
+    {
+        if(address == null)address = "127.0.0.1";
+        StartCommon();
+        manager.StartClient();
+    }
+
+    void StartCommon()
+    {
+        if (!Init)
+        {
+            instance = this;
+            Init = true;
+            networkObject = Instantiate(Resources.Load<GameObject>("Multiplayer/Network-Config"));
+            
+            pinger = gameObject.GetOrAddComponent<SimplePing>();
+
+            manager = networkObject.GetComponent<NetworkManager>();
+            udpTransport = manager.transport as UDPTransport;
+            if (udpTransport == null)
+            {
+                Debug.LogError("No UDP Transport found");
+                return;
+            }
+
+            DontDestroyOnLoad(networkObject);
+            udpTransport.serverPort = 5001;
+            DontDestroyOnLoad(gameObject);
+
+            manager.onClientConnectionState += OnNetworkChangeScene;
+            manager.onServerConnectionState += OnNetworkChangeScene;
+
+            PlayerRegister.InitRegister();
+
+            gameObject.AddComponent<WormGameSceneSwitcher>();
+        }
+    }
+
+    private void OnNetworkChangeScene(ConnectionState state)
+    {
+        if (state == ConnectionState.Connected)
+        {
+            WormGameSceneSwitcher switcher = gameObject.GetOrAddComponent<WormGameSceneSwitcher>();
+            StartCoroutine(switcher.LoadGameLobbyScene(0));
+        }
+
+        if (state == ConnectionState.Disconnected)
+        {
+            gameObject.GetOrAddComponent<WormGameSceneSwitcher>().LoadMainMenuScene();
+            Destroy(gameObject);
+        }
+    }
+    
+    public bool AllClientsReady()
+    {
+        if (!SceneManager.GetActiveScene().isLoaded) return false;
+        manager.sceneModule.TryGetSceneID(SceneManager.GetActiveScene(), out SceneID scene);
+        foreach (PlayerID player in manager.players)
+        {
+            if(!manager.scenePlayersModule.IsPlayerLoadedInScene(player,scene))return false;
+        }
+        print("All Client's Synced");
+        return true;
+    }
+}
+
+public class SimplePing : PurrMonoBehaviour
+{
+    private int Responces = 0;
+
+    struct ping : IPackedAuto
+    {
+        public bool isResponse;
+    }
+    public IEnumerator Ping()
+    {
+        Responces = 0;
+        Network.instance.manager.SendToAll<ping>(new ping(), Channel.ReliableOrdered);
+        print("Ping");
+        yield return new WaitUntil(() => Responces == Network.instance.manager.playerCount);
+    }
+
+    private void Pong(PlayerID id, ping p, bool asserver)
+    {
+        if (!p.isResponse)
+        {
+            p.isResponse = true;
+            manager.SendToServer<ping>(p, Channel.ReliableOrdered);
+            print("Pong");
+        }
+        else
+        {
+            if (Network.instance.manager.isServer || Network.instance.manager.isHost)
+            {
+                Responces++;
+            }
+            else
+            {
+                Debug.LogWarning("A Client has received a ping response. This should not happen!");
+            }
+        }
+    }
+
+    public override void Subscribe(NetworkManager manager, bool asServer)
+    {
+        manager.Subscribe<ping>(Pong, asServer);
+    }
+
+    public override void Unsubscribe(NetworkManager manager, bool asServer)
+    {
+        throw new NotImplementedException();
+    }
+}

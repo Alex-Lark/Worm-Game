@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 public class Cheats : MonoBehaviour
@@ -8,7 +9,7 @@ public class Cheats : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Player.Player.Instance.OnPlayerDeath();
+            LocalPlayer.Instance.OnPlayerDeath();
         }
     }
 }

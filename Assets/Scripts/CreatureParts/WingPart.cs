@@ -1,5 +1,6 @@
 using UnityEngine;
 using Player;
+using UnityEngine.SocialPlatforms;
 
 namespace CreatureParts
 {
@@ -14,9 +15,9 @@ namespace CreatureParts
 
         private void Awake()
         {
-            if (Player.Player.Instance != null)
+            if (LocalPlayer.Instance != null)
             {
-                wormRb = Player.Player.Instance.wormHead.GetComponent<Rigidbody>();
+                wormRb = LocalPlayer.Instance.wormHead.GetComponent<Rigidbody>();
             }
             
             base.Awake();
@@ -24,7 +25,7 @@ namespace CreatureParts
 
         public override void Jump()
         {
-            if (Player.Player.Instance.IsWormGrounded)
+            if (LocalPlayer.Instance.IsWormGrounded)
             {
                 currentForce = baseForce;
             }

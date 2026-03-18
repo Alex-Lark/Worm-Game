@@ -1,6 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CreatureParts;
+using JamesFrowen.SimpleWeb;
+using PurrNet;
+using Unity.VisualScripting;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,24 +22,24 @@ namespace Player
         Dead
     }
 
-    public class Player : MonoBehaviour
+    public class Player : NetworkBehaviour
     {
         
         #region Public Properties
         [Header("Public Properties")]
-        
-        public static Player Instance { get; private set; }
-        public string PlayerName { get; private set; }
+
+        public string PlayerName = "Player1";
         
         public WormState CurrentState { get; set; }
         
-        public bool IsWormGrounded { get; private set; }
+        public bool IsWormGrounded { get; set; }
         
         public float MaxVelocity { get; set; }
-        public bool IsWormMovingForward => CurrentState == WormState.Moving;
         public bool IsWormJumping => CurrentState == WormState.Jumping;
         public bool IsWormAttacking => CurrentState == WormState.Attacking;
         public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
+
+        public bool canDie = false;
         
         #endregion
         
@@ -43,6 +48,7 @@ namespace Player
         public int playerScore = 1;
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
+        
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
@@ -57,62 +63,32 @@ namespace Player
         
         public GameObject wormHeadCopy;
         
+        public WormJump wormJump;
+        public WormHeadBut wormHeadBut;
+    
+        public readonly int WormSegmentCount = GameParameters.WormSegmentCount;
+        public readonly float MaxPartDistance = GameParameters.SegmentMaxPartDistance;
+        
         #endregion
         
         #region private variables
 
         private bool isPlayerActive = false;
-        private WormJump wormJump;
-        private WormHeadBut wormHeadBut;
-    
-        private readonly int wormSegmentCount = GameParameters.WormSegmentCount;
-        private readonly float maxPartDistance = GameParameters.SegmentMaxPartDistance;
         
         #endregion
     
         #region Built-In Methods
-        
-        void Awake()
-        {
-            //TODO: reconfigure usage of instance once multiplayer is introduced
-            
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
-
-        void Start()
-        {
-            PlayerName = "player1";
-            CurrentState = WormState.Idle;
-            IsWormGrounded = false;
-            MaxVelocity = GameParameters.WormMaxVelocity;
-
-            wormForwardMovement = GetComponent<WormForwardMovement>();
-            wormJump = GetComponent<WormJump>();
-            wormHeadBut = GetComponent<WormHeadBut>();
-            playerSpawning = GetComponent<PlayerSpawning>();
-        
-            wormBodySegments.Clear();
-            wormConstructor = new WormConstructor(wormHead, wormBodySegments, wormSegmentPrefab, transform, wormSegmentCount, maxPartDistance);
-            wormConstructor.CreateWormSegments();
-            wormConstructor.ConstructWorm();
-            
-            GetComponent<WormPhysics>().AddCollidersToSegments();
-        }
 
         private void FixedUpdate()
         {
             if (!isPlayerActive) return;
             
             SetWormGrounding();
-            RotateVisualHead();
+
+            if (thirdPersonCamera != null)
+            {
+                RotateVisualHead();
+            }
 
             if (IsWormAttacking)
             {
@@ -124,9 +100,12 @@ namespace Player
                 wormHeadBut.WormheadbutCoolDown();
             }
 
-            if (currentPlayerHealth < maxPlayerHealth && CurrentState != WormState.Dead)
+            if (isOwner)
             {
-                currentPlayerHealth += GameParameters.PlayerHealthRegen;
+                if (currentPlayerHealth < maxPlayerHealth && CurrentState != WormState.Dead)
+                {
+                    currentPlayerHealth += GameParameters.PlayerHealthRegen;
+                }
             }
         }
         
@@ -164,6 +143,14 @@ namespace Player
 
         public void DamagePlayer(Collision other, GameObject hitGameObject)
         {
+            if (!isOwner) return;
+            
+            if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
+                attachedWormParts.Contains(hitGameObject))
+            {
+                return;
+            }
+            
             float collisionForce = other.impulse.magnitude;
 
             if (hitGameObject.GetComponent<WormHead>() != null)
@@ -186,7 +173,7 @@ namespace Player
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-                    currentPlayerHealth -= damage;
+                    if (isOwner) currentPlayerHealth -= damage;
                 }
             }
             if (other.gameObject.GetComponent<FiredProjectile>() != null)
@@ -194,20 +181,23 @@ namespace Player
                 if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;
-                    currentPlayerHealth -= damage;
+                    if (isOwner) currentPlayerHealth -= damage;
                 }
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
                 Debug.Log("Blunt collision between " + other.gameObject + " and " + hitGameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
-                currentPlayerHealth -= damage;
+                if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
             }
 
-            if (CurrentState != WormState.Dead && currentPlayerHealth < 0)
+            if (isOwner)
             {
-                OnPlayerDeath();
-            }
+                if (CurrentState != WormState.Dead && currentPlayerHealth < 0)
+                {
+                    OnPlayerDeath();
+                }
+            } 
         }
 
         public void Jump()
@@ -250,27 +240,51 @@ namespace Player
         
         public void OnPlayerDeath()
         {
+            Debug.Log("Player died");
             if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 return;
             }
             if (CurrentState == WormState.Dead) return;
-            
-            CurrentState = WormState.Dead;
-            currentPlayerHealth = 0;
-
-            thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
-            
-            GetComponent<WormRenderer>().enabled = false;
-            GetComponent<LineRenderer>().enabled = false;
-            
-            if (transform.Find("WormMesh").gameObject)
+            if (!canDie)
             {
-                Destroy(transform.Find("WormMesh").gameObject);
+                return;
             }
             
-            playerSpawning.deathScreenUI.EnableDeathUI();
+            CurrentState = WormState.Dead;
+            if (isOwner) currentPlayerHealth = 0;
+
+            thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
+
+            if (playerSpawning.deathScreenUI != null)
+            {
+                playerSpawning.deathScreenUI.EnableDeathUI();
+            }
+            else
+            {
+                playerSpawning.deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
+            }
             
+            ServerSideDeath();
+            
+            playerSpawning.TryToRespawn();
+        }
+
+        [ServerRpc(requireOwnership: true)]
+        private void ServerSideDeath()
+        {
+            ObserversSideDeath();
+        }
+
+        [ObserversRpc(runLocally: true)]
+        private void ObserversSideDeath()
+        {
+            GetComponent<WormRenderer>().enabled = false;
+            GetComponent<LineRenderer>().enabled = false;
+    
+            if (transform.Find("WormMesh") != null)
+                Destroy(transform.Find("WormMesh").gameObject);
+    
             wormHeadCopy = DuplicatePart(wormHead.gameObject);
             wormHead.gameObject.SetActive(false);
 
@@ -279,36 +293,13 @@ namespace Player
                 DuplicatePart(bodySegment.gameObject);
                 bodySegment.gameObject.SetActive(false);
             }
-            
+    
             foreach (GameObject attachedPart in attachedWormParts)
             {
                 DuplicatePart(attachedPart);
                 attachedPart.gameObject.SetActive(false);
                 attachedPart.GetComponent<AttachablePart>().enabled = false;
             }
-            
-            playerSpawning.TryToRespawn();
-        }
-        
-        public void CancelDeath()
-        {
-            if (CurrentState != WormState.Dead) return;
-            GetComponent<WormRenderer>().enabled = true;
-            GetComponent<WormRenderer>().Restart();
-    
-            wormHead.gameObject.SetActive(true);
-            foreach (Transform bodySegment in wormBodySegments)
-                bodySegment.gameObject.SetActive(true);
-            foreach (GameObject attachedPart in attachedWormParts)
-            {
-                attachedPart.SetActive(true);
-                attachedPart.GetComponent<AttachablePart>().enabled = true;
-            }
-
-            if (wormHeadCopy != null)
-                Destroy(wormHeadCopy);
-
-            CurrentState = WormState.Idle;
         }
         
         #endregion
@@ -374,14 +365,14 @@ namespace Player
             Vector3 cameraForward = thirdPersonCamera.transform.forward;
             cameraForward.y += GameParameters.VisualHeadVerticalOffset;
             cameraForward.Normalize();
-        
+
             if (cameraForward.sqrMagnitude < 0.01f) return;
-        
+
             float signedAngle = Vector3.SignedAngle(wormHead.forward, cameraForward, Vector3.up);
             float clampedAngle = Mathf.Clamp(signedAngle, -90f, 90f);
             wormVisualHead.rotation = Quaternion.AngleAxis(clampedAngle, Vector3.up) * wormHead.rotation;
         }
-        
+
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CreatureParts;
+using PurrNet;
 using UnityEngine;
 
 namespace Player
@@ -25,6 +26,7 @@ namespace Player
 
         public void CreateWormSegments()
         {
+            
             CreaturePart previousSegment = wormHead.GetComponent<CreaturePart>();
     
             for (int i = 0; i < wormSegmentCount; i++)
@@ -58,4 +60,6 @@ namespace Player
             }
         }
     }
+    
+    
 }

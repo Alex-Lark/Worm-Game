@@ -1,5 +1,8 @@
 using System;
 using System.Collections;
+using Player;
+using PurrNet;
+using PurrNet.Packing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +15,10 @@ namespace GameLoop
         public void LoadMainMenuScene()
         {
             SceneManager.LoadScene("MainMenuScene");
-            GameLoop.Instance.Reset();
+            GameLoop.Instance?.Reset();
+            Destroy(Network.instance);
+            if(GameLoop.Instance!=null)Destroy(GameLoop.Instance?.gameObject);
+            if(LocalPlayer.Instance)Destroy(LocalPlayer.Instance?.gameObject);
         }
 
         public void LoadSettingsScene()
@@ -30,16 +36,11 @@ namespace GameLoop
             SceneManager.LoadScene("CreateGameScene");
         }
 
-        public void LoadGameLobbyScene()
+        public IEnumerator LoadGameLobbyScene(float delay = -1)
         {
+            if (delay >= 0) yield return new WaitForSeconds(delay);
             SceneManager.LoadScene("GameLobbyScene");
         }
-    
-        public void LoadPartSelectionScene()
-        {
-            SceneManager.LoadScene("PartSelectionScene");
-        }
-    
         public void LoadCreatureBuilderScene()
         {
             SceneManager.LoadScene("CreatureBuilderScene");
@@ -48,11 +49,6 @@ namespace GameLoop
         public void LoadGameScene()
         {
             SceneManager.LoadScene(GameSceneList.GetRandomGameScene());
-            
-            foreach (Player.Player player in GameLoop.Instance.players)
-            {
-                player.playerSpawning.SpawnInGameScene();
-            }
         }
     
         public void LoadLeaderboardScene()
@@ -83,5 +79,18 @@ namespace GameLoop
                             Application.Quit();
             #endif
         }
+        
+        
+        void OnSceneChangeRequest(PlayerID player, SceneChange scene, bool asServer)
+        {
+            SceneManager.LoadScene(scene.name);
+        }
+        
+        public struct SceneChange : IPackedAuto
+        {
+            public string name;
+        }
     }
+
+    
 }

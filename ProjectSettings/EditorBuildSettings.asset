@@ -29,8 +29,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CreatureBuilderScene.unity
     guid: a53715735047b454ca875015e0714294
-  - enabled: 1
-    path: Assets/Scenes/Game Scenes/GameScene - default.unity
+  - enabled: 0
+    path: Assets/Scenes/Game Scenes/MultiplayerTest.unity
     guid: 0b9fb6901ec12ce418b6f0b4ed639963
   - enabled: 1
     path: Assets/Scenes/GameEndScene.unity
