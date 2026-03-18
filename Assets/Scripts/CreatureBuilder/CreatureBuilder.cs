@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace CreatureBuilder
 {
-    public class CreatureBuilder : MonoBehaviour
+    public class CreatureBuilder : NetworkBehaviour
     {
         #region public variables
         [Header("Public Variables")]
@@ -114,8 +114,8 @@ namespace CreatureBuilder
             {
                 Debug.Log("Running on server");
             }
-            if (!Network.instance.manager.isServer)
-                return;
+            // if (!Network.instance.manager.isServer)
+            //     return;
             
             Debug.Log("attaching all creature parts");
             foreach (GameObject part in parts)

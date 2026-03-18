@@ -1417,7 +1417,7 @@ MonoBehaviour:
   _parent: {fileID: 0}
   _invertedPathToNearestParent: 
   _directChildren: []
-  _networkRules: {fileID: 0}
+  _networkRules: {fileID: 11400000, guid: 57ad4cc976c21074181652c4f7179d44, type: 2}
   _visitiblityRules: {fileID: 0}
   _ownerAuth: 1
   _acceptableError: 0.05
