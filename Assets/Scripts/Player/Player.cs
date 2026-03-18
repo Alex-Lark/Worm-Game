@@ -255,8 +255,15 @@ namespace Player
             if (isOwner) currentPlayerHealth = 0;
 
             thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = false;
-            
-            playerSpawning.deathScreenUI.EnableDeathUI();
+
+            if (playerSpawning.deathScreenUI != null)
+            {
+                playerSpawning.deathScreenUI.EnableDeathUI();
+            }
+            else
+            {
+                playerSpawning.deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
+            }
             
             ServerSideDeath();
             
