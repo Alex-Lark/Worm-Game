@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a44c2f5aa36cf184aa73a639fca4b4fb, type: 3}
   m_Name: SpikePartData
   m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.CreaturePartData
-  prefab: {fileID: 4212110029664344896, guid: 66fa66cd86cbaa8439c74f46f6a7244c, type: 3}
+  prefab: {fileID: 2862933199294523428, guid: 66fa66cd86cbaa8439c74f46f6a7244c, type: 3}
   mass: 5

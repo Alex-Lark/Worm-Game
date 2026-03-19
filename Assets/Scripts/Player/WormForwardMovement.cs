@@ -352,7 +352,7 @@ namespace Player
             Vector3 origin = position + dir * (bounds.extents.x * 1.2f) - Vector3.up * (bounds.extents.y * 0.5f);
             int hits = Physics.RaycastNonAlloc(origin, dir, stepHits, GameParameters.StepDetectionDistance);
 
-            for (int i = 0; i < hits; i++)
+            for (int i = 0; i < hits; i++) 
             {
                 if (stepHits[i].collider.transform.root == transform.root) continue;
 

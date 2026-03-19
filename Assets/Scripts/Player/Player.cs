@@ -152,6 +152,13 @@ namespace Player
             }
             
             float collisionForce = other.impulse.magnitude;
+            
+            if (other.gameObject.CompareTag("Untagged"))
+            {
+                //okay so the source of the mystery damage was in fact walls/ground and not the wings
+                //for now i've just turned it off but if we want fall damage we can do multipliers here
+                return;
+            }
 
             if (hitGameObject.GetComponent<WormHead>() != null)
             {

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a44c2f5aa36cf184aa73a639fca4b4fb, type: 3}
   m_Name: ProjectilePartData
   m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.CreaturePartData
-  prefab: {fileID: 4212110029664344896, guid: e50cfc3f0c3acdd4b8fa462c48c2fb0d, type: 3}
+  prefab: {fileID: 6895014049120698220, guid: b9d1885ef1c2d0348b070c2f731bca12, type: 3}
   mass: 5

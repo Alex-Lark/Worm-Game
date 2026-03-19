@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f9022697249819440bf9ddec4bc9aeba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0d7b9eb1ed800bf48a54910be891c06d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
   prefab: {fileID: 6895014049120698220}
   originalSlot: {fileID: 0}
+  infiniteSlot: 0
 --- !u!114 &2972389066813752137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,5 +104,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097d5b15947b57f48a9722af3f617c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartCard
-  sprite: {fileID: 21300000, guid: f9022697249819440bf9ddec4bc9aeba, type: 3}
+  sprite: {fileID: 21300000, guid: 0d7b9eb1ed800bf48a54910be891c06d, type: 3}
   cardName: Leg

@@ -129,64 +129,62 @@ namespace CreatureBuilder
                         if (selectedPart != handler.hostPart)
                         {
                             if (selectedPart)
-                            {
-                                selectedPart.GetComponent<PartDragging>().DeselectPart();
-                            }
+                                GetPartDragging(selectedPart)?.DeselectPart();
+
                             selectedPart = handler.hostPart;
-                            selectedPart.GetComponent<PartDragging>().SelectPart();
+                            GetPartDragging(selectedPart)?.SelectPart();
                         }
-                        if (handler != null)
-                            handler.StartRotation();
+                        handler?.StartRotation();
                         return;
                     }
-                    
+
                     if (hitPart.CompareTag("TranslationHandle"))
                     {
                         AxisTranslationHandler handler = hitPart.GetComponent<AxisTranslationHandler>();
                         if (selectedPart != handler.targetPart.gameObject)
                         {
                             if (selectedPart)
-                            {
-                                selectedPart.GetComponent<PartDragging>().DeselectPart();
-                            }
+                                GetPartDragging(selectedPart)?.DeselectPart();
+
                             selectedPart = handler.targetPart.gameObject;
-                            selectedPart.GetComponent<PartDragging>().SelectPart();
+                            GetPartDragging(selectedPart)?.SelectPart();
                         }
-                        if (handler != null)
-                        {
-                            handler.StartTranslation();
-                        }
+                        handler?.StartTranslation();
                         return;
                     }
-                    
+
                     if (hitPart.CompareTag("Axis"))
                     {
                         PartDragging parentPart = hitPart.GetComponentInParent<PartDragging>();
-
                         if (parentPart != null)
-                        {
                             hitPart = parentPart.gameObject;
-                        }
                     }
-                    
+
                     if (hitPart != selectedPart)
                     {
                         if (selectedPart)
-                        {
-                            selectedPart.GetComponent<PartDragging>().DeselectPart();
-                        }
+                            GetPartDragging(selectedPart)?.DeselectPart();
+
                         selectedPart = null;
                     }
+
+                    // Resolve to the GameObject that actually owns PartDragging
+                    PartDragging dragging = GetPartDragging(hitPart);
+                    if (dragging == null)
+                    {
+                        Debug.LogWarning($"No PartDragging found on {hitPart.name} or any parent.");
+                        return;
+                    }
+
                     isDraggingPart = true;
-                    selectedPart = hitPart;
-                    selectedPart.GetComponent<PartDragging>().StartDragging();
+                    selectedPart = dragging.gameObject; // store the actual owner, not the hit child
+                    dragging.StartDragging();
                 }
                 else
                 {
                     if (HasValidSelection())
-                    {
-                        selectedPart.GetComponent<PartDragging>().DeselectPart();
-                    }
+                        GetPartDragging(selectedPart)?.DeselectPart();
+
                     selectedPart = null;
                     isDragging = true;
                     cinemachineCamera.SetActive(true);
@@ -282,6 +280,21 @@ namespace CreatureBuilder
 
             return false;
         }
+        
+        private PartDragging GetPartDragging(GameObject go)
+        {
+            Transform current = go.transform;
+            int safety = 0;
+            while (current != null && safety < 10)
+            {
+                PartDragging pd = current.GetComponent<PartDragging>();
+                if (pd != null) return pd;
+                current = current.parent;
+                safety++;
+            }
+            return null;
+        }
+        
         private bool HasValidSelection()
         {
             return selectedPart != null && selectedPart;

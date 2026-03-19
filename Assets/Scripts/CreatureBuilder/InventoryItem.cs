@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,7 @@ namespace CreatureBuilder
         
         public GameObject prefab;
         public InventorySlot originalSlot;
+        public bool infiniteSlot;
         
         #endregion
         
@@ -44,7 +46,7 @@ namespace CreatureBuilder
             creatureBuilderWindow = GameObject.Find("Creature Builder Window");
             creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder>();
         }
-        
+
         #endregion
 
         #region Public Methods
@@ -109,6 +111,7 @@ namespace CreatureBuilder
             newSlot.SetItem(this);
         }
         
+        
         #endregion
         
         #region Private Methods
@@ -123,11 +126,27 @@ namespace CreatureBuilder
                 }
             }
         }
-        
+
         private void OnEnterCreatureBuilder()
         {
+            if (infiniteSlot == true)
+            {
+                canvasGroup.alpha = 1f;
+                canvasGroup.blocksRaycasts = true;
+                transform.SetParent(originalSlot.transform);
+                rectTransform.anchoredPosition = Vector2.zero;
+            }
+
+            creatureBuilder.SwitchFromCardTo3DPart(prefab, this);
             gameObject.SetActive(false);
-            creatureBuilder.SwitchFromCardTo3DPart(prefab);
+            if (infiniteSlot == false)
+            {
+                DestroySelf();
+            }
+        }
+
+        public void DestroySelf()
+        {
             Destroy(gameObject);
         }
         
