@@ -95,6 +95,7 @@ namespace Player
         public void AddAttachedPartServerSide(GameObject prefab, Vector3 position, Quaternion rotation, GameObject wormSegment, float partMass, GameObject player)
         {
             GameObject networkedPart = Instantiate(prefab, position, rotation, player.transform);
+            player.GetComponent<Player>().attachedWormParts.Add(networkedPart);
             
             networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
             
@@ -140,8 +141,9 @@ namespace Player
         [ObserversRpc]
         public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, GameObject wormSegment)
         {
-            //this method adds the part that was already created server-side and attaches it for all clients for smoother appearance
+            if (isServer) return;
             part.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
+            player.GetComponent<Player>().attachedWormParts.Add(part);
             
             part.GetComponent<PartDragging>().DeselectPart();
             part.GetComponent<PartDragging>().enabled = false;

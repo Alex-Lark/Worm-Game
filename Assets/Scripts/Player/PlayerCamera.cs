@@ -68,9 +68,9 @@ namespace Player
             orbitalFollow.HorizontalAxis.Value = final;
 
             //TODO: update using new methods in multiplayer
-            if (Player.Instance.IsWormMovingForward)
+            if (LocalPlayer.Instance.CurrentState == WormState.Moving)
             {
-                float playerSpeed = Player.Instance.wormHead.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                float playerSpeed = LocalPlayer.Instance.wormHead.GetComponent<Rigidbody>().linearVelocity.magnitude;
                 
                 float targetFov = Mathf.Lerp(baseFov, maxFov, playerSpeed / maxSpeed);
                 
