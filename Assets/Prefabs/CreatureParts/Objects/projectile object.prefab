@@ -167,7 +167,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _ownerAuth: 0
+  _ownerAuth: 1
   _acceptableError: 0.05
   _hardCorrectionThreshold: 2
   _maxCorrectionTime: -1
