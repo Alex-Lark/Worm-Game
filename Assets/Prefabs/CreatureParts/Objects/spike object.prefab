@@ -820,6 +820,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 27e40bd6230129946a88a257883e9439, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1102064326776992926}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 27e40bd6230129946a88a257883e9439, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8555810116899129206}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 27e40bd6230129946a88a257883e9439, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -166369382219095204}
   m_SourcePrefab: {fileID: 100100000, guid: 27e40bd6230129946a88a257883e9439, type: 3}
 --- !u!1 &2862933199294523428 stripped
 GameObject:
@@ -869,6 +875,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 113b9b2e5406b6b4bb11c0e06c6b41de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.SpikePart
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   defaultConnectedAnchor: {x: 0, y: 0, z: 0}
 --- !u!64 &1102064326776992926
 MeshCollider:
@@ -892,6 +907,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!54 &8555810116899129206
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2862933199294523428}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-166369382219095204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2862933199294523428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _ownerAuth: 1
+  _acceptableError: 0.05
+  _hardCorrectionThreshold: 2
+  _maxCorrectionTime: -1
+  _springConstant: 80
+  _dampingConstant: 5
+  _rotationSpringMultiplier: 0.3
+  _minRotationCorrectionAngle: 1
+  _uncertaintySpringDampening: 0.5
+  _accelerationDecay: 0.85
+  _hardCorrectionAccelerationScale: 0.1
+  _maxHardCorrectionMultiplier: 5
+  _lowSpeedThreshold: 1.5
+  _lowSpeedSpringMultiplier: 0.1
+  _extrapolateBasedOnPing: 0
+  _positionChangeThreshold: 0.001
+  _rotationChangeThreshold: 0.001
+  _velocityStopThreshold: 0.001
+  _debugGizmos: 0
+  _debugTextOffset: 2
 --- !u!4 &3238367679105413790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 27e40bd6230129946a88a257883e9439, type: 3}

@@ -18,9 +18,9 @@ namespace CreatureParts
         
         private void Awake()
         {
-            if (Player.Player.Instance != null)
+            if (LocalPlayer.Instance != null)
             {
-                wormRb = Player.Player.Instance.wormHead.GetComponent<Rigidbody>();
+                wormRb = LocalPlayer.Instance.wormHead.GetComponent<Rigidbody>();
             }
             
             base.Awake();
