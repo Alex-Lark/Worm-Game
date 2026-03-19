@@ -30,6 +30,7 @@ namespace Player
         void Start()
         {
             player = GetComponent<Player>();
+            player.playerSpawning = this;
             
             SceneManager.sceneLoaded += OnSceneLoaded;
 

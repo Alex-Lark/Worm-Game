@@ -22,7 +22,7 @@ namespace GameLoop.GameLobby
         
         void Start()
         {
-            selectColorButtonColor.color = wormMaterial.color;
+            //selectColorButtonColor.color = wormMaterial.color;
             CreateColorButtons();
         }
         
@@ -69,25 +69,25 @@ namespace GameLoop.GameLobby
         
         public void SetInitialColor()
         {
-            Color desiredColor = wormMaterial.color;
-            
-            // Try to use current color if available
-            int colorIndex = FindColorIndex(desiredColor);
-            if (colorIndex >= 0 && !takenColors.Contains(desiredColor))
-            {
-                SetColor(colorIndex);
-                return;
-            }
-            
-            // Otherwise find first available color
-            for (int i = 0; i < availableColors.Count; i++)
-            {
-                if (!takenColors.Contains(availableColors[i].bodyColor))
-                {
-                    SetColor(i);
-                    return;
-                }
-            }
+            // //Color desiredColor = wormMaterial.color;
+            //
+            // // Try to use current color if available
+            // int colorIndex = FindColorIndex(desiredColor);
+            // if (colorIndex >= 0 && !takenColors.Contains(desiredColor))
+            // {
+            //     SetColor(colorIndex);
+            //     return;
+            // }
+            //
+            // // Otherwise find first available color
+            // for (int i = 0; i < availableColors.Count; i++)
+            // {
+            //     if (!takenColors.Contains(availableColors[i].bodyColor))
+            //     {
+            //         SetColor(i);
+            //         return;
+            //     }
+            // }
         }
         
         private void CreateColorButtons()
@@ -148,7 +148,7 @@ namespace GameLoop.GameLobby
         
         private void ApplyColor(ColorPair colorPair)
         {
-            wormMaterial.color = colorPair.bodyColor;
+            //wormMaterial.color = colorPair.bodyColor;
             wormHeadMaterial.color = colorPair.headColor;
             selectColorButtonColor.color = colorPair.bodyColor;
         }

@@ -76,6 +76,8 @@ namespace Player
 
             var originalPositions = new List<Vector3> { player.wormHead.position };
             originalPositions.AddRange(player.wormBodySegments.ConvertAll(p => p.position));
+            
+            if (originalPositions.Count < 2) return;
 
             List<Vector3> positions  = GenerateSmoothCurve(originalPositions);
             List<Vector3> directions = CalculateSmoothedDirections(positions);
@@ -150,6 +152,10 @@ namespace Player
 
         List<Vector3> CalculateSmoothedDirections(List<Vector3> positions)
         {
+            
+            if (positions.Count < 2)
+                return new List<Vector3> { Vector3.forward };
+            
             var directions = new List<Vector3>();
 
             for (int i = 0; i < positions.Count; i++)
