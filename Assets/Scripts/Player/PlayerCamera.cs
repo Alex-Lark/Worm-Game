@@ -5,6 +5,13 @@ namespace Player
 {
     public class PlayerCamera : MonoBehaviour
     {
+        [Header("FOV Settings")]
+        public float baseFov = 60f;
+        public float maxFov = 90f;
+        public float maxSpeed = 15f;
+        public float fovSmoothTime = 0.3f;
+        
+        private float fovVelocity;
         private CinemachineOrbitalFollow orbitalFollow;
 
         public float maxAngle = GameParameters.MaxCameraTurnAngle;
@@ -59,6 +66,22 @@ namespace Player
 
             float final = headYaw + clampedAngle;
             orbitalFollow.HorizontalAxis.Value = final;
+
+            //TODO: update using new methods in multiplayer
+            if (Player.Instance.IsWormMovingForward)
+            {
+                float playerSpeed = Player.Instance.wormHead.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                
+                float targetFov = Mathf.Lerp(baseFov, maxFov, playerSpeed / maxSpeed);
+                
+                float currentFov = GetComponent<CinemachineCamera>().Lens.FieldOfView;
+                GetComponent<CinemachineCamera>().Lens.FieldOfView = Mathf.SmoothDamp(currentFov, targetFov, ref fovVelocity, fovSmoothTime);
+            }
+            else
+            {
+                float currentFov = GetComponent<CinemachineCamera>().Lens.FieldOfView;
+                GetComponent<CinemachineCamera>().Lens.FieldOfView = Mathf.SmoothDamp(currentFov, baseFov, ref fovVelocity, fovSmoothTime);
+            }
         }
         
         private void SetupCamera(CinemachineCamera cam)
