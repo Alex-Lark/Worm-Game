@@ -6,18 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/FiredProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/FiredProjectile.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/shell object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/shell object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/spike object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/spike object.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/wing object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/wing object.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/ProjectilePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/ProjectilePart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +43,8 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" root0="SKIP_HIGHLIGHTING" />
@@ -245,14 +240,6 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-    </task>
-    <task id="LOCAL-00028" summary="current version for sprint review, movement updates wip">
-      <option name="closed" value="true" />
-      <created>1761260915034</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1761260915034</updated>
     </task>
     <task id="LOCAL-00029" summary="movement updates wip">
       <option name="closed" value="true" />
@@ -638,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773304005520</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="merged partRework to main!">
+      <option name="closed" value="true" />
+      <created>1773955991726</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1773955991727</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -670,7 +665,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed loop skipping first round" />
     <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
     <MESSAGE value="can select parts and they carry over to creature builder" />
     <MESSAGE value="part selection handles multiple parts" />
@@ -695,7 +689,8 @@
     <MESSAGE value="player is observed" />
     <MESSAGE value="player can spawn and move in mingamescene" />
     <MESSAGE value="trying to get creature part to carry over to minigame." />
-    <option name="LAST_COMMIT_MESSAGE" value="trying to get creature part to carry over to minigame." />
+    <MESSAGE value="merged partRework to main!" />
+    <option name="LAST_COMMIT_MESSAGE" value="merged partRework to main!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

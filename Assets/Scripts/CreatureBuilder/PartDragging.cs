@@ -1,5 +1,6 @@
 using CreatureParts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CreatureBuilder
 {
@@ -41,6 +42,8 @@ namespace CreatureBuilder
         #region Built-In Methods
         void Start()
         {
+            if (SceneManager.GetActiveScene().name != "CreatureBuilderScene") return;
+            
             creatureBuilder = GameObject.Find("CreatureBuilder").GetComponent<CreatureBuilder>();
             falseWormBody = GameObject.Find("falseWormBody");
 
