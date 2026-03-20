@@ -5,6 +5,7 @@ using CreatureParts;
 using Player;
 using PurrNet;
 using Unity.Cinemachine;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace CreatureBuilder
@@ -133,8 +134,6 @@ namespace CreatureBuilder
             {
                 Debug.Log("Running on server");
             }
-            // if (!Network.instance.manager.isServer)
-            //     return;
             
             Debug.Log("attaching all creature parts");
             foreach (GameObject part in parts)
@@ -162,26 +161,20 @@ namespace CreatureBuilder
             ReturnAllCardsToPlayerInventory();
         }
         
-        
-
-        [ServerRpc]
-        public void AttachCreaturePartsForOtherClients()
-        {
-            
-        }
-        
         #endregion
         
         #region private methods
         
         private IEnumerator AddAlreadyAttachedPartsDelayed()
         {
+            Debug.Log("adding already attached parts");
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(0.5f);
 
             foreach (GameObject part in Player.LocalPlayer.Instance.attachedWormParts)
             {
+                Debug.Log("adding already attached part " + part.name);
                 AddAlreadyAttachedPart(part);
             }
             Player.LocalPlayer.Instance.attachedWormParts.Clear();
@@ -219,7 +212,9 @@ namespace CreatureBuilder
             Vector3 worldScale = part.transform.lossyScale;
 
             GameObject newPart = UnityProxy.InstantiateDirectly(prefab, worldPosition, worldRotation);
-            Destroy(newPart.GetComponent<NetworkRigidbody>());
+            newPart.GetComponent<NetworkRigidbody>().enabled = false;
+            newPart.GetComponent<Rigidbody>().isKinematic = true;
+            newPart.GetComponent<Rigidbody>().useGravity = false;
             DontDestroyOnLoad(newPart);
             newPart.name = prefab.name;
             newPart.transform.localScale = worldScale;

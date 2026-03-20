@@ -25,23 +25,6 @@ namespace CreatureParts
             IgnorePartCollisionWithWorm(gameObject, attachedSegmentRigidbody.transform);
         }
         
-        protected override void OnDespawned()
-        {
-            Debug.LogError($"[AttachablePart] {gameObject.name} is being despawned!\n{System.Environment.StackTrace}");
-            base.OnDespawned();
-        }
-    
-        protected override void OnDestroy()
-        {
-            Debug.LogError($"[AttachablePart] {gameObject.name} is being DESTROYED!\n{System.Environment.StackTrace}");
-            base.OnDestroy();
-        }
-        
-        private void OnDisable()
-        {
-            Debug.LogWarning($"[AttachablePart] {gameObject.name} disabled. Exists: {gameObject != null}, Scene: {gameObject.scene.name}\n{System.Environment.StackTrace}");
-        }
-        
         public void ConfigureRigidBody(Rigidbody partRigidbody, Rigidbody segmentRigidbody, float mass)
         {
             partRigidbody.mass = mass;
