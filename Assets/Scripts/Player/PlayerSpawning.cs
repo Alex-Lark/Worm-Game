@@ -234,24 +234,21 @@ namespace Player
         public IEnumerator SetWormInCreatureBuilderScene()
         {
             LocalPlayer.Instance.canDie = false;
-            player.DeactivatePlayer();
             Debug.Log("setting worm in creature builder");
             yield return new WaitForSeconds(0.2f);
             yield return null;
-            
+    
             var wormPhysics = GetComponent<WormPhysics>();
-            
             wormPhysics.ResetWormPhysics();
-            
             yield return null;
-            
             wormPhysics.ResetWormOrientation();
-            
             wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
-            
             yield return null;
-            
             yield return null;
+    
+            player.DeactivatePlayer();
+            
+            FindFirstObjectByType<CreatureBuilder.CreatureBuilder>()?.OnWormReady();
         }
         
         #endregion

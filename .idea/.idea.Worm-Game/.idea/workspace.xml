@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -235,22 +237,6 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-    </task>
-    <task id="LOCAL-00033" summary="worm headbut mostly working">
-      <option name="closed" value="true" />
-      <created>1761890152782</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1761890152782</updated>
-    </task>
-    <task id="LOCAL-00034" summary="inventory item code improved">
-      <option name="closed" value="true" />
-      <created>1762293822200</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1762293822200</updated>
     </task>
     <task id="LOCAL-00035" summary="fixed api issue in worm head but">
       <option name="closed" value="true" />
@@ -628,7 +614,23 @@
       <option name="project" value="LOCAL" />
       <updated>1774210289915</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="fixed parts not spawning for host player">
+      <option name="closed" value="true" />
+      <created>1774210954725</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1774210954725</updated>
+    </task>
+    <task id="LOCAL-00083" summary="fixed numerous grounding errors">
+      <option name="closed" value="true" />
+      <created>1774211266579</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1774211266579</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,8 +662,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm orientation resets when going back to creature builder" />
-    <MESSAGE value="can move parts from a previous round around" />
     <MESSAGE value="code better organized" />
     <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
     <MESSAGE value="game is repeatable after going to the main menu" />
@@ -685,7 +685,9 @@
     <MESSAGE value="attached parts for client no longer show on host" />
     <MESSAGE value="fixed wing concavity" />
     <MESSAGE value="fixed attached part ownership" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed attached part ownership" />
+    <MESSAGE value="fixed parts not spawning for host player" />
+    <MESSAGE value="fixed numerous grounding errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed numerous grounding errors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

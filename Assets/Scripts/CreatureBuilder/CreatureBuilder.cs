@@ -38,19 +38,24 @@ namespace CreatureBuilder
         #endregion
 
         #region Built-In Methods
+        
         private void Awake()
         {
             if (LocalPlayer.Instance == null)
-            {
                 LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
-            }
             else
             {
                 InitializePrefabMapping();
                 player = LocalPlayer.Instance;
                 cinemachineCamera.Follow = player.transform;
-                StartCoroutine(AddAlreadyAttachedPartsDelayed());
             }
+        }
+
+        private void OnLocalPlayerReady()
+        {
+            InitializePrefabMapping();
+            player = LocalPlayer.Instance;
+            cinemachineCamera.Follow = player.transform;
         }
         
         void Update()
@@ -61,14 +66,6 @@ namespace CreatureBuilder
                 hiddenCard = null;
             }
         }
-        
-        private void OnLocalPlayerReady()
-        {
-            InitializePrefabMapping();
-            player = LocalPlayer.Instance;
-            cinemachineCamera.Follow = player.transform;
-            StartCoroutine(AddAlreadyAttachedPartsDelayed());
-        }
 
         private void OnDisable()
         {
@@ -78,6 +75,11 @@ namespace CreatureBuilder
         #endregion
 
         #region public methods
+        
+        public void OnWormReady()
+        {
+            StartCoroutine(AddAlreadyAttachedPartsDelayed());
+        }
         
         public void SwitchFromCardTo3DPart(GameObject cardPrefab, InventoryItem card)
         {
@@ -403,6 +405,10 @@ namespace CreatureBuilder
         {
             Debug.Log("running spawn part in world");
             GameObject newPart = UnityProxy.InstantiateDirectly(prefab, position, Quaternion.identity);
+            if (newPart.GetComponent<MeshCollider>() != null)
+            {
+                newPart.GetComponent<MeshCollider>().convex = false;
+            }
             DontDestroyOnLoad(newPart);
             
             var netRb = newPart.GetComponent<NetworkRigidbody>();
