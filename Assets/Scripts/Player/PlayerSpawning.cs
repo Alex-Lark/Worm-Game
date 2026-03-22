@@ -129,46 +129,51 @@ namespace Player
             SyncLegOrderRpc(player);
             
         }
-
+        
         [ObserversRpc]
         public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, GameObject wormSegment)
         {
             if (isServer) return;
-            part.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
-            player.GetComponent<Player>().attachedWormParts.Add(part);
-            
+    
+            Player targetPlayer = partPlayer.GetComponent<Player>();
+    
+            part.GetComponent<AttachablePart>().GiveOwnership(partPlayer.GetComponent<NetworkTransform>().owner);
+            targetPlayer.attachedWormParts.Add(part);
+    
             part.GetComponent<PartDragging>().DeselectPart();
             part.GetComponent<PartDragging>().enabled = false;
-            
+    
             var rb = part.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.isKinematic = false;
                 rb.useGravity = true;
             }
-            
+    
             LegPart legPart = part.GetComponent<LegPart>();
             if (legPart != null)
             {
-                player.GetComponent<Player>().MaxVelocity += GameParameters.LegMaxVelocityIncrease;
+                targetPlayer.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
                 legPart.enabled = true;
             }
-            
+    
             Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
             if (partRigidbody == null)
                 partRigidbody = part.AddComponent<Rigidbody>();
-            
+    
             Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
             if (segmentRigidbody != null)
-                part.GetComponent<AttachablePart>().ConfigureRigidBody(part.GetComponent<Rigidbody>(), segmentRigidbody, part.GetComponent<Rigidbody>().mass);
+                part.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, partRigidbody.mass);
+    
             Transform endPoint = part.GetComponent<PartDragging>().endPoint;
             if (endPoint == null)
             {
                 Debug.LogError("No endPoint found on part: " + part.name);
                 return;
             }
+    
             part.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
-            player.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, wormSegment.transform);
+            partPlayer.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, wormSegment.transform);
         }
         
         [ObserversRpc]
@@ -187,6 +192,12 @@ namespace Player
             {
                 legParts[i].timeOffset = i * (totalTime / legParts.Count);
             }
+        }
+
+        [ServerRpc]
+        public void DestroyPart(GameObject part)
+        {
+            Destroy(part);
         }
 
         public void TryToRespawn()

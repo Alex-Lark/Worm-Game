@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,14 +237,6 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-    </task>
-    <task id="LOCAL-00029" summary="movement updates wip">
-      <option name="closed" value="true" />
-      <created>1761285044043</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1761285044043</updated>
     </task>
     <task id="LOCAL-00030" summary="updated version, camera works here">
       <option name="closed" value="true" />
@@ -631,7 +622,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773955991727</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="fixing local player registration but still bugs">
+      <option name="closed" value="true" />
+      <created>1774160917492</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1774160917493</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -663,7 +662,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="can select a card, should add it to player inventory, not yet connected to inventory in creature builder" />
     <MESSAGE value="can select parts and they carry over to creature builder" />
     <MESSAGE value="part selection handles multiple parts" />
     <MESSAGE value="wormLeague wip" />
@@ -688,7 +686,8 @@
     <MESSAGE value="player can spawn and move in mingamescene" />
     <MESSAGE value="trying to get creature part to carry over to minigame." />
     <MESSAGE value="merged partRework to main!" />
-    <option name="LAST_COMMIT_MESSAGE" value="merged partRework to main!" />
+    <MESSAGE value="fixing local player registration but still bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing local player registration but still bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

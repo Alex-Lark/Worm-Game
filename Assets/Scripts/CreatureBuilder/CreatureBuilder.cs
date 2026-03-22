@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace CreatureBuilder
 {
-    public class CreatureBuilder : NetworkBehaviour
+    public class CreatureBuilder : MonoBehaviour
     {
         #region public variables
         [Header("Public Variables")]
@@ -172,7 +172,7 @@ namespace CreatureBuilder
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(0.5f);
 
-            foreach (GameObject part in Player.LocalPlayer.Instance.attachedWormParts)
+            foreach (GameObject part in LocalPlayer.Instance.attachedWormParts)
             {
                 Debug.Log("adding already attached part " + part.name);
                 AddAlreadyAttachedPart(part);
@@ -235,7 +235,7 @@ namespace CreatureBuilder
             }
 
             parts.Add(newPart);
-            Destroy(part);
+            player.GetComponent<PlayerSpawning>().DestroyPart(part);
         }
 
         private void ResetPartDragging(PartDragging partDragging)
