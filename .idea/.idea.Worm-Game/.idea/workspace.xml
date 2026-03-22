@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/ProjectilePartData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/ProjectilePartData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,10 +116,8 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\WormGameBuilds" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -127,10 +126,8 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -139,14 +136,12 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
@@ -157,21 +152,21 @@
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false" ignored-value-for-modified-check="30596">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="30596" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
       </option>
-      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
@@ -238,6 +233,7 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
+      <workItem from="1774141200553" duration="1139000" />
     </task>
     <task id="LOCAL-00029" summary="movement updates wip">
       <option name="closed" value="true" />
@@ -640,6 +636,7 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
+    <option name="hasUnityReference" value="true" />
     <option name="unityProject" value="true" />
     <option name="unityProjectFolder" value="true" />
   </component>
@@ -696,38 +693,119 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
           <line>152</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'" />
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'">
+            <startOffsets>
+              <option value="5438" />
+            </startOffsets>
+            <endOffsets>
+              <option value="5535" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>43</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'" />
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>49</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'" />
-          <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/InputHandling/IPText.cs</url>
           <line>13</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\InputHandling\IPText.cs" containingFunctionPresentation="Method 'OnUpdate'" />
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\InputHandling\IPText.cs" containingFunctionPresentation="Method 'OnUpdate'">
+            <startOffsets>
+              <option value="212" />
+            </startOffsets>
+            <endOffsets>
+              <option value="246" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>44</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'" />
-          <option name="timeStamp" value="82" />
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs</url>
+          <line>61</line>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLobby\GameLobby.cs" containingFunctionPresentation="Method 'RegisterLocalPlayer'">
+            <startOffsets>
+              <option value="1773" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1844" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="86" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>50</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'" />
-          <option name="timeStamp" value="83" />
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs</url>
+          <line>59</line>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\GameLobby\GameLobby.cs" containingFunctionPresentation="Method 'RegisterLocalPlayer'">
+            <startOffsets>
+              <option value="1713" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1742" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs</url>
+          <line>17</line>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'FixUserName'">
+            <startOffsets>
+              <option value="561" />
+            </startOffsets>
+            <endOffsets>
+              <option value="606" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs</url>
+          <line>63</line>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'OnPlayerDataRequest'">
+            <startOffsets>
+              <option value="2083" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2122" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs</url>
+          <line>82</line>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'OnPlayerDataRequest'">
+            <startOffsets>
+              <option value="2721" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2765" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PlayerRegister.cs</url>
+          <line>88</line>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PlayerRegister.cs" containingFunctionPresentation="Method 'RegisterPlayerData'">
+            <startOffsets>
+              <option value="2871" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2898" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Player/usernameSaving.cs</url>
+          <line>53</line>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\Player\usernameSaving.cs" containingFunctionPresentation="Method 'OnSceneLoaded'">
+            <startOffsets>
+              <option value="1446" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1489" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="94" />
         </line-breakpoint>
         <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
           <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
