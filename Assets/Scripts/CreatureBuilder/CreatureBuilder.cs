@@ -167,7 +167,7 @@ namespace CreatureBuilder
         
         private IEnumerator AddAlreadyAttachedPartsDelayed()
         {
-            Debug.Log("adding already attached parts");
+            Debug.Log("adding already attached parts, LocalPlayer owner: " + LocalPlayer.Instance.owner);
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(0.5f);

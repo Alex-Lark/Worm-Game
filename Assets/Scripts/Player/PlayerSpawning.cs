@@ -43,15 +43,27 @@ namespace Player
         
         protected override void OnSpawned(bool asServer)
         {
-            if (player == null) player = GetComponent<Player>();
-    
-            if (asServer) return;
+            if (asServer)
+            {
+                if (player == null) player = GetComponent<Player>();
+                player.wormBodySegments.Clear();
+                player.wormConstructor = new WormConstructor(
+                    player.wormHead, player.wormBodySegments, player.wormSegmentPrefab,
+                    transform, player.WormSegmentCount, player.MaxPartDistance);
+                player.wormConstructor.CreateWormSegments();
+                return;
+            }
 
             isRegistered = true;
-            
-            RequestOwnershipServerRpc(localPlayer.Value);
-            
-            if (!isOwner && !hasBeenSetup)
+            Debug.Log($"Player spawned | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer}");
+
+            if (isOwner)
+            {
+                if (player == null) player = GetComponent<Player>();
+                LocalPlayer.Register(player);
+                OwnerSetup();
+            }
+            else if (!hasBeenSetup)
             {
                 StartCoroutine(FindAndSetupRemoteWorm());
             }
@@ -65,26 +77,6 @@ namespace Player
         protected override void OnDespawned() {
             LocalPlayer.Unregister(player);
             SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-        
-        protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
-        {
-            Debug.Log("Player owner changed");
-            if (asServer && newOwner.HasValue)
-            {
-                // Only server creates networked segments
-                if (player == null) player = GetComponent<Player>();
-                player.wormBodySegments.Clear();
-                player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-                player.wormConstructor.CreateWormSegments();
-            }
-        
-            if (!asServer && isOwner)
-            {
-                if (player == null) player = GetComponent<Player>();
-                LocalPlayer.Register(player);
-                OwnerSetup();
-            }
         }
         
         #endregion
@@ -521,15 +513,6 @@ namespace Player
                     seg.nextSegment = player.wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
 
                 previous = seg;
-            }
-        }
-        
-        [ServerRpc(requireOwnership: false)]
-        private void RequestOwnershipServerRpc(PlayerID caller = default)
-        {
-            if (owner == null || owner.ToString() == "Server")
-            {
-                GiveOwnership(caller);
             }
         }
         #endregion
