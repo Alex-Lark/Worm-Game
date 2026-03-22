@@ -227,12 +227,6 @@ namespace Player
         {
             Debug.Log("setting worm in game scene");
             
-            // player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-             // foreach (Transform segment in player.wormBodySegments)
-             // {
-             //     segment.GetComponent<Rigidbody>().isKinematic = false;
-             // }
-            
             StartCoroutine(SetupAfterSceneLoad());
             player.ActivatePlayer();
         }
@@ -240,6 +234,7 @@ namespace Player
         public IEnumerator SetWormInCreatureBuilderScene()
         {
             LocalPlayer.Instance.canDie = false;
+            player.DeactivatePlayer();
             Debug.Log("setting worm in creature builder");
             yield return new WaitForSeconds(0.2f);
             yield return null;
@@ -257,8 +252,6 @@ namespace Player
             yield return null;
             
             yield return null;
-            
-            player.DeactivatePlayer();
         }
         
         #endregion
