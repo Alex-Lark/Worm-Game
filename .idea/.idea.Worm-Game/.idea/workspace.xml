@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
-    </list>
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -237,14 +233,6 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-    </task>
-    <task id="LOCAL-00030" summary="updated version, camera works here">
-      <option name="closed" value="true" />
-      <created>1761687669260</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1761687669260</updated>
     </task>
     <task id="LOCAL-00031" summary="worm movement improved, fixed gravity in partbuilder scene">
       <option name="closed" value="true" />
@@ -630,7 +618,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774160917493</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="attached parts for client no longer show on host">
+      <option name="closed" value="true" />
+      <created>1774168814181</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1774168814181</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -662,7 +658,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="can select parts and they carry over to creature builder" />
     <MESSAGE value="part selection handles multiple parts" />
     <MESSAGE value="wormLeague wip" />
     <MESSAGE value="worm orientation resets when going back to creature builder" />
@@ -687,7 +682,8 @@
     <MESSAGE value="trying to get creature part to carry over to minigame." />
     <MESSAGE value="merged partRework to main!" />
     <MESSAGE value="fixing local player registration but still bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing local player registration but still bugs" />
+    <MESSAGE value="attached parts for client no longer show on host" />
+    <option name="LAST_COMMIT_MESSAGE" value="attached parts for client no longer show on host" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
