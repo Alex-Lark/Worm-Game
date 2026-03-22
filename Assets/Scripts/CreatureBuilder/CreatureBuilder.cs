@@ -411,8 +411,11 @@ namespace CreatureBuilder
             }
             DontDestroyOnLoad(newPart);
             
-            var netRb = newPart.GetComponent<NetworkRigidbody>();
-            if (netRb != null) netRb.enabled = false;
+            foreach (Rigidbody rb in newPart.GetComponentsInChildren<Rigidbody>())
+            {
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
             
             newPart.name = prefab.name;
     

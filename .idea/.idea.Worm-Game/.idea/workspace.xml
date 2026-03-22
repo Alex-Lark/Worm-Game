@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,14 +237,6 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-    </task>
-    <task id="LOCAL-00035" summary="fixed api issue in worm head but">
-      <option name="closed" value="true" />
-      <created>1762293935812</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1762293935812</updated>
     </task>
     <task id="LOCAL-00036" summary="can drag 3d objects into creaturebuilder window">
       <option name="closed" value="true" />
@@ -630,7 +622,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774211266579</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="fixed parts being in slightly wrong place on second round in creature builder">
+      <option name="closed" value="true" />
+      <created>1774214788421</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1774214788421</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -662,7 +662,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="code better organized" />
     <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
     <MESSAGE value="game is repeatable after going to the main menu" />
     <MESSAGE value="end scene displays winner" />
@@ -687,7 +686,8 @@
     <MESSAGE value="fixed attached part ownership" />
     <MESSAGE value="fixed parts not spawning for host player" />
     <MESSAGE value="fixed numerous grounding errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed numerous grounding errors" />
+    <MESSAGE value="fixed parts being in slightly wrong place on second round in creature builder" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed parts being in slightly wrong place on second round in creature builder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

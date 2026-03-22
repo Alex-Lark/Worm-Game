@@ -725,13 +725,10 @@ GameObject:
   - component: {fileID: 7693707615042269379}
   - component: {fileID: 7749280335906171322}
   - component: {fileID: 9157339348592596700}
-  - component: {fileID: 9045488090939722094}
-  - component: {fileID: 2091517974953068112}
-  - component: {fileID: 1227255661137215562}
   - component: {fileID: -1695563857794630915}
   - component: {fileID: 5319103657931257947}
   - component: {fileID: -4549782115335262024}
-  - component: {fileID: 2240925721694281887}
+  - component: {fileID: 1803427468042121148}
   m_Layer: 5
   m_Name: leg part object
   m_TagString: CreaturePart
@@ -888,74 +885,6 @@ MonoBehaviour:
   forwardSwingDistance: 0.12
   rotationSpeed: 10
   footRotationSpeed: 15
---- !u!95 &9045488090939722094
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294173655021920613}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2091517974953068112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294173655021920613}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.RigBuilder
-  m_RigLayers:
-  - m_Rig: {fileID: 1227255661137215562}
-    m_Active: 1
-  m_Effectors: []
---- !u!114 &1227255661137215562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294173655021920613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
-  m_Weight: 1
-  m_Effectors:
-  - m_Transform: {fileID: 0}
-    m_Style:
-      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
-      color: {r: 1, g: 0, b: 0, a: 0.5}
-      size: 0.1
-      position: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-    m_Visible: 1
-  - m_Transform: {fileID: 0}
-    m_Style:
-      shape: {fileID: 4300000, guid: c6793350c150f456688e39a81f97364a, type: 2}
-      color: {r: 1, g: 0, b: 0, a: 0.5}
-      size: 0.1
-      position: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 0}
-    m_Visible: 1
 --- !u!114 &-1695563857794630915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,7 +965,7 @@ MonoBehaviour:
   _velocityStopThreshold: 0.001
   _debugGizmos: 0
   _debugTextOffset: 2
---- !u!114 &2240925721694281887
+--- !u!114 &1803427468042121148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1045,9 +974,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6294173655021920613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
+  m_Script: {fileID: 11500000, guid: 57a60c86ca50db94e99247e426fa62a6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
+  m_EditorClassIdentifier: Assembly-CSharp::GameLoop.multiplayer.NetworkedPhysicsObject
   _isSetup: 0
   _prefabId: -2147483648
   _componentIndex: -2147483648
@@ -1057,26 +986,6 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _ownerAuth: 1
-  _acceptableError: 0.05
-  _hardCorrectionThreshold: 2
-  _maxCorrectionTime: -1
-  _springConstant: 80
-  _dampingConstant: 5
-  _rotationSpringMultiplier: 0.3
-  _minRotationCorrectionAngle: 1
-  _uncertaintySpringDampening: 0.5
-  _accelerationDecay: 0.85
-  _hardCorrectionAccelerationScale: 0.1
-  _maxHardCorrectionMultiplier: 5
-  _lowSpeedThreshold: 1.5
-  _lowSpeedSpringMultiplier: 0.1
-  _extrapolateBasedOnPing: 0
-  _positionChangeThreshold: 0.001
-  _rotationChangeThreshold: 0.001
-  _velocityStopThreshold: 0.001
-  _debugGizmos: 0
-  _debugTextOffset: 2
 --- !u!1 &6302236165224316917
 GameObject:
   m_ObjectHideFlags: 0
