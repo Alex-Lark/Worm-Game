@@ -236,22 +236,32 @@ namespace Player
         private void ObserverSideRespawn()
         {
             player.wormHead.gameObject.SetActive(true);
-            
+    
             foreach (Transform bodySegment in player.wormBodySegments)
-            {
                 bodySegment.gameObject.SetActive(true);
-            }
-            
+    
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
-            
+    
+            StartCoroutine(RespawnSequence());
+        }
+
+        private IEnumerator RespawnSequence()
+        {
             GetComponent<WormPhysics>().ResetPlayerPhysics();
-            GetComponent<PlayerSpawning>().SetWormSpawnPosition(new Vector3(0, 2, 0));
-            GetComponent<PlayerSpawning>().SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
+
+            yield return new WaitForFixedUpdate();
+            
+            SetWormSpawnPosition(new Vector3(0, 2, 0));
+            SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
+
+            yield return new WaitForFixedUpdate();
+
             StartCoroutine(ReactivateAttachedParts());
         }
+
 
         private void SetWormSpawnOrientation(Quaternion orientation)
         {

@@ -13,6 +13,8 @@ namespace CreatureParts
         private Transform attachedEndPoint;
         private Vector3 localPositionOnAttach;
         private Quaternion localRotationOnAttach;
+        private Vector3 savedAnchor;
+        private Vector3 savedConnectedAnchor;
 
         public void CalculateConnection()
         {
@@ -27,10 +29,23 @@ namespace CreatureParts
             if (existing != null)
                 Destroy(existing);
             
-            transform.position = attachmentPosition;
-            transform.rotation = attachmentRotation;
+            transform.position = attachedSegmentRigidbody.transform.TransformPoint(localPositionOnAttach);
+            transform.rotation = attachedSegmentRigidbody.transform.rotation * localRotationOnAttach;
 
-            ConfigureHingeJoint(attachedEndPoint);
+            HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
+            hinge.connectedBody = attachedSegmentRigidbody;
+            
+            hinge.anchor = savedAnchor;
+            hinge.connectedAnchor = savedConnectedAnchor;
+
+            JointLimits limits = hinge.limits;
+            limits.min = -10f;
+            limits.max = 10f;
+            hinge.limits = limits;
+            hinge.useLimits = true;
+            hinge.enablePreprocessing = true;
+            hinge.enableCollision = false;
+
             IgnorePartCollisionWithWorm(gameObject, attachedSegmentRigidbody.transform);
         }
         
@@ -50,25 +65,26 @@ namespace CreatureParts
         public void ConfigureHingeJoint(Transform endPoint)
         {
             attachedEndPoint = endPoint;
-            
+    
             localPositionOnAttach = attachedSegmentRigidbody.transform.InverseTransformPoint(transform.position);
             localRotationOnAttach = Quaternion.Inverse(attachedSegmentRigidbody.transform.rotation) * transform.rotation;
-            
+    
             HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
             hinge.connectedBody = attachedSegmentRigidbody;
-        
             hinge.anchor = gameObject.transform.InverseTransformPoint(endPoint.position);
-            
+    
             JointLimits limits = hinge.limits;
             limits.min = -10f;
             limits.max = 10f;
             hinge.limits = limits;
             hinge.useLimits = true;
-            
             hinge.enablePreprocessing = true;
             hinge.enableCollision = false;
-            
+    
             defaultConnectedAnchor = hinge.connectedAnchor;
+            
+            savedAnchor = hinge.anchor;
+            savedConnectedAnchor = hinge.connectedAnchor;
         }
 
         public void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
