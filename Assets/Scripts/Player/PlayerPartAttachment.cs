@@ -38,6 +38,7 @@ namespace Player
             networkedPart.GetComponent<AttachablePart>().attachedSegmentRigidbody = attachedSegment.GetComponent<Rigidbody>();
             networkedPart.GetComponent<AttachablePart>().attachmentPosition = position;
             networkedPart.GetComponent<AttachablePart>().attachmentRotation = rotation;
+            networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
             
             AddAttachedPartForClients(networkedPart, player, partMass);
             SyncLegOrderRpc(player);
