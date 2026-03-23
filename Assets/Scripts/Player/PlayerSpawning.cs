@@ -86,87 +86,52 @@ namespace Player
         [ServerRpc]
         public void AddAttachedPartServerSide(GameObject prefab, Vector3 position, Quaternion rotation, GameObject wormSegment, float partMass, GameObject player)
         {
+            // Server just spawns the networked object and triggers the RPC
             GameObject networkedPart = Instantiate(prefab, position, rotation, player.transform);
-            
             networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
-            networkedPart.GetComponent<PartDragging>().DeselectPart();
-            networkedPart.GetComponent<PartDragging>().enabled = false;
             
-            var rb = networkedPart.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                rb.useGravity = true;
-            }
-            
-            LegPart legPart = networkedPart.GetComponent<LegPart>();
-            if (legPart != null)
-            {
-                player.GetComponent<Player>().MaxVelocity += GameParameters.LegMaxVelocityIncrease;
-                legPart.enabled = true;
-            }
-            
-            Rigidbody partRigidbody = networkedPart.GetComponent<Rigidbody>();
-            if (partRigidbody == null)
-                partRigidbody = networkedPart.AddComponent<Rigidbody>();
-            
-            Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
-            if (segmentRigidbody != null)
-                networkedPart.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, partMass);
-            
-            Transform endPoint = networkedPart.GetComponent<PartDragging>().endPoint;
-            if (endPoint == null)
-            {
-                Debug.LogError("No endPoint found on part: " + networkedPart.name);
-                return;
-            }
-            
-            networkedPart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
-            player.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(networkedPart, wormSegment.transform);
-            
-            AddAttachedPartForClients(networkedPart, player, wormSegment);
+            AddAttachedPartForClients(networkedPart, player, wormSegment, partMass);
             SyncLegOrderRpc(player);
         }
 
         [ObserversRpc(runLocally: true)]
-        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, GameObject wormSegment)
+        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, GameObject wormSegment, float partMass)
         {
             Player targetPlayer = partPlayer.GetComponent<Player>();
-            targetPlayer.attachedWormParts.Add(part); 
-            
-            part.GetComponent<AttachablePart>().GiveOwnership(partPlayer.GetComponent<NetworkTransform>().owner);
+            targetPlayer.attachedWormParts.Add(part);
+
             part.GetComponent<PartDragging>().DeselectPart();
             part.GetComponent<PartDragging>().enabled = false;
-            
+
             var rb = part.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.isKinematic = false;
                 rb.useGravity = true;
             }
-            
+
             LegPart legPart = part.GetComponent<LegPart>();
             if (legPart != null)
             {
                 targetPlayer.MaxVelocity += GameParameters.LegMaxVelocityIncrease;
                 legPart.enabled = true;
             }
-            
+
             Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
             if (partRigidbody == null)
                 partRigidbody = part.AddComponent<Rigidbody>();
-            
+
             Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
             if (segmentRigidbody != null)
-                part.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, partRigidbody.mass);
-            
+                part.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, partMass);
+
             Transform endPoint = part.GetComponent<PartDragging>().endPoint;
             if (endPoint == null)
             {
                 Debug.LogError("No endPoint found on part: " + part.name);
                 return;
             }
-            
+
             part.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
             partPlayer.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, wormSegment.transform);
         }
