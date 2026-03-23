@@ -12,7 +12,6 @@ namespace GameLoop.multiplayer
         private void Awake()
         {
             networkRigidbody = GetComponent<NetworkRigidbody>();
-            GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
         }
 
         public void AddForce(Vector3 impulse)

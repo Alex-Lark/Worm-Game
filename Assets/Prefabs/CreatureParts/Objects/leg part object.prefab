@@ -728,7 +728,7 @@ GameObject:
   - component: {fileID: -1695563857794630915}
   - component: {fileID: 5319103657931257947}
   - component: {fileID: -4549782115335262024}
-  - component: {fileID: 1803427468042121148}
+  - component: {fileID: -8148133731555343155}
   m_Layer: 5
   m_Name: leg part object
   m_TagString: CreaturePart
@@ -965,7 +965,7 @@ MonoBehaviour:
   _velocityStopThreshold: 0.001
   _debugGizmos: 0
   _debugTextOffset: 2
---- !u!114 &1803427468042121148
+--- !u!114 &-8148133731555343155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
