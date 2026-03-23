@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/AttachablePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/AttachablePart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreaturePartData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreaturePartData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/NewMonoBehaviourScript.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/NewMonoBehaviourScript.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,14 +236,6 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-    </task>
-    <task id="LOCAL-00038" summary="can drag parts into creature builder window">
-      <option name="closed" value="true" />
-      <created>1762303639118</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1762303639119</updated>
     </task>
     <task id="LOCAL-00039" summary="parts while dragging have outline">
       <option name="closed" value="true" />
@@ -636,7 +621,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774243731811</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="trying to refactor partAttachment to better store positions">
+      <option name="closed" value="true" />
+      <created>1774306758048</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1774306758048</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -668,7 +661,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="end scene displays winner" />
     <MESSAGE value="worm parts are more stable and don't collide with body segments" />
     <MESSAGE value="wormParts no longer rotate towards the exact center" />
     <MESSAGE value="dragging imrpoved but rotation is broken again" />
@@ -693,7 +685,8 @@
     <MESSAGE value="fixed parts being in slightly wrong place on second round in creature builder" />
     <MESSAGE value="fixed leg part dragging being weird" />
     <MESSAGE value="improved legAttachement" />
-    <option name="LAST_COMMIT_MESSAGE" value="improved legAttachement" />
+    <MESSAGE value="trying to refactor partAttachment to better store positions" />
+    <option name="LAST_COMMIT_MESSAGE" value="trying to refactor partAttachment to better store positions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

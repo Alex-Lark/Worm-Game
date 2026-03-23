@@ -69,7 +69,8 @@ namespace CreatureBuilder
 
         private void OnDisable()
         {
-            AttachCreatureParts();
+            LocalPlayer.Instance.GetComponent<PlayerPartAttachment>().AttachCreatureParts(parts, partPairs);
+            ReturnAllCardsToPlayerInventory();
         }
 
         #endregion
@@ -128,38 +129,6 @@ namespace CreatureBuilder
                     return;
                 }
             }
-        }
-        
-        public void AttachCreatureParts()
-        {
-            if (Network.instance.manager.isServer)
-            {
-                Debug.Log("Running on server");
-            }
-            
-            Debug.Log("attaching all creature parts");
-            foreach (GameObject part in parts)
-            {
-                Debug.Log("attaching creature part " + part.name);
-                PartDragging partDragging = part.GetComponent<PartDragging>();
-        
-                if (partDragging != null && partDragging.isClamped)
-                {
-                    Debug.Log("attaching specific creature part");
-                    AddPartToWorm(part);
-                    Destroy(part);
-                }
-                else
-                {
-                    print("part not clamped, returning to player inventory");
-                    ReturnPartToPlayerInventory(part);
-                }
-            }
-    
-            parts.Clear();
-            SetLegOrder();
-            
-            ReturnAllCardsToPlayerInventory();
         }
         
         #endregion
@@ -266,35 +235,6 @@ namespace CreatureBuilder
                 }
             }
         }
-
-        public void SetLegOrder()
-        {
-            Debug.Log("Setting leg order");
-            int numLegs = legs.Count;
-            float totalTime = GameParameters.LegMoveTime;
-
-            for (int i = 0; i < legs.Count; i++)
-            {
-                legs[i].GetComponent<LegPart>().timeOffset = (i * (totalTime / numLegs));
-            }
-        }
-
-        public void ReturnPartToPlayerInventory(GameObject part)
-        {
-            string partName = part.name.Replace("(Clone)", "").Trim();
-            
-            foreach (var pair in partPairs)
-            {
-                if (pair.part3DPrefab != null && pair.part3DPrefab.name == partName)
-                {
-                    Player.LocalPlayer.Instance.wormPartsInInventory.Add(pair.cardPrefab);
-                    Destroy(part);
-                    return;
-                }
-            }
-            
-            Destroy(part);
-        }
         
         public void ReturnAllCardsToPlayerInventory()
         {
@@ -328,26 +268,6 @@ namespace CreatureBuilder
                     Destroy(cardInstance);
                 }
             }
-        }
-
-        public void AddPartToWorm(GameObject creaturePart)
-        {
-            AttachablePart attachablePart = creaturePart.GetComponent<AttachablePart>();
-            
-            Vector3 position = attachablePart.attachmentPosition;
-            Quaternion rotation = attachablePart.attachmentRotation;
-            GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
-            float partMass = creaturePart.GetComponent<PartDragging>().partData.mass;
-    
-            Destroy(creaturePart);
-    
-            LocalPlayer.Instance.GetComponent<PlayerPartAttachment>().AddAttachedPartServerSide(
-                prefab,
-                position,
-                rotation,
-                partMass,
-                LocalPlayer.Instance.gameObject
-            );
         }
         
         private void SpawnCardInInventory(GameObject cardPrefab)
