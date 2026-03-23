@@ -7,8 +7,5 @@ namespace CreatureParts
     {
         public GameObject prefab;
         public float mass;
-        
-        //public string partName;
-        //public Sprite icon;
     }
-}
+} 

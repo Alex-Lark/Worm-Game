@@ -146,8 +146,7 @@ namespace CreatureBuilder
                 if (partDragging != null && partDragging.isClamped)
                 {
                     Debug.Log("attaching specific creature part");
-                    Transform wormSegment = FindNearestWormSegment(part);
-                    AddPartToWorm(part, wormSegment);
+                    AddPartToWorm(part);
                     Destroy(part);
                 }
                 else
@@ -217,6 +216,13 @@ namespace CreatureBuilder
             newPart.GetComponent<NetworkRigidbody>().enabled = false;
             newPart.GetComponent<Rigidbody>().isKinematic = true;
             newPart.GetComponent<Rigidbody>().useGravity = false;
+            
+            AttachablePart newAttachablePart = newPart.GetComponent<AttachablePart>();
+            AttachablePart oldAttachablePart = part.GetComponent<AttachablePart>();
+            newAttachablePart.attachedSegmentRigidbody = oldAttachablePart.attachedSegmentRigidbody;
+            newAttachablePart.attachmentPosition = oldAttachablePart.attachmentPosition;
+            newAttachablePart.attachmentRotation = oldAttachablePart.attachmentRotation;
+            
             DontDestroyOnLoad(newPart);
             newPart.name = prefab.name;
             newPart.transform.localScale = worldScale;
@@ -237,7 +243,7 @@ namespace CreatureBuilder
             }
 
             parts.Add(newPart);
-            player.GetComponent<PlayerSpawning>().DestroyPart(part);
+            player.GetComponent<PlayerPartAttachment>().DestroyPart(part);
         }
 
         private void ResetPartDragging(PartDragging partDragging)
@@ -324,42 +330,24 @@ namespace CreatureBuilder
             }
         }
 
-        public void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
+        public void AddPartToWorm(GameObject creaturePart)
         {
-            Vector3 position = creaturePart.transform.position;
-            Quaternion rotation = creaturePart.transform.rotation;
+            AttachablePart attachablePart = creaturePart.GetComponent<AttachablePart>();
+            
+            Vector3 position = attachablePart.attachmentPosition;
+            Quaternion rotation = attachablePart.attachmentRotation;
             GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
             float partMass = creaturePart.GetComponent<PartDragging>().partData.mass;
     
             Destroy(creaturePart);
     
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().AddAttachedPartServerSide(
+            LocalPlayer.Instance.GetComponent<PlayerPartAttachment>().AddAttachedPartServerSide(
                 prefab,
                 position,
                 rotation,
-                wormSegment.gameObject,
                 partMass,
                 LocalPlayer.Instance.gameObject
             );
-        }
-    
-        public Transform FindNearestWormSegment(GameObject part) 
-        {
-            Transform nearestPart = null;
-            float shortestDistance = Mathf.Infinity;
-    
-            foreach (Transform wormPart in player.wormBodySegments)
-            {
-                float distance = Vector3.Distance(part.transform.position, wormPart.position);
-        
-                if (distance < shortestDistance)
-                {
-                    shortestDistance = distance;
-                    nearestPart = wormPart;
-                }
-            }
-    
-            return nearestPart;
         }
         
         private void SpawnCardInInventory(GameObject cardPrefab)

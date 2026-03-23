@@ -68,6 +68,7 @@ namespace CreatureBuilder
             if (Input.GetMouseButtonUp(0))
             {
                 StopDragging();
+                GetComponent<AttachablePart>().CalculateConnection();
             }
 
             if (Input.GetKeyDown(KeyCode.Delete))

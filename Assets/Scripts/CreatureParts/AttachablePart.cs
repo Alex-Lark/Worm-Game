@@ -6,11 +6,20 @@ namespace CreatureParts
     public class AttachablePart : CreaturePart
     {
         public Vector3 defaultConnectedAnchor;
+        public Vector3 attachmentPosition;
+        public Quaternion attachmentRotation;
+        public Rigidbody attachedSegmentRigidbody;
         
-        private Rigidbody attachedSegmentRigidbody;
         private Transform attachedEndPoint;
         private Vector3 localPositionOnAttach;
         private Quaternion localRotationOnAttach;
+
+        public void CalculateConnection()
+        {
+            FindNearestWormSegment();
+            attachmentPosition = transform.position;
+            attachmentRotation = transform.rotation; 
+        }
         
         public void ResetJoint()
         {
@@ -18,36 +27,35 @@ namespace CreatureParts
             if (existing != null)
                 Destroy(existing);
             
-            transform.position = attachedSegmentRigidbody.transform.TransformPoint(localPositionOnAttach);
-            transform.rotation = attachedSegmentRigidbody.transform.rotation * localRotationOnAttach;
+            transform.position = attachmentPosition;
+            transform.rotation = attachmentRotation;
 
-            ConfigureHingeJoint(attachedSegmentRigidbody, attachedEndPoint);
+            ConfigureHingeJoint(attachedEndPoint);
             IgnorePartCollisionWithWorm(gameObject, attachedSegmentRigidbody.transform);
         }
         
-        public void ConfigureRigidBody(Rigidbody partRigidbody, Rigidbody segmentRigidbody, float mass)
+        public void ConfigureRigidBody(Rigidbody partRigidbody, float mass)
         {
             partRigidbody.mass = mass;
             
-            partRigidbody.linearDamping = segmentRigidbody.linearDamping;
-            partRigidbody.angularDamping = segmentRigidbody.angularDamping;
-            partRigidbody.interpolation = segmentRigidbody.interpolation;
-            partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
+            partRigidbody.linearDamping = attachedSegmentRigidbody.linearDamping;
+            partRigidbody.angularDamping = attachedSegmentRigidbody.angularDamping;
+            partRigidbody.interpolation = attachedSegmentRigidbody.interpolation;
+            partRigidbody.collisionDetectionMode = attachedSegmentRigidbody.collisionDetectionMode;
             
             partRigidbody.linearDamping = 1f;
             partRigidbody.angularDamping = 1f;
         }
         
-        public void ConfigureHingeJoint(Rigidbody segmentRigidbody, Transform endPoint)
+        public void ConfigureHingeJoint(Transform endPoint)
         {
-            attachedSegmentRigidbody = segmentRigidbody;
             attachedEndPoint = endPoint;
             
-            localPositionOnAttach = segmentRigidbody.transform.InverseTransformPoint(transform.position);
-            localRotationOnAttach = Quaternion.Inverse(segmentRigidbody.transform.rotation) * transform.rotation;
+            localPositionOnAttach = attachedSegmentRigidbody.transform.InverseTransformPoint(transform.position);
+            localRotationOnAttach = Quaternion.Inverse(attachedSegmentRigidbody.transform.rotation) * transform.rotation;
             
             HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
-            hinge.connectedBody = segmentRigidbody;
+            hinge.connectedBody = attachedSegmentRigidbody;
         
             hinge.anchor = gameObject.transform.InverseTransformPoint(endPoint.position);
             
@@ -76,6 +84,28 @@ namespace CreatureParts
             {
                 Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
             }
+        }
+        
+        private void FindNearestWormSegment() 
+        {
+            Debug.Log("finding nearest worm segment");
+            Transform nearestPart = null;
+            float shortestDistance = Mathf.Infinity;
+    
+            foreach (Transform wormSegment in LocalPlayer.Instance.GetComponent<Player.Player>().wormBodySegments)
+            {
+                float distance = Vector3.Distance(transform.position, wormSegment.position);
+        
+                Debug.Log("checkign segnment with distance " + distance);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nearestPart = wormSegment;
+                }
+            }
+            
+            attachedSegmentRigidbody = nearestPart.GetComponent<Rigidbody>();
+            Debug.Log("set attachedSegmentRigidBody to " + attachedSegmentRigidbody);
         }
         
         private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)
