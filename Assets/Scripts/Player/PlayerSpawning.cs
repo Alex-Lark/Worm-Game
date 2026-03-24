@@ -43,15 +43,27 @@ namespace Player
         
         protected override void OnSpawned(bool asServer)
         {
-            if (player == null) player = GetComponent<Player>();
-    
-            if (asServer) return;
+            if (asServer)
+            {
+                if (player == null) player = GetComponent<Player>();
+                player.wormBodySegments.Clear();
+                player.wormConstructor = new WormConstructor(
+                    player.wormHead, player.wormBodySegments, player.wormSegmentPrefab,
+                    transform, player.WormSegmentCount, player.MaxPartDistance);
+                player.wormConstructor.CreateWormSegments();
+                return;
+            }
 
             isRegistered = true;
-            
-            RequestOwnershipServerRpc(localPlayer.Value);
-            
-            if (!isOwner && !hasBeenSetup)
+            Debug.Log($"Player spawned | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer}");
+
+            if (isOwner)
+            {
+                if (player == null) player = GetComponent<Player>();
+                LocalPlayer.Register(player);
+                OwnerSetup();
+            }
+            else if (!hasBeenSetup)
             {
                 StartCoroutine(FindAndSetupRemoteWorm());
             }
@@ -67,135 +79,9 @@ namespace Player
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         
-        protected override void OnOwnerChanged(PlayerID? oldOwner, PlayerID? newOwner, bool asServer)
-        {
-            Debug.Log("Player owner changed");
-            if (asServer && newOwner.HasValue)
-            {
-                // Only server creates networked segments
-                if (player == null) player = GetComponent<Player>();
-                player.wormBodySegments.Clear();
-                player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-                player.wormConstructor.CreateWormSegments();
-            }
-        
-            if (!asServer && isOwner)
-            {
-                if (player == null) player = GetComponent<Player>();
-                LocalPlayer.Register(player);
-                OwnerSetup();
-            }
-        }
-        
         #endregion
 
         #region Public Methods
-
-        [ServerRpc]
-        public void AddAttachedPartServerSide(GameObject prefab, Vector3 position, Quaternion rotation, GameObject wormSegment, float partMass, GameObject player)
-        {
-            GameObject networkedPart = Instantiate(prefab, position, rotation, player.transform);
-            player.GetComponent<Player>().attachedWormParts.Add(networkedPart);
-            
-            networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
-            
-            networkedPart.GetComponent<PartDragging>().DeselectPart();
-            networkedPart.GetComponent<PartDragging>().enabled = false;
-            
-            var rb = networkedPart.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                rb.useGravity = true;
-            }
-            
-            LegPart legPart = networkedPart.GetComponent<LegPart>();
-            if (legPart != null)
-            {
-                player.GetComponent<Player>().MaxVelocity += GameParameters.LegMaxVelocityIncrease;
-                legPart.enabled = true;
-            }
-            
-            Rigidbody partRigidbody = networkedPart.GetComponent<Rigidbody>();
-            if (partRigidbody == null)
-                partRigidbody = networkedPart.AddComponent<Rigidbody>();
-            
-            Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
-            if (segmentRigidbody != null)
-                networkedPart.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, segmentRigidbody, partMass);
-            
-            Transform endPoint = networkedPart.GetComponent<PartDragging>().endPoint;
-            if (endPoint == null)
-            {
-                Debug.LogError("No endPoint found on part: " + networkedPart.name);
-                return;
-            }
-            
-            networkedPart.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
-            player.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(networkedPart, wormSegment.transform);
-            AddAttachedPartForClients(networkedPart, player, wormSegment);
-            SyncLegOrderRpc(player);
-            
-        }
-
-        [ObserversRpc]
-        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, GameObject wormSegment)
-        {
-            if (isServer) return;
-            part.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
-            player.GetComponent<Player>().attachedWormParts.Add(part);
-            
-            part.GetComponent<PartDragging>().DeselectPart();
-            part.GetComponent<PartDragging>().enabled = false;
-            
-            var rb = part.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                rb.useGravity = true;
-            }
-            
-            LegPart legPart = part.GetComponent<LegPart>();
-            if (legPart != null)
-            {
-                player.GetComponent<Player>().MaxVelocity += GameParameters.LegMaxVelocityIncrease;
-                legPart.enabled = true;
-            }
-            
-            Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
-            if (partRigidbody == null)
-                partRigidbody = part.AddComponent<Rigidbody>();
-            
-            Rigidbody segmentRigidbody = wormSegment.GetComponent<Rigidbody>();
-            if (segmentRigidbody != null)
-                part.GetComponent<AttachablePart>().ConfigureRigidBody(part.GetComponent<Rigidbody>(), segmentRigidbody, part.GetComponent<Rigidbody>().mass);
-            Transform endPoint = part.GetComponent<PartDragging>().endPoint;
-            if (endPoint == null)
-            {
-                Debug.LogError("No endPoint found on part: " + part.name);
-                return;
-            }
-            part.GetComponent<AttachablePart>().ConfigureHingeJoint(segmentRigidbody, endPoint);
-            player.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, wormSegment.transform);
-        }
-        
-        [ObserversRpc]
-        public void SyncLegOrderRpc(GameObject specificPlayer)
-        {
-            List<LegPart> legParts = new List<LegPart>();
-            foreach (GameObject part in specificPlayer.GetComponent<Player>().attachedWormParts)
-            {
-                LegPart leg = part.GetComponent<LegPart>();
-                if (leg != null)
-                    legParts.Add(leg);
-            }
-
-            float totalTime = GameParameters.LegMoveTime;
-            for (int i = 0; i < legParts.Count; i++)
-            {
-                legParts[i].timeOffset = i * (totalTime / legParts.Count);
-            }
-        }
 
         public void TryToRespawn()
         {
@@ -229,12 +115,6 @@ namespace Player
         {
             Debug.Log("setting worm in game scene");
             
-            // player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-             // foreach (Transform segment in player.wormBodySegments)
-             // {
-             //     segment.GetComponent<Rigidbody>().isKinematic = false;
-             // }
-            
             StartCoroutine(SetupAfterSceneLoad());
             player.ActivatePlayer();
         }
@@ -245,22 +125,18 @@ namespace Player
             Debug.Log("setting worm in creature builder");
             yield return new WaitForSeconds(0.2f);
             yield return null;
-            
+    
             var wormPhysics = GetComponent<WormPhysics>();
-            
             wormPhysics.ResetWormPhysics();
-            
             yield return null;
-            
             wormPhysics.ResetWormOrientation();
-            
             wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
-            
             yield return null;
-            
             yield return null;
-            
+    
             player.DeactivatePlayer();
+            
+            FindFirstObjectByType<CreatureBuilder.CreatureBuilder>()?.OnWormReady();
         }
         
         #endregion
@@ -360,22 +236,32 @@ namespace Player
         private void ObserverSideRespawn()
         {
             player.wormHead.gameObject.SetActive(true);
-            
+    
             foreach (Transform bodySegment in player.wormBodySegments)
-            {
                 bodySegment.gameObject.SetActive(true);
-            }
-            
+    
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
-            
+    
+            StartCoroutine(RespawnSequence());
+        }
+
+        private IEnumerator RespawnSequence()
+        {
             GetComponent<WormPhysics>().ResetPlayerPhysics();
-            GetComponent<PlayerSpawning>().SetWormSpawnPosition(new Vector3(0, 2, 0));
-            GetComponent<PlayerSpawning>().SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
-            StartCoroutine(ReactivateAttachedParts());
+
+            yield return new WaitForFixedUpdate();
+            
+            SetWormSpawnPosition(new Vector3(0, 2, 0));
+            SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
+
+            yield return new WaitForFixedUpdate();
+
+            StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
+
 
         private void SetWormSpawnOrientation(Quaternion orientation)
         {
@@ -385,21 +271,6 @@ namespace Player
             {
                 segment.rotation = orientation;
             }
-        }
-        
-        private IEnumerator ReactivateAttachedParts()
-        {
-            yield return new WaitForFixedUpdate();
-            yield return new WaitForFixedUpdate();
-    
-            foreach (GameObject attachedPart in player.attachedWormParts)
-            {
-                attachedPart.SetActive(true);
-                attachedPart.GetComponent<AttachablePart>().enabled = true;
-                attachedPart.GetComponent<AttachablePart>().ResetJoint();
-            }
-    
-            GetComponent<WormPhysics>().IgnoreWormSelfCollision();
         }
         
         private void SetWormSpawnPosition(Vector3 spawnPosition)
@@ -443,6 +314,10 @@ namespace Player
             else if (GameSceneList.IsSceneAGameScene(scene.name))
             {
                 SetWormInGameScene();
+            }
+            else
+            {
+                GetComponent<Player>().DeactivatePlayer();
             }
         }
         
@@ -521,15 +396,6 @@ namespace Player
                     seg.nextSegment = player.wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
 
                 previous = seg;
-            }
-        }
-        
-        [ServerRpc(requireOwnership: false)]
-        private void RequestOwnershipServerRpc(PlayerID caller = default)
-        {
-            if (owner == null || owner.ToString() == "Server")
-            {
-                GiveOwnership(caller);
             }
         }
         #endregion

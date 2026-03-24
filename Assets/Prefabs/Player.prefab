@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 1950434108049437116}
   - component: {fileID: 7055565703949569848}
   - component: {fileID: 4446911218883556763}
+  - component: {fileID: 7348436228205291943}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -390,9 +391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f48cc10eb3ef146910f0f8c45e5eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  playerScore: 1
-  maxPlayerHealth: 100
-  currentPlayerHealth: 100
   _isSetup: 0
   _prefabId: -2147483648
   _componentIndex: -2147483648
@@ -403,7 +401,10 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   PlayerName: Player1
-  playerGraphics: {fileID: 0}
+  canDie: 0
+  playerScore: 1
+  maxPlayerHealth: 100
+  currentPlayerHealth: 100
   thirdPersonCamera: {fileID: 0}
   wormSegmentPrefab: {fileID: 7684568371119374336, guid: 90ca0af0a8270184f8d4d43014413c78, type: 3}
   wormHead: {fileID: 8071018323496679240}
@@ -414,14 +415,8 @@ MonoBehaviour:
   playerSpawning: {fileID: 0}
   wormForwardMovement: {fileID: 0}
   wormHeadCopy: {fileID: 0}
-  moveDirection:
-    _value: {x: 0, y: 0, z: 0}
-    _ownerAuth: 1
-    _sendIntervalInSeconds: 0
-  headRotation:
-    _value: {x: 0, y: 0, z: 0, w: 0}
-    _ownerAuth: 0
-    _sendIntervalInSeconds: 0
+  wormJump: {fileID: 0}
+  wormHeadBut: {fileID: 0}
 --- !u!120 &4146875160849447740
 LineRenderer:
   serializedVersion: 2
@@ -636,6 +631,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e6dc4f0dbcdd74fac009c2f81fa3cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawning
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   player: {fileID: 0}
   canRespawn: 1
   deathScreenUI: {fileID: 0}
@@ -722,6 +726,27 @@ MonoBehaviour:
   _toDeactivate: []
   _toEnable: []
   _toDisable: []
+--- !u!114 &7348436228205291943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3857149077806430327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ccb1f73c21289446bd937fe50f28c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerPartAttachement
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
 --- !u!1 &3919673278736660677
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,6 +765,7 @@ GameObject:
   - component: {fileID: 8129715246127715587}
   - component: {fileID: 1591429414908112517}
   - component: {fileID: 8053956676285027813}
+  - component: {fileID: 7502773944600098116}
   m_Layer: 0
   m_Name: Sphere - head
   m_TagString: WormBodySegment
@@ -820,27 +846,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!114 &7502773944600098116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3919673278736660677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WormPart
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
 --- !u!114 &7238659562307412318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +873,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb83f687f93b434bb8e0742fc933964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.Head
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
 --- !u!23 &2946591719419874529
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1009,6 +1023,27 @@ MonoBehaviour:
   _characterControllerPatch: 0
   _ownerAuth: 1
   _interpolationTiming: 0
+--- !u!114 &7502773944600098116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919673278736660677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WormPart
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
 --- !u!1 &5770381794981804825
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,78 +6,85 @@ namespace CreatureParts
     public class AttachablePart : CreaturePart
     {
         public Vector3 defaultConnectedAnchor;
+        public Vector3 attachmentPosition;
+        public Quaternion attachmentRotation;
+        public Rigidbody attachedSegmentRigidbody;
         
-        private Rigidbody attachedSegmentRigidbody;
         private Transform attachedEndPoint;
         private Vector3 localPositionOnAttach;
         private Quaternion localRotationOnAttach;
+        private Vector3 savedAnchor;
+        private Vector3 savedConnectedAnchor;
+
+        public void CalculateConnection()
+        {
+            FindNearestWormSegment();
+            attachmentPosition = transform.position;
+            attachmentRotation = transform.rotation; 
+        }
         
         public void ResetJoint()
         {
+            Debug.Log($"ResetJoint called on {gameObject.name} | attachedEndPoint: {attachedEndPoint} | attachedSegmentRigidbody: {attachedSegmentRigidbody}");
+            
             HingeJoint existing = GetComponent<HingeJoint>();
+            Debug.Log($"Existing hinge: {existing}");
             if (existing != null)
                 Destroy(existing);
             
             transform.position = attachedSegmentRigidbody.transform.TransformPoint(localPositionOnAttach);
             transform.rotation = attachedSegmentRigidbody.transform.rotation * localRotationOnAttach;
 
-            ConfigureHingeJoint(attachedSegmentRigidbody, attachedEndPoint);
-            IgnorePartCollisionWithWorm(gameObject, attachedSegmentRigidbody.transform);
-        }
-        
-        protected override void OnDespawned()
-        {
-            Debug.LogError($"[AttachablePart] {gameObject.name} is being despawned!\n{System.Environment.StackTrace}");
-            base.OnDespawned();
-        }
-    
-        protected override void OnDestroy()
-        {
-            Debug.LogError($"[AttachablePart] {gameObject.name} is being DESTROYED!\n{System.Environment.StackTrace}");
-            base.OnDestroy();
-        }
-        
-        private void OnDisable()
-        {
-            Debug.LogWarning($"[AttachablePart] {gameObject.name} disabled. Exists: {gameObject != null}, Scene: {gameObject.scene.name}\n{System.Environment.StackTrace}");
-        }
-        
-        public void ConfigureRigidBody(Rigidbody partRigidbody, Rigidbody segmentRigidbody, float mass)
-        {
-            partRigidbody.mass = mass;
-            
-            partRigidbody.linearDamping = segmentRigidbody.linearDamping;
-            partRigidbody.angularDamping = segmentRigidbody.angularDamping;
-            partRigidbody.interpolation = segmentRigidbody.interpolation;
-            partRigidbody.collisionDetectionMode = segmentRigidbody.collisionDetectionMode;
-            
-            partRigidbody.linearDamping = 1f;
-            partRigidbody.angularDamping = 1f;
-        }
-        
-        public void ConfigureHingeJoint(Rigidbody segmentRigidbody, Transform endPoint)
-        {
-            attachedSegmentRigidbody = segmentRigidbody;
-            attachedEndPoint = endPoint;
-            
-            localPositionOnAttach = segmentRigidbody.transform.InverseTransformPoint(transform.position);
-            localRotationOnAttach = Quaternion.Inverse(segmentRigidbody.transform.rotation) * transform.rotation;
-            
             HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
-            hinge.connectedBody = segmentRigidbody;
-        
-            hinge.anchor = gameObject.transform.InverseTransformPoint(endPoint.position);
+            hinge.connectedBody = attachedSegmentRigidbody;
             
+            hinge.anchor = savedAnchor;
+            hinge.connectedAnchor = savedConnectedAnchor;
+
             JointLimits limits = hinge.limits;
             limits.min = -10f;
             limits.max = 10f;
             hinge.limits = limits;
             hinge.useLimits = true;
-            
             hinge.enablePreprocessing = true;
             hinge.enableCollision = false;
+
+            IgnorePartCollisionWithWorm(gameObject, attachedSegmentRigidbody.transform);
+        }
+        
+        public void ConfigureRigidBody(Rigidbody partRigidbody, float mass)
+        {
+            partRigidbody.mass = mass;
             
+            partRigidbody.linearDamping = attachedSegmentRigidbody.linearDamping;
+            partRigidbody.angularDamping = attachedSegmentRigidbody.angularDamping;
+            partRigidbody.interpolation = attachedSegmentRigidbody.interpolation;
+            partRigidbody.collisionDetectionMode = attachedSegmentRigidbody.collisionDetectionMode;
+            
+            partRigidbody.linearDamping = 1f;
+            partRigidbody.angularDamping = 1f;
+        }
+        
+        public void ConfigureHingeJoint(Transform endPoint)
+        {
+            attachedEndPoint = endPoint;
+    
+            HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
+            hinge.connectedBody = attachedSegmentRigidbody;
+            hinge.anchor = gameObject.transform.InverseTransformPoint(endPoint.position);
+    
+            JointLimits limits = hinge.limits;
+            limits.min = -10f;
+            limits.max = 10f;
+            hinge.limits = limits;
+            hinge.useLimits = true;
+            hinge.enablePreprocessing = true;
+            hinge.enableCollision = false;
+    
             defaultConnectedAnchor = hinge.connectedAnchor;
+            
+            savedAnchor = hinge.anchor;
+            savedConnectedAnchor = hinge.connectedAnchor;
         }
 
         public void IgnorePartCollisionWithWorm(GameObject part, Transform nearestWormSegment)
@@ -93,6 +100,33 @@ namespace CreatureParts
             {
                 Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
             }
+        }
+        
+        public void SetLocalOffsets(Vector3 localPos, Quaternion localRot)
+        {
+            localPositionOnAttach = localPos;
+            localRotationOnAttach = localRot;
+        }
+        
+        private void FindNearestWormSegment() 
+        {
+            Debug.Log("finding nearest worm segment");
+            Transform nearestPart = null;
+            float shortestDistance = Mathf.Infinity;
+    
+            foreach (Transform wormSegment in LocalPlayer.Instance.GetComponent<Player.Player>().wormBodySegments)
+            {
+                float distance = Vector3.Distance(transform.position, wormSegment.position);
+                
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nearestPart = wormSegment;
+                }
+            }
+            
+            attachedSegmentRigidbody = nearestPart.GetComponent<Rigidbody>();
+            Debug.Log("set attachedSegmentRigidBody to " + attachedSegmentRigidbody);
         }
         
         private void IgnoreCollisionsInDirection(Collider[] partColliders, Transform startSegment, bool forward, int numSegments)

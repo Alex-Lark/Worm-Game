@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerPartAttachment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerPartAttachment.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +19,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="8bb5e4bc54bc0bb61f005bed9f118f676d2ed7bf" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -42,23 +42,31 @@
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisRotationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisTranslationHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartPair.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/DeadBodyPart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/FinPart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DontDestroyOnLoad.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Chat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ClientStarter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ColorSync.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkRigidBodyDebugger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/DeathScreenUI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/LocalPlayer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/Player/Player.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (3).unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (8).unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@ba467ec059b9/Runtime/UniversalRendererRenderGraph.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@f250afc9b68d/Runtime/TMP/TMP_InputField.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@f250afc9b68d/Runtime/UGUI/EventSystem/ExecuteEvents.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/dev.purrnet.purrnet@f4dd26fb792b/Runtime/Components/NetworkBehaviour/PlayerSpawner.cs" root0="SKIP_HIGHLIGHTING" />
@@ -78,24 +86,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.46653542&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "XThreadsFramesViewSplitterKey": "0.46653542",
+    "git-widget-placeholder": "PartAttachment-fixes2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Battle Worms Builds/Sprint 3\Worm Game.exe" />
@@ -225,134 +233,7 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-    </task>
-    <task id="LOCAL-00030" summary="updated version, camera works here">
-      <option name="closed" value="true" />
-      <created>1761687669260</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1761687669260</updated>
-    </task>
-    <task id="LOCAL-00031" summary="worm movement improved, fixed gravity in partbuilder scene">
-      <option name="closed" value="true" />
-      <created>1761695996984</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1761695996984</updated>
-    </task>
-    <task id="LOCAL-00032" summary="worm movement feels pretty good with improved joint">
-      <option name="closed" value="true" />
-      <created>1761704995643</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1761704995643</updated>
-    </task>
-    <task id="LOCAL-00033" summary="worm headbut mostly working">
-      <option name="closed" value="true" />
-      <created>1761890152782</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1761890152782</updated>
-    </task>
-    <task id="LOCAL-00034" summary="inventory item code improved">
-      <option name="closed" value="true" />
-      <created>1762293822200</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1762293822200</updated>
-    </task>
-    <task id="LOCAL-00035" summary="fixed api issue in worm head but">
-      <option name="closed" value="true" />
-      <created>1762293935812</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1762293935812</updated>
-    </task>
-    <task id="LOCAL-00036" summary="can drag 3d objects into creaturebuilder window">
-      <option name="closed" value="true" />
-      <created>1762301733932</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1762301733932</updated>
-    </task>
-    <task id="LOCAL-00037" summary="can drag">
-      <option name="closed" value="true" />
-      <created>1762301752006</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1762301752006</updated>
-    </task>
-    <task id="LOCAL-00038" summary="can drag parts into creature builder window">
-      <option name="closed" value="true" />
-      <created>1762303639118</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1762303639119</updated>
-    </task>
-    <task id="LOCAL-00039" summary="parts while dragging have outline">
-      <option name="closed" value="true" />
-      <created>1762304566126</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1762304566126</updated>
-    </task>
-    <task id="LOCAL-00040" summary="can drag parts around in gui">
-      <option name="closed" value="true" />
-      <created>1762311511471</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1762311511471</updated>
-    </task>
-    <task id="LOCAL-00041" summary="creature parts can be deleted and return to inventory slot">
-      <option name="closed" value="true" />
-      <created>1762314109846</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1762314109846</updated>
-    </task>
-    <task id="LOCAL-00042" summary="worm is kinematic in creature builder scene.">
-      <option name="closed" value="true" />
-      <created>1762314455408</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1762314455408</updated>
-    </task>
-    <task id="LOCAL-00043" summary="objects collide with eachother.">
-      <option name="closed" value="true" />
-      <created>1762315493715</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1762315493715</updated>
-    </task>
-    <task id="LOCAL-00044" summary="wormPart orients towards creature.">
-      <option name="closed" value="true" />
-      <created>1762481967792</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1762481967792</updated>
-    </task>
-    <task id="LOCAL-00045" summary="clamping improved">
-      <option name="closed" value="true" />
-      <created>1762485789973</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1762485789973</updated>
+      <workItem from="1774311395709" duration="10237000" />
     </task>
     <task id="LOCAL-00046" summary="clamping improved">
       <option name="closed" value="true" />
@@ -610,15 +491,143 @@
       <option name="project" value="LOCAL" />
       <updated>1773955991727</updated>
     </task>
-    <task id="LOCAL-00078" summary="part connection working?">
+    <task id="LOCAL-00078" summary="fixing local player registration but still bugs">
       <option name="closed" value="true" />
-      <created>1773961304806</created>
+      <created>1774160917492</created>
       <option name="number" value="00078" />
       <option name="presentableId" value="LOCAL-00078" />
       <option name="project" value="LOCAL" />
-      <updated>1773961304806</updated>
+      <updated>1774160917493</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="attached parts for client no longer show on host">
+      <option name="closed" value="true" />
+      <created>1774168814181</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1774168814181</updated>
+    </task>
+    <task id="LOCAL-00080" summary="fixed wing concavity">
+      <option name="closed" value="true" />
+      <created>1774209709350</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1774209709350</updated>
+    </task>
+    <task id="LOCAL-00081" summary="fixed attached part ownership">
+      <option name="closed" value="true" />
+      <created>1774210289915</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1774210289915</updated>
+    </task>
+    <task id="LOCAL-00082" summary="fixed parts not spawning for host player">
+      <option name="closed" value="true" />
+      <created>1774210954725</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1774210954725</updated>
+    </task>
+    <task id="LOCAL-00083" summary="fixed numerous grounding errors">
+      <option name="closed" value="true" />
+      <created>1774211266579</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1774211266579</updated>
+    </task>
+    <task id="LOCAL-00084" summary="fixed parts being in slightly wrong place on second round in creature builder">
+      <option name="closed" value="true" />
+      <created>1774214788421</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1774214788421</updated>
+    </task>
+    <task id="LOCAL-00085" summary="fixed leg part dragging being weird">
+      <option name="closed" value="true" />
+      <created>1774242552403</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1774242552403</updated>
+    </task>
+    <task id="LOCAL-00086" summary="improved legAttachement">
+      <option name="closed" value="true" />
+      <created>1774243731811</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1774243731811</updated>
+    </task>
+    <task id="LOCAL-00087" summary="trying to refactor partAttachment to better store positions">
+      <option name="closed" value="true" />
+      <created>1774306758048</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1774306758048</updated>
+    </task>
+    <task id="LOCAL-00088" summary="parts back to being initially attached">
+      <option name="closed" value="true" />
+      <created>1774308584257</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308584257</updated>
+    </task>
+    <task id="LOCAL-00089" summary="players back to having ownership over their parts">
+      <option name="closed" value="true" />
+      <created>1774308864400</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1774308864400</updated>
+    </task>
+    <task id="LOCAL-00090" summary="player spawning fixed and attachedParts spawn in correct location">
+      <option name="closed" value="true" />
+      <created>1774309685713</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1774309685713</updated>
+    </task>
+    <task id="LOCAL-00091" summary="joints stay in the same poistion on respawn">
+      <option name="closed" value="true" />
+      <created>1774318553179</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1774318553179</updated>
+    </task>
+    <task id="LOCAL-00092" summary="attachedParts consistent across client/host!">
+      <option name="closed" value="true" />
+      <created>1774319449213</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1774319449213</updated>
+    </task>
+    <task id="LOCAL-00093" summary="player is deactivated in any other scene">
+      <option name="closed" value="true" />
+      <created>1774319519406</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1774319519406</updated>
+    </task>
+    <task id="LOCAL-00094" summary="fixed incorrect spawning on spawn">
+      <option name="closed" value="true" />
+      <created>1774328087677</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1774328087677</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -627,11 +636,32 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
+    <option name="hasUnityReference" value="true" />
     <option name="unityProject" value="true" />
     <option name="unityProjectFolder" value="true" />
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="PartAttachment-fixes2" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -642,6 +672,17 @@
                   <entry key="Show.Git.Branches" value="true" />
                 </map>
               </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="PartAttachment-fixes2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
             </State>
           </value>
         </entry>
@@ -650,22 +691,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="can select parts and they carry over to creature builder" />
-    <MESSAGE value="part selection handles multiple parts" />
-    <MESSAGE value="wormLeague wip" />
-    <MESSAGE value="worm orientation resets when going back to creature builder" />
-    <MESSAGE value="can move parts from a previous round around" />
-    <MESSAGE value="code better organized" />
-    <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
-    <MESSAGE value="game is repeatable after going to the main menu" />
-    <MESSAGE value="end scene displays winner" />
-    <MESSAGE value="worm parts are more stable and don't collide with body segments" />
-    <MESSAGE value="wormParts no longer rotate towards the exact center" />
-    <MESSAGE value="dragging imrpoved but rotation is broken again" />
-    <MESSAGE value="dragging improved" />
-    <MESSAGE value="moved partPair to it's own script" />
-    <MESSAGE value="CreatureBuilder script refactored a bit/cleaned" />
-    <MESSAGE value="re-enabled other menu buttons, username entered in menu is now saved" />
     <MESSAGE value="color selection updates wip" />
     <MESSAGE value="moved code to playerSpawning, kinda broken" />
     <MESSAGE value="refactored code back to working in game scene" />
@@ -674,8 +699,24 @@
     <MESSAGE value="player can spawn and move in mingamescene" />
     <MESSAGE value="trying to get creature part to carry over to minigame." />
     <MESSAGE value="merged partRework to main!" />
-    <MESSAGE value="part connection working?" />
-    <option name="LAST_COMMIT_MESSAGE" value="part connection working?" />
+    <MESSAGE value="fixing local player registration but still bugs" />
+    <MESSAGE value="attached parts for client no longer show on host" />
+    <MESSAGE value="fixed wing concavity" />
+    <MESSAGE value="fixed attached part ownership" />
+    <MESSAGE value="fixed parts not spawning for host player" />
+    <MESSAGE value="fixed numerous grounding errors" />
+    <MESSAGE value="fixed parts being in slightly wrong place on second round in creature builder" />
+    <MESSAGE value="fixed leg part dragging being weird" />
+    <MESSAGE value="improved legAttachement" />
+    <MESSAGE value="trying to refactor partAttachment to better store positions" />
+    <MESSAGE value="parts back to being initially attached" />
+    <MESSAGE value="players back to having ownership over their parts" />
+    <MESSAGE value="player spawning fixed and attachedParts spawn in correct location" />
+    <MESSAGE value="joints stay in the same poistion on respawn" />
+    <MESSAGE value="attachedParts consistent across client/host!" />
+    <MESSAGE value="player is deactivated in any other scene" />
+    <MESSAGE value="fixed incorrect spawning on spawn" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed incorrect spawning on spawn" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -5,11 +5,12 @@ using CreatureParts;
 using Player;
 using PurrNet;
 using Unity.Cinemachine;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace CreatureBuilder
 {
-    public class CreatureBuilder : NetworkBehaviour
+    public class CreatureBuilder : MonoBehaviour
     {
         #region public variables
         [Header("Public Variables")]
@@ -37,19 +38,24 @@ namespace CreatureBuilder
         #endregion
 
         #region Built-In Methods
+        
         private void Awake()
         {
             if (LocalPlayer.Instance == null)
-            {
                 LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
-            }
             else
             {
                 InitializePrefabMapping();
                 player = LocalPlayer.Instance;
                 cinemachineCamera.Follow = player.transform;
-                StartCoroutine(AddAlreadyAttachedPartsDelayed());
             }
+        }
+
+        private void OnLocalPlayerReady()
+        {
+            InitializePrefabMapping();
+            player = LocalPlayer.Instance;
+            cinemachineCamera.Follow = player.transform;
         }
         
         void Update()
@@ -60,23 +66,21 @@ namespace CreatureBuilder
                 hiddenCard = null;
             }
         }
-        
-        private void OnLocalPlayerReady()
-        {
-            InitializePrefabMapping();
-            player = LocalPlayer.Instance;
-            cinemachineCamera.Follow = player.transform;
-            StartCoroutine(AddAlreadyAttachedPartsDelayed());
-        }
 
         private void OnDisable()
         {
-            AttachCreatureParts();
+            LocalPlayer.Instance.GetComponent<PlayerPartAttachment>().AttachCreatureParts(parts, partPairs);
+            ReturnAllCardsToPlayerInventory();
         }
 
         #endregion
 
         #region public methods
+        
+        public void OnWormReady()
+        {
+            StartCoroutine(AddAlreadyAttachedPartsDelayed());
+        }
         
         public void SwitchFromCardTo3DPart(GameObject cardPrefab, InventoryItem card)
         {
@@ -127,64 +131,24 @@ namespace CreatureBuilder
             }
         }
         
-        public void AttachCreatureParts()
-        {
-            if (Network.instance.manager.isServer)
-            {
-                Debug.Log("Running on server");
-            }
-            // if (!Network.instance.manager.isServer)
-            //     return;
-            
-            Debug.Log("attaching all creature parts");
-            foreach (GameObject part in parts)
-            {
-                Debug.Log("attaching creature part " + part.name);
-                PartDragging partDragging = part.GetComponent<PartDragging>();
-        
-                if (partDragging != null && partDragging.isClamped)
-                {
-                    Debug.Log("attaching specific creature part");
-                    Transform wormSegment = FindNearestWormSegment(part);
-                    AddPartToWorm(part, wormSegment);
-                    Destroy(part);
-                }
-                else
-                {
-                    print("part not clamped, returning to player inventory");
-                    ReturnPartToPlayerInventory(part);
-                }
-            }
-    
-            parts.Clear();
-            SetLegOrder();
-            
-            ReturnAllCardsToPlayerInventory();
-        }
-        
-        
-
-        [ServerRpc]
-        public void AttachCreaturePartsForOtherClients()
-        {
-            
-        }
-        
         #endregion
         
         #region private methods
         
         private IEnumerator AddAlreadyAttachedPartsDelayed()
         {
+            Debug.Log("adding already attached parts, LocalPlayer owner: " + LocalPlayer.Instance.owner);
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             yield return new WaitForSeconds(0.5f);
 
-            foreach (GameObject part in Player.LocalPlayer.Instance.attachedWormParts)
+            foreach (GameObject part in LocalPlayer.Instance.attachedWormParts)
             {
+                Debug.Log("adding already attached part " + part.name);
                 AddAlreadyAttachedPart(part);
             }
-            Player.LocalPlayer.Instance.attachedWormParts.Clear();
+            
+            player.GetComponent<PlayerPartAttachment>().ClearAttachedParts(player);
         }
 
         private void AddAlreadyAttachedPart(GameObject part)
@@ -219,7 +183,16 @@ namespace CreatureBuilder
             Vector3 worldScale = part.transform.lossyScale;
 
             GameObject newPart = UnityProxy.InstantiateDirectly(prefab, worldPosition, worldRotation);
-            Destroy(newPart.GetComponent<NetworkRigidbody>());
+            newPart.GetComponent<NetworkRigidbody>().enabled = false;
+            newPart.GetComponent<Rigidbody>().isKinematic = true;
+            newPart.GetComponent<Rigidbody>().useGravity = false;
+            
+            AttachablePart newAttachablePart = newPart.GetComponent<AttachablePart>();
+            AttachablePart oldAttachablePart = part.GetComponent<AttachablePart>();
+            newAttachablePart.attachedSegmentRigidbody = oldAttachablePart.attachedSegmentRigidbody;
+            newAttachablePart.attachmentPosition = oldAttachablePart.attachmentPosition;
+            newAttachablePart.attachmentRotation = oldAttachablePart.attachmentRotation;
+            
             DontDestroyOnLoad(newPart);
             newPart.name = prefab.name;
             newPart.transform.localScale = worldScale;
@@ -240,7 +213,7 @@ namespace CreatureBuilder
             }
 
             parts.Add(newPart);
-            Destroy(part);
+            player.GetComponent<PlayerPartAttachment>().DestroyPart(part);
         }
 
         private void ResetPartDragging(PartDragging partDragging)
@@ -262,35 +235,6 @@ namespace CreatureBuilder
                     prefabMapping[cardName] = pair.part3DPrefab;
                 }
             }
-        }
-
-        public void SetLegOrder()
-        {
-            Debug.Log("Setting leg order");
-            int numLegs = legs.Count;
-            float totalTime = GameParameters.LegMoveTime;
-
-            for (int i = 0; i < legs.Count; i++)
-            {
-                legs[i].GetComponent<LegPart>().timeOffset = (i * (totalTime / numLegs));
-            }
-        }
-
-        public void ReturnPartToPlayerInventory(GameObject part)
-        {
-            string partName = part.name.Replace("(Clone)", "").Trim();
-            
-            foreach (var pair in partPairs)
-            {
-                if (pair.part3DPrefab != null && pair.part3DPrefab.name == partName)
-                {
-                    Player.LocalPlayer.Instance.wormPartsInInventory.Add(pair.cardPrefab);
-                    Destroy(part);
-                    return;
-                }
-            }
-            
-            Destroy(part);
         }
         
         public void ReturnAllCardsToPlayerInventory()
@@ -325,44 +269,6 @@ namespace CreatureBuilder
                     Destroy(cardInstance);
                 }
             }
-        }
-
-        public void AddPartToWorm(GameObject creaturePart, Transform wormSegment)
-        {
-            Vector3 position = creaturePart.transform.position;
-            Quaternion rotation = creaturePart.transform.rotation;
-            GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
-            float partMass = creaturePart.GetComponent<PartDragging>().partData.mass;
-    
-            Destroy(creaturePart);
-    
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().AddAttachedPartServerSide(
-                prefab,
-                position,
-                rotation,
-                wormSegment.gameObject,
-                partMass,
-                LocalPlayer.Instance.gameObject
-            );
-        }
-    
-        public Transform FindNearestWormSegment(GameObject part) 
-        {
-            Transform nearestPart = null;
-            float shortestDistance = Mathf.Infinity;
-    
-            foreach (Transform wormPart in player.wormBodySegments)
-            {
-                float distance = Vector3.Distance(part.transform.position, wormPart.position);
-        
-                if (distance < shortestDistance)
-                {
-                    shortestDistance = distance;
-                    nearestPart = wormPart;
-                }
-            }
-    
-            return nearestPart;
         }
         
         private void SpawnCardInInventory(GameObject cardPrefab)
@@ -408,10 +314,17 @@ namespace CreatureBuilder
         {
             Debug.Log("running spawn part in world");
             GameObject newPart = UnityProxy.InstantiateDirectly(prefab, position, Quaternion.identity);
+            if (newPart.GetComponent<MeshCollider>() != null)
+            {
+                newPart.GetComponent<MeshCollider>().convex = false;
+            }
             DontDestroyOnLoad(newPart);
             
-            var netRb = newPart.GetComponent<NetworkRigidbody>();
-            if (netRb != null) netRb.enabled = false;
+            foreach (Rigidbody rb in newPart.GetComponentsInChildren<Rigidbody>())
+            {
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
             
             newPart.name = prefab.name;
     

@@ -39,6 +39,8 @@ namespace CreatureParts
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if (localPlayer != owner) return;
+                
                 //wingAnimation.Stop();
                 wingAnimation.Play();
                 ApplyThrust();
