@@ -43,7 +43,7 @@ namespace Player
         protected override void OnSpawned(bool asServer)
         {
             if (player == null) player = GetComponent<Player>();
-    
+            player.RegisterData = PlayerRegister.Players[Network.instance.manager.localPlayer];
             if (asServer) return;
 
             isRegistered = true;
