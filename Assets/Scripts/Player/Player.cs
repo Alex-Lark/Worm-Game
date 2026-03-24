@@ -28,7 +28,7 @@ namespace Player
         #region Public Properties
         [Header("Public Properties")]
 
-        public string PlayerName = "Player1";
+        public string PlayerName = "";
         
         public WormState CurrentState { get; set; }
         
