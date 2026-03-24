@@ -69,9 +69,6 @@ namespace CreatureParts
         {
             attachedEndPoint = endPoint;
     
-            localPositionOnAttach = attachedSegmentRigidbody.transform.InverseTransformPoint(transform.position);
-            localRotationOnAttach = Quaternion.Inverse(attachedSegmentRigidbody.transform.rotation) * transform.rotation;
-    
             HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
             hinge.connectedBody = attachedSegmentRigidbody;
             hinge.anchor = gameObject.transform.InverseTransformPoint(endPoint.position);
@@ -103,6 +100,12 @@ namespace CreatureParts
             {
                 Physics.IgnoreCollision(part.GetComponent<Collider>(), attachedWormPart.GetComponent<Collider>(), true);
             }
+        }
+        
+        public void SetLocalOffsets(Vector3 localPos, Quaternion localRot)
+        {
+            localPositionOnAttach = localPos;
+            localRotationOnAttach = localRot;
         }
         
         private void FindNearestWormSegment() 

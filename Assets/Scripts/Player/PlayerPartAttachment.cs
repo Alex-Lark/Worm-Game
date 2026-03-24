@@ -33,26 +33,29 @@ namespace Player
         }
         
         [ServerRpc]
-        public void AddAttachedPartServerSide(GameObject prefab, Vector3 position, Quaternion rotation, GameObject attachedSegment, float partMass, GameObject player)
+        public void AddAttachedPartServerSide(GameObject prefab, Vector3 position, Quaternion rotation, GameObject attachedSegment, float partMass, GameObject player, Vector3 localPos, Quaternion localRot)
         {
             GameObject networkedPart = Instantiate(prefab, position, rotation, player.transform);
             networkedPart.GetComponent<AttachablePart>().attachedSegmentRigidbody = attachedSegment.GetComponent<Rigidbody>();
             networkedPart.GetComponent<AttachablePart>().attachmentPosition = position;
             networkedPart.GetComponent<AttachablePart>().attachmentRotation = rotation;
             networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
-            
-            AddAttachedPartForClients(networkedPart, player, partMass, attachedSegment.gameObject);
+    
+            AddAttachedPartForClients(networkedPart, player, partMass, attachedSegment, localPos, localRot);
             SyncLegOrderRpc(player);
         }
 
         [ObserversRpc(runLocally: true)]
-        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, float partMass, GameObject attachedSegment)
+        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, float partMass, GameObject attachedSegment, Vector3 localPos, Quaternion localRot)
         {
-            part.GetComponent<AttachablePart>().attachedSegmentRigidbody = attachedSegment.GetComponent<Rigidbody>();
-            part.GetComponent<AttachablePart>().attachmentPosition = part.transform.position;
-            part.GetComponent<AttachablePart>().attachmentRotation = part.transform.rotation;
-            
             Debug.Log($"AddAttachedPartForClients: part instanceID={part.GetInstanceID()} name={part.name}");
+    
+            var ap = part.GetComponent<AttachablePart>();
+            ap.attachedSegmentRigidbody = attachedSegment.GetComponent<Rigidbody>();
+            ap.attachmentPosition = part.transform.position;
+            ap.attachmentRotation = part.transform.rotation;
+            ap.SetLocalOffsets(localPos, localRot);
+
             Player targetPlayer = partPlayer.GetComponent<Player>();
             targetPlayer.attachedWormParts.Add(part);
 
@@ -76,17 +79,15 @@ namespace Player
             Rigidbody partRigidbody = part.GetComponent<Rigidbody>();
             if (partRigidbody == null)
                 partRigidbody = part.AddComponent<Rigidbody>();
-            
-            part.GetComponent<AttachablePart>().ConfigureRigidBody(partRigidbody, partMass);
+    
+            ap.ConfigureRigidBody(partRigidbody, partMass);
 
             Transform endPoint = part.GetComponent<PartDragging>().endPoint;
             if (endPoint == null)
-            {
                 return;
-            }
 
-            part.GetComponent<AttachablePart>().ConfigureHingeJoint(endPoint);
-            partPlayer.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part,  part.GetComponent<AttachablePart>().attachedSegmentRigidbody.transform);
+            ap.ConfigureHingeJoint(endPoint);
+            partPlayer.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, ap.attachedSegmentRigidbody.transform);
         }
         
         [ObserversRpc]
@@ -134,21 +135,16 @@ namespace Player
         private void AddPartToWorm(GameObject creaturePart)
         {
             AttachablePart attachablePart = creaturePart.GetComponent<AttachablePart>();
-
             Rigidbody attachedSegment = attachablePart.attachedSegmentRigidbody;
             Vector3 position = attachablePart.attachmentPosition;
             Quaternion rotation = attachablePart.attachmentRotation;
             GameObject prefab = creaturePart.GetComponent<PartDragging>().Prefab;
             float partMass = creaturePart.GetComponent<PartDragging>().partData.mass;
-    
-            AddAttachedPartServerSide(
-                prefab,
-                position,
-                rotation,
-                attachedSegment.gameObject,
-                partMass,
-                gameObject
-            );
+            
+            Vector3 localPos = attachedSegment.transform.InverseTransformPoint(position);
+            Quaternion localRot = Quaternion.Inverse(attachedSegment.transform.rotation) * rotation;
+
+            AddAttachedPartServerSide(prefab, position, rotation, attachedSegment.gameObject, partMass, gameObject, localPos, localRot);
         }
         
         private void ReturnPartToPlayerInventory(GameObject part, List<PartPair> partPairs)

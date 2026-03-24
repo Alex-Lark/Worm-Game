@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/AttachablePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/AttachablePart.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerPartAttachment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerPartAttachment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,15 +233,7 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-      <workItem from="1774311395709" duration="3394000" />
-    </task>
-    <task id="LOCAL-00042" summary="worm is kinematic in creature builder scene.">
-      <option name="closed" value="true" />
-      <created>1762314455408</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1762314455408</updated>
+      <workItem from="1774311395709" duration="4270000" />
     </task>
     <task id="LOCAL-00043" summary="objects collide with eachother.">
       <option name="closed" value="true" />
@@ -629,7 +619,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774309685713</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="joints stay in the same poistion on respawn">
+      <option name="closed" value="true" />
+      <created>1774318553179</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1774318553179</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -662,7 +660,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="dragging improved" />
     <MESSAGE value="moved partPair to it's own script" />
     <MESSAGE value="CreatureBuilder script refactored a bit/cleaned" />
     <MESSAGE value="re-enabled other menu buttons, username entered in menu is now saved" />
@@ -687,7 +684,8 @@
     <MESSAGE value="parts back to being initially attached" />
     <MESSAGE value="players back to having ownership over their parts" />
     <MESSAGE value="player spawning fixed and attachedParts spawn in correct location" />
-    <option name="LAST_COMMIT_MESSAGE" value="player spawning fixed and attachedParts spawn in correct location" />
+    <MESSAGE value="joints stay in the same poistion on respawn" />
+    <option name="LAST_COMMIT_MESSAGE" value="joints stay in the same poistion on respawn" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
