@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using CreatureBuilder;
 using CreatureParts;
@@ -40,13 +41,18 @@ namespace Player
             networkedPart.GetComponent<AttachablePart>().attachmentRotation = rotation;
             networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
             
-            AddAttachedPartForClients(networkedPart, player, partMass);
+            AddAttachedPartForClients(networkedPart, player, partMass, attachedSegment.gameObject);
             SyncLegOrderRpc(player);
         }
 
         [ObserversRpc(runLocally: true)]
-        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, float partMass)
+        public void AddAttachedPartForClients(GameObject part, GameObject partPlayer, float partMass, GameObject attachedSegment)
         {
+            part.GetComponent<AttachablePart>().attachedSegmentRigidbody = attachedSegment.GetComponent<Rigidbody>();
+            part.GetComponent<AttachablePart>().attachmentPosition = part.transform.position;
+            part.GetComponent<AttachablePart>().attachmentRotation = part.transform.rotation;
+            
+            Debug.Log($"AddAttachedPartForClients: part instanceID={part.GetInstanceID()} name={part.name}");
             Player targetPlayer = partPlayer.GetComponent<Player>();
             targetPlayer.attachedWormParts.Add(part);
 
@@ -76,7 +82,6 @@ namespace Player
             Transform endPoint = part.GetComponent<PartDragging>().endPoint;
             if (endPoint == null)
             {
-                Debug.LogError("No endPoint found on part: " + part.name);
                 return;
             }
 
@@ -106,6 +111,22 @@ namespace Player
         public void DestroyPart(GameObject part)
         {
             Destroy(part);
+        }
+        
+        public IEnumerator ReactivateAttachedParts()
+        {
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+    
+            foreach (GameObject attachedPart in GetComponent<Player>().attachedWormParts)
+            {
+                Debug.Log($"ReactivateAttachedParts: part instanceID={attachedPart.GetInstanceID()} name={attachedPart.name}");
+                attachedPart.SetActive(true);
+                attachedPart.GetComponent<AttachablePart>().enabled = true;
+                attachedPart.GetComponent<AttachablePart>().ResetJoint();
+            }
+    
+            GetComponent<WormPhysics>().IgnoreWormSelfCollision();
         }
         
         #region Private Methods

@@ -25,7 +25,10 @@ namespace CreatureParts
         
         public void ResetJoint()
         {
+            Debug.Log($"ResetJoint called on {gameObject.name} | attachedEndPoint: {attachedEndPoint} | attachedSegmentRigidbody: {attachedSegmentRigidbody}");
+            
             HingeJoint existing = GetComponent<HingeJoint>();
+            Debug.Log($"Existing hinge: {existing}");
             if (existing != null)
                 Destroy(existing);
             

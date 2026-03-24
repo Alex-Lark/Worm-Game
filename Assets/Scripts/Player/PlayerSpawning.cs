@@ -259,7 +259,7 @@ namespace Player
 
             yield return new WaitForFixedUpdate();
 
-            StartCoroutine(ReactivateAttachedParts());
+            StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
 
 
@@ -271,21 +271,6 @@ namespace Player
             {
                 segment.rotation = orientation;
             }
-        }
-        
-        private IEnumerator ReactivateAttachedParts()
-        {
-            yield return new WaitForFixedUpdate();
-            yield return new WaitForFixedUpdate();
-    
-            foreach (GameObject attachedPart in player.attachedWormParts)
-            {
-                attachedPart.SetActive(true);
-                attachedPart.GetComponent<AttachablePart>().enabled = true;
-                attachedPart.GetComponent<AttachablePart>().ResetJoint();
-            }
-    
-            GetComponent<WormPhysics>().IgnoreWormSelfCollision();
         }
         
         private void SetWormSpawnPosition(Vector3 spawnPosition)
