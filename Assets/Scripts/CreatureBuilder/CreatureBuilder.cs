@@ -147,7 +147,8 @@ namespace CreatureBuilder
                 Debug.Log("adding already attached part " + part.name);
                 AddAlreadyAttachedPart(part);
             }
-            Player.LocalPlayer.Instance.attachedWormParts.Clear();
+            
+            player.GetComponent<PlayerPartAttachment>().ClearAttachedParts(player);
         }
 
         private void AddAlreadyAttachedPart(GameObject part)

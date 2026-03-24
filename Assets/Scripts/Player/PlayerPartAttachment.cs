@@ -29,7 +29,6 @@ namespace Player
             }
     
             parts.Clear();
-            SyncLegOrderRpc(gameObject);
         }
         
         [ServerRpc]
@@ -131,6 +130,21 @@ namespace Player
             }
     
             GetComponent<WormPhysics>().IgnoreWormSelfCollision();
+        }
+
+        [ServerRpc]
+        public void ClearAttachedParts(Player player)
+        {
+            ClearAttachedPartsObserverSide(player);
+        }
+
+        [ObserversRpc]
+        private void ClearAttachedPartsObserverSide(Player player)
+        {
+            if (player.gameObject == gameObject)
+            {
+                player.attachedWormParts.Clear();
+            }
         }
         
         #region Private Methods
