@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using GameLoop;
+using Player;
 using PurrNet;
 
 namespace WormLeague
@@ -93,6 +94,9 @@ namespace WormLeague
             {
                 int random =  Random.Range(0, players.Count);
                 teamRed.Add(players[random]);
+
+                LocalPlayer.Instance.SetPlayerTeam("red"); //temporary until proper team assignment logic
+                
                 wormLeagueUI.SetTeam("red");
                 players.RemoveAt(random);
                 if (players.Count > 0)

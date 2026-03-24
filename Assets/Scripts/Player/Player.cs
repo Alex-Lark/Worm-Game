@@ -68,6 +68,10 @@ namespace Player
     
         public readonly int WormSegmentCount = GameParameters.WormSegmentCount;
         public readonly float MaxPartDistance = GameParameters.SegmentMaxPartDistance;
+
+        public string playerTeam;
+        
+        public event Action<string> OnPlayerTeamChanged;
         
         #endregion
         
@@ -307,6 +311,13 @@ namespace Player
                 attachedPart.gameObject.SetActive(false);
                 attachedPart.GetComponent<AttachablePart>().enabled = false;
             }
+        }
+
+        public void SetPlayerTeam(string team)
+        {
+            playerTeam = team;
+            OnPlayerTeamChanged?.Invoke(team);
+            Debug.Log("setPlayerTeamCalled with team ");
         }
         
         #endregion

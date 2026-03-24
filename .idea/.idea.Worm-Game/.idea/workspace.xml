@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Graphics/HighlightOutline.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDraggingUI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDraggingUI.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Graphics/HighlightOutline.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerGraphics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerGraphics.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="PartAttachment-fixes2" />
+        <entry key="$PROJECT_DIR$" value="0c9499a1f2d88596054f34caa188ab4f8b361007" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,7 +55,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisRotationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisTranslationHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartPair.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/DeadBodyPart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/FinPart.cs" root0="FORCE_HIGHLIGHTING" />
@@ -58,10 +66,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkRigidBodyDebugger.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Graphics/OutlineShader.shader" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/DeathScreenUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/LocalPlayer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/Player/Player.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (3).unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/_Recovery/0 (8).unity" root0="FORCE_HIGHLIGHTING" />
@@ -232,23 +240,7 @@
       <workItem from="1773790413266" duration="2418000" />
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
-      <workItem from="1774311395709" duration="10633000" />
-    </task>
-    <task id="LOCAL-00047" summary="working on attaching parts">
-      <option name="closed" value="true" />
-      <created>1762498777345</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1762498777345</updated>
-    </task>
-    <task id="LOCAL-00048" summary=" pushing test object in scene">
-      <option name="closed" value="true" />
-      <created>1762500223819</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1762500223819</updated>
+      <workItem from="1774311395709" duration="19062000" />
     </task>
     <task id="LOCAL-00049" summary="test2">
       <option name="closed" value="true" />
@@ -626,7 +618,23 @@
       <option name="project" value="LOCAL" />
       <updated>1774329976077</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="merged partAttachment updates to main!">
+      <option name="closed" value="true" />
+      <created>1774330373589</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1774330373589</updated>
+    </task>
+    <task id="LOCAL-00097" summary="username should show once name is properly set up">
+      <option name="closed" value="true" />
+      <created>1774331263523</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1774331263523</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -648,12 +656,12 @@
             <list>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="PartAttachment-fixes2" />
+                  <option value="master" />
                 </option>
               </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="master" />
+                  <option value="PartAttachment-fixes2" />
                 </option>
               </RecentGroup>
             </list>
@@ -671,6 +679,17 @@
                   <entry key="Show.Git.Branches" value="true" />
                 </map>
               </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
             </State>
           </value>
         </entry>
@@ -679,8 +698,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="moved code to playerSpawning, kinda broken" />
-    <MESSAGE value="refactored code back to working in game scene" />
     <MESSAGE value="code refactored, still triyng to fix lobby bug though" />
     <MESSAGE value="player is observed" />
     <MESSAGE value="player can spawn and move in mingamescene" />
@@ -704,7 +721,9 @@
     <MESSAGE value="player is deactivated in any other scene" />
     <MESSAGE value="fixed incorrect spawning on spawn" />
     <MESSAGE value="attachedPartLists properly get cleared for all players" />
-    <option name="LAST_COMMIT_MESSAGE" value="attachedPartLists properly get cleared for all players" />
+    <MESSAGE value="merged partAttachment updates to main!" />
+    <MESSAGE value="username should show once name is properly set up" />
+    <option name="LAST_COMMIT_MESSAGE" value="username should show once name is properly set up" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

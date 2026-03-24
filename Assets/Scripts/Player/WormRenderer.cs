@@ -13,6 +13,7 @@ namespace Player
         public int smoothingSubdivisions = 3;
         public int capSubdivisions = 4;
         public AnimationCurve radiusCurve = AnimationCurve.Linear(0f, 1f, 1f, 0.8f);
+        public Mesh wormMesh;
 
         [Header("Smoothing Settings")]
         [Range(0f, 1f)]
@@ -24,7 +25,6 @@ namespace Player
         private LineRenderer lineRenderer;
         private MeshFilter meshFilter;
         private MeshRenderer meshRenderer;
-        private Mesh wormMesh;
 
         private global::Player.Player player;
 

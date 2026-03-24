@@ -120,7 +120,7 @@ namespace CreatureBuilder
             if (axisVisual != null)
                 axisVisual.SetActive(true);
             
-            if (!doubleSelected) GetComponent<PartDraggingUI>().HighlightPart();
+            if (!doubleSelected) GetComponent<HighlightOutline>().HighlightPart();
         }
     
         public void StopDragging()
@@ -134,7 +134,7 @@ namespace CreatureBuilder
             isDragging = false;
             doubleSelected = false;
     
-            PartDraggingUI draggingUI = GetComponent<PartDraggingUI>();
+            HighlightOutline draggingUI = GetComponent<HighlightOutline>();
             if (draggingUI != null)
             {
                 draggingUI.RemoveHighlight();
