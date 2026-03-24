@@ -315,6 +315,10 @@ namespace Player
             {
                 SetWormInGameScene();
             }
+            else
+            {
+                GetComponent<Player>().DeactivatePlayer();
+            }
         }
         
         private IEnumerator FindAndSetupRemoteWorm()
