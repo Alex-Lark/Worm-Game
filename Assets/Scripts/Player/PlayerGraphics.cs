@@ -51,15 +51,15 @@ namespace Player
 
         private void EnterGameScene()
         {
-            // Debug.Log("entering game scene in playerGraphics");
-            // OnEnable();
-            // usernameText.enabled = true;
-            // if (mainCamera == null)
-            // {
-            //     mainCamera = Camera.main;
-            // }
-            //
-            // usernameText.text = "<mark=#000000aa>" + gameObject.GetComponent<Player>().PlayerName + "</mark>";
+            Debug.Log("entering game scene in playerGraphics");
+            OnEnable();
+            usernameText.enabled = true;
+            if (mainCamera == null)
+            {
+                mainCamera = Camera.main;
+            }
+            
+            usernameText.text = "<mark=#000000aa>" + gameObject.GetComponent<Player>().PlayerName + "</mark>";
         }
 
         private void UsernameFaceCamera()
