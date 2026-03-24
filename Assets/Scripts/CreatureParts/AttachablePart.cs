@@ -117,8 +117,7 @@ namespace CreatureParts
             foreach (Transform wormSegment in LocalPlayer.Instance.GetComponent<Player.Player>().wormBodySegments)
             {
                 float distance = Vector3.Distance(transform.position, wormSegment.position);
-        
-                Debug.Log("checkign segnment with distance " + distance);
+                
                 if (distance < shortestDistance)
                 {
                     shortestDistance = distance;

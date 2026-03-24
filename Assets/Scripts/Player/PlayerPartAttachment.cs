@@ -55,6 +55,9 @@ namespace Player
             ap.attachmentPosition = part.transform.position;
             ap.attachmentRotation = part.transform.rotation;
             ap.SetLocalOffsets(localPos, localRot);
+            
+            part.transform.position = attachedSegment.GetComponent<Rigidbody>().transform.TransformPoint(localPos);
+            part.transform.rotation = attachedSegment.GetComponent<Rigidbody>().transform.rotation * localRot;
 
             Player targetPlayer = partPlayer.GetComponent<Player>();
             targetPlayer.attachedWormParts.Add(part);
