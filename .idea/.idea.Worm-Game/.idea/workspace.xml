@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartDragging.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Graphics/HighlightOutline.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Graphics/HighlightOutline.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerGraphics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerGraphics.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -233,15 +236,7 @@
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
       <workItem from="1774311395709" duration="19062000" />
-      <workItem from="1774574244284" duration="620000" />
-    </task>
-    <task id="LOCAL-00049" summary="test2">
-      <option name="closed" value="true" />
-      <created>1762500445246</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1762500445246</updated>
+      <workItem from="1774574244284" duration="3146000" />
     </task>
     <task id="LOCAL-00050" summary="UI timer works">
       <option name="closed" value="true" />
@@ -627,7 +622,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774331263523</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="outline displays for both players, fixed little error in creatureBuilder">
+      <option name="closed" value="true" />
+      <created>1774579514819</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1774579514819</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -691,7 +694,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="code refactored, still triyng to fix lobby bug though" />
     <MESSAGE value="player is observed" />
     <MESSAGE value="player can spawn and move in mingamescene" />
     <MESSAGE value="trying to get creature part to carry over to minigame." />
@@ -716,7 +718,8 @@
     <MESSAGE value="attachedPartLists properly get cleared for all players" />
     <MESSAGE value="merged partAttachment updates to main!" />
     <MESSAGE value="username should show once name is properly set up" />
-    <option name="LAST_COMMIT_MESSAGE" value="username should show once name is properly set up" />
+    <MESSAGE value="outline displays for both players, fixed little error in creatureBuilder" />
+    <option name="LAST_COMMIT_MESSAGE" value="outline displays for both players, fixed little error in creatureBuilder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

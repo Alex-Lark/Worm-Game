@@ -1,4 +1,5 @@
 using CreatureBuilder;
+using Graphics;
 using PurrNet;
 using UnityEngine;
 using TMPro;
@@ -105,7 +106,7 @@ namespace Player
             
             GameObject wormMesh = transform.Find("WormMesh").gameObject;
             if (playerOutline == null) playerOutline = wormMesh.AddComponent<HighlightOutline>();
-            playerOutline.HighlightPart(teamColor);
+            playerOutline.HighlightPart(teamColor, 0.1f);
         }
         
         #endregion
