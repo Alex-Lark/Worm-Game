@@ -52,7 +52,10 @@ namespace Player
             }
             else
             {
-                playerOutline.RemoveHighlight();
+                if (playerOutline != null)
+                {
+                    playerOutline.RemoveHighlight(); 
+                }
                 usernameText.enabled = false;
             }
         }
