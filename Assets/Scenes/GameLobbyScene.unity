@@ -3020,30 +3020,30 @@ MonoBehaviour:
   wormHeadMaterial: {fileID: 2100000, guid: 8f3899a8e788c9448b1158b202f661e6, type: 2}
   selectColorButtonColor: {fileID: 1539376948}
   availableColors:
-  - bodyColor: {r: 0, g: 0.8901961, b: 1, a: 1}
-    headColor: {r: 0.047058824, g: 0, b: 1, a: 1}
-  - bodyColor: {r: 1, g: 0.2627451, b: 0.23529412, a: 1}
-    headColor: {r: 0.8509804, g: 0, b: 0, a: 1}
-  - bodyColor: {r: 0.07058824, g: 1, b: 0, a: 1}
-    headColor: {r: 0, g: 0.5921569, b: 0.105882354, a: 1}
-  - bodyColor: {r: 1, g: 0.94509804, b: 0, a: 1}
-    headColor: {r: 0.7176471, g: 0.3764706, b: 0, a: 1}
-  - bodyColor: {r: 1, g: 0.49411765, b: 0, a: 1}
-    headColor: {r: 0.8156863, g: 0.28235295, b: 0, a: 1}
-  - bodyColor: {r: 1, g: 0.30980393, b: 0.8, a: 1}
-    headColor: {r: 1, g: 0, b: 0.6431373, a: 1}
-  - bodyColor: {r: 0.6862745, g: 0.32941177, b: 1, a: 1}
-    headColor: {r: 0.44705883, g: 0, b: 1, a: 1}
-  - bodyColor: {r: 1, g: 1, b: 1, a: 1}
-    headColor: {r: 0.64705884, g: 0.64705884, b: 0.64705884, a: 1}
-  - bodyColor: {r: 0, g: 0, b: 0, a: 1}
-    headColor: {r: 0.29411766, g: 0.29411766, b: 0.29411766, a: 1}
-  - bodyColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
-    headColor: {r: 0, g: 0, b: 0, a: 1}
-  - bodyColor: {r: 0.26666668, g: 1, b: 0.65882355, a: 1}
-    headColor: {r: 0, g: 0.8117647, b: 0.19215687, a: 1}
-  - bodyColor: {r: 0.40392157, g: 0.28235295, b: 0.13725491, a: 1}
-    headColor: {r: 0.5803922, g: 0.32156864, b: 0.11372549, a: 1}
+  - bodyMaterial: {fileID: 2100000, guid: 2c6e5a41cae0dcd4f98c69a393492f20, type: 2}
+    headMaterial: {fileID: 2100000, guid: 65f51796be7611d4ca035a26294cc74d, type: 2}
+  - bodyMaterial: {fileID: 2100000, guid: adc4cb6fbe50bbe4081c65fbf22ad1b8, type: 2}
+    headMaterial: {fileID: 2100000, guid: cc2d255d5faf6614b86047f2b4a4afca, type: 2}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
+  - bodyMaterial: {fileID: 0}
+    headMaterial: {fileID: 0}
 --- !u!114 &1979447296
 MonoBehaviour:
   m_ObjectHideFlags: 0

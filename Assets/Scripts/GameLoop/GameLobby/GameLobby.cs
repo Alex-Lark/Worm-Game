@@ -76,20 +76,32 @@ namespace GameLoop.GameLobby
         
         public void OnPlayerRegistered(PlayerID playerID)
         {
-            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+            colorSelection.UpdateMultiplayerColors(
+                PlayerRegister.Players.Values
+                    .Where(p => p.colorIndex >= 0 && p.colorIndex < colorSelection.availableColors.Count)
+                    .Select(p => colorSelection.availableColors[p.colorIndex].bodyMaterial)
+                    .ToList()
+            );
             colorSelection.SetInitialColor();
         }
-        
+
         public void OnPlayerRegisterChanged(PlayerID playerID, bool connected)
         {
             Debug.Log("Player Register changed");
             UpdatePlayerList(playerID, connected);
-            
+
             if (connected && playerID == Network.instance.manager.localPlayer)
             {
                 colorSelection.SetInitialColor();
             }
-            colorSelection.UpdateMultiplayerColors(PlayerRegister.Players.Values.Select(p => p.color).ToList());
+
+            colorSelection.UpdateMultiplayerColors(
+                PlayerRegister.Players.Values
+                    .Where(p => p.colorIndex >= 0 && p.colorIndex < colorSelection.availableColors.Count)
+                    .Select(p => colorSelection.availableColors[p.colorIndex].bodyMaterial)
+                    .ToList()
+            );
+
             ToggleStartGameButton();
         }
         

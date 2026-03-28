@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WormOutsideMaterial
+  m_Name: WormRed
   m_Shader: {fileID: -6465566751694194690, guid: dc3a836a55e748f48b955c872b4773ff, type: 3}
   m_Parent: {fileID: 2100000, guid: 08ed4e0b08e865f488a34ca22b58d44a, type: 2}
   m_ModifiedSerializedProperties: 2
@@ -39,7 +39,7 @@ Material:
     m_Floats:
     - _Fresnel_Power: 10
     m_Colors:
-    - _Base_Color: {r: 0, g: 0.94768524, b: 1, a: 0}
+    - _Base_Color: {r: 1, g: 0.40566027, b: 0.40748793, a: 0}
     - _Fresnel_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

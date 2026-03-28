@@ -36,7 +36,7 @@ public class PlayerRegister : PurrMonoBehaviour
     {
         public string name;
         public PlayerID playerID;
-        public Color color;
+        public int colorIndex;
         public ushort score;
         public bool isDead;
         public bool isDisconected;
@@ -73,7 +73,8 @@ public class PlayerRegister : PurrMonoBehaviour
                 PlayerData playerData = new PlayerData
                 {
                     playerID = existingPlayer.Key,
-                    name = existingPlayer.Value.name
+                    name = existingPlayer.Value.name,
+                    colorIndex = -1
                 };
                 Network.instance.manager.SendToAll(playerData);
             }
@@ -103,11 +104,11 @@ public class PlayerRegister : PurrMonoBehaviour
     public static void RegisterClient(PlayerID playerID, bool firstJoin, bool _)
     {
         Debug.Log("Registering client: "+playerID.id.value);
-        if(!Players.ContainsKey(playerID))Players[playerID] = new PlayerData();
+        if(!Players.ContainsKey(playerID)) Players[playerID] = new PlayerData { colorIndex = -1 };
         PlayerData playerData = Players[playerID];
         playerData.isDisconected = false;
-        
-        
+        Players[playerID] = playerData;
+    
         OnPlayerRegistered?.Invoke(playerID);
     }
 
@@ -157,24 +158,22 @@ public class PlayerRegister : PurrMonoBehaviour
         Network.instance.manager.onPlayerLeft += RemoveClient;
     }
     
-    public static void UpdateColor(Color newColor)
+    public static void UpdateColor(int colorIndex)
     {
         PlayerID localPlayerID = Network.instance.manager.localPlayer;
-    
+
         if (!Players.ContainsKey(localPlayerID))
         {
             Debug.LogError("Local player not found in Players dictionary!");
             return;
         }
-    
-        // Update locally
+
         PlayerData myData = Players[localPlayerID];
-        myData.color = newColor;
+        myData.colorIndex = colorIndex;
         Players[localPlayerID] = myData;
-    
-        // Send update to server
+
         Network.instance.manager.SendToServer(myData);
-    
-        Debug.Log($"Updated" + myData.name  + "color to {newColor}");
+
+        Debug.Log($"Updated {myData.name} colorIndex to {colorIndex}");
     }
 }

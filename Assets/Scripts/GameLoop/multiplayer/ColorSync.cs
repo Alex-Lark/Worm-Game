@@ -17,49 +17,57 @@ namespace GameLoop.multiplayer
             manager.Unsubscribe<ColorUpdateMessage>(OnColorUpdate, asServer);
         }
 
-        public void SendColorUpdate(Color color)
+        public void SendColorUpdate(Material bodyMaterial)
         {
-            ColorUpdateMessage message = new ColorUpdateMessage
+            GameLobby.ColorSelection colorSelection = FindFirstObjectByType<GameLobby.ColorSelection>();
+            int materialIndex = colorSelection.availableColors
+                .FindIndex(pair => pair.bodyMaterial == bodyMaterial);
+
+            if (materialIndex < 0)
             {
-                color = color
-            };
-        
-            Network.instance.manager.SendToServer<ColorUpdateMessage>(message);
+                Debug.LogWarning("SendColorUpdate: material not found in availableColors.");
+                return;
+            }
+
+            Network.instance.manager.SendToServer(new ColorUpdateMessage
+            {
+                colorIndex = materialIndex
+            });
         }
 
         private void OnColorUpdate(PlayerID player, ColorUpdateMessage data, bool asServer)
         {
             if (asServer)
             {
-                // Server receives from client, embed sender ID and broadcast to all
                 data.senderID = player;
-                Network.instance.manager.SendToAll<ColorUpdateMessage>(data);
+                Network.instance.manager.SendToAll(data);
             }
             else
             {
-                // Client receives from server, update the player's color
-                if (PlayerRegister.Players.ContainsKey(data.senderID))
-                {
-                    // Get the struct, modify it, and put it back
-                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[data.senderID];
-                    playerData.color = data.color;
-                    PlayerRegister.Players[data.senderID] = playerData;
-        
-                    // Update color selection UI
-                    GameLobby.GameLobby lobby = FindObjectOfType<GameLobby.GameLobby>();
-                    if (lobby != null)
-                    {
-                        lobby.colorSelection.UpdateMultiplayerColors(
-                            PlayerRegister.Players.Values.Select(p => p.color).ToList()
-                        );
-                    }
-                }
+                if (!PlayerRegister.Players.ContainsKey(data.senderID))
+                    return;
+
+                PlayerRegister.PlayerData playerData = PlayerRegister.Players[data.senderID];
+                playerData.colorIndex = data.colorIndex;
+                PlayerRegister.Players[data.senderID] = playerData;
+
+                GameLobby.GameLobby lobby = FindObjectOfType<GameLobby.GameLobby>();
+                if (lobby == null) return;
+
+                // Resolve each player's index to the actual body material
+                GameLobby.ColorSelection colorSelection = lobby.colorSelection;
+                lobby.colorSelection.UpdateMultiplayerColors(
+                    PlayerRegister.Players.Values
+                        .Where(p => p.colorIndex >= 0 && p.colorIndex < colorSelection.availableColors.Count)
+                        .Select(p => colorSelection.availableColors[p.colorIndex].bodyMaterial)
+                        .ToList()
+                );
             }
         }
 
         public struct ColorUpdateMessage : IPackedAuto
         {
-            public Color color;
+            public int colorIndex;
             public PlayerID senderID;
         }
     }
