@@ -76,12 +76,7 @@ namespace GameLoop.GameLobby
         
         public void OnPlayerRegistered(PlayerID playerID)
         {
-            colorSelection.UpdateMultiplayerColors(
-                PlayerRegister.Players.Values
-                    .Where(p => p.colorIndex >= 0 && p.colorIndex < colorSelection.availableColors.Count)
-                    .Select(p => colorSelection.availableColors[p.colorIndex].bodyMaterial)
-                    .ToList()
-            );
+            RefreshColorSelection();
             colorSelection.SetInitialColor();
         }
 
@@ -91,18 +86,20 @@ namespace GameLoop.GameLobby
             UpdatePlayerList(playerID, connected);
 
             if (connected && playerID == Network.instance.manager.localPlayer)
-            {
                 colorSelection.SetInitialColor();
-            }
 
-            colorSelection.UpdateMultiplayerColors(
+            RefreshColorSelection();
+            ToggleStartGameButton();
+        }
+        
+        private void RefreshColorSelection()
+        {
+            HashSet<int> taken = new HashSet<int>(
                 PlayerRegister.Players.Values
                     .Where(p => p.colorIndex >= 0 && p.colorIndex < colorSelection.availableColors.Count)
-                    .Select(p => colorSelection.availableColors[p.colorIndex].bodyMaterial)
-                    .ToList()
+                    .Select(p => p.colorIndex)
             );
-
-            ToggleStartGameButton();
+            colorSelection.RefreshTakenColors(taken);
         }
         
         #endregion
@@ -113,7 +110,6 @@ namespace GameLoop.GameLobby
         {
             colorSelectionPanel.SetActive(true);
             colorSelection.UpdateColorButtons();
-            
         }
 
         public void CloseColorSelectionPanel()

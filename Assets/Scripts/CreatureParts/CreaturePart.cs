@@ -59,6 +59,11 @@ namespace CreatureParts
         
         }
         
+        public void SetMaterial(Material material)
+        {
+            GetComponent<MeshRenderer>().material = material;
+        }
+        
         #endregion
         
         #region Private Methods

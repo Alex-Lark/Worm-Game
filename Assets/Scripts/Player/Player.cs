@@ -281,12 +281,35 @@ namespace Player
             playerSpawning.TryToRespawn();
         }
 
+        public void SetColor(Material material)
+        {
+            wormHead.GetComponent<WormHead>().SetMaterial(material);
+
+            foreach (GameObject wormSegment in wormPartsInInventory)
+            {
+                wormSegment.GetComponent<CreatureBodySegment>().SetMaterial(material);
+            }
+            
+            GetComponent<WormRenderer>().SetMaterial(material);
+        }
+
         [ServerRpc(requireOwnership: true)]
         private void ServerSideDeath()
         {
             ObserversSideDeath();
         }
 
+        public void SetPlayerTeam(string team)
+        {
+            playerTeam = team;
+            OnPlayerTeamChanged?.Invoke(team);
+            Debug.Log("setPlayerTeamCalled with team ");
+        }
+        
+        #endregion
+        
+        #region Private Methods
+        
         [ObserversRpc(runLocally: true)]
         private void ObserversSideDeath()
         {
@@ -312,17 +335,6 @@ namespace Player
                 attachedPart.GetComponent<AttachablePart>().enabled = false;
             }
         }
-
-        public void SetPlayerTeam(string team)
-        {
-            playerTeam = team;
-            OnPlayerTeamChanged?.Invoke(team);
-            Debug.Log("setPlayerTeamCalled with team ");
-        }
-        
-        #endregion
-        
-        #region Private Methods
         
         private GameObject DuplicatePart(GameObject original)
         {

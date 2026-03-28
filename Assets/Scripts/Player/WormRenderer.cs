@@ -370,6 +370,19 @@ namespace Player
 
         // ─── Line renderer (debug toggle) ─────────────────────────────────────
 
+        public void SetMaterial(Material newMaterial)
+        {
+            if (newMaterial == null) return;
+
+            wormMaterial = newMaterial;
+
+            if (meshRenderer != null)
+                meshRenderer.material = newMaterial;
+
+            if (lineRenderer != null)
+                lineRenderer.material = newMaterial;
+        }
+        
         public void ToggleRenderMode()
         {
             meshRenderer.enabled = !meshRenderer.enabled;

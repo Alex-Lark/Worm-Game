@@ -3016,34 +3016,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameLoop.ColorSelection
   colorSelectionPanel: {fileID: 989002980}
   buttonPrefab: {fileID: 5708303668333809194, guid: 185ab63d8b287c3428d8b0e51b485383, type: 3}
-  wormMaterial: {fileID: 2100000, guid: 2c6e5a41cae0dcd4f98c69a393492f20, type: 2}
-  wormHeadMaterial: {fileID: 2100000, guid: 8f3899a8e788c9448b1158b202f661e6, type: 2}
   selectColorButtonColor: {fileID: 1539376948}
+  wormMaterial: {fileID: 2100000, guid: 2c6e5a41cae0dcd4f98c69a393492f20, type: 2}
   availableColors:
   - bodyMaterial: {fileID: 2100000, guid: 2c6e5a41cae0dcd4f98c69a393492f20, type: 2}
     headMaterial: {fileID: 2100000, guid: 65f51796be7611d4ca035a26294cc74d, type: 2}
   - bodyMaterial: {fileID: 2100000, guid: adc4cb6fbe50bbe4081c65fbf22ad1b8, type: 2}
     headMaterial: {fileID: 2100000, guid: cc2d255d5faf6614b86047f2b4a4afca, type: 2}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
-  - bodyMaterial: {fileID: 0}
-    headMaterial: {fileID: 0}
 --- !u!114 &1979447296
 MonoBehaviour:
   m_ObjectHideFlags: 0
