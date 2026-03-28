@@ -4,51 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormDeadGreen.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormDeadGreen.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormGreen.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormGreen.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormHeadGreen.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormHeadGreen.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormDeadMint.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormDeadMint.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormHeadMint.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormHeadMint.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormMint.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormMint.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormDeadOrange.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormDeadOrange.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormHeadOrange.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormHeadOrange.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormOrange.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormOrange.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormDeadPink.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormDeadPink.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormHeadPink.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormHeadPink.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormPink.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormPink.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormDeadPurple.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormDeadPurple.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormHeadPurple.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormHeadPurple.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormPurple.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormPurple.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormDeadYellow.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormDeadYellow.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormHeadYellow.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormHeadYellow.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormYellow.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormYellow.mat.meta" afterDir="false" />
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="color selection updates implemented">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Audio/GameLobbyAudio.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Audio/GameLobbyAudio.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PartSelectionScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/CreatureBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/PartSelection.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +55,7 @@
     <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scenes/GameLobbyScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Audio/CreatureBuilderAudio.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisRotationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisTranslationHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/PartPair.cs" root0="FORCE_HIGHLIGHTING" />
@@ -130,24 +96,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.46653542&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Color-selection-update&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "XThreadsFramesViewSplitterKey": "0.46653542",
+    "git-widget-placeholder": "soundHooks",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Battle Worms Builds/Sprint 3\Worm Game.exe" />
@@ -737,7 +703,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed wing concavity" />
     <MESSAGE value="fixed attached part ownership" />
     <MESSAGE value="fixed parts not spawning for host player" />
     <MESSAGE value="fixed numerous grounding errors" />
@@ -762,7 +727,8 @@
     <MESSAGE value="button color displays properly" />
     <MESSAGE value="dead body parts have a seperate material" />
     <MESSAGE value="added additional coloring" />
-    <option name="LAST_COMMIT_MESSAGE" value="added additional coloring" />
+    <MESSAGE value="color selection updates implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="color selection updates implemented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

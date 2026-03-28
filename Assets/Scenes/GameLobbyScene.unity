@@ -2946,6 +2946,7 @@ GameObject:
   - component: {fileID: 1979447294}
   - component: {fileID: 1979447295}
   - component: {fileID: 1979447296}
+  - component: {fileID: 1979447297}
   m_Layer: 0
   m_Name: GameLobby
   m_TagString: Untagged
@@ -3055,6 +3056,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd432f220c4693842aa531c176dcc445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameLoop.multiplayer.ColorSync
+--- !u!114 &1979447297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979447291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11108e30de8b4eb58e4eb085485db1a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Audio.GameLobbyAudio
 --- !u!1 &2093509247
 GameObject:
   m_ObjectHideFlags: 0

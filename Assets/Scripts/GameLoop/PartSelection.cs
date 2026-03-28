@@ -19,6 +19,8 @@ namespace GameLoop
         public TextMeshProUGUI card1Name;
         public TextMeshProUGUI card2Name;
         
+        public event Action OnCardSelected;
+        
         #endregion
 
         #region Private Variables
@@ -96,6 +98,7 @@ namespace GameLoop
             card2Slot.transform.localScale = new Vector3(1f, 1f, 1f);
             currentCard = card1;
             discardedCard = card2;
+            OnCardSelected?.Invoke();
         }
 
         public void SelectCard2()
@@ -104,6 +107,7 @@ namespace GameLoop
             card1Slot.transform.localScale = new Vector3(1f, 1f, 1f);
             currentCard = card2;
             discardedCard = card1;
+            OnCardSelected?.Invoke();
         }
         
         #endregion

@@ -22,6 +22,8 @@ namespace CreatureBuilder
         public CinemachineCamera cinemachineCamera;
         public RectTransform creatureBuilderWindow;
         public CreatureBuilderWindow creatureBuilderScript;
+        
+        public event Action OnPartTo3D;
         #endregion
         
         #region private variables
@@ -112,6 +114,8 @@ namespace CreatureBuilder
             {
                 Debug.LogWarning($"No 3D prefab mapping found for card: {cardName}");
             }
+            
+            OnPartTo3D?.Invoke();
         }
         
         public void SwitchFrom3DPartToCard(GameObject partPrefab, GameObject caller)

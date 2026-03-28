@@ -25,6 +25,8 @@ namespace GameLoop.GameLobby
         public PlayerRegister playerRegister;
 
         public ColorSelection colorSelection;
+        
+        public event Action OnGameStart;
         #endregion
 
         #region Built-In Methods
@@ -120,6 +122,7 @@ namespace GameLoop.GameLobby
         public void StartGame()
         {
             GameLoop.Instance.StartGame();
+            OnGameStart?.Invoke();
         }
 
         public void UpdatePlayerList(PlayerID playerID, bool connected)
