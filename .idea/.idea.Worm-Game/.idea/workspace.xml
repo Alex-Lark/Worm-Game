@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSelection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreatureBodySegment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreatureBodySegment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorPair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorPair.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,14 +240,6 @@
       <workItem from="1774311395709" duration="19062000" />
       <workItem from="1774574244284" duration="3146000" />
       <workItem from="1774722257770" duration="5274000" />
-    </task>
-    <task id="LOCAL-00052" summary="fixed loop skipping first round">
-      <option name="closed" value="true" />
-      <created>1762915622267</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1762915622267</updated>
     </task>
     <task id="LOCAL-00053" summary="can select a card, should add it to player inventory, not yet connected to inventory in creature builder">
       <option name="closed" value="true" />
@@ -629,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774727473602</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="button color displays properly">
+      <option name="closed" value="true" />
+      <created>1774730046815</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1774730046815</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +697,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="merged partRework to main!" />
     <MESSAGE value="fixing local player registration but still bugs" />
     <MESSAGE value="attached parts for client no longer show on host" />
     <MESSAGE value="fixed wing concavity" />
@@ -718,7 +721,8 @@
     <MESSAGE value="kind of updated to use materials but aren't properly synced with multiplayer" />
     <MESSAGE value="different players actually display as different colors" />
     <MESSAGE value="Headcolor is properly switched" />
-    <option name="LAST_COMMIT_MESSAGE" value="Headcolor is properly switched" />
+    <MESSAGE value="button color displays properly" />
+    <option name="LAST_COMMIT_MESSAGE" value="button color displays properly" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -726,14 +730,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
           <line>152</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'">
-            <startOffsets>
-              <option value="5438" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5535" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'" />
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
@@ -751,14 +748,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/InputHandling/IPText.cs</url>
           <line>13</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\InputHandling\IPText.cs" containingFunctionPresentation="Method 'OnUpdate'">
-            <startOffsets>
-              <option value="212" />
-            </startOffsets>
-            <endOffsets>
-              <option value="246" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\InputHandling\IPText.cs" containingFunctionPresentation="Method 'OnUpdate'" />
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">

@@ -7,5 +7,6 @@ namespace GameLoop.GameLobby
     {
         public Material bodyMaterial;
         public Material headMaterial;
+        public Material deadMaterial;
     }
 }

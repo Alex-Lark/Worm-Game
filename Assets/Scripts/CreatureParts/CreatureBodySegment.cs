@@ -83,6 +83,14 @@ namespace CreatureParts
             return wormPart.GetComponent<Rigidbody>();
         }
 
+        public new void SetMaterial(Material material)
+        {
+            foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>())
+            {
+                renderer.material = material;
+            }
+        }
+
         private SoftJointLimit CreateLimit(float angle)
         {
             return new SoftJointLimit

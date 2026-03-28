@@ -71,6 +71,8 @@ namespace Player
 
         public string playerTeam;
         
+        public Material DeadBodyPartMaterial;
+        
         public event Action<string> OnPlayerTeamChanged;
         
         #endregion
@@ -281,10 +283,10 @@ namespace Player
             playerSpawning.TryToRespawn();
         }
 
-        public void SetColor(Material bodyMaterial, Material headMaterial)
+        public void SetColor(Material bodyMaterial, Material headMaterial, Material deadMaterial)
         {
-            Debug.Log("setcolor called, head material: " + headMaterial);
             wormHead.GetComponent<WormHead>().SetMaterial(headMaterial);
+            DeadBodyPartMaterial = deadMaterial;
 
             foreach (GameObject wormSegment in wormPartsInInventory)
             {
@@ -320,24 +322,24 @@ namespace Player
             if (transform.Find("WormMesh") != null)
                 Destroy(transform.Find("WormMesh").gameObject);
     
-            wormHeadCopy = DuplicatePart(wormHead.gameObject);
+            wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
             wormHead.gameObject.SetActive(false);
 
             foreach (Transform bodySegment in wormBodySegments)
             {
-                DuplicatePart(bodySegment.gameObject);
+                DuplicatePartForDeath(bodySegment.gameObject);
                 bodySegment.gameObject.SetActive(false);
             }
     
             foreach (GameObject attachedPart in attachedWormParts)
             {
-                DuplicatePart(attachedPart);
+                DuplicatePartForDeath(attachedPart);
                 attachedPart.gameObject.SetActive(false);
                 attachedPart.GetComponent<AttachablePart>().enabled = false;
             }
         }
         
-        private GameObject DuplicatePart(GameObject original)
+        private GameObject DuplicatePartForDeath(GameObject original)
         {
            GameObject copy = Instantiate(original.gameObject, original.transform.position, original.transform.rotation);
            copy.AddComponent<DeadBodyPart>();
@@ -348,6 +350,15 @@ namespace Player
             {
                 copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DeadPartVelocityMultiplier;
                 copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DeadPartVelocityMultiplier;
+            }
+
+            if (!original.TryGetComponent<AttachablePart>(out _))
+            {
+                if (copy.TryGetComponent<CreatureBodySegment>(out var segment))
+                    segment.SetMaterial(DeadBodyPartMaterial);
+                else
+                    foreach (MeshRenderer renderer in copy.GetComponentsInChildren<MeshRenderer>())
+                        renderer.material = DeadBodyPartMaterial;
             }
 
             return copy;

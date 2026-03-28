@@ -64,7 +64,7 @@ namespace GameLoop.multiplayer
             if (colorSelection == null || data.colorIndex < 0 || data.colorIndex >= colorSelection.availableColors.Count)
                 return;
 
-            targetPlayer.SetColor(colorSelection.availableColors[data.colorIndex].bodyMaterial, colorSelection.availableColors[data.colorIndex].headMaterial);
+            targetPlayer.SetColor(colorSelection.availableColors[data.colorIndex].bodyMaterial, colorSelection.availableColors[data.colorIndex].headMaterial, colorSelection.availableColors[data.colorIndex].deadMaterial);
 
             // Rebuild the set of taken indices and push to the UI
             HashSet<int> taken = new HashSet<int>(

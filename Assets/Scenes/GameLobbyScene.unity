@@ -3021,8 +3021,10 @@ MonoBehaviour:
   availableColors:
   - bodyMaterial: {fileID: 2100000, guid: 2c6e5a41cae0dcd4f98c69a393492f20, type: 2}
     headMaterial: {fileID: 2100000, guid: 65f51796be7611d4ca035a26294cc74d, type: 2}
+    deadMaterial: {fileID: 2100000, guid: 8f3899a8e788c9448b1158b202f661e6, type: 2}
   - bodyMaterial: {fileID: 2100000, guid: adc4cb6fbe50bbe4081c65fbf22ad1b8, type: 2}
     headMaterial: {fileID: 2100000, guid: cc2d255d5faf6614b86047f2b4a4afca, type: 2}
+    deadMaterial: {fileID: 2100000, guid: cffa86773a224224899755670fb1f001, type: 2}
 --- !u!114 &1979447296
 MonoBehaviour:
   m_ObjectHideFlags: 0
