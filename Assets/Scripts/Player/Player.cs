@@ -281,16 +281,17 @@ namespace Player
             playerSpawning.TryToRespawn();
         }
 
-        public void SetColor(Material material)
+        public void SetColor(Material bodyMaterial, Material headMaterial)
         {
-            wormHead.GetComponent<WormHead>().SetMaterial(material);
+            Debug.Log("setcolor called, head material: " + headMaterial);
+            wormHead.GetComponent<WormHead>().SetMaterial(headMaterial);
 
             foreach (GameObject wormSegment in wormPartsInInventory)
             {
-                wormSegment.GetComponent<CreatureBodySegment>().SetMaterial(material);
+                wormSegment.GetComponent<CreatureBodySegment>().SetMaterial(bodyMaterial);
             }
             
-            GetComponent<WormRenderer>().SetMaterial(material);
+            GetComponent<WormRenderer>().SetMaterial(bodyMaterial);
         }
 
         [ServerRpc(requireOwnership: true)]

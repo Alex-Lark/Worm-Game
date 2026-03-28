@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="kind of updated to use materials but aren't properly synced with multiplayer">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreaturePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreaturePart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSelection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/GameLobby.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ColorSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ColorSync.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/WormHead.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/WormHead.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormRenderer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,15 +238,7 @@
       <workItem from="1773955239467" duration="14000" />
       <workItem from="1774311395709" duration="19062000" />
       <workItem from="1774574244284" duration="3146000" />
-      <workItem from="1774722257770" duration="2984000" />
-    </task>
-    <task id="LOCAL-00050" summary="UI timer works">
-      <option name="closed" value="true" />
-      <created>1762905811749</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1762905811750</updated>
+      <workItem from="1774722257770" duration="4370000" />
     </task>
     <task id="LOCAL-00051" summary="card images and names populate when entering part selection">
       <option name="closed" value="true" />
@@ -637,7 +624,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774579514819</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="different players actually display as different colors">
+      <option name="closed" value="true" />
+      <created>1774726088403</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1774726088403</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -701,7 +696,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="player can spawn and move in mingamescene" />
     <MESSAGE value="trying to get creature part to carry over to minigame." />
     <MESSAGE value="merged partRework to main!" />
     <MESSAGE value="fixing local player registration but still bugs" />
@@ -726,7 +720,8 @@
     <MESSAGE value="username should show once name is properly set up" />
     <MESSAGE value="outline displays for both players, fixed little error in creatureBuilder" />
     <MESSAGE value="kind of updated to use materials but aren't properly synced with multiplayer" />
-    <option name="LAST_COMMIT_MESSAGE" value="kind of updated to use materials but aren't properly synced with multiplayer" />
+    <MESSAGE value="different players actually display as different colors" />
+    <option name="LAST_COMMIT_MESSAGE" value="different players actually display as different colors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
