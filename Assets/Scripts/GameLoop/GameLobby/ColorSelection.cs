@@ -59,7 +59,7 @@ namespace GameLoop.GameLobby
                 return;
             }
             
-            //selectColorButtonColor.color = availableColors[colorIndex].bodyMaterial.GetColor("_Base_Color");
+            selectColorButtonColor.color = availableColors[colorIndex].headMaterial.color;
 
             FindFirstObjectByType<ColorSync>().SendColorUpdate(colorIndex, LocalPlayer.Instance);
             GetComponent<GameLobby>().CloseColorSelectionPanel();
