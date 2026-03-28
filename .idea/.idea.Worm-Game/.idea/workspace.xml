@@ -5,12 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormDeadGreen.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormDeadGreen.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormGreen.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormGreen.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormHeadGreen.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Green/WormHeadGreen.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormDeadMint.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormDeadMint.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormHeadMint.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormHeadMint.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormMint.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Mint/WormMint.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormDeadOrange.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormDeadOrange.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormHeadOrange.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormHeadOrange.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormOrange.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Orange/WormOrange.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormDeadPink.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormDeadPink.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormHeadPink.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormHeadPink.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormPink.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Pink/WormPink.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormDeadPurple.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormDeadPurple.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormHeadPurple.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormHeadPurple.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormPurple.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Purple/WormPurple.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormDeadYellow.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormDeadYellow.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormHeadYellow.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormHeadYellow.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormYellow.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/WormColors/Yellow/WormYellow.mat.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreatureBodySegment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreatureBodySegment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorPair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorPair.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerSpawning.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,11 +81,13 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Materials/WormColors/Blue.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Materials/WormColors/Green.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scenes/GameLobbyScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/GameLobbyScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureBuilder/AxisRotationHandler.cs" root0="FORCE_HIGHLIGHTING" />
@@ -56,14 +96,14 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/DeadBodyPart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CreatureParts/FinPart.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DontDestroyOnLoad.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/ahala/RiderProjects/Worm-Game/Assets/Scripts/GameLoop/GameLobby/ColorPair.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/GameLobby/ColorSync.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Chat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ClientStarter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ColorSync.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkRigidBodyDebugger.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Graphics/OutlineShader.shader" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/DeathScreenUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/LocalPlayer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -240,22 +280,6 @@
       <workItem from="1774311395709" duration="19062000" />
       <workItem from="1774574244284" duration="3146000" />
       <workItem from="1774722257770" duration="5274000" />
-    </task>
-    <task id="LOCAL-00053" summary="can select a card, should add it to player inventory, not yet connected to inventory in creature builder">
-      <option name="closed" value="true" />
-      <created>1762917226572</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1762917226572</updated>
-    </task>
-    <task id="LOCAL-00054" summary="can select parts and they carry over to creature builder">
-      <option name="closed" value="true" />
-      <created>1762918919159</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1762918919159</updated>
     </task>
     <task id="LOCAL-00055" summary="part selection handles multiple parts">
       <option name="closed" value="true" />
@@ -633,7 +657,23 @@
       <option name="project" value="LOCAL" />
       <updated>1774730046815</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="dead body parts have a seperate material">
+      <option name="closed" value="true" />
+      <created>1774731748172</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1774731748172</updated>
+    </task>
+    <task id="LOCAL-00103" summary="added additional coloring">
+      <option name="closed" value="true" />
+      <created>1774732774519</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1774732774519</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -697,8 +737,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixing local player registration but still bugs" />
-    <MESSAGE value="attached parts for client no longer show on host" />
     <MESSAGE value="fixed wing concavity" />
     <MESSAGE value="fixed attached part ownership" />
     <MESSAGE value="fixed parts not spawning for host player" />
@@ -722,7 +760,9 @@
     <MESSAGE value="different players actually display as different colors" />
     <MESSAGE value="Headcolor is properly switched" />
     <MESSAGE value="button color displays properly" />
-    <option name="LAST_COMMIT_MESSAGE" value="button color displays properly" />
+    <MESSAGE value="dead body parts have a seperate material" />
+    <MESSAGE value="added additional coloring" />
+    <option name="LAST_COMMIT_MESSAGE" value="added additional coloring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

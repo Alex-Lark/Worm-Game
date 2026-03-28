@@ -117,6 +117,11 @@ namespace Player
             
             StartCoroutine(SetupAfterSceneLoad());
             player.ActivatePlayer();
+            if (owner != localPlayer)
+            {
+                GetComponent<WormRenderer>().ToggleRenderMode();
+                player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = true;
+            }
         }
         
         public IEnumerator SetWormInCreatureBuilderScene()
@@ -137,6 +142,12 @@ namespace Player
             player.DeactivatePlayer();
             
             FindFirstObjectByType<CreatureBuilder.CreatureBuilder>()?.OnWormReady();
+
+            if (owner != localPlayer)
+            {
+                GetComponent<WormRenderer>().ToggleRenderMode();
+                player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = false;
+            }
         }
         
         #endregion
