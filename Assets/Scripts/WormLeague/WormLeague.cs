@@ -18,6 +18,8 @@ namespace WormLeague
 
         public int teamRedScore = 0;
         public int teamBlueScore = 0;
+
+        public List<GameObject> spawnPoints;
         
         #endregion
         
@@ -33,8 +35,9 @@ namespace WormLeague
         void Start()
         {
             AssignPlayerTeams();
+            AssignPlayerSpawnPoints();
         }
-        
+
         #endregion
         
         #region Public Methods
@@ -107,6 +110,17 @@ namespace WormLeague
                     players.RemoveAt(random);
                 }
             }
+        }
+        
+        private void AssignPlayerSpawnPoints()
+        {
+            Debug.Log("Assigning spawnpoint to player " + localPlayer);
+            //TODO: make it by player, make each spawnpoint assigned only once, maybe go in order of spawnpoints and randomize players so no random positions
+            
+            GameObject spawnpoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+
+            LocalPlayer.Instance.GetComponent<PlayerSpawning>().spawnPoint = spawnpoint.transform.position;
+            LocalPlayer.Instance.GetComponent<PlayerSpawning>().spawnRotation = spawnpoint.transform.rotation;
         }
         
         #endregion
