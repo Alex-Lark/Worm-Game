@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CreatureBuilder;
@@ -22,6 +23,8 @@ namespace Player
         
         private bool isRegistered = false;
         private bool hasBeenSetup = false;
+        
+        public event Action OnWormRespawn;
         
         #endregion
         
@@ -228,6 +231,8 @@ namespace Player
             {
                 return;
             }
+            
+            OnWormRespawn?.Invoke();
             
             player.CurrentState = WormState.Idle;
             if (LocalPlayer.Instance == gameObject.GetComponent<Player>()) player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;

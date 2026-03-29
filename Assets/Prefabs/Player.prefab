@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 7055565703949569848}
   - component: {fileID: 4446911218883556763}
   - component: {fileID: 7348436228205291943}
+  - component: {fileID: 7240195490169425931}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -407,6 +408,7 @@ MonoBehaviour:
   wormJump: {fileID: 0}
   wormHeadBut: {fileID: 0}
   playerTeam: 
+  DeadBodyPartMaterial: {fileID: 0}
 --- !u!120 &4146875160849447740
 LineRenderer:
   serializedVersion: 2
@@ -747,6 +749,18 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
+--- !u!114 &7240195490169425931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3857149077806430327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45dcf54552fa48cdb3bba8e16c59458c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Audio.PlayerAudio
 --- !u!1 &3919673278736660677
 GameObject:
   m_ObjectHideFlags: 0

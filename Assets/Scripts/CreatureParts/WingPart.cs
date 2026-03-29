@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Player;
 using UnityEngine.SocialPlatforms;
@@ -6,6 +7,8 @@ namespace CreatureParts
 {
     public class WingPart : AttachablePart
     {
+        public event Action OnWingFlap;
+        
         [SerializeField] private float baseForce;
         [SerializeField] private float wingForceDebuff;
         [SerializeField] private Transform forcePointA;
@@ -50,6 +53,9 @@ namespace CreatureParts
         private void ApplyThrust()
         {
             if (wormRb == null || savedLaunchDirection == null) return;
+            
+            OnWingFlap?.Invoke();
+            
             if (currentForce >= 0)
             {
                 wormRb.AddForce(savedLaunchDirection * currentForce, ForceMode.Force);

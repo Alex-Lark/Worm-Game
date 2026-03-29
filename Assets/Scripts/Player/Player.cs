@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CreatureParts;
-using JamesFrowen.SimpleWeb;
 using PurrNet;
-using Unity.VisualScripting;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WormLeague;
 
 namespace Player
 {
@@ -33,7 +32,7 @@ namespace Player
         public WormState CurrentState { get; set; }
         
         public bool IsWormGrounded { get; set; }
-        
+        public bool IsWormGroundedBySegments { get; set; }
         public float MaxVelocity { get; set; }
         public bool IsWormJumping => CurrentState == WormState.Jumping;
         public bool IsWormAttacking => CurrentState == WormState.Attacking;
@@ -73,7 +72,27 @@ namespace Player
         
         public Material DeadBodyPartMaterial;
         
+        #endregion
+        
+        #region Events
+        
         public event Action<string> OnPlayerTeamChanged;
+        public event Action OnWormMoveForwardStart;
+        public event Action OnWormMoveForwardEnd;
+        public event Action OnWormJump;
+        
+        public event Action OnWormHeadbutCharge;
+        
+        public event Action OnWormHeadbutLaunch;
+        
+        public event Action OnWormHeadbutHitBall;
+        
+        public event Action OnWormHeadbutHitPlayer;
+        
+        public event Action OnWormHeadbutHitShell;
+        public event Action OnWormHeadbutHitOther;
+        
+        public event Action OnWormDeath;
         
         #endregion
         
@@ -126,12 +145,16 @@ namespace Player
         {
             if (CurrentState == WormState.Dead) return;
             CurrentState = WormState.Moving;
+            
+            OnWormMoveForwardStart?.Invoke();
         }
         
         public void StopWormMoving()
         {
             if (CurrentState == WormState.Dead) return;
             CurrentState = WormState.Idle;
+            
+            OnWormMoveForwardEnd?.Invoke();
         }
         
         public void MoveForward()
@@ -171,6 +194,23 @@ namespace Player
                 if ((CurrentState == WormState.Attacking || CurrentState == WormState.AttackCooldown))
                 {
                     collisionForce *= GameParameters.HeadbutDamageReductionOnHead;
+
+                    if (other.gameObject.GetComponent<Ball>() != null)
+                    {
+                        OnWormHeadbutHitBall?.Invoke();
+                    }
+                    else if (other.gameObject.GetComponent<ShellPart>() != null)
+                    {
+                        OnWormHeadbutHitShell?.Invoke();
+                    }
+                    else if (other.gameObject.GetComponent<CreaturePart>() != null)
+                    {
+                        OnWormHeadbutHitPlayer?.Invoke();
+                    }
+                    else
+                    {
+                        OnWormHeadbutHitOther?.Invoke();
+                    }
                 }
                 else
                 {
@@ -222,6 +262,8 @@ namespace Player
             {
                 part.GetComponent<CreaturePart>().Jump();
             }
+            
+            OnWormJump?.Invoke();
         }
 
         public void Attack()
@@ -263,6 +305,8 @@ namespace Player
             {
                 return;
             }
+            
+            OnWormDeath?.Invoke();
             
             CurrentState = WormState.Dead;
             if (isOwner) currentPlayerHealth = 0;
@@ -366,9 +410,11 @@ namespace Player
         
         private IEnumerator AttackSequence()
         {
+            OnWormHeadbutCharge?.Invoke();
             yield return new WaitForSeconds(GameParameters.WormHeadbutTime);
             CurrentState = WormState.AttackCooldown;
             wormHeadBut.EndHeadBut();
+            OnWormHeadbutLaunch?.Invoke();
             yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
             CurrentState = WormState.Idle;
         }
@@ -382,9 +428,12 @@ namespace Player
                 if (segment.GetComponent<CreaturePart>().IsGrounded)
                 {
                     IsWormGrounded = true;
+                    IsWormGroundedBySegments = true;
                     return;
                 }
             }
+
+            IsWormGroundedBySegments = false;
 
             foreach (var part in attachedWormParts)
             {
