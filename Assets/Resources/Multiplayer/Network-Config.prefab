@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.Transports.PurrTransport
   _masterServer: https://purrtransport.purrservers.com/
   _roomName: BattleWorms
-  _region: australia
-  _host: purrtransport-australia.purrservers.com
+  _region: nj-us
+  _host: purrtransport-nj-us.purrservers.com
   _timeoutInSeconds: 5
   _pollEventsInUpdate: 0
