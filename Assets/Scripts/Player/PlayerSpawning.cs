@@ -18,6 +18,9 @@ namespace Player
         public Player player;
         public bool canRespawn = true;
         public DeathScreenUI deathScreenUI;
+
+        public Vector3 spawnPoint = new Vector3(0, 2, 0); //default
+        public Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
         
         private Coroutine respawnCoroutine;
         
@@ -138,7 +141,7 @@ namespace Player
             wormPhysics.ResetWormPhysics();
             yield return null;
             wormPhysics.ResetWormOrientation();
-            wormPhysics.PositionWormSegments(new Vector3(0, 2, 0));
+            wormPhysics.PositionWormSegments(spawnPoint);
             yield return null;
             yield return null;
     
@@ -216,8 +219,8 @@ namespace Player
             GetComponent<WormPhysics>().AddCollidersToSegments();
             Debug.Log("added colliders to segments");
             
-            SetWormSpawnPosition(new Vector3(0, 2, 0));
-            SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
+            SetWormSpawnPosition(spawnPoint);
+            SetWormSpawnOrientation(spawnRotation);
             player.wormConstructor.ConstructWorm();
             Debug.Log("constructed worm");
             
@@ -270,8 +273,8 @@ namespace Player
 
             yield return new WaitForFixedUpdate();
             
-            SetWormSpawnPosition(new Vector3(0, 2, 0));
-            SetWormSpawnOrientation(Quaternion.Euler(0, 90, 0));
+            SetWormSpawnPosition(spawnPoint);
+            SetWormSpawnOrientation(spawnRotation);
 
             yield return new WaitForFixedUpdate();
 
