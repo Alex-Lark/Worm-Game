@@ -57,7 +57,11 @@ namespace Player
                 {
                     playerOutline.RemoveHighlight(); 
                 }
-                usernameText.enabled = false;
+
+                if (usernameText != null)
+                {
+                    usernameText.enabled = false;
+                }
             }
         }
 
