@@ -306,7 +306,7 @@ MonoBehaviour:
   _maxHardCorrectionMultiplier: 5
   _lowSpeedThreshold: 1.5
   _lowSpeedSpringMultiplier: 0.1
-  _extrapolateBasedOnPing: 0
+  _extrapolateBasedOnPing: 1
   _positionChangeThreshold: 0.001
   _rotationChangeThreshold: 0.001
   _velocityStopThreshold: 0.001
