@@ -47,14 +47,17 @@ namespace CreatureParts
         
         protected override void OnSpawned(bool asServer)
         {
-            if (asServer) return;
-            if (owner != null) return;
+            if (!asServer) return;
+            
+            if (owner != null)
+            {
+                return;
+            }
 
             var parentPlayer = GetComponentInParent<Player.Player>();
 
             if (parentPlayer == null)
             {
-                GiveOwnership(localPlayer);
                 return;
             }
 
@@ -72,30 +75,36 @@ namespace CreatureParts
         {
             Player.Player parentPlayer = null;
             PlayerID? parentOwner = null;
-    
+
             float elapsed = 0f;
             while (elapsed < 3f)
             {
                 parentPlayer = GetComponentInParent<Player.Player>();
-                if (parentPlayer != null && parentPlayer.owner != null)
+
+                if (parentPlayer != null && parentPlayer.owner.HasValue)
                 {
                     parentOwner = parentPlayer.owner;
                     break;
                 }
+
                 yield return new WaitForSeconds(0.1f);
                 elapsed += 0.1f;
             }
-    
+
             if (parentOwner == null)
             {
-                Debug.LogError($"WaitForParentAndClaimOwnership timed out on {gameObject.name}");
                 yield break;
             }
-    
+
             if (owner == null)
             {
                 GiveOwnership(parentOwner.Value);
             }
+        }
+
+        protected override void OnOwnerChanged(PlayerID? previousOwner, PlayerID? newOwner, bool asServer)
+        {
+            Debug.Log($"[WormSegment] OnOwnerChanged '{gameObject.name}' | asServer={asServer} | prev={previousOwner} | new={newOwner}");
         }
 
         #endregion

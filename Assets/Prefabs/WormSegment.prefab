@@ -125,7 +125,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 8861576847873918583}]
+  m_Children:
+  - {fileID: 8861576847873918583}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2783334050650616454
@@ -259,8 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37c1d747845f75488f350baea6781eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormBodySegment
-  previousSegment: {fileID: 0}
-  nextSegment: {fileID: 0}
   _isSetup: 0
   _prefabId: -2147483648
   _componentIndex: -2147483648
@@ -270,6 +269,8 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
+  previousSegment: {fileID: 0}
+  nextSegment: {fileID: 0}
 --- !u!114 &7490919322442053948
 MonoBehaviour:
   m_ObjectHideFlags: 0
