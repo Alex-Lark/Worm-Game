@@ -17,6 +17,7 @@ public class Network : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public UDPTransport udpTransport;
+    public PurrTransport purrTransport;
     public NetworkManager manager;
     
     public static Network instance;
@@ -40,7 +41,8 @@ public class Network : MonoBehaviour
 
     public void StartServer()
     {
-        targetAddress = "127.0.0.1";
+        //targetAddress = "127.0.0.1"; //uncomment this for UDP transport
+        targetAddress = "BattleWorms";
         StartCommon();
         manager.StartHost();
     }
@@ -62,17 +64,29 @@ public class Network : MonoBehaviour
             pinger = gameObject.GetOrAddComponent<SimplePing>();
 
             manager = networkObject.GetComponent<NetworkManager>();
-            udpTransport = manager.transport as UDPTransport;
-            if (udpTransport == null)
+            
+            if (manager.transport as UDPTransport != null)
             {
-                Debug.LogError("No UDP Transport found");
+                udpTransport = manager.transport as UDPTransport;
+                
+                if(targetAddress==""||targetAddress==null)targetAddress = "127.0.0.1";
+                instance.udpTransport.address = targetAddress;
+                udpTransport.serverPort = 5001;
+            }
+            else if (manager.transport as PurrTransport != null)
+            {
+                purrTransport = manager.transport as PurrTransport;
+                
+                if(targetAddress==""||targetAddress==null)targetAddress = "BattleWorms";
+                instance.purrTransport.roomName = targetAddress;
+            }
+            else
+            {
+                Debug.LogError("No transport found");
                 return;
             }
 
             DontDestroyOnLoad(networkObject);
-            if(targetAddress==""||targetAddress==null)targetAddress = "127.0.0.1";
-            instance.udpTransport.address = targetAddress;
-            udpTransport.serverPort = 5001;
             DontDestroyOnLoad(gameObject);
 
             manager.onClientConnectionState += OnNetworkChangeScene;
