@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Player;
@@ -12,6 +13,8 @@ namespace CreatureParts
         public float fireCooldown = 0.5f;
         public float shootForce = 20f;
         public KeyCode shootKey = KeyCode.R;
+        
+        public event Action OnCannonShoot;
         
         private float lastFireTime;
         private Rigidbody wormRb;
@@ -39,6 +42,8 @@ namespace CreatureParts
 
         void Shoot()
         {
+            OnCannonShoot?.Invoke();
+            
             GameObject projectile = Instantiate(
                 projectilePrefab,
                 firePoint.position,

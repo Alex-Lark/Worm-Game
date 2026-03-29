@@ -1049,6 +1049,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 06f0e55c79aaacd4793489290ae5cb14, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6960705753643321419}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 06f0e55c79aaacd4793489290ae5cb14, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 664028960619807266}
     - targetCorrespondingSourceObject: {fileID: 4546523211590101795, guid: 06f0e55c79aaacd4793489290ae5cb14, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1786622629667972419}
@@ -1125,6 +1128,9 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   defaultConnectedAnchor: {x: 0, y: 0, z: 0}
+  attachmentPosition: {x: 0, y: 0, z: 0}
+  attachmentRotation: {x: 0, y: 0, z: 0, w: 0}
+  attachedSegmentRigidbody: {fileID: 0}
   baseForce: 50000
   wingForceDebuff: 10000
   forcePointA: {fileID: 4298025189571550206}
@@ -1251,6 +1257,18 @@ MonoBehaviour:
   _velocityStopThreshold: 0.001
   _debugGizmos: 0
   _debugTextOffset: 2
+--- !u!114 &664028960619807266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4188776169906599648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98cd8a9810714f2a852a2741347b5e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Audio.WingAudio
 --- !u!137 &6611194175638917446 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7881090960832895735, guid: 06f0e55c79aaacd4793489290ae5cb14, type: 3}

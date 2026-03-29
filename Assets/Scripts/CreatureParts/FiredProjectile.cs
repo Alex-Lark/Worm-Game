@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CreatureParts
@@ -5,6 +6,8 @@ namespace CreatureParts
     public class FiredProjectile : MonoBehaviour
     {
         private bool canCollide = false;
+        
+        public event Action OnProjectileHit;
 
         void Start()
         {
@@ -21,6 +24,11 @@ namespace CreatureParts
         {
             if (!canCollide) return;
 
+            if (collision.gameObject.GetComponent<CreaturePart>() != null)
+            {
+                OnProjectileHit?.Invoke();
+            }
+            
             Destroy(gameObject);
         }
     }

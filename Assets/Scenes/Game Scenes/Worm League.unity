@@ -669,6 +669,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 881868971}
+    - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 881868972}
     - targetCorrespondingSourceObject: {fileID: -3111565609762313623, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 99382446}
@@ -1117,6 +1120,8 @@ MonoBehaviour:
   wormHeadCopy: {fileID: 0}
   wormJump: {fileID: 0}
   wormHeadBut: {fileID: 0}
+  playerTeam: 
+  DeadBodyPartMaterial: {fileID: 0}
 --- !u!1 &218510798
 GameObject:
   m_ObjectHideFlags: 0
@@ -2523,6 +2528,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
+--- !u!114 &881868972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881868966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2dafa4e17e4353a28784b9dff14885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Audio.GoalAudio
 --- !u!1 &897926600
 GameObject:
   m_ObjectHideFlags: 0
@@ -4811,6 +4828,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
+--- !u!114 &1633888302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633888296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2dafa4e17e4353a28784b9dff14885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Audio.GoalAudio
 --- !u!1 &1697546251
 GameObject:
   m_ObjectHideFlags: 0
@@ -5709,6 +5738,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1633888301}
+    - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1633888302}
     - targetCorrespondingSourceObject: {fileID: -3111565609762313623, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1981044339}
