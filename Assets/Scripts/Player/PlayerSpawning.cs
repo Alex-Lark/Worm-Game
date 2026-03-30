@@ -14,30 +14,31 @@ namespace Player
     public class PlayerSpawning : NetworkBehaviour
     {
         #region public variables
-        
+
         public Player player;
         public bool canRespawn = true;
         public DeathScreenUI deathScreenUI;
 
-        public Vector3 spawnPoint = new Vector3(0, 2, 0); //default
-        public Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
-        
+        private Vector3 spawnPoint = new Vector3(0, 2, 0); //default
+        private Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
+
         private Coroutine respawnCoroutine;
-        
+
         private bool isRegistered = false;
         private bool hasBeenSetup = false;
-        
+        private bool spawnPointSet = false;
+
         public event Action OnWormRespawn;
-        
+
         #endregion
-        
+
         #region Built-In Methods
-        
+
         void Start()
         {
             player = GetComponent<Player>();
             player.playerSpawning = this;
-            
+
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -46,7 +47,7 @@ namespace Player
                 LocalPlayer.Instance.canDie = true;
             }
         }
-        
+
         protected override void OnSpawned(bool asServer)
         {
             if (asServer)
@@ -74,22 +75,31 @@ namespace Player
                 StartCoroutine(FindAndSetupRemoteWorm());
             }
         }
-        
+
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-        
-        protected override void OnDespawned() {
+
+        protected override void OnDespawned()
+        {
             LocalPlayer.Unregister(player);
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-        
+
         #endregion
 
         #region Public Methods
 
-        public void TryToRespawn()
+        public void SetSpawnPoint(GameObject inputSpawnpoint)
+        {
+            spawnPoint = inputSpawnpoint.transform.position;
+            spawnRotation = inputSpawnpoint.transform.rotation;
+            spawnPointSet = true;
+            Debug.Log("spawnpoint set with position: " + spawnPoint + " ,rotation: " + spawnRotation);
+        }
+
+    public void TryToRespawn()
         {
             if (canRespawn && GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
@@ -125,7 +135,7 @@ namespace Player
             player.ActivatePlayer();
             if (owner != localPlayer)
             {
-                GetComponent<WormRenderer>().ToggleRenderMode();
+                GetComponent<WormRenderer>().EnableRendering();
                 player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = true;
             }
         }
@@ -151,7 +161,7 @@ namespace Player
 
             if (owner != localPlayer)
             {
-                GetComponent<WormRenderer>().ToggleRenderMode();
+                GetComponent<WormRenderer>().DisableRendering();
                 player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = false;
             }
         }
@@ -177,6 +187,7 @@ namespace Player
         private IEnumerator WaitForSegmentsThenSetup()
         {
             Debug.Log("waiting for segments then setting up");
+            
             float elapsed = 0f;
             while (player.wormBodySegments.Count < player.WormSegmentCount && elapsed < 3f)
             {
@@ -190,6 +201,16 @@ namespace Player
                 Debug.LogError("WaitForSegmentsThenSetup timed out.");
                 yield break;
             }
+            
+            elapsed = 0f;
+            while (!spawnPointSet && elapsed < 5f)
+            {
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+
+            if (!spawnPointSet)
+                Debug.LogWarning("WaitForSegmentsThenSetup: spawn point was never set, using default.");
 
             player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
             player.wormConstructor.ConstructWorm();
@@ -294,6 +315,7 @@ namespace Player
         
         private void SetWormSpawnPosition(Vector3 spawnPosition)
         {
+            Debug.Log("spawning with position: " + spawnPosition);
             if (player.wormHead == null) return;
         
             player.wormHead.position = spawnPosition;

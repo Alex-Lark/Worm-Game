@@ -382,14 +382,18 @@ namespace Player
             if (lineRenderer != null)
                 lineRenderer.material = newMaterial;
         }
-        
-        public void ToggleRenderMode()
-        {
-            meshRenderer.enabled = !meshRenderer.enabled;
-            lineRenderer.enabled = !lineRenderer.enabled;
 
-            if (lineRenderer.enabled)
-                UpdateLineRenderer();
+        public void DisableRendering()
+        {
+            meshRenderer.enabled = false;
+            lineRenderer.enabled = false;
+        }
+        
+        public void EnableRendering()
+        {
+            meshRenderer.enabled = true;
+            lineRenderer.enabled = true;
+            UpdateLineRenderer();
         }
 
         void UpdateLineRenderer()
