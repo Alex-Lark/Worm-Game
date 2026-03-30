@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="color selection updates implemented">
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/FiredProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/FiredProjectile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/projectile object.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/ProjectilePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/ProjectilePart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
