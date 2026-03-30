@@ -119,8 +119,7 @@ namespace WormLeague
             
             GameObject spawnpoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().spawnPoint = spawnpoint.transform.position;
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().spawnRotation = spawnpoint.transform.rotation;
+            LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
         }
         
         #endregion
