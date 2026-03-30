@@ -15,6 +15,9 @@ TagManager:
   - RecordingCamera
   - RecordingCamera2
   - RecordingCamera3
+  - GameplayCamera
+  - RecordingCamera4
+  - RecordingCamera5
   layers:
   - Default
   - TransparentFX
