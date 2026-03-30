@@ -43,7 +43,8 @@ namespace Player
         #endregion
         
         #region public variables
-    
+
+        public PlayerRegister.PlayerData RegisterData;
         public int playerScore = 1;
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
