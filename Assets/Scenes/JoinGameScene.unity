@@ -1032,6 +1032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Network
   udpTransport: {fileID: 0}
+  purrTransport: {fileID: 0}
   manager: {fileID: 0}
 --- !u!1 &1018748066
 GameObject:
@@ -1288,7 +1289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1145557114
 RectTransform:
   m_ObjectHideFlags: 0
