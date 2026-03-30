@@ -135,7 +135,7 @@ namespace Player
             player.ActivatePlayer();
             if (owner != localPlayer)
             {
-                GetComponent<WormRenderer>().ToggleRenderMode();
+                GetComponent<WormRenderer>().EnableRendering();
                 player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = true;
             }
         }
@@ -161,7 +161,7 @@ namespace Player
 
             if (owner != localPlayer)
             {
-                GetComponent<WormRenderer>().ToggleRenderMode();
+                GetComponent<WormRenderer>().DisableRendering();
                 player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = false;
             }
         }
