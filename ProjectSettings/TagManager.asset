@@ -14,6 +14,7 @@ TagManager:
   - Axis
   - RecordingCamera
   - RecordingCamera2
+  - RecordingCamera3
   layers:
   - Default
   - TransparentFX
