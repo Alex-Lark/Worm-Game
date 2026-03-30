@@ -2224,6 +2224,7 @@ GameObject:
   - component: {fileID: 696448391}
   - component: {fileID: 696448390}
   - component: {fileID: 696448389}
+  - component: {fileID: 696448392}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -2239,8 +2240,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696448387}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000018531306, y: 0.47241542, z: 0.0000000011155485, w: 0.8813761}
-  m_LocalPosition: {x: -9.13, y: 0, z: -3.0699997}
+  m_LocalRotation: {x: 0.00000007429444, y: 0.4724155, z: -0.000000039821654, w: 0.88137597}
+  m_LocalPosition: {x: -9.13, y: 0, z: -3.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2298,7 +2299,7 @@ MonoBehaviour:
     Position: {x: 0, y: 0, z: 0}
     Angular: 0
   AutomaticDolly:
-    Enabled: 1
+    Enabled: 0
     Method:
       rid: 5804863504631726433
   m_LegacyPosition: -1
@@ -2354,6 +2355,20 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &696448392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696448387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fbba9ea71445143ba1e891f465b301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Graphics.SplineDollyController
+  isPlaying: 0
+  playbackSpeed: 0.05
 --- !u!1 &777482711
 GameObject:
   m_ObjectHideFlags: 0
