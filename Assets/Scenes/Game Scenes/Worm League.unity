@@ -349,8 +349,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62629972}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25340134, y: 9.333576e-16, z: -5.7357986e-18, w: 0.9673613}
-  m_LocalPosition: {x: 0, y: 4.25, z: -4}
+  m_LocalRotation: {x: 0.00000004683468, y: -0.81200933, z: 0.00000006515986, w: 0.58364457}
+  m_LocalPosition: {x: 9.13, y: 0, z: 6.0699997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6889,7 +6889,17 @@ MonoBehaviour:
   ball: {fileID: 1437217770}
   teamRedScore: 0
   teamBlueScore: 0
-  spawnPoints: []
+  spawnPoints:
+  - {fileID: 1136558888}
+  - {fileID: 552214789}
+  - {fileID: 1615075564}
+  - {fileID: 222876205}
+  - {fileID: 462658579}
+  - {fileID: 1126669340}
+  - {fileID: 177755187}
+  - {fileID: 1354218178}
+  - {fileID: 1238098124}
+  - {fileID: 797430688}
 --- !u!4 &1950704530
 Transform:
   m_ObjectHideFlags: 0
