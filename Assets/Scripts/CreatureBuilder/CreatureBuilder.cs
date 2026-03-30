@@ -347,5 +347,12 @@ namespace CreatureBuilder
         }
         
         #endregion
+        
+        public void Skip()
+        {
+            GameLoop.GameLoop.gameLoopTimer.Skip();
+        }
     }
+    
+   
 }

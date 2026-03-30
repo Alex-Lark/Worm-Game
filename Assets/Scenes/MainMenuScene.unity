@@ -1557,7 +1557,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1491167029}
         m_TargetAssemblyTypeName: Player.UsernameSaving, Assembly-CSharp
         m_MethodName: SaveUsername
         m_Mode: 1
@@ -2820,7 +2820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a57f35c2b8c981498d9dd9627ef2b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.UsernameSaving
-  usernameInputField: {fileID: 0}
+  usernameInputField: {fileID: 538928455}
 --- !u!4 &1491167030
 Transform:
   m_ObjectHideFlags: 0

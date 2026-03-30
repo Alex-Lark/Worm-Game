@@ -255,6 +255,11 @@ namespace GameLoop
             }
         }
 
+        public void Skip()
+        {
+            ServerTime = 1;
+        }
+
         public override void Subscribe(NetworkManager manager, bool asServer)
         {
             manager.Subscribe<TimePacket>(SyncClock, asServer);
