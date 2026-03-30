@@ -5,7 +5,6 @@ using CreatureParts;
 using Player;
 using PurrNet;
 using Unity.Cinemachine;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace CreatureBuilder
