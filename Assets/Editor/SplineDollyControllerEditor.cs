@@ -9,28 +9,24 @@ namespace Editor
     {
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
-
             SplineDollyController controller = (SplineDollyController)target;
+
+            controller.playbackSpeed = EditorGUILayout.FloatField("Speed", controller.playbackSpeed);
+            controller.autoPlayOnStart = EditorGUILayout.Toggle("Auto Play On Start", controller.autoPlayOnStart);
+            controller.endBehaviour = (EndBehaviour)EditorGUILayout.EnumPopup("End Behaviour", controller.endBehaviour);
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Dolly Playback", EditorStyles.boldLabel);
 
-            // Playback speed field
-            controller.playbackSpeed = EditorGUILayout.FloatField("Speed", controller.playbackSpeed);
-
             EditorGUILayout.BeginHorizontal();
 
-            // Play button (green tint when active)
             GUI.backgroundColor = controller.isPlaying ? Color.green : Color.white;
             if (GUILayout.Button("▶  Play"))
             {
                 controller.Play();
-                // Drive Update() in edit mode
                 EditorApplication.update += ForceRepaint;
             }
 
-            // Stop button
             GUI.backgroundColor = !controller.isPlaying ? Color.yellow : Color.white;
             if (GUILayout.Button("⏹  Stop"))
             {
@@ -38,7 +34,6 @@ namespace Editor
                 EditorApplication.update -= ForceRepaint;
             }
 
-            // Reset button
             GUI.backgroundColor = Color.cyan;
             if (GUILayout.Button("↺  Reset"))
             {
@@ -49,14 +44,12 @@ namespace Editor
             GUI.backgroundColor = Color.white;
             EditorGUILayout.EndHorizontal();
 
-            // Mark dirty so the scene updates
             if (controller.isPlaying)
                 EditorUtility.SetDirty(controller);
         }
 
         private void ForceRepaint()
         {
-            // Tick the controller manually in edit mode
             SplineDollyController controller = (SplineDollyController)target;
             if (controller != null && controller.isPlaying)
             {
