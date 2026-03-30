@@ -392,7 +392,6 @@ namespace Player
         public void EnableRendering()
         {
             meshRenderer.enabled = true;
-            lineRenderer.enabled = true;
             UpdateLineRenderer();
         }
 
