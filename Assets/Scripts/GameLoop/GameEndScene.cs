@@ -14,19 +14,19 @@ namespace GameLoop
 
         private void ShowWinner()
         {
-            Player.Player topPlayer = null;
+            PlayerRegister.PlayerData topPlayer = new PlayerRegister.PlayerData();
             int highestScore = int.MinValue;
 
-            foreach (Player.Player player in GameLoop.Instance.players)
+            foreach (PlayerRegister.PlayerData player in PlayerRegister.Players.Values)
             {
-                if (player.playerScore > highestScore)
+                if (player.score > highestScore)
                 {
-                    highestScore = player.playerScore;
+                    highestScore = player.score;
                     topPlayer = player;
                 }
             }
 
-            gameEndText.GetComponent<TextMeshProUGUI>().text = "Winner: " + topPlayer.PlayerName;
+            gameEndText.GetComponent<TextMeshProUGUI>().text = "Winner: " + topPlayer.name;
         }
     }
 }

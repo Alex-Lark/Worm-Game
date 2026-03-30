@@ -44,20 +44,20 @@ namespace WormLeague
 
         public void OnGoalScored(string team)
         {
-            Player.Player scoringPlayer = ball.LastTouchingPlayer;
-            scoringPlayer.playerScore += 1;
+            PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
+            scoringPlayer.score += 1;
             ball.Reset();
             
             if (team == "blue")
             {
                 teamRedScore++;
-                wormLeagueUI.GoalScored("red", scoringPlayer.PlayerName);
+                wormLeagueUI.GoalScored("red", scoringPlayer.name);
 
             }
             else if (team == "red")
             {
                 teamBlueScore++;
-                wormLeagueUI.GoalScored("blue", scoringPlayer.PlayerName);
+                wormLeagueUI.GoalScored("blue", scoringPlayer.name);
             }
         }
 
@@ -119,8 +119,7 @@ namespace WormLeague
             
             GameObject spawnpoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().spawnPoint = spawnpoint.transform.position;
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().spawnRotation = spawnpoint.transform.rotation;
+            LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
         }
         
         #endregion
