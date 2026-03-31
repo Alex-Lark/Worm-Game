@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="" />
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -219,15 +221,7 @@
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
       <workItem from="1774781339276" duration="2668000" />
-      <workItem from="1774921750803" duration="1154000" />
-    </task>
-    <task id="LOCAL-00032" summary="worm movement feels pretty good with improved joint">
-      <option name="closed" value="true" />
-      <created>1761704995643</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1761704995643</updated>
+      <workItem from="1774921750803" duration="2472000" />
     </task>
     <task id="LOCAL-00033" summary="worm headbut mostly working">
       <option name="closed" value="true" />
@@ -613,7 +607,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774928357190</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Second push">
+      <option name="closed" value="true" />
+      <created>1774935847179</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1774935847179</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -646,7 +648,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="wormLeague wip" />
     <MESSAGE value="worm orientation resets when going back to creature builder" />
     <MESSAGE value="can move parts from a previous round around" />
     <MESSAGE value="code better organized" />
@@ -671,7 +672,8 @@
     <MESSAGE value="Lloyd head and parts" />
     <MESSAGE value="New Mesh change" />
     <MESSAGE value="Head Fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Head Fixed" />
+    <MESSAGE value="Second push" />
+    <option name="LAST_COMMIT_MESSAGE" value="Second push" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
