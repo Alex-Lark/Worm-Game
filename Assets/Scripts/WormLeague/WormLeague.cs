@@ -35,6 +35,11 @@ namespace WormLeague
     
         void Start()
         {
+            if (!isHost && !isServer)
+            {
+                Destroy(this);
+                return;
+            }
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
         }
@@ -47,6 +52,7 @@ namespace WormLeague
         {
             PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
             scoringPlayer.score += 1;
+            
             ball.Reset();
             
             if (team == "blue")
@@ -60,6 +66,8 @@ namespace WormLeague
                 teamBlueScore++;
                 wormLeagueUI.GoalScored("blue", scoringPlayer.name);
             }
+
+            PlayerRegister.Players[scoringPlayer.playerID] = scoringPlayer;
         }
 
         public void OnDestroy()
@@ -75,6 +83,8 @@ namespace WormLeague
                 {
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 10;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
+                    
                 }
             }
             else if (teamRedScore < teamBlueScore)
@@ -83,6 +93,7 @@ namespace WormLeague
                 {
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 10;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
                 }
             }
             else
@@ -91,11 +102,15 @@ namespace WormLeague
                 {
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 5;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
+                    
                 }
                 foreach (PlayerID player in teamRed)
                 {
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 5;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
+                    
                 }
             }
         }

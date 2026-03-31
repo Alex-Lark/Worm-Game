@@ -52,6 +52,7 @@ namespace Player
             {
                 Debug.Log("switched to game lobby in username saving, username: " + username);
                 LocalPlayer.Instance.PlayerName = username;
+                LocalPlayer.Instance.playerID = Network.instance.manager.localPlayer;
 
                 StartCoroutine(WaitToDestroy());
             }

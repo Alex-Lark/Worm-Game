@@ -7,6 +7,13 @@ namespace WormLeague
 {
     public class Ball : NetworkBehaviour
     {
+        void Start()
+        {
+            if (!isServer && !isHost)
+            {
+                Destroy(this);
+            }
+        }
         public Player.Player LastTouchingPlayer { get; private set; }
 
         protected override void OnSpawned(bool asServer)
