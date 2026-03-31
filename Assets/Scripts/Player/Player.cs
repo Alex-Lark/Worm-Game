@@ -141,6 +141,15 @@ namespace Player
         
         public void ActivatePlayer() => isPlayerActive = true;
         public void DeactivatePlayer() => isPlayerActive = false;
+
+
+        public void SetPlayernameFromLobby(string username, PlayerID playerID)
+        {
+            if (playerID == owner)
+            {
+                PlayerName = username;
+            }
+        }
         
         public void StartWormMoving()
         {

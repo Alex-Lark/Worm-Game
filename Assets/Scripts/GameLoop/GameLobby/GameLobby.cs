@@ -137,6 +137,11 @@ namespace GameLoop.GameLobby
             {
                 if(player.Value.isDisconected)continue;
                 Debug.Log("Player register name: " + player.Value.name);
+
+                foreach (Player.Player playerObject in FindObjectsByType<Player.Player>(FindObjectsSortMode.None))
+                {
+                    playerObject.SetPlayernameFromLobby(player.Value.name, player.Key);
+                }
                 
                 GameObject textObject = Instantiate(playerUsernameTextPrefab, playerList.transform);
                 TextMeshProUGUI tmpText = textObject.GetComponent<TextMeshProUGUI>();
