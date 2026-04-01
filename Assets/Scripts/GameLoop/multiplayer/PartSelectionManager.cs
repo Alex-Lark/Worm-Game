@@ -83,8 +83,11 @@ public class PartSelectionManager : PurrMonoBehaviour
     private (int, int) Pick2RandomCards()
     {
         int card1Index = Random.Range(0, GameLoop.GameLoop.Instance.partCards.Count);
-        int card2Index = Random.Range(0, GameLoop.GameLoop.Instance.partCards.Count);
-
+        int card2Index = Random.Range(0, GameLoop.GameLoop.Instance.partCards.Count - 1);
+        
+        if (card2Index >= card1Index)
+            card2Index++;
+        
         return (card1Index, card2Index);
     }
 
