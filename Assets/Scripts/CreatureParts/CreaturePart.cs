@@ -174,6 +174,14 @@ namespace CreatureParts
         private void OnCollisionEnter(Collision other)
         {
             if (LocalPlayer.Instance == null) return;
+
+            if ((other.gameObject.GetComponent<CreaturePart>() != null) &&
+                (other.gameObject.GetComponent<CreaturePart>().owner != owner))
+            {
+                Player.Player thisPlayer = gameObject.GetComponentInParent<Player.Player>();
+                Player.Player otherPlayer = other.gameObject.GetComponentInParent<Player.Player>();
+                Debug.Log("collision with other player. This player: " + thisPlayer.PlayerName + " Other player: " + otherPlayer.PlayerName + " force: " + other.impulse.magnitude);
+            }
     
             bool isMySegment = LocalPlayer.Instance.wormBodySegments.Any(s => s.gameObject == gameObject)
                                || LocalPlayer.Instance.wormHead.gameObject == gameObject
