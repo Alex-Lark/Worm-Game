@@ -20,6 +20,7 @@ namespace Player
         public DeathScreenUI deathScreenUI;
 
         private Vector3 spawnPoint = new Vector3(0, 2, 0); //default
+        private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, 2, 0);
         private Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
 
         private Coroutine respawnCoroutine;
@@ -151,7 +152,7 @@ namespace Player
             wormPhysics.ResetWormPhysics();
             yield return null;
             wormPhysics.ResetWormOrientation();
-            wormPhysics.PositionWormSegments(spawnPoint);
+            wormPhysics.PositionWormSegments(CreatureBuildingSpawnPoint);
             yield return null;
             yield return null;
     
