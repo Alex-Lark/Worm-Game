@@ -182,7 +182,7 @@ namespace CreatureParts
             {
                 Player.Player thisPlayer = gameObject.GetComponentInParent<Player.Player>();
                 Player.Player otherPlayer = other.gameObject.GetComponentInParent<Player.Player>();
-                Debug.Log("collision with other player. This player: " + thisPlayer.PlayerName + " " + gameObject.name + " Other player: " + otherPlayer.PlayerName + " " + other.gameObject.name + " force: " + other.impulse.magnitude);
+                //Debug.Log("collision with other player. This player: " + thisPlayer.PlayerName + " " + gameObject.name + " Other player: " + otherPlayer.PlayerName + " " + other.gameObject.name + " force: " + other.impulse.magnitude);
             }
 
             LocalPlayer.Instance.DamagePlayer(other, gameObject);
