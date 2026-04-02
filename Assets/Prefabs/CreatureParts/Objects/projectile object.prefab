@@ -120,9 +120,9 @@ MonoBehaviour:
   attachedSegmentRigidbody: {fileID: 0}
   projectilePrefab: {fileID: 7968567117374109913, guid: ea957425f5405434e812a52c7e708f93, type: 3}
   firePoint: {fileID: 3325075056196703905}
-  recoilForce: 1000
+  recoilForce: 500
   fireCooldown: 0.5
-  shootForce: 20
+  shootForce: 1
   shootKey: 114
 --- !u!54 &3071394148231509528
 Rigidbody:

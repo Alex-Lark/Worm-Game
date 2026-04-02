@@ -28,6 +28,8 @@ namespace Player
         [Header("Public Properties")]
 
         public string PlayerName = "";
+
+        public PlayerID playerID;
         
         public WormState CurrentState { get; set; }
         
@@ -104,9 +106,12 @@ namespace Player
         #endregion
     
         #region Built-In Methods
-
+        
+        
         private void FixedUpdate()
         {
+            RegisterData = PlayerRegister.Players[playerID];
+            
             if (!isPlayerActive) return;
             
             SetWormGrounding();

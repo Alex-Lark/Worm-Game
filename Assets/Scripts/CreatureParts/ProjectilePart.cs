@@ -9,9 +9,9 @@ namespace CreatureParts
     { 
         public GameObject projectilePrefab;
         public Transform firePoint;
-        public float recoilForce = 1000f;
+        public float recoilForce = 1f;
         public float fireCooldown = 0.5f;
-        public float shootForce = 20f;
+        public float shootForce = 0.05f;
         public KeyCode shootKey = KeyCode.R;
         
         public event Action OnCannonShoot;
@@ -51,6 +51,7 @@ namespace CreatureParts
             );
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            
 
             if (rb != null)
             {

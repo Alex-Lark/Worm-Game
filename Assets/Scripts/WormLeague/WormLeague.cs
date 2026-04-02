@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using GameLoop;
 using Player;
 using PurrNet;
+using Unity.VisualScripting;
 
 namespace WormLeague
 {
@@ -25,8 +26,8 @@ namespace WormLeague
         
         #region Private Variables
         
-        private List<Player.Player> teamBlue = new List<Player.Player>();
-        private List<Player.Player> teamRed = new List<Player.Player>();
+        private List<PlayerID> teamBlue = new();
+        private List<PlayerID> teamRed = new();
         
         #endregion
         
@@ -34,6 +35,11 @@ namespace WormLeague
     
         void Start()
         {
+            if (!isHost && !isServer)
+            {
+                Destroy(this);
+                return;
+            }
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
         }
@@ -46,6 +52,7 @@ namespace WormLeague
         {
             PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
             scoringPlayer.score += 1;
+            
             ball.Reset();
             
             if (team == "blue")
@@ -59,6 +66,8 @@ namespace WormLeague
                 teamBlueScore++;
                 wormLeagueUI.GoalScored("blue", scoringPlayer.name);
             }
+
+            PlayerRegister.Players[scoringPlayer.playerID] = scoringPlayer;
         }
 
         public void OnDestroy()
@@ -70,16 +79,38 @@ namespace WormLeague
         {
             if (teamRedScore > teamBlueScore)
             {
-                foreach (Player.Player player in teamRed)
+                foreach (PlayerID player in teamRed)
                 {
-                    player.playerScore += 10;
+                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
+                    playerData.score += 10;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
+                    
+                }
+            }
+            else if (teamRedScore < teamBlueScore)
+            {
+                foreach (PlayerID player in teamBlue)
+                {
+                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
+                    playerData.score += 10;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
                 }
             }
             else
             {
-                foreach (Player.Player player in teamBlue)
+                foreach (PlayerID player in teamBlue)
                 {
-                    player.playerScore += 10;
+                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
+                    playerData.score += 5;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
+                    
+                }
+                foreach (PlayerID player in teamRed)
+                {
+                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
+                    playerData.score += 5;
+                    PlayerRegister.Players[playerData.playerID] = playerData;
+                    
                 }
             }
         }
@@ -90,15 +121,13 @@ namespace WormLeague
     
         private void AssignPlayerTeams()
         {
-            List<Player.Player> players = new List<Player.Player>(GameLoop.GameLoop.Instance.players);
 
             //currently this always assigns the first random player to team red, so worm is always red with 1 player
+            List<PlayerID> players = new List<PlayerID>(PlayerRegister.Players.Keys.AsReadOnlyList());
             while (players.Count > 0)
             {
                 int random =  Random.Range(0, players.Count);
                 teamRed.Add(players[random]);
-
-                LocalPlayer.Instance.SetPlayerTeam("red"); //temporary until proper team assignment logic
                 
                 wormLeagueUI.SetTeam("red");
                 players.RemoveAt(random);
