@@ -183,19 +183,13 @@ namespace Player
         {
             if (!isOwner) return;
             
-            if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
-                attachedWormParts.Contains(hitGameObject))
-            {
-                return;
-            }
-            
             float collisionForce = other.impulse.magnitude;
             
             if (other.gameObject.CompareTag("Untagged"))
             {
                 //okay so the source of the mystery damage was in fact walls/ground and not the wings
                 //for now i've just turned it off but if we want fall damage we can do multipliers here
-                return;
+                //return;
             }
 
             if (hitGameObject.GetComponent<WormHead>() != null)
@@ -248,7 +242,7 @@ namespace Player
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
-                Debug.Log("Blunt collision between " + other.gameObject + " and " + hitGameObject);
+                Debug.Log("Blunt collision between " + hitGameObject  + " and " + other.gameObject + " with force: " + collisionForce);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
                 if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
             }
