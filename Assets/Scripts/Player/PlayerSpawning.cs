@@ -157,13 +157,15 @@ namespace Player
     
             player.DeactivatePlayer();
             
-            FindFirstObjectByType<CreatureBuilder.CreatureBuilder>()?.OnWormReady();
+            //FindFirstObjectByType<CreatureBuilder.CreatureBuilder>()?.OnWormReady();
 
             if (owner != localPlayer)
             {
                 GetComponent<WormRenderer>().DisableRendering();
                 player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = false;
             }
+
+            GetComponent<PlayerPartAttachment>().AddAlreadyAttachedParts();
         }
         
         #endregion

@@ -78,11 +78,6 @@ namespace CreatureBuilder
 
         #region public methods
         
-        public void OnWormReady()
-        {
-            StartCoroutine(AddAlreadyAttachedPartsDelayed());
-        }
-        
         public void SwitchFromCardTo3DPart(GameObject cardPrefab, InventoryItem card)
         {
             if (card.infiniteSlot == true)
@@ -134,95 +129,17 @@ namespace CreatureBuilder
             }
         }
         
-        #endregion
-        
-        #region private methods
-        
-        private IEnumerator AddAlreadyAttachedPartsDelayed()
-        {
-            Debug.Log("adding already attached parts, LocalPlayer owner: " + LocalPlayer.Instance.owner);
-            yield return new WaitForEndOfFrame();
-
-            foreach (GameObject part in LocalPlayer.Instance.attachedWormParts)
-            {
-                Debug.Log("adding already attached part " + part.name);
-                AddAlreadyAttachedPart(part);
-            }
-            
-            player.GetComponent<PlayerPartAttachment>().ClearAttachedParts(player);
-        }
-
-        private void AddAlreadyAttachedPart(GameObject part)
-        {
-            var netRb = part.GetComponent<NetworkRigidbody>();
-            if (netRb != null) netRb.enabled = false;
-            
-            PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
-            GameObject prefab = partDraggingComponent.Prefab;
-
-            if (prefab == null)
-            {
-                Debug.LogWarning($"Prefab reference is null for {part.name}");
-                return;
-            }
-    
-            // Check for LegPart component directly
-            LegPart legPart = part.GetComponent<LegPart>();
-            if (legPart != null)
-            {
-                Player.LocalPlayer.Instance.MaxVelocity -= GameParameters.LegMaxVelocityIncrease;
-                legPart.enabled = false;
-            }
-    
-            CreateDuplicatePart(part, prefab);
-        }
-
-        private void CreateDuplicatePart(GameObject part, GameObject prefab)
-        {
-            Vector3 position = part.GetComponent<AttachablePart>().attachmentPosition;
-            Quaternion rotation = part.GetComponent<AttachablePart>().attachmentRotation;
-
-            GameObject newPart = UnityProxy.InstantiateDirectly(prefab, position, rotation);
-            newPart.GetComponent<NetworkRigidbody>().enabled = false;
-            newPart.GetComponent<Rigidbody>().isKinematic = true;
-            newPart.GetComponent<Rigidbody>().useGravity = false;
-            
-            AttachablePart newAttachablePart = newPart.GetComponent<AttachablePart>();
-            AttachablePart oldAttachablePart = part.GetComponent<AttachablePart>();
-            newAttachablePart.attachedSegmentRigidbody = oldAttachablePart.attachedSegmentRigidbody;
-            newAttachablePart.attachmentPosition = oldAttachablePart.attachmentPosition;
-            newAttachablePart.attachmentRotation = oldAttachablePart.attachmentRotation;
-            
-            DontDestroyOnLoad(newPart);
-            newPart.name = prefab.name;
-            newPart.transform.localScale = part.transform.localScale;
-                
-            PartDragging partDragging = newPart.GetComponent<PartDragging>();
-            
-            if (partDragging != null)
-            {
-                partDragging.enabled = true;
-                ResetPartDragging(partDragging);
-                partDragging.Clamp();
-            }
-            
-            LegPart legPart = newPart.GetComponent<LegPart>();
-            if (legPart != null)
-            {
-                legPart.enabled = false;
-            }
-
-            parts.Add(newPart);
-            player.GetComponent<PlayerPartAttachment>().DestroyPart(part);
-        }
-
-        private void ResetPartDragging(PartDragging partDragging)
+        public void ResetPartDragging(PartDragging partDragging)
         {
             partDragging.targetCamera = targetCamera;
             partDragging.creatureBuilderWindow = creatureBuilderWindow;
             partDragging.dragDistance = spawnDistance;
             partDragging.axisVisual.SetActive(false);
         }
+        
+        #endregion
+        
+        #region private methods
 
         private void InitializePrefabMapping()
         {
