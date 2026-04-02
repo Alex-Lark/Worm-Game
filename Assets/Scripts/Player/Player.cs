@@ -110,7 +110,7 @@ namespace Player
         
         private void FixedUpdate()
         {
-            RegisterData = PlayerRegister.Players[playerID];
+            PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
             
             if (!isPlayerActive) return;
             
