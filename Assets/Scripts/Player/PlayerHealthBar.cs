@@ -12,6 +12,7 @@ namespace Player
         {
             slider.maxValue = player.maxPlayerHealth;
             slider.value = player.currentPlayerHealth;
+            player = LocalPlayer.Instance;
             LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
         }
         
