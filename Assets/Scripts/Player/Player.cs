@@ -188,6 +188,12 @@ namespace Player
         {
             if (!isOwner) return;
             
+            if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
+                attachedWormParts.Contains(hitGameObject))
+            {
+                return;
+            }
+            
             float collisionForce = other.impulse.magnitude;
             
             if (other.gameObject.CompareTag("Untagged"))
