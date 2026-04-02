@@ -71,7 +71,6 @@ namespace CreatureBuilder
         private void OnDisable()
         {
             LocalPlayer.Instance.GetComponent<PlayerPartAttachment>().AttachCreatureParts(parts, partPairs);
-            ReturnAllCardsToPlayerInventory();
         }
 
         #endregion
@@ -150,40 +149,6 @@ namespace CreatureBuilder
                 {
                     string cardName = pair.cardPrefab.name;
                     prefabMapping[cardName] = pair.part3DPrefab;
-                }
-            }
-        }
-        
-        public void ReturnAllCardsToPlayerInventory()
-        {
-            Debug.Log("returning all cards");
-            CreatureBuilderPartInventory inventory = FindFirstObjectByType<CreatureBuilderPartInventory>();
-            
-            if (inventory == null)
-            {
-                Debug.LogWarning("Creature builder inventory not found");
-                return;
-            }
-            
-            InventorySlot[] slots = inventory.GetComponentsInChildren<InventorySlot>();
-            
-            foreach (var slot in slots)
-            {
-                if (slot.currentItem != null)
-                {
-                    GameObject cardInstance = slot.currentItem.gameObject;
-                    string cardName = cardInstance.name.Replace("(Clone)", "").Trim();
-                    
-                    foreach (var pair in partPairs)
-                    {
-                        if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
-                        {
-                            Player.LocalPlayer.Instance.wormPartsInInventory.Add(pair.cardPrefab);
-                            break;
-                        }
-                    }
-                    
-                    Destroy(cardInstance);
                 }
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Player;
@@ -20,7 +21,12 @@ namespace CreatureBuilder
             
             StartCoroutine(AddStartingCardsToInventory());
         }
-        
+
+        private void OnDisable()
+        {
+            ReturnAllCardsToPlayerInventory();
+        }
+
         #region public methods
         
         public bool AddCardToInventory(GameObject cardPrefab)
@@ -41,6 +47,7 @@ namespace CreatureBuilder
                 InventoryItem item = cardInstance.GetComponent<InventoryItem>();
                 if (item != null)
                 {
+                    item.prefab = cardPrefab;
                     item.Initialize(emptySlot);
                     emptySlot.SetItem(item);
                     return true;
@@ -87,6 +94,25 @@ namespace CreatureBuilder
 
             return null;
         }
+        
+        private void ReturnAllCardsToPlayerInventory()
+        {
+            Debug.Log("returning all cards");
+            
+            foreach (var slot in slots)
+            {
+                if (slot.currentItem != null)
+                {
+                    GameObject cardInstance = slot.currentItem.gameObject;
+                    var cardPrefab = slot.currentItem.prefab;
+                    
+                    LocalPlayer.Instance.wormPartsInInventory.Add(cardPrefab);
+                    
+                    Destroy(cardInstance);
+                }
+            }
+        }
+        
     }
     
     #endregion

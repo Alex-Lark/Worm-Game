@@ -3670,6 +3670,7 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 1046272548}
   creatureBuilderWindow: {fileID: 22838372}
   creatureBuilderScript: {fileID: 22838376}
+  creatureBuilderPartInventory: {fileID: 1956329622}
   spawnDistance: 5
   partPairs:
   - cardPrefab: {fileID: 6895014049120698220, guid: 9ef4c396336956b4c95236d27c2ee832, type: 3}
@@ -3789,7 +3790,7 @@ GameObject:
   - component: {fileID: 1956329619}
   - component: {fileID: 1956329622}
   m_Layer: 5
-  m_Name: PartList
+  m_Name: PartInventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
