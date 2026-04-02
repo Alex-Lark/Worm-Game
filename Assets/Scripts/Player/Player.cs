@@ -110,7 +110,12 @@ namespace Player
         
         private void FixedUpdate()
         {
+<<<<<<< Updated upstream
             RegisterData = PlayerRegister.Players[playerID];
+=======
+            PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
+            Debug.Log(PlayerRegister.Players.Count);
+>>>>>>> Stashed changes
             
             if (!isPlayerActive) return;
             
