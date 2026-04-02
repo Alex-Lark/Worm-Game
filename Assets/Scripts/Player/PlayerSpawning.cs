@@ -145,7 +145,6 @@ namespace Player
         {
             LocalPlayer.Instance.canDie = false;
             Debug.Log("setting worm in creature builder");
-            yield return new WaitForSeconds(0.2f);
             yield return null;
     
             var wormPhysics = GetComponent<WormPhysics>();
@@ -209,7 +208,7 @@ namespace Player
                 yield return new WaitForSeconds(0.1f);
                 elapsed += 0.1f;
             }
-
+            
             if (!spawnPointSet)
                 Debug.LogWarning("WaitForSegmentsThenSetup: spawn point was never set, using default.");
 

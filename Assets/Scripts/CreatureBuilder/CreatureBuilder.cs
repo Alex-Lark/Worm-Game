@@ -142,8 +142,6 @@ namespace CreatureBuilder
         {
             Debug.Log("adding already attached parts, LocalPlayer owner: " + LocalPlayer.Instance.owner);
             yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForSeconds(0.5f);
 
             foreach (GameObject part in LocalPlayer.Instance.attachedWormParts)
             {
@@ -181,11 +179,10 @@ namespace CreatureBuilder
 
         private void CreateDuplicatePart(GameObject part, GameObject prefab)
         {
-            Vector3 worldPosition = part.transform.position;
-            Quaternion worldRotation = part.transform.rotation;
-            Vector3 worldScale = part.transform.lossyScale;
+            Vector3 position = part.GetComponent<AttachablePart>().attachmentPosition;
+            Quaternion rotation = part.GetComponent<AttachablePart>().attachmentRotation;
 
-            GameObject newPart = UnityProxy.InstantiateDirectly(prefab, worldPosition, worldRotation);
+            GameObject newPart = UnityProxy.InstantiateDirectly(prefab, position, rotation);
             newPart.GetComponent<NetworkRigidbody>().enabled = false;
             newPart.GetComponent<Rigidbody>().isKinematic = true;
             newPart.GetComponent<Rigidbody>().useGravity = false;
@@ -198,7 +195,7 @@ namespace CreatureBuilder
             
             DontDestroyOnLoad(newPart);
             newPart.name = prefab.name;
-            newPart.transform.localScale = worldScale;
+            newPart.transform.localScale = part.transform.localScale;
                 
             PartDragging partDragging = newPart.GetComponent<PartDragging>();
             
