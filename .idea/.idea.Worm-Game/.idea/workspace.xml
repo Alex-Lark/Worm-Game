@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="color selection updates implemented">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreaturePart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CreatureParts/CreaturePart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/WormConstructor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/WormConstructor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerHealthBar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerHealthBar.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,14 +242,6 @@
       <workItem from="1774574244284" duration="3146000" />
       <workItem from="1774722257770" duration="5274000" />
       <workItem from="1774996338803" duration="2551000" />
-    </task>
-    <task id="LOCAL-00055" summary="part selection handles multiple parts">
-      <option name="closed" value="true" />
-      <created>1762922351793</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1762922351793</updated>
     </task>
     <task id="LOCAL-00056" summary="wormLeague wip">
       <option name="closed" value="true" />
@@ -637,7 +627,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774732774519</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="added better debug logging, need to fix healthBar linking">
+      <option name="closed" value="true" />
+      <created>1775152070054</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1775152070054</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,7 +688,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed attached part ownership" />
     <MESSAGE value="fixed parts not spawning for host player" />
     <MESSAGE value="fixed numerous grounding errors" />
     <MESSAGE value="fixed parts being in slightly wrong place on second round in creature builder" />
@@ -715,7 +712,8 @@
     <MESSAGE value="dead body parts have a seperate material" />
     <MESSAGE value="added additional coloring" />
     <MESSAGE value="color selection updates implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="color selection updates implemented" />
+    <MESSAGE value="added better debug logging, need to fix healthBar linking" />
+    <option name="LAST_COMMIT_MESSAGE" value="added better debug logging, need to fix healthBar linking" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
