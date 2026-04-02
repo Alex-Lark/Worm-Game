@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="spike part update implemented">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Fin_Animation.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Fin_Animation.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Parts Controller.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Parts Controller.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Texture Materials/WormHeadMaterial.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/spike object.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/spike object.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/NetworkPrefabs.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/CreatureBuilderScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,8 +110,10 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\WormGameBuilds" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -120,8 +122,10 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -130,12 +134,14 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ahala\OneDrive\Desktop\CPSC 236\Worm-Game" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
@@ -146,9 +152,10 @@
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
@@ -159,6 +166,7 @@
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
@@ -636,6 +644,21 @@
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/PartsUpdate" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -654,7 +677,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="can move parts from a previous round around" />
     <MESSAGE value="code better organized" />
     <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
     <MESSAGE value="game is repeatable after going to the main menu" />
@@ -679,26 +701,27 @@
     <MESSAGE value="Head Fixed" />
     <MESSAGE value="Second push" />
     <MESSAGE value="Animator controller" />
-    <option name="LAST_COMMIT_MESSAGE" value="Animator controller" />
+    <MESSAGE value="spike part update implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="spike part update implemented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
-          <line>152</line>
+          <line>149</line>
           <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'" />
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>43</line>
+          <line>42</line>
           <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'" />
           <option name="timeStamp" value="78" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>49</line>
+          <line>47</line>
           <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'" />
           <option name="timeStamp" value="79" />
         </line-breakpoint>
@@ -710,13 +733,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>44</line>
+          <line>43</line>
           <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'" />
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
-          <line>50</line>
+          <line>48</line>
           <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'" />
           <option name="timeStamp" value="83" />
         </line-breakpoint>

@@ -1088,7 +1088,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 690308250}]
+  m_Children:
+  - {fileID: 690308250}
   m_Father: {fileID: 1956329618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1369,7 +1370,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 133593063}]
+  m_Children:
+  - {fileID: 133593063}
   m_Father: {fileID: 1956329618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2265,7 +2267,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 887457731}]
+  m_Children:
+  - {fileID: 887457731}
   m_Father: {fileID: 1956329618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2768,7 +2771,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 1748621492}]
+  m_Children:
+  - {fileID: 1748621492}
   m_Father: {fileID: 1956329618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2976,6 +2980,100 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161381840}
   m_CullTransparentMesh: 1
+--- !u!1 &1165889168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1165889172}
+  - component: {fileID: 1165889171}
+  - component: {fileID: 1165889170}
+  - component: {fileID: 1165889169}
+  m_Layer: 0
+  m_Name: PurrNet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1165889169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165889168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ced7bf28cdbee104e8cdc34ab761b039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.PlayerSpawner
+  playerPrefab: {fileID: 0}
+  _playerPrefab: {fileID: 3857149077806430327, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
+  _ignoreNetworkRules: 0
+  spawnPoints: []
+--- !u!114 &1165889170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165889168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc64ff707d914a64e95f2ac0bf554c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.Transports.UDPTransport
+  _automaticCloudSetups:
+    _adaptToEdgegap: 1
+  _serverPort: 5000
+  _maxConnections: 100
+  _address: 127.0.0.1
+  _timeoutInSeconds: 5
+  _pollEventsInUpdate: 0
+--- !u!114 &1165889171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165889168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baacc2bfe126d544691d4f39fa3785f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkManager
+  _stopPlayingOnDisconnect: 0
+  _startServerFlags: 9
+  _startClientFlags: 7
+  _cookieScope: 1
+  _dontDestroyOnLoad: 0
+  _transport: {fileID: 1165889170}
+  _networkPrefabs: {fileID: 11400000, guid: 81cf3b1b5b73ef24190d3114ce06eedb, type: 2}
+  _networkAssets: {fileID: 0}
+  _networkRules: {fileID: 11400000, guid: d8799083b96579a42b8b2d03e4ceae98, type: 2}
+  _visibilityRules: {fileID: 11400000, guid: 8f014a5bd8dc68646a2a3c0b18c5bbd8, type: 2}
+  _authenticator: {fileID: 0}
+  _tickRate: 20
+  _patchLingeringProcessBug: 0
+--- !u!4 &1165889172
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165889168}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1187363177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3006,7 +3104,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 247158767}]
+  m_Children:
+  - {fileID: 247158767}
   m_Father: {fileID: 1956329618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3397,7 +3496,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 303742908}]
+  m_Children:
+  - {fileID: 303742908}
   m_Father: {fileID: 1956329618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3849,7 +3949,7 @@ MonoBehaviour:
   spawnDistance: 5
   partPairs:
   - cardPrefab: {fileID: 6895014049120698220, guid: 9ef4c396336956b4c95236d27c2ee832, type: 3}
-    part3DPrefab: {fileID: 2862933199294523428, guid: 66fa66cd86cbaa8439c74f46f6a7244c, type: 3}
+    part3DPrefab: {fileID: 4684220183131317328, guid: 66fa66cd86cbaa8439c74f46f6a7244c, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: 97f4ff1f42ccb87428513446a8b2c436, type: 3}
     part3DPrefab: {fileID: 6294173655021920613, guid: 49716e0f920649e45ab0f0131a2ec8bc, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: 021157b093a727343be037f512319b97, type: 3}
@@ -4077,3 +4177,4 @@ SceneRoots:
   - {fileID: 1941135655}
   - {fileID: 259461390}
   - {fileID: 692248544}
+  - {fileID: 1165889172}
