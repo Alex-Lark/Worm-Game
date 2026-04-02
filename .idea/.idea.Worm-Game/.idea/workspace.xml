@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Fin_Animation.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Fin_Animation.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Parts Controller.controller" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Parts Controller.controller.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainMenuScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +41,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Models/Parts/Parts with Animations/Parts Controller.controller" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Demigiant.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/fin object.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Prefabs/CreatureParts/Objects/leg part object.prefab" root0="FORCE_HIGHLIGHTING" />
@@ -221,15 +226,8 @@
       <workItem from="1773862051432" duration="2877000" />
       <workItem from="1773955239467" duration="14000" />
       <workItem from="1774781339276" duration="2668000" />
-      <workItem from="1774921750803" duration="2472000" />
-    </task>
-    <task id="LOCAL-00033" summary="worm headbut mostly working">
-      <option name="closed" value="true" />
-      <created>1761890152782</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1761890152782</updated>
+      <workItem from="1774921750803" duration="4194000" />
+      <workItem from="1775145946168" duration="7000" />
     </task>
     <task id="LOCAL-00034" summary="inventory item code improved">
       <option name="closed" value="true" />
@@ -615,7 +613,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774935847179</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Animator controller">
+      <option name="closed" value="true" />
+      <created>1774937370760</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1774937370760</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -648,7 +654,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm orientation resets when going back to creature builder" />
     <MESSAGE value="can move parts from a previous round around" />
     <MESSAGE value="code better organized" />
     <MESSAGE value="undid previous worm attachement changes because it was glitchy" />
@@ -673,7 +678,8 @@
     <MESSAGE value="New Mesh change" />
     <MESSAGE value="Head Fixed" />
     <MESSAGE value="Second push" />
-    <option name="LAST_COMMIT_MESSAGE" value="Second push" />
+    <MESSAGE value="Animator controller" />
+    <option name="LAST_COMMIT_MESSAGE" value="Animator controller" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -681,79 +687,37 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs</url>
           <line>152</line>
-          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'">
-            <startOffsets>
-              <option value="5438" />
-            </startOffsets>
-            <endOffsets>
-              <option value="5535" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\Classes\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\PartSelectionManager.cs" containingFunctionPresentation="Method 'HandleResentCard'" />
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
           <line>43</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'">
-            <startOffsets>
-              <option value="1050" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1064" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'" />
           <option name="timeStamp" value="78" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
           <line>49</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'">
-            <startOffsets>
-              <option value="1149" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1163" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'" />
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/InputHandling/IPText.cs</url>
           <line>13</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\InputHandling\IPText.cs" containingFunctionPresentation="Method 'OnUpdate'">
-            <startOffsets>
-              <option value="212" />
-            </startOffsets>
-            <endOffsets>
-              <option value="246" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\InputHandling\IPText.cs" containingFunctionPresentation="Method 'OnUpdate'" />
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
           <line>44</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'">
-            <startOffsets>
-              <option value="1073" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1093" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartServer'" />
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/Network.cs</url>
           <line>50</line>
-          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'">
-            <startOffsets>
-              <option value="1172" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1194" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\miles\class\GAME_440\Worm-Game\Assets\Scripts\GameLoop\multiplayer\Network.cs" containingFunctionPresentation="Method 'StartClient'" />
           <option name="timeStamp" value="83" />
         </line-breakpoint>
         <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
