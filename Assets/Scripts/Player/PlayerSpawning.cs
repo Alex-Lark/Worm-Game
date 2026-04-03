@@ -230,10 +230,12 @@ namespace Player
             GetComponent<WormPhysics>().AddCollidersToSegments();
             Debug.Log("added colliders to segments");
             
+            Debug.Log("Spawning worm for the first time at " + spawnPoint);
             SetWormSpawnPosition(spawnPoint);
-            SetWormSpawnOrientation(spawnRotation);
-            player.wormConstructor.ConstructWorm();
-            Debug.Log("constructed worm");
+            //Debug.Break();
+            //SetWormSpawnOrientation(spawnRotation);
+            // player.wormConstructor.ConstructWorm();
+            // Debug.Log("constructed worm");
             
             LocalPlayer.Instance.wormForwardMovement.SetVariables();
             LocalPlayer.Instance.canDie = true;
