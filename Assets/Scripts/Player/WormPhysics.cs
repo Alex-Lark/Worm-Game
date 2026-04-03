@@ -110,34 +110,6 @@ namespace Player
             }
         }
         
-        public void ResetPlayerPhysics()
-        {
-            Debug.Log("resetting player physics");
-            player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            player.wormHead.GetComponent<Rigidbody>().useGravity = true;
-            player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-            player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                Rigidbody rb = segment.GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.useGravity = true;
-            }
-
-            foreach (GameObject part in player.attachedWormParts)
-            {
-                Debug.Log("resetting attached part physics");
-                Rigidbody rb = part.GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.useGravity = true;
-            }
-        }
-        
         public void IgnoreWormSelfCollision()
         {
             List<Collider> allWormColliders = new List<Collider>();

@@ -221,14 +221,16 @@ namespace Player
             player.thirdPersonCamera = Camera.main?.gameObject;
             LocalPlayer.Instance.canDie = true;
             
-            GetComponent<WormPhysics>().ResetPlayerPhysics();
+            GetComponent<WormPhysics>().MakeWormKinematic();
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
 
             yield return new WaitForFixedUpdate();
 
             SetWormSpawnPosition(spawnPoint);
-            SetWormSpawnOrientation(spawnRotation);
+            SetWormSpawnRotation(spawnRotation);
+            
+            GetComponent<WormPhysics>().MakeWormUnkinematic();
             
             
         }
@@ -279,7 +281,7 @@ namespace Player
             StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
         
-        private void SetWormSpawnOrientation(Quaternion orientation)
+        private void SetWormSpawnRotation(Quaternion orientation)
         {
             player.wormHead.rotation = orientation;
             player.wormVisualHead.localRotation = Quaternion.identity;
