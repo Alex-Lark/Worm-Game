@@ -46,13 +46,38 @@ namespace Player
             IgnoreWormSelfCollision();
         }
     
-        public void ResetWormPhysics()
+        public void MakeWormKinematic()
         {
-            Debug.Log("Reset worm physics called\n" + StackTraceUtility.ExtractStackTrace());
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {
                 SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
+            }
+
+            foreach (Transform part in player.wormBodySegments)
+            {
+                SetSegmentPhysics(part, isKinematic: true, useGravity: false);
+            }
+        }
+
+        public void MakeWormUnkinematic()
+        {
+            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
+            if (headRb != null)
+            {
+                headRb.useGravity = true;
+                headRb.isKinematic = false;
+                headRb.linearVelocity = Vector3.zero;
+                headRb.angularVelocity = Vector3.zero;
+            }
+            
+            foreach (Transform segment in player.wormBodySegments)
+            {
+                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
+                segmentRb.useGravity = true;
+                segmentRb.isKinematic = false;
+                segmentRb.linearVelocity = Vector3.zero;
+                segmentRb.angularVelocity = Vector3.zero;
             }
         }
 

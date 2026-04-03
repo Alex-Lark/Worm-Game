@@ -148,7 +148,7 @@ namespace Player
             yield return null;
     
             var wormPhysics = GetComponent<WormPhysics>();
-            wormPhysics.ResetWormPhysics();
+            wormPhysics.MakeWormKinematic();
             yield return null;
             wormPhysics.ResetWormOrientation();
             wormPhysics.PositionWormSegments(CreatureBuildingSpawnPoint);
@@ -205,7 +205,7 @@ namespace Player
             player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
-            GetComponent<WormPhysics>().ResetWormPhysics();
+            GetComponent<WormPhysics>().MakeWormKinematic();
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
                 SetWormInGameScene();
@@ -229,6 +229,8 @@ namespace Player
 
             SetWormSpawnPosition(spawnPoint);
             SetWormSpawnOrientation(spawnRotation);
+            
+            
         }
         
         private void RespawnPlayer()
@@ -293,14 +295,6 @@ namespace Player
             if (player.wormHead == null) return;
         
             player.wormHead.position = spawnPosition;
-            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
-            if (headRb != null)
-            {
-                headRb.useGravity = true;
-                headRb.isKinematic = false;
-                headRb.linearVelocity = Vector3.zero;
-                headRb.angularVelocity = Vector3.zero;
-            }
 
             Vector3 currentPos = player.wormHead.position;
             Vector3 backDir = -player.wormHead.forward;
@@ -311,12 +305,11 @@ namespace Player
                 Transform segment = player.wormBodySegments[i];
                 segment.position = currentPos;
                 segment.rotation = player.wormHead.rotation;
-            
-                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
-                segmentRb.useGravity = true;
-                segmentRb.isKinematic = false;
-                segmentRb.linearVelocity = Vector3.zero;
-                segmentRb.angularVelocity = Vector3.zero;
+            }
+
+            foreach (GameObject attachedPart in player.attachedWormParts)
+            {
+                attachedPart.GetComponent<AttachablePart>().ResetJoint();
             }
         }
         
