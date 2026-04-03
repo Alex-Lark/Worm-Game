@@ -156,8 +156,6 @@ namespace Player
             yield return null;
     
             player.DeactivatePlayer();
-            
-            //FindFirstObjectByType<CreatureBuilder.CreatureBuilder>()?.OnWormReady();
 
             if (owner != localPlayer)
             {
@@ -203,16 +201,6 @@ namespace Player
                 Debug.LogError("WaitForSegmentsThenSetup timed out.");
                 yield break;
             }
-            
-            elapsed = 0f;
-            while (!spawnPointSet && elapsed < 5f)
-            {
-                yield return new WaitForSeconds(0.1f);
-                elapsed += 0.1f;
-            }
-            
-            if (!spawnPointSet)
-                Debug.LogWarning("WaitForSegmentsThenSetup: spawn point was never set, using default.");
 
             player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
             player.wormConstructor.ConstructWorm();
