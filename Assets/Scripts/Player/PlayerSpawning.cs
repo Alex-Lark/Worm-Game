@@ -227,8 +227,8 @@ namespace Player
 
             yield return new WaitForFixedUpdate();
 
-            SetWormSpawnPosition(spawnPoint);
             SetWormSpawnRotation(spawnRotation);
+            SetWormSpawnPosition(spawnPoint);
             
             GetComponent<WormPhysics>().MakeWormUnkinematic();
             
