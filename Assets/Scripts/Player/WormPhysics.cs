@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CreatureParts;
 using PurrNet;
 using UnityEngine;
 
@@ -78,6 +79,8 @@ namespace Player
                 segmentRb.isKinematic = false;
                 segmentRb.linearVelocity = Vector3.zero;
                 segmentRb.angularVelocity = Vector3.zero;
+                
+                segment.GetComponent<CreatureBodySegment>().ResetJointPhysics();
             }
         }
 
