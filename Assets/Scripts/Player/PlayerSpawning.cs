@@ -132,7 +132,7 @@ namespace Player
         {
             Debug.Log("setting worm in game scene");
             
-            StartCoroutine(SetupAfterSceneLoad());
+            StartCoroutine(SpawnAtSpawnPoint());
             player.ActivatePlayer();
             if (owner != localPlayer)
             {
@@ -212,33 +212,23 @@ namespace Player
             else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
                 StartCoroutine(SetWormInCreatureBuilderScene());
         }
-        
-        private IEnumerator SetupAfterSceneLoad()
+
+        private IEnumerator SpawnAtSpawnPoint()
         {
-            Debug.Log("setting up after scene load as server: " + isServer);
             yield return null;
 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
-            if (deathScreenUI == null)
-            {
-                Debug.LogError("couldn't find death screen UI");
-            }
             player.thirdPersonCamera = Camera.main?.gameObject;
+            LocalPlayer.Instance.canDie = true;
             
             GetComponent<WormPhysics>().ResetPlayerPhysics();
-            
+            player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
-            Debug.Log("added colliders to segments");
-            
-            Debug.Log("Spawning worm for the first time at " + spawnPoint);
+
+            yield return new WaitForFixedUpdate();
+
             SetWormSpawnPosition(spawnPoint);
-            //Debug.Break();
-            //SetWormSpawnOrientation(spawnRotation);
-            // player.wormConstructor.ConstructWorm();
-            // Debug.Log("constructed worm");
-            
-            LocalPlayer.Instance.wormForwardMovement.SetVariables();
-            LocalPlayer.Instance.canDie = true;
+            SetWormSpawnOrientation(spawnRotation);
         }
         
         private void RespawnPlayer()
@@ -280,21 +270,13 @@ namespace Player
 
         private IEnumerator RespawnSequence()
         {
-            GetComponent<WormPhysics>().ResetPlayerPhysics();
-            player.wormConstructor.ConstructWorm();
-            GetComponent<WormPhysics>().AddCollidersToSegments();
-
-            yield return new WaitForFixedUpdate();
-            
-            SetWormSpawnPosition(spawnPoint);
-            SetWormSpawnOrientation(spawnRotation);
+            yield return StartCoroutine(SpawnAtSpawnPoint());
 
             yield return new WaitForFixedUpdate();
 
             StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
-
-
+        
         private void SetWormSpawnOrientation(Quaternion orientation)
         {
             player.wormHead.rotation = orientation;
@@ -346,6 +328,7 @@ namespace Player
             }
             else if (GameSceneList.IsSceneAGameScene(scene.name))
             {
+                
                 SetWormInGameScene();
             }
             else
