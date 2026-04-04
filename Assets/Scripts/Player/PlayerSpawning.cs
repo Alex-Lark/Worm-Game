@@ -274,6 +274,8 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
+            yield return StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
+            
             SetKinematicStateServer(false, player);
         }
 
@@ -318,7 +320,7 @@ namespace Player
             deathScreenUI.DisableDeathUI();
 
             StartCoroutine(SpawnAtSpawnPoint());
-            StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
+            //StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
 
         [ServerRpc]
