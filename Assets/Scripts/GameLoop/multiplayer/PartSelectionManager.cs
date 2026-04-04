@@ -69,12 +69,11 @@ public class PartSelectionManager : PurrMonoBehaviour
                     print("Sending card to: "+packet.receiver);
                     Network.instance.manager.Send<ResentCardPacket>(packet.receiver, packet, Channel.ReliableOrdered);
                     
-                    yield return StartCoroutine(Network.pinger.Ping());
-                    
-                    GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
                     
  
                 }
+                yield return StartCoroutine(Network.pinger.Ping());
+                GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
                 break;
             }
         }
