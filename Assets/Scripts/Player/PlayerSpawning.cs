@@ -51,7 +51,6 @@ namespace Player
 
         protected override void OnSpawned(bool asServer)
         {
-            //TODO: set kinematics across all clients
             if (asServer)
             {
                 if (player == null) player = GetComponent<Player>();
@@ -235,7 +234,7 @@ namespace Player
             player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
-            GetComponent<WormPhysics>().MakeWormKinematic();
+            SetKinematicStateServer(true, player);
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
                 SetWormInGameScene();
@@ -422,9 +421,6 @@ namespace Player
             player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
             player.wormConstructor.ConstructWorm();
             yield return null;
-
-            //physics.ResetWormPosition();
-            SetSegmentsKinematic(false);
         }
         
         private void RefreshSegmentsFromChildren()
