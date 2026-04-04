@@ -314,6 +314,7 @@ namespace Player
             {
                 return;
             }
+            
             if (CurrentState == WormState.Dead) return;
             if (!canDie)
             {

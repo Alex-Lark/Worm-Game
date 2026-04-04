@@ -51,6 +51,7 @@ namespace Player
 
         protected override void OnSpawned(bool asServer)
         {
+            //TODO: set kinematics across all clients
             if (asServer)
             {
                 if (player == null) player = GetComponent<Player>();
@@ -285,40 +286,50 @@ namespace Player
             
             OnWormRespawn?.Invoke();
             
-            if (player.isOwner)
+            if (player == LocalPlayer.Instance)
             {
                 RespawnPlayerAsOwner();  
             }
-            else
-            {
-                RespawnPlayerAsNonOwner();
-            }
+            
+            RespawnPlayerAsNonOwnerServerRPC(player);
+            
         }
 
         private void RespawnPlayerAsOwner()
         {
+            Debug.Log("Respawning player as Owner" + player.PlayerName);
             player.CurrentState = WormState.Idle;
             player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             deathScreenUI.DisableDeathUI();
-            Debug.Log("Respawning player as Owner" + player.PlayerName);
-            //ServerSideRespawn();
-            
-            player.wormHead.gameObject.SetActive(true);
-            foreach (Transform bodySegment in player.wormBodySegments)
-                bodySegment.gameObject.SetActive(true);
-            
-            GetComponent<WormRenderer>().enabled = true;
-            GetComponent<WormRenderer>().Restart();
 
             StartCoroutine(SpawnAtSpawnPoint());
             StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
 
+        [ServerRpc]
+        private void RespawnPlayerAsNonOwnerServerRPC(Player playerToRespawn)
+        {
+            RespawnPlayerAsNonOwnerObserversRPC(playerToRespawn);
+        }
+        
+        [ObserversRpc]
+        private void RespawnPlayerAsNonOwnerObserversRPC(Player playerToRespawn)
+        {
+            if (playerToRespawn != player) return;
+            
+            RespawnPlayerAsNonOwner();
+        }
+
         private void RespawnPlayerAsNonOwner()
         {
+            Debug.Log("Respawning player as Nonowner" + player.PlayerName);
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
+            
+            player.wormHead.gameObject.SetActive(true);
+            foreach (Transform bodySegment in player.wormBodySegments)
+                bodySegment.gameObject.SetActive(true);
         }
 
         private IEnumerator RespawnSequence()
