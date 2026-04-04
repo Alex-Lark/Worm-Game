@@ -142,7 +142,7 @@ namespace Player
             }
     
             deathScreenUI.respawnText.text = "Respawning...";
-            RespawnPlayer();
+            StartCoroutine(RespawnPlayer());
         }
         
         public void SetWormInGameScene()
@@ -291,18 +291,18 @@ namespace Player
             GetComponent<WormPhysics>().ToggleWormKinematics(isKinematic);
         }
         
-        private void RespawnPlayer()
+        private IEnumerator RespawnPlayer()
         {
             if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                return;
+                yield break;
             }
             
             OnWormRespawn?.Invoke();
             
             if (player == LocalPlayer.Instance)
             {
-                StartCoroutine(RespawnPlayerAsOwner());  
+                yield return StartCoroutine(RespawnPlayerAsOwner());  
             }
             
             RespawnPlayerAsNonOwnerServerRPC(player);
