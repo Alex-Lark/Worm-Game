@@ -1,3 +1,4 @@
+using System.Collections;
 using Player;
 using UnityEngine;
 
@@ -23,9 +24,16 @@ namespace CreatureParts
             attachmentRotation = transform.rotation; 
         }
         
-        public void ResetJoint()
+        public IEnumerator ResetJoint()
         {
             Debug.Log($"ResetJoint called on {gameObject.name} | attachedEndPoint: {attachedEndPoint} | attachedSegmentRigidbody: {attachedSegmentRigidbody}");
+
+            float elapsed = 0f;
+            while (attachedSegmentRigidbody.isKinematic == true && elapsed < 3f)
+            {
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
             
             HingeJoint existing = GetComponent<HingeJoint>();
             Debug.Log($"Existing hinge: {existing}");
@@ -37,6 +45,7 @@ namespace CreatureParts
 
             HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
             hinge.connectedBody = attachedSegmentRigidbody;
+            hinge.autoConfigureConnectedAnchor = false;
             
             hinge.anchor = savedAnchor;
             hinge.connectedAnchor = savedConnectedAnchor;

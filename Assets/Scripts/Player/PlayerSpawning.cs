@@ -274,8 +274,6 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
-            yield return StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
-            
             SetKinematicStateServer(false, player);
         }
 
@@ -304,23 +302,23 @@ namespace Player
             
             if (player == LocalPlayer.Instance)
             {
-                RespawnPlayerAsOwner();  
+                StartCoroutine(RespawnPlayerAsOwner());  
             }
             
             RespawnPlayerAsNonOwnerServerRPC(player);
             
         }
 
-        private void RespawnPlayerAsOwner()
+        private IEnumerator RespawnPlayerAsOwner()
         {
             Debug.Log("Respawning player as Owner" + player.PlayerName);
             player.CurrentState = WormState.Idle;
             player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             deathScreenUI.DisableDeathUI();
-
-            StartCoroutine(SpawnAtSpawnPoint());
-            //StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
+            
+            yield return StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
+            yield return StartCoroutine(SpawnAtSpawnPoint());
         }
 
         [ServerRpc]
@@ -378,7 +376,7 @@ namespace Player
 
             foreach (GameObject attachedPart in player.attachedWormParts)
             {
-                attachedPart.GetComponent<AttachablePart>().ResetJoint();
+                StartCoroutine(attachedPart.GetComponent<AttachablePart>().ResetJoint());
             }
         }
         
