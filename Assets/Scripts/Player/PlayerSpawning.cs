@@ -98,6 +98,21 @@ namespace Player
             spawnRotation = inputSpawnpoint.transform.rotation;
             spawnPointSet = true;
             Debug.Log("spawnpoint set with position: " + spawnPoint + " ,rotation: " + spawnRotation);
+            SyncSpawnPointServer(spawnPoint, spawnRotation, player);
+        }
+        
+        [ServerRpc(runLocally: true)]
+        private void SyncSpawnPointServer(Vector3 position, Quaternion rotation, Player syncPlayer)
+        {
+            SyncSpawnPointObserver(position, rotation, syncPlayer);
+        }
+        
+        [ObserversRpc(runLocally: true)]
+        private void SyncSpawnPointObserver(Vector3 position, Quaternion rotation, Player syncPlayer)
+        {
+            if (syncPlayer != player) return;
+            spawnPoint = position;
+            spawnRotation = rotation;
         }
 
     public void TryToRespawn()
@@ -231,8 +246,6 @@ namespace Player
             SetWormSpawnPosition(spawnPoint);
             
             GetComponent<WormPhysics>().MakeWormUnkinematic();
-            
-            
         }
         
         private void RespawnPlayer()
@@ -365,7 +378,7 @@ namespace Player
             player.wormConstructor.ConstructWorm();
             yield return null;
 
-            physics.ResetWormPosition();
+            //physics.ResetWormPosition();
             SetSegmentsKinematic(false);
         }
         

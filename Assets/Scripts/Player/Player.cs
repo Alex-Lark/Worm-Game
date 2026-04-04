@@ -253,7 +253,7 @@ namespace Player
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
-                Debug.Log("Blunt collision between " + hitGameObject  + " and " + other.gameObject + " with force: " + collisionForce);
+                Debug.Log($"Blunt collision between {hitGameObject.name} and {other.gameObject.name} with force: {collisionForce}", other.gameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
                 if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
             }

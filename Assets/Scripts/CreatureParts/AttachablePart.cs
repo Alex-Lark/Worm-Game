@@ -9,10 +9,10 @@ namespace CreatureParts
         public Vector3 attachmentPosition;
         public Quaternion attachmentRotation;
         public Rigidbody attachedSegmentRigidbody;
+        public Vector3 localPositionOnAttach;
+        public Quaternion localRotationOnAttach;
         
         private Transform attachedEndPoint;
-        private Vector3 localPositionOnAttach;
-        private Quaternion localRotationOnAttach;
         private Vector3 savedAnchor;
         private Vector3 savedConnectedAnchor;
 
