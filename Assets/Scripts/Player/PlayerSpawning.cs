@@ -317,7 +317,6 @@ namespace Player
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             deathScreenUI.DisableDeathUI();
             
-            yield return StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
             yield return StartCoroutine(SpawnAtSpawnPoint());
         }
 
@@ -344,6 +343,8 @@ namespace Player
             player.wormHead.gameObject.SetActive(true);
             foreach (Transform bodySegment in player.wormBodySegments)
                 bodySegment.gameObject.SetActive(true);
+            
+            StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
         
         private void SetWormSpawnRotation(Quaternion orientation)
@@ -372,11 +373,6 @@ namespace Player
                 Transform segment = player.wormBodySegments[i];
                 segment.position = currentPos;
                 segment.rotation = player.wormHead.rotation;
-            }
-
-            foreach (GameObject attachedPart in player.attachedWormParts)
-            {
-                StartCoroutine(attachedPart.GetComponent<AttachablePart>().ResetJoint());
             }
         }
         

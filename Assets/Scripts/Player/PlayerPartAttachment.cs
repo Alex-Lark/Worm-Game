@@ -126,7 +126,7 @@ namespace Player
                 Debug.Log($"ReactivateAttachedParts: part instanceID={attachedPart.GetInstanceID()} name={attachedPart.name}");
                 attachedPart.SetActive(true);
                 attachedPart.GetComponent<AttachablePart>().enabled = true;
-                StartCoroutine(attachedPart.GetComponent<AttachablePart>().ResetJoint());
+                yield return StartCoroutine(attachedPart.GetComponent<AttachablePart>().ResetJoint());
             }
     
             GetComponent<WormPhysics>().IgnoreWormSelfCollision();

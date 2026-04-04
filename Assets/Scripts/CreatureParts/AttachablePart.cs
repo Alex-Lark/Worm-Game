@@ -29,11 +29,18 @@ namespace CreatureParts
             Debug.Log($"ResetJoint called on {gameObject.name} | attachedEndPoint: {attachedEndPoint} | attachedSegmentRigidbody: {attachedSegmentRigidbody}");
 
             float elapsed = 0f;
-            while (attachedSegmentRigidbody.isKinematic == true && elapsed < 3f)
+            while (((attachedSegmentRigidbody.isKinematic == true) || (gameObject.GetComponent<Rigidbody>().isKinematic == true)) && elapsed < 3f)
             {
                 yield return new WaitForSeconds(0.1f);
                 elapsed += 0.1f;
             }
+            
+            Rigidbody partRb = gameObject.GetComponent<Rigidbody>();
+            partRb.linearVelocity = Vector3.zero;
+            partRb.angularVelocity = Vector3.zero;
+            
+            attachedSegmentRigidbody.linearVelocity = Vector3.zero;
+            attachedSegmentRigidbody.angularVelocity = Vector3.zero;
             
             HingeJoint existing = GetComponent<HingeJoint>();
             Debug.Log($"Existing hinge: {existing}");
