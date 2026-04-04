@@ -104,7 +104,7 @@ namespace CreatureParts
 
         protected override void OnOwnerChanged(PlayerID? previousOwner, PlayerID? newOwner, bool asServer)
         {
-            Debug.Log($"[WormSegment] OnOwnerChanged '{gameObject.name}' | asServer={asServer} | prev={previousOwner} | new={newOwner}");
+            //Debug.Log($"[WormSegment] OnOwnerChanged '{gameObject.name}' | asServer={asServer} | prev={previousOwner} | new={newOwner}");
         }
 
         #endregion
