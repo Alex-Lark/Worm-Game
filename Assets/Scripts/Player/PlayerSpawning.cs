@@ -19,7 +19,7 @@ namespace Player
         public bool canRespawn = true;
         public DeathScreenUI deathScreenUI;
 
-        public Vector3 spawnPoint = new Vector3(0, 2, 0); //default
+        public Vector3 spawnPoint = new Vector3(); //default
         private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, 2, 0);
         private Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
 
@@ -28,6 +28,8 @@ namespace Player
         private bool isRegistered = false;
         private bool hasBeenSetup = false;
         private bool spawnPointSet = false;
+
+        private float TimeToWaitForSpawnpointSet = 5f;
 
         public event Action OnWormRespawn;
 
@@ -244,6 +246,19 @@ namespace Player
 
         private IEnumerator SpawnAtSpawnPoint()
         {
+            float elapsed = 0f;
+            while (!spawnPointSet && elapsed < TimeToWaitForSpawnpointSet)
+            {
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+
+            if (!spawnPointSet)
+            {
+                Debug.LogWarning("SpawnAtSpawnPoint timed out waiting for spawn point to be set.");
+                yield break;
+            }
+            
             yield return null;
 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
@@ -329,13 +344,6 @@ namespace Player
             player.wormHead.gameObject.SetActive(true);
             foreach (Transform bodySegment in player.wormBodySegments)
                 bodySegment.gameObject.SetActive(true);
-        }
-
-        private IEnumerator RespawnSequence()
-        {
-            yield return StartCoroutine(SpawnAtSpawnPoint());
-
-            yield return new WaitForFixedUpdate();
         }
         
         private void SetWormSpawnRotation(Quaternion orientation)
