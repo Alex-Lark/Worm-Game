@@ -46,6 +46,18 @@ namespace Player
         
             IgnoreWormSelfCollision();
         }
+
+        public void ToggleWormKinematics(bool isKinematic)
+        {
+            if (isKinematic)
+            {
+                MakeWormKinematic();
+            }
+            else
+            {
+                MakeWormUnkinematic();
+            }
+        }
     
         public void MakeWormKinematic()
         {

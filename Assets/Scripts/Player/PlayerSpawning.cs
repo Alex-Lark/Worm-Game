@@ -145,7 +145,7 @@ namespace Player
         
         public void SetWormInGameScene()
         {
-            if (isOwner)
+            if (player.isOwner)
             {
                 SetWormInGameSceneAsOwner();
             }
@@ -250,7 +250,7 @@ namespace Player
             player.thirdPersonCamera = Camera.main?.gameObject;
             player.canDie = true;
             
-            GetComponent<WormPhysics>().MakeWormKinematic();
+            SetKinematicStateServer(true, player);
             player.wormConstructor.ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
 
@@ -259,18 +259,22 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
-            GetComponent<WormPhysics>().MakeWormUnkinematic();
+            SetKinematicStateServer(false, player);
         }
 
-        // [ServerRpc]
-        // private IEnumerator SpawnAtSpawnPointAsServer(Player playerToSpawn)
-        // {
-        //     if (playerToSpawn == player)
-        //     {
-        //         SetWormSpawnRotation(spawnRotation);
-        //         SetWormSpawnPosition(spawnPoint);
-        //     }
-        // }
+        [ServerRpc]
+        private void SetKinematicStateServer(bool isKinematic, Player playerToUpdate)
+        {
+            SetKinematicStateObserver(isKinematic, playerToUpdate);
+        }
+
+        [ObserversRpc]
+        private void SetKinematicStateObserver(bool isKinematic, Player playertoUpdate)
+        {
+            if (playertoUpdate != player) return;
+            
+            GetComponent<WormPhysics>().ToggleWormKinematics(isKinematic);
+        }
         
         private void RespawnPlayer()
         {
@@ -281,36 +285,40 @@ namespace Player
             
             OnWormRespawn?.Invoke();
             
+            if (player.isOwner)
+            {
+                RespawnPlayerAsOwner();  
+            }
+            else
+            {
+                RespawnPlayerAsNonOwner();
+            }
+        }
+
+        private void RespawnPlayerAsOwner()
+        {
             player.CurrentState = WormState.Idle;
-            if (LocalPlayer.Instance == gameObject.GetComponent<Player>()) player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
+            player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             deathScreenUI.DisableDeathUI();
+            Debug.Log("Respawning player as Owner" + player.PlayerName);
+            //ServerSideRespawn();
             
-            Debug.Log("Respawning player " + player.PlayerName);
-            
-            ServerSideRespawn();
-        }
-        
-        
-        
-        [ServerRpc(requireOwnership: true)]
-        private void ServerSideRespawn()
-        {
-            ObserverSideRespawn();
-        }
-        
-        [ObserversRpc(runLocally: true)]
-        private void ObserverSideRespawn()
-        {
             player.wormHead.gameObject.SetActive(true);
-    
             foreach (Transform bodySegment in player.wormBodySegments)
                 bodySegment.gameObject.SetActive(true);
-    
+            
             GetComponent<WormRenderer>().enabled = true;
             GetComponent<WormRenderer>().Restart();
-    
-            StartCoroutine(RespawnSequence());
+
+            StartCoroutine(SpawnAtSpawnPoint());
+            StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
+        }
+
+        private void RespawnPlayerAsNonOwner()
+        {
+            GetComponent<WormRenderer>().enabled = true;
+            GetComponent<WormRenderer>().Restart();
         }
 
         private IEnumerator RespawnSequence()
@@ -318,8 +326,6 @@ namespace Player
             yield return StartCoroutine(SpawnAtSpawnPoint());
 
             yield return new WaitForFixedUpdate();
-
-            StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }
         
         private void SetWormSpawnRotation(Quaternion orientation)

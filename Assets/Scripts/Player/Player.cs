@@ -406,6 +406,8 @@ namespace Player
     
             if (originalRb != null && copyRb != null)
             {
+                copyRb.isKinematic = false;
+                copyRb.useGravity = true;
                 copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DeadPartVelocityMultiplier;
                 copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DeadPartVelocityMultiplier;
             }
