@@ -19,7 +19,7 @@ namespace Player
         public bool canRespawn = true;
         public DeathScreenUI deathScreenUI;
 
-        private Vector3 spawnPoint = new Vector3(0, 2, 0); //default
+        public Vector3 spawnPoint = new Vector3(0, 2, 0); //default
         private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, 2, 0);
         private Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
 
@@ -145,15 +145,29 @@ namespace Player
         
         public void SetWormInGameScene()
         {
-            Debug.Log("setting worm in game scene");
+            if (isOwner)
+            {
+                SetWormInGameSceneAsOwner();
+            }
+            else
+            {
+                SetWormInGameSceneAsNonOwner();
+            }
             
+        }
+
+        private void SetWormInGameSceneAsOwner()
+        {
+            Debug.Log($"Setting worm {player.PlayerName} in game scene as owner");
             StartCoroutine(SpawnAtSpawnPoint());
             player.ActivatePlayer();
-            if (owner != localPlayer)
-            {
-                GetComponent<WormRenderer>().EnableRendering();
-                player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = true;
-            }
+        }
+
+        private void SetWormInGameSceneAsNonOwner()
+        {
+            Debug.Log($"Setting worm {player.PlayerName} in game scene as non owner");
+            GetComponent<WormRenderer>().EnableRendering();
+            player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = true;
         }
         
         public IEnumerator SetWormInCreatureBuilderScene()
@@ -234,7 +248,7 @@ namespace Player
 
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             player.thirdPersonCamera = Camera.main?.gameObject;
-            LocalPlayer.Instance.canDie = true;
+            player.canDie = true;
             
             GetComponent<WormPhysics>().MakeWormKinematic();
             player.wormConstructor.ConstructWorm();
@@ -247,6 +261,16 @@ namespace Player
             
             GetComponent<WormPhysics>().MakeWormUnkinematic();
         }
+
+        // [ServerRpc]
+        // private IEnumerator SpawnAtSpawnPointAsServer(Player playerToSpawn)
+        // {
+        //     if (playerToSpawn == player)
+        //     {
+        //         SetWormSpawnRotation(spawnRotation);
+        //         SetWormSpawnPosition(spawnPoint);
+        //     }
+        // }
         
         private void RespawnPlayer()
         {
@@ -262,8 +286,12 @@ namespace Player
             player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
             deathScreenUI.DisableDeathUI();
             
+            Debug.Log("Respawning player " + player.PlayerName);
+            
             ServerSideRespawn();
         }
+        
+        
         
         [ServerRpc(requireOwnership: true)]
         private void ServerSideRespawn()
