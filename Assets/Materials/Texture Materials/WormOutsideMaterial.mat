@@ -28,7 +28,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Base_Texture:
-        m_Texture: {fileID: 2800000, guid: 9ba92b44a433f174888d6968fda3f430, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4e49c26e26d6f8b4985bc1f7d9ef3a0b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic_Smoothness:
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 687dd78bc41106a4b8185b494daa70ed, type: 3}
+        m_Texture: {fileID: 2800000, guid: 40dbadba7f6354e4ea27d9519b10c906, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
