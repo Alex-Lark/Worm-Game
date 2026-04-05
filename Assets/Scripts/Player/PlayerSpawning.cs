@@ -238,7 +238,8 @@ namespace Player
             player.wormForwardMovement = GetComponent<WormForwardMovement>();
             player.wormJump = GetComponent<WormJump>();
             player.wormHeadBut = GetComponent<WormHeadBut>();
-                
+
+            yield return new WaitForFixedUpdate();
             yield return StartCoroutine(SpawnAsServer(player));
             
             GetComponent<WormConstructor>().ConstructWorm();

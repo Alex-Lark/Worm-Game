@@ -77,7 +77,7 @@ public class Network : MonoBehaviour
             {
                 purrTransport = manager.transport as PurrTransport;
                 
-                if(targetAddress==""||targetAddress==null)targetAddress = "BattleWorms";
+                if(targetAddress==""||targetAddress==null)targetAddress = "BattleWorms2";
                 instance.purrTransport.roomName = targetAddress;
             }
             else

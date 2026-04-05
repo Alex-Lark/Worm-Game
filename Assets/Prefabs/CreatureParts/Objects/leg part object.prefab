@@ -649,6 +649,8 @@ MonoBehaviour:
   attachmentPosition: {x: 0, y: 0, z: 0}
   attachmentRotation: {x: 0, y: 0, z: 0, w: 0}
   attachedSegmentRigidbody: {fileID: 0}
+  localPositionOnAttach: {x: 0, y: 0, z: 0}
+  localRotationOnAttach: {x: 0, y: 0, z: 0, w: 0}
   foot: {fileID: 2729496533197144478}
   timeOffset: 0.1
   liftHeight: 0.15
@@ -929,15 +931,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 69c83dadf6e57f4449242d03348d1f62, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.478529
+      value: 3.4699998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69c83dadf6e57f4449242d03348d1f62, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.1804993
+      value: 4.452775
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69c83dadf6e57f4449242d03348d1f62, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.6125859
+      value: 2.257659
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69c83dadf6e57f4449242d03348d1f62, type: 3}
       propertyPath: m_LocalPosition.x
@@ -978,6 +980,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 69c83dadf6e57f4449242d03348d1f62, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -4.41
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69c83dadf6e57f4449242d03348d1f62, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6432865973536063689, guid: 69c83dadf6e57f4449242d03348d1f62, type: 3}
       propertyPath: m_TagString
