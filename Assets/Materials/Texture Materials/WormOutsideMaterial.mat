@@ -8,43 +8,61 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WormOutsideMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: dc3a836a55e748f48b955c872b4773ff, type: 3}
-  m_Parent: {fileID: 2100000, guid: 08ed4e0b08e865f488a34ca22b58d44a, type: 2}
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Parent: {fileID: 2100000, guid: 66fefb1b5a3c56e47985a1f410607097, type: 2}
   m_ModifiedSerializedProperties: 2
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _DETAIL_MULX2
-  - _OCCLUSIONMAP
-  - _PARALLAXMAP
+  m_ValidKeywords:
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
+  - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 7efcc7143422d5547bb7d000ee33bc82, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_Texture:
         m_Texture: {fileID: 2800000, guid: 4e49c26e26d6f8b4985bc1f7d9ef3a0b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Metallic_Smoothness:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 9ebde8dd57d209145b674ac67cf13c39, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 7efcc7143422d5547bb7d000ee33bc82, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
         m_Texture: {fileID: 2800000, guid: 122b40245a905a441950d1f5700dccfe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Metallic_Smoothness:
+        m_Texture: {fileID: 2800000, guid: cffb2c7c5d4f9994f9a58b57eb8d27df, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal_Map:
-        m_Texture: {fileID: 2800000, guid: 40dbadba7f6354e4ea27d9519b10c906, type: 3}
+        m_Texture: {fileID: 2800000, guid: e932b4024dffabe4fa7dccb64c19ff47, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BumpScale: 1
     - _Fresnel_Power: 10
     m_Colors:
     - _Base_Color: {r: 0, g: 0.94768524, b: 1, a: 0}
-    - _Fresnel_Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Fresnel_Color: {r: 0.026241222, g: 0.026241222, b: 0.026241222, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &5106615200098589033
