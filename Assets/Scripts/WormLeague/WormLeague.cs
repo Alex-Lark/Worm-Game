@@ -142,8 +142,8 @@ namespace WormLeague
             //TODO: make it by player, make each spawnpoint assigned only once, maybe go in order of spawnpoints and randomize players so no random positions
             
             GameObject spawnpoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
+            
+            if (LocalPlayer.Instance != null) LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
         }
         
         #endregion
