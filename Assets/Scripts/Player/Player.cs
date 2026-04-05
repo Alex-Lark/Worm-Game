@@ -382,6 +382,7 @@ namespace Player
     
             wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
             DisablePartForDeath(wormHead.gameObject);
+            wormVisualHead.gameObject.SetActive(false);
 
             foreach (Transform bodySegment in wormBodySegments)
             {
@@ -407,6 +408,7 @@ namespace Player
             Rigidbody rigidbody = part.GetComponent<Rigidbody>();
             Collider collider = part.GetComponent<Collider>();
             CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
 
             if (meshrenderer != null)
             {
@@ -422,14 +424,19 @@ namespace Player
             {
                 creaturePart.enabled = false;
             }
+
+            if (creatureBodySegment != null)
+            {
+                creatureBodySegment.visualBodySegment.SetActive(false);
+            }
         }
         
         public void EnablePartForRespawn(GameObject part)
         {
             MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
-            Rigidbody rigidbody = part.GetComponent<Rigidbody>();
             Collider collider = part.GetComponent<Collider>();
             CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
 
             if (meshrenderer != null)
             {
@@ -444,6 +451,11 @@ namespace Player
             if (creaturePart != null)
             {
                 creaturePart.enabled = true;
+            }
+            
+            if (creatureBodySegment != null)
+            {
+                creatureBodySegment.visualBodySegment.SetActive(true);
             }
         }
         

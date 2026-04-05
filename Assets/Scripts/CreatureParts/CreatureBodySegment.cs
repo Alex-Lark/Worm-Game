@@ -7,6 +7,7 @@ namespace CreatureParts
     public class CreatureBodySegment : CreaturePart
     {
         public bool IsScrunched { get; private set; }
+        public GameObject visualBodySegment;
 
         public CreaturePart previousSegment;
         public CreaturePart nextSegment;

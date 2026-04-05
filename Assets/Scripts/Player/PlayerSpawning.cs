@@ -348,6 +348,7 @@ namespace Player
             GetComponent<WormRenderer>().Restart();
             
             player.EnablePartForRespawn(player.wormHead.gameObject);
+            player.wormVisualHead.gameObject.SetActive(true);
             foreach (Transform bodySegment in player.wormBodySegments)
                 player.EnablePartForRespawn(bodySegment.gameObject);
             
