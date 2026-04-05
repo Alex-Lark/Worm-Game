@@ -51,35 +51,6 @@ namespace Player
             }
         }
 
-        protected override void OnSpawned(bool asServer)
-        {
-            if (player == null) player = GetComponent<Player>();
-            isRegistered = true;
-            Debug.Log($"Player spawned | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer} | isServer: {isServer}");
-            
-            if (owner == localPlayer && !asServer)
-            {
-                LocalPlayer.Register(player);
-                
-                player.wormBodySegments.Clear();
-                player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-                player.wormConstructor.CreateWormSegments();
-                
-                return;
-            }
-
-            if (isOwner)
-            {
-                // if (player == null) player = GetComponent<Player>();
-                // LocalPlayer.Register(player);
-                OwnerSetup();
-            }
-            else if (!hasBeenSetup)
-            {
-                StartCoroutine(FindAndSetupRemoteWorm());
-            }
-        }
-
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -92,7 +63,105 @@ namespace Player
         }
 
         #endregion
+        
+        #region Initial Spawning
+        
+        protected override void OnSpawned(bool asServer)
+        {
+            if (player == null) player = GetComponent<Player>();
+            isRegistered = true;
+            Debug.Log($"Player spawned | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer} | asServer: {asServer}");
+            
+            if (owner == localPlayer && !asServer)
+            {
+                StartCoroutine(InitialSpawnAsOwner());
+            }
+            
+            // else if (!hasBeenSetup)
+            // {
+            //     Debug.Log("finding and setting up remote worm");
+            //     StartCoroutine(FindAndSetupRemoteWorm());
+            // }
+        }
 
+        private IEnumerator InitialSpawnAsOwner()
+        {
+            Debug.Log("setting up as owner == localPlayer");
+            LocalPlayer.Register(player);
+                
+            player.CurrentState = WormState.Idle;
+            player.IsWormGrounded = false;
+            player.MaxVelocity = GameParameters.WormMaxVelocity;
+
+            player.wormForwardMovement = GetComponent<WormForwardMovement>();
+            player.wormJump = GetComponent<WormJump>();
+            player.wormHeadBut = GetComponent<WormHeadBut>();
+            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
+                
+            yield return StartCoroutine(SpawnAsServer(player));
+            
+            player.wormConstructor.ConstructWorm();
+            GetComponent<WormPhysics>().AddCollidersToSegments();
+            SetKinematicStateServer(true, player);
+
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+                SetWormInGameScene();
+            else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
+                StartCoroutine(SetWormInCreatureBuilderScene());
+            
+            yield return null;
+        }
+        
+        [ServerRpc]
+        private IEnumerator SpawnAsServer(Player playerToSpawn)
+        {
+            if (playerToSpawn != player) yield break;
+            
+            Debug.Log($"Spawning player {player.PlayerName} as server");
+            
+            player.wormBodySegments.Clear();
+            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
+            player.wormConstructor.CreateWormSegments();
+
+            yield return null;
+        }
+        
+        private IEnumerator FindAndSetupRemoteWorm()
+        {
+            Debug.Log("setting up remote worm");
+            hasBeenSetup = true;
+            
+            yield return new WaitForSeconds(0.5f);
+            RefreshSegmentsFromChildren();
+            
+            float elapsed = 0.5f;
+            while (player.wormBodySegments.Count < player.WormSegmentCount && elapsed < 3f)
+            {
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+                if (player.wormBodySegments.Count == 0) RefreshSegmentsFromChildren();
+            }
+
+            if (player.wormBodySegments.Count < player.WormSegmentCount)
+            {
+                Debug.LogError("FindAndSetupRemoteWorm timed out waiting for segments.");
+                yield break;
+            }
+
+            SetSegmentsKinematic(true);
+            yield return null;
+
+            RebuildSegmentReferences();
+            var physics = GetComponent<WormPhysics>();
+            physics.AddCollidersToSegments();
+
+            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
+            player.wormConstructor.ConstructWorm();
+            yield return null;
+        }
+        
+        #endregion
+        
         #region Public Methods
 
         public void SetSpawnPoint(GameObject inputSpawnpoint)
@@ -392,40 +461,6 @@ namespace Player
             {
                 GetComponent<Player>().DeactivatePlayer();
             }
-        }
-        
-        private IEnumerator FindAndSetupRemoteWorm()
-        {
-            Debug.Log("setting up remote worm");
-            hasBeenSetup = true;
-            
-            yield return new WaitForSeconds(0.5f);
-            RefreshSegmentsFromChildren();
-            
-            float elapsed = 0.5f;
-            while (player.wormBodySegments.Count < player.WormSegmentCount && elapsed < 3f)
-            {
-                yield return new WaitForSeconds(0.1f);
-                elapsed += 0.1f;
-                if (player.wormBodySegments.Count == 0) RefreshSegmentsFromChildren();
-            }
-
-            if (player.wormBodySegments.Count < player.WormSegmentCount)
-            {
-                Debug.LogError("FindAndSetupRemoteWorm timed out waiting for segments.");
-                yield break;
-            }
-
-            SetSegmentsKinematic(true);
-            yield return null;
-
-            RebuildSegmentReferences();
-            var physics = GetComponent<WormPhysics>();
-            physics.AddCollidersToSegments();
-
-            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-            player.wormConstructor.ConstructWorm();
-            yield return null;
         }
         
         private void RefreshSegmentsFromChildren()
