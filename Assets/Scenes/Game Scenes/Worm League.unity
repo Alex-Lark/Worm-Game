@@ -655,7 +655,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1930621291}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
       insertIndex: -1
@@ -1177,7 +1180,10 @@ MonoBehaviour:
   wormSegmentPrefab: {fileID: 0}
   wormHead: {fileID: 0}
   wormVisualHead: {fileID: 0}
-  wormBodySegments: []
+  wormBodySegments:
+    _ownerAuth: 0
+    _sendIntervalInSeconds: 0
+    _list: []
   attachedWormParts: []
   wormPartsInInventory: []
   playerSpawning: {fileID: 0}
@@ -2702,8 +2708,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0634dc1dc8395694883636f1890788f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormLeague.Goal
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   wormLeague: {fileID: 1950704529}
   team: red
+  particlePrefabs:
+  - {fileID: 590299715896632577, guid: 7783ebbf4dbbeca449d035a15f268edf, type: 3}
+  - {fileID: 5353902101087521988, guid: 76c71a0885fd13e4da5d0f3db3210cdf, type: 3}
+  - {fileID: 6527613916376164339, guid: 49f9d7413af40a9438454fe205e539de, type: 3}
+  - {fileID: 4775675425458982874, guid: 89d439a6f8e9f22449ec947dc147b88b, type: 3}
+  particlePoint: {fileID: 1930621290}
 --- !u!64 &881868971
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5224,6 +5245,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1351480335178397622, guid: 7446d2ec97f4cc14d9c471be2d750479, type: 3}
+--- !u!1 &1608405189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1608405190}
+  m_Layer: 0
+  m_Name: ParticlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1608405190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608405189}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -204, y: 66, z: 0}
+  m_LocalScale: {x: 50.000175, y: 50.00017, z: 50.000175}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1981044333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1615075564
 GameObject:
   m_ObjectHideFlags: 0
@@ -5272,8 +5324,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0634dc1dc8395694883636f1890788f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormLeague.Goal
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   wormLeague: {fileID: 1950704529}
   team: blue
+  particlePrefabs:
+  - {fileID: 590299715896632577, guid: 7783ebbf4dbbeca449d035a15f268edf, type: 3}
+  - {fileID: 4775675425458982874, guid: 89d439a6f8e9f22449ec947dc147b88b, type: 3}
+  - {fileID: 6527613916376164339, guid: 49f9d7413af40a9438454fe205e539de, type: 3}
+  - {fileID: 5353902101087521988, guid: 76c71a0885fd13e4da5d0f3db3210cdf, type: 3}
+  particlePoint: {fileID: 1608405189}
 --- !u!64 &1633888301
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5907,6 +5974,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8888818028900680657, guid: 7446d2ec97f4cc14d9c471be2d750479, type: 3}
+--- !u!1 &1930621290
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1930621291}
+  m_Layer: 0
+  m_Name: ParticlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1930621291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930621290}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -204, y: 66, z: -0}
+  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 99382440}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950704528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5918,6 +6016,7 @@ GameObject:
   - component: {fileID: 1950704530}
   - component: {fileID: 1950704529}
   - component: {fileID: 1950704531}
+  - component: {fileID: 1950704532}
   m_Layer: 0
   m_Name: WormLeague
   m_TagString: Untagged
@@ -5992,6 +6091,27 @@ MonoBehaviour:
   teamText: {fileID: 904289612}
   redScore: {fileID: 930476706}
   blueScore: {fileID: 2011025985}
+--- !u!114 &1950704532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950704528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67c71109babaaf4cb5a6b5baab9e85c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WormLeagueParticles
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
 --- !u!1 &1972518095
 GameObject:
   m_ObjectHideFlags: 0
@@ -6202,7 +6322,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1608405190}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 35efa19bdd59f704a804c4ebf1cacbde, type: 3}
       insertIndex: -1
