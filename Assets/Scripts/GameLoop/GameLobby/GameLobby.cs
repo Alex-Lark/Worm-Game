@@ -34,7 +34,7 @@ namespace GameLoop.GameLobby
         void Start()
         {
             Debug.Log("Game Lobby start method called");
-            playerRegister = gameObject.GetOrAddComponent<PlayerRegister>();
+            playerRegister = Network.instance.gameObject.GetOrAddComponent<PlayerRegister>();
             PlayerRegister.OnPlayerRegisterChanged += OnPlayerRegisterChanged;
             PlayerRegister.OnPlayerRegistered += OnPlayerRegistered;
 

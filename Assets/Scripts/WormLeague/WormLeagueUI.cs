@@ -1,11 +1,13 @@
 using DG.Tweening;
+using PurrNet;
+using PurrNet.Packing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace WormLeague
 {
-    public class WormLeagueUI : MonoBehaviour
+    public class WormLeagueUI : PurrMonoBehaviour
     {
         public WormLeague wormLeague;
         
@@ -15,10 +17,21 @@ namespace WormLeague
         public TextMeshProUGUI blueScore;
 
         private string team;
-
+        
         private void Start()
         {
             DisplayTitleScreen();
+
+            PlayerRegister.OnPlayerRegisterChanged += UpdateUI;
+        }
+
+        private void UpdateUI(PlayerID arg1, bool arg2)
+        {
+            PlayerID ThisPlayer = Network.instance.manager.localPlayer;
+            if(PlayerRegister.Players[ThisPlayer].team==PlayerRegister.Team.Red)SetTeam("red");
+            else if(PlayerRegister.Players[ThisPlayer].team==PlayerRegister.Team.Blue)SetTeam("blue");
+            
+            
         }
 
         public void SetTeam(string inputTeam)
@@ -76,6 +89,28 @@ namespace WormLeague
             titleText.alpha = 1f;
             
             titleText.DoFade(0f, GameParameters.TitleFadeTime).SetDelay(GameParameters.TitleShowTime).OnComplete(DisplayTeam);
+        }
+
+        public override void Subscribe(NetworkManager manager, bool asServer)
+        {
+            manager.Subscribe<GoalScoredPacket>(OnGoalScoredPacket, asServer);
+
+        }
+
+        public override void Unsubscribe(NetworkManager manager, bool asServer)
+        {
+            manager.Unsubscribe<GoalScoredPacket>(OnGoalScoredPacket, asServer);
+        }
+
+        private void OnGoalScoredPacket(PlayerID player, GoalScoredPacket data, bool asServer)
+        {
+            GoalScored(data.goalName,data.playerName);
+        }
+        
+        public struct GoalScoredPacket : IPackedAuto
+        {
+            public string playerName;
+            public string goalName;
         }
     }
 }

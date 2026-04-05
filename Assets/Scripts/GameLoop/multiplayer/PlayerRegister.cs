@@ -4,7 +4,7 @@ using PurrNet;
 using PurrNet.Packing;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 using Random = UnityEngine.Random;
 
 public class PlayerRegister : PurrMonoBehaviour
@@ -12,7 +12,15 @@ public class PlayerRegister : PurrMonoBehaviour
     public static Dictionary<PlayerID, PlayerData> Players = new Dictionary<PlayerID, PlayerData>();
     public static event Action<PlayerID,bool> OnPlayerRegisterChanged;
     public static event System.Action<PlayerID> OnPlayerRegistered;
-    
+
+    public static PlayerRegister Instance;
+
+    private void Start()
+    { 
+        DontDestroyOnLoad(this);
+        Instance = this;
+    }
+
     private string FixUserName(string newName)
     {
         List<string> takenNames = new List<string>();
@@ -31,6 +39,12 @@ public class PlayerRegister : PurrMonoBehaviour
         }
         return newName;
     }
+
+    public enum Team : byte
+    {
+        Red = 1,
+        Blue = 2
+    }
     
     public struct PlayerData : IPackedAuto
     {
@@ -38,13 +52,13 @@ public class PlayerRegister : PurrMonoBehaviour
         public PlayerID playerID;
         public int colorIndex;
         public ushort score;
-        public bool isDead;
+        public Team team;
         public bool isDisconected;
-        public string Scene;
     }
     
     private void OnPlayerDataRequest(PlayerID playerID, PlayerData player, bool asServer)
     {
+        print("Recived from "+player.name);
         if (asServer)
         {
             player.playerID = playerID;
@@ -70,13 +84,7 @@ public class PlayerRegister : PurrMonoBehaviour
             // Now broadcast ALL players to ALL clients (including the new one)
             foreach (var existingPlayer in Players)
             {
-                PlayerData playerData = new PlayerData
-                {
-                    playerID = existingPlayer.Key,
-                    name = existingPlayer.Value.name,
-                    colorIndex = -1
-                };
-                Network.instance.manager.SendToAll(playerData);
+                Network.instance.manager.SendToAll(existingPlayer.Value);
             }
         }
         else
@@ -87,8 +95,9 @@ public class PlayerRegister : PurrMonoBehaviour
 
     private void RegisterPlayerData(PlayerData player, PlayerID playerID)
     {
-        Players[playerID] = player;
+        Players[player.playerID] = player;
         OnPlayerRegisterChanged?.Invoke(playerID, true);
+        Debug.Log("Recived Player Data for player "+player.playerID.id+ " Name: "+player.name);
     }
     
     public static void RemoveClient(PlayerID playerID, bool _)
@@ -135,7 +144,6 @@ public class PlayerRegister : PurrMonoBehaviour
     public override void Unsubscribe(NetworkManager manager, bool asServer)
     {
         manager.Unsubscribe<PlayerData>(OnPlayerDataRequest, asServer);
-            
     }
 
     public static void ResetRegister()
