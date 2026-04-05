@@ -31,6 +31,9 @@ namespace Player
             GetComponent<Player>().OnPlayerTeamChanged += HandleTeamChanged;
             CinemachineCore.CameraUpdatedEvent.AddListener(OnCinemachineUpdate);
             SceneManager.sceneLoaded += OnSceneLoaded;
+            
+            GetComponent<Player>().OnWormDeath += OnPlayerDeath;
+            GetComponent<PlayerSpawning>().OnWormRespawn += OnWormRespawn;
         }
 
         void OnDisable()
@@ -38,6 +41,19 @@ namespace Player
             GetComponent<Player>().OnPlayerTeamChanged -= HandleTeamChanged;
             CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCinemachineUpdate);
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            
+            GetComponent<Player>().OnWormDeath -= OnPlayerDeath;
+            GetComponent<PlayerSpawning>().OnWormRespawn -= OnWormRespawn;
+        }
+
+        private void OnPlayerDeath()
+        {
+            usernameText.enabled = false;
+        }
+
+        private void OnWormRespawn()
+        {
+            usernameText.enabled = true;
         }
 
         private void OnCinemachineUpdate(CinemachineBrain brain)
