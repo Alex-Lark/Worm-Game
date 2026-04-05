@@ -76,12 +76,10 @@ namespace Player
             {
                 StartCoroutine(InitialSpawnAsOwner());
             }
-            
-            // else if (!hasBeenSetup)
-            // {
-            //     Debug.Log("finding and setting up remote worm");
-            //     StartCoroutine(FindAndSetupRemoteWorm());
-            // }
+            else //already spawned worm
+            {
+                GetComponent<WormConstructor>().AddSegmentJoints();
+            }
         }
 
         private IEnumerator InitialSpawnAsOwner()
@@ -101,6 +99,7 @@ namespace Player
             
             GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
+            GetComponent<WormConstructor>().AddSegmentJointsAsServer(player);
             SetKinematicStateServer(true, player);
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -121,39 +120,6 @@ namespace Player
             player.wormBodySegments.Clear();
             GetComponent<WormConstructor>().CreateWormSegments();
 
-            yield return null;
-        }
-        
-        private IEnumerator FindAndSetupRemoteWorm()
-        {
-            Debug.Log("setting up remote worm");
-            hasBeenSetup = true;
-            
-            yield return new WaitForSeconds(0.5f);
-            RefreshSegmentsFromChildren();
-            
-            float elapsed = 0.5f;
-            while (player.wormBodySegments.Count < player.WormSegmentCount && elapsed < 3f)
-            {
-                yield return new WaitForSeconds(0.1f);
-                elapsed += 0.1f;
-                if (player.wormBodySegments.Count == 0) RefreshSegmentsFromChildren();
-            }
-
-            if (player.wormBodySegments.Count < player.WormSegmentCount)
-            {
-                Debug.LogError("FindAndSetupRemoteWorm timed out waiting for segments.");
-                yield break;
-            }
-
-            SetSegmentsKinematic(true);
-            yield return null;
-
-            RebuildSegmentReferences();
-            var physics = GetComponent<WormPhysics>();
-            physics.AddCollidersToSegments();
-            
-            GetComponent<WormConstructor>().ConstructWorm();
             yield return null;
         }
         

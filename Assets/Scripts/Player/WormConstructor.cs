@@ -44,7 +44,6 @@ namespace Player
             
             Vector3 currentPos = player.wormHead.position;
             Vector3 backDir = -player.wormHead.forward;
-            Rigidbody previousRb = player.wormHead.GetComponent<Rigidbody>();
 
             //Debug.Log($"Construct worm called on {player.PlayerName}");
             
@@ -54,8 +53,35 @@ namespace Player
                 Transform segment = player.wormBodySegments[i];
                 segment.position = currentPos;
                 segment.rotation = player.wormHead.rotation;
-                previousRb = segment.GetComponent<CreatureBodySegment>().AddJoint(segment, previousRb);
                 //Debug.Log($"positioning segment {segment}");
+            }
+        }
+
+        [ServerRpc]
+        public void AddSegmentJointsAsServer(Player playerToSetJoints)
+        {
+            AddSegmentJointsServerRpc(playerToSetJoints);
+        }
+
+        [ObserversRpc]
+        public void AddSegmentJointsServerRpc(Player playerToSetJoints)
+        {
+            if (player == null) player = GetComponent<Player>();
+
+            if (player != playerToSetJoints) return;
+            
+            AddSegmentJoints();
+        }
+
+        public void AddSegmentJoints()
+        {
+            Rigidbody previousRb = player.wormHead.GetComponent<Rigidbody>();
+            
+            for (int i = 0; i < player.wormBodySegments.Count; i++)
+            {
+                Transform segment = player.wormBodySegments[i];
+                
+                previousRb = segment.GetComponent<CreatureBodySegment>().AddJoint(segment, previousRb);
             }
         }
     }
