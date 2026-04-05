@@ -4315,11 +4315,11 @@ MonoBehaviour:
   spawnDistance: 5
   partPairs:
   - cardPrefab: {fileID: 6895014049120698220, guid: 9ef4c396336956b4c95236d27c2ee832, type: 3}
-    part3DPrefab: {fileID: 4684220183131317328, guid: 66fa66cd86cbaa8439c74f46f6a7244c, type: 3}
+    part3DPrefab: {fileID: 4684220183131317328, guid: ef3427f80153f3248ac370975454d029, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: 97f4ff1f42ccb87428513446a8b2c436, type: 3}
     part3DPrefab: {fileID: 6294173655021920613, guid: 49716e0f920649e45ab0f0131a2ec8bc, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: 021157b093a727343be037f512319b97, type: 3}
-    part3DPrefab: {fileID: 4095739936648171777, guid: 714a54dc47be6f24daccc6c9a27e6f4a, type: 3}
+    part3DPrefab: {fileID: 4095739936648171777, guid: 9ed978a563dfb87418c035b97be426f3, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: 997a49d13a5459d41a04bd9e9054df21, type: 3}
     part3DPrefab: {fileID: 4212110029664344896, guid: 759b5b79fd11d694f9ca16ae1055b2c5, type: 3}
   - cardPrefab: {fileID: 6895014049120698220, guid: b9d1885ef1c2d0348b070c2f731bca12, type: 3}
