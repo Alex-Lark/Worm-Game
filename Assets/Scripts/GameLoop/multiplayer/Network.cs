@@ -42,7 +42,7 @@ public class Network : MonoBehaviour
     public void StartServer()
     {
         //targetAddress = "127.0.0.1"; //uncomment this for UDP transport
-        targetAddress = "BattleWorms";
+        targetAddress = "BattleWorms2";
         StartCommon();
         manager.StartHost();
     }
