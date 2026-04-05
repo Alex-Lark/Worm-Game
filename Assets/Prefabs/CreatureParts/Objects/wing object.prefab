@@ -1134,6 +1134,8 @@ MonoBehaviour:
   attachmentPosition: {x: 0, y: 0, z: 0}
   attachmentRotation: {x: 0, y: 0, z: 0, w: 0}
   attachedSegmentRigidbody: {fileID: 0}
+  localPositionOnAttach: {x: 0, y: 0, z: 0}
+  localRotationOnAttach: {x: 0, y: 0, z: 0, w: 0}
   baseForce: 50000
   wingForceDebuff: 10000
   forcePointA: {fileID: 4298025189571550206}

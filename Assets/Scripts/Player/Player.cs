@@ -55,13 +55,12 @@ namespace Player
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
         public Transform wormVisualHead;
-        public List<Transform> wormBodySegments;
+        public SyncList<Transform> wormBodySegments = new(false);
         public List<GameObject> attachedWormParts;
         public List<GameObject> wormPartsInInventory;
 
         public PlayerSpawning playerSpawning;
         public WormForwardMovement wormForwardMovement;
-        public WormConstructor wormConstructor;
         
         public GameObject wormHeadCopy;
         

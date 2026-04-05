@@ -75,7 +75,7 @@ namespace Player
             var triangles = new List<int>();
 
             var originalPositions = new List<Vector3> { player.wormHead.position };
-            originalPositions.AddRange(player.wormBodySegments.ConvertAll(p => p.position));
+            originalPositions.AddRange(player.wormBodySegments.list.ConvertAll(p => p.position));
             
             if (originalPositions.Count < 2) return;
 
@@ -401,7 +401,7 @@ namespace Player
         void UpdateLineRenderer()
         {
             var positions = new List<Vector3> { player.wormHead.position };
-            positions.AddRange(player.wormBodySegments.ConvertAll(p => p.position));
+            positions.AddRange(player.wormBodySegments.list.ConvertAll(p => p.position));
             lineRenderer.positionCount = positions.Count;
             lineRenderer.SetPositions(positions.ToArray());
         }

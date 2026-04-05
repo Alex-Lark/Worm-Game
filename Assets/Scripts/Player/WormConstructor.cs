@@ -6,58 +6,48 @@ using UnityEngine;
 
 namespace Player
 {
-    public class WormConstructor
+    public class WormConstructor: NetworkBehaviour
     {
-        private readonly Transform wormHead;
-        private readonly List<Transform> wormBodySegments;
-        private readonly GameObject wormSegmentPrefab;
-        private readonly Transform parentTransform;
-        private readonly int wormSegmentCount;
-        private readonly float maxPartDistance;
+        private Player player;
 
-        public WormConstructor(Transform wormHead, List<Transform> wormBodySegments, GameObject wormSegmentPrefab, Transform parentTransform, int segmentCount, float partDistance)
+        void Start()
         {
-            this.wormHead = wormHead;
-            this.wormBodySegments = wormBodySegments;
-            this.wormSegmentPrefab = wormSegmentPrefab;
-            this.parentTransform = parentTransform;
-            this.wormSegmentCount = segmentCount;
-            this.maxPartDistance = partDistance;
+            player = GetComponent<Player>();
         }
-
+        
         public void CreateWormSegments()
         {
             
-            CreaturePart previousSegment = wormHead.GetComponent<CreaturePart>();
+            CreaturePart previousSegment = player.wormHead.GetComponent<CreaturePart>();
     
-            for (int i = 0; i < wormSegmentCount; i++)
+            for (int i = 0; i < player.WormSegmentCount; i++)
             {
-                GameObject newSegment = Object.Instantiate(wormSegmentPrefab, parentTransform);
+                GameObject newSegment = Object.Instantiate(player.wormSegmentPrefab, transform);
                 newSegment.name = "Worm segment " + i;
                 newSegment.GetComponent<CreatureBodySegment>().previousSegment = previousSegment;
-                wormBodySegments.Add(newSegment.transform);
+                player.wormBodySegments.Add(newSegment.transform);
                 previousSegment = newSegment.GetComponent<CreatureBodySegment>();
             }
             
-            for (int i = 0; i < wormBodySegments.Count - 1; i++)
+            for (int i = 0; i < player.wormBodySegments.Count - 1; i++)
             {
-                wormBodySegments[i].GetComponent<CreatureBodySegment>().nextSegment = 
-                    wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
+                player.wormBodySegments[i].GetComponent<CreatureBodySegment>().nextSegment = 
+                    player.wormBodySegments[i + 1].GetComponent<CreatureBodySegment>();
             }
         }
 
         public void ConstructWorm()
         {
-            Vector3 currentPos = wormHead.position;
-            Vector3 backDir = -wormHead.forward;
-            Rigidbody previousRb = wormHead.GetComponent<Rigidbody>();
+            Vector3 currentPos = player.wormHead.position;
+            Vector3 backDir = -player.wormHead.forward;
+            Rigidbody previousRb = player.wormHead.GetComponent<Rigidbody>();
 
-            for (int i = 0; i < wormBodySegments.Count; i++)
+            for (int i = 0; i < player.wormBodySegments.Count; i++)
             {
-                currentPos += backDir * maxPartDistance;
-                Transform segment = wormBodySegments[i];
+                currentPos += backDir * player.MaxPartDistance;
+                Transform segment = player.wormBodySegments[i];
                 segment.position = currentPos;
-                segment.rotation = wormHead.rotation;
+                segment.rotation = player.wormHead.rotation;
                 previousRb = segment.GetComponent<CreatureBodySegment>().AddJoint(segment, previousRb);
             }
         }

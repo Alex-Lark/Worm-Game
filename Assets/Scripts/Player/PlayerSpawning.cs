@@ -96,11 +96,10 @@ namespace Player
             player.wormForwardMovement = GetComponent<WormForwardMovement>();
             player.wormJump = GetComponent<WormJump>();
             player.wormHeadBut = GetComponent<WormHeadBut>();
-            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
                 
             yield return StartCoroutine(SpawnAsServer(player));
             
-            player.wormConstructor.ConstructWorm();
+            GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
             SetKinematicStateServer(true, player);
 
@@ -120,8 +119,7 @@ namespace Player
             Debug.Log($"Spawning player {player.PlayerName} as server");
             
             player.wormBodySegments.Clear();
-            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-            player.wormConstructor.CreateWormSegments();
+            GetComponent<WormConstructor>().ConstructWorm();
 
             yield return null;
         }
@@ -154,9 +152,8 @@ namespace Player
             RebuildSegmentReferences();
             var physics = GetComponent<WormPhysics>();
             physics.AddCollidersToSegments();
-
-            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-            player.wormConstructor.ConstructWorm();
+            
+            GetComponent<WormConstructor>().ConstructWorm();
             yield return null;
         }
         
@@ -302,9 +299,8 @@ namespace Player
                 Debug.LogError("WaitForSegmentsThenSetup timed out.");
                 yield break;
             }
-
-            player.wormConstructor = new WormConstructor(player.wormHead, player.wormBodySegments, player.wormSegmentPrefab, transform, player.WormSegmentCount, player.MaxPartDistance);
-            player.wormConstructor.ConstructWorm();
+            
+            GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
             SetKinematicStateServer(true, player);
 
@@ -336,7 +332,7 @@ namespace Player
             player.canDie = true;
             
             SetKinematicStateServer(true, player);
-            player.wormConstructor.ConstructWorm();
+            player.GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
 
             yield return new WaitForFixedUpdate();
