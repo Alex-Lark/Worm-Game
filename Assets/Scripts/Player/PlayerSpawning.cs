@@ -119,7 +119,7 @@ namespace Player
             Debug.Log($"Spawning player {player.PlayerName} as server");
             
             player.wormBodySegments.Clear();
-            GetComponent<WormConstructor>().ConstructWorm();
+            GetComponent<WormConstructor>().CreateWormSegments();
 
             yield return null;
         }

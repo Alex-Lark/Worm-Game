@@ -10,13 +10,15 @@ namespace Player
     {
         private Player player;
 
-        void Start()
+        void Awake()
         {
             player = GetComponent<Player>();
+            Debug.Log($"player: {player}");
         }
         
         public void CreateWormSegments()
         {
+            if (player == null) player = GetComponent<Player>();
             
             CreaturePart previousSegment = player.wormHead.GetComponent<CreaturePart>();
     
@@ -38,6 +40,8 @@ namespace Player
 
         public void ConstructWorm()
         {
+            if (player == null) player = GetComponent<Player>();
+            
             Vector3 currentPos = player.wormHead.position;
             Vector3 backDir = -player.wormHead.forward;
             Rigidbody previousRb = player.wormHead.GetComponent<Rigidbody>();
