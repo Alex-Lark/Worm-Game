@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a44c2f5aa36cf184aa73a639fca4b4fb, type: 3}
   m_Name: WingPartData
   m_EditorClassIdentifier: Assembly-CSharp::CreatureBuilder.CreaturePartData
-  prefab: {fileID: 4095739936648171777, guid: 714a54dc47be6f24daccc6c9a27e6f4a, type: 3}
+  prefab: {fileID: 4095739936648171777, guid: 9ed978a563dfb87418c035b97be426f3, type: 3}
   mass: 5
