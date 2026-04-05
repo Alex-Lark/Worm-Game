@@ -78,7 +78,7 @@ namespace Player
             }
             else //already spawned worm
             {
-                GetComponent<WormConstructor>().AddSegmentJoints();
+                //GetComponent<WormConstructor>().AddSegmentJoints();
             }
         }
 
@@ -99,7 +99,8 @@ namespace Player
             
             GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
-            GetComponent<WormConstructor>().AddSegmentJointsAsServer(player);
+            //GetComponent<WormConstructor>().AddSegmentJointsAsServer(player);
+            GetComponent<WormConstructor>().AddSegmentJoints();
             SetKinematicStateServer(true, player);
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
@@ -233,48 +234,6 @@ namespace Player
         #endregion
         
         #region Private Methods
-        
-        private void OwnerSetup()
-        {
-            Debug.Log("player owner setup");
-            player.CurrentState = WormState.Idle;
-            player.IsWormGrounded = false;
-            player.MaxVelocity = GameParameters.WormMaxVelocity;
-
-            player.wormForwardMovement = GetComponent<WormForwardMovement>();
-            player.wormJump = GetComponent<WormJump>();
-            player.wormHeadBut = GetComponent<WormHeadBut>();
-            
-            StartCoroutine(WaitForSegmentsThenSetup());
-        }
-        
-        private IEnumerator WaitForSegmentsThenSetup()
-        {
-            Debug.Log("waiting for segments then setting up");
-            
-            float elapsed = 0f;
-            while (player.wormBodySegments.Count < player.WormSegmentCount && elapsed < 3f)
-            {
-                RefreshSegmentsFromChildren();
-                yield return new WaitForSeconds(0.1f);
-                elapsed += 0.1f;
-            }
-
-            if (player.wormBodySegments.Count < player.WormSegmentCount)
-            {
-                Debug.LogError("WaitForSegmentsThenSetup timed out.");
-                yield break;
-            }
-            
-            GetComponent<WormConstructor>().ConstructWorm();
-            GetComponent<WormPhysics>().AddCollidersToSegments();
-            SetKinematicStateServer(true, player);
-
-            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
-                SetWormInGameScene();
-            else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
-                StartCoroutine(SetWormInCreatureBuilderScene());
-        }
 
         private IEnumerator SpawnAtSpawnPoint()
         {
