@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2940147344039450268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2559822232737532966}
+  - component: {fileID: 1452845561932202883}
+  - component: {fileID: 3732776137578264393}
+  - component: {fileID: 8459585386460091996}
+  m_Layer: 0
+  m_Name: CanonAnimation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2559822232737532966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2940147344039450268}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7013128, y: -0, z: -0, w: -0.71285367}
+  m_LocalPosition: {x: -2.84, y: -0.13, z: 11.2}
+  m_LocalScale: {x: 709.2603, y: 709.2602, z: 709.2602}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -89.065, y: 0, z: 0}
+--- !u!33 &1452845561932202883
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2940147344039450268}
+  m_Mesh: {fileID: 828669472937130794, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+--- !u!23 &3732776137578264393
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2940147344039450268}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 7564602765184312908, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  - {fileID: -1284260927631125814, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  - {fileID: -8616980908513022583, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  - {fileID: -815195097086013973, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  - {fileID: -2174497665834857453, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  - {fileID: 2174986057142720435, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  - {fileID: -7909178089657751008, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  - {fileID: -9181952364849997378, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &8459585386460091996
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2940147344039450268}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 2e9d3664a2f5f8f4c96135fbc6717fc7, type: 3}
+  m_Controller: {fileID: 9100000, guid: 0f00e391fe106fb44ad537e53aa548f8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 1
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 1
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
