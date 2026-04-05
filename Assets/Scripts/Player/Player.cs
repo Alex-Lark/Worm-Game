@@ -381,19 +381,69 @@ namespace Player
                 Destroy(transform.Find("WormMesh").gameObject);
     
             wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
-            wormHead.gameObject.SetActive(false);
+            DisablePartForDeath(wormHead.gameObject);
 
             foreach (Transform bodySegment in wormBodySegments)
             {
                 DuplicatePartForDeath(bodySegment.gameObject);
-                bodySegment.gameObject.SetActive(false);
+                DisablePartForDeath(bodySegment.gameObject);
             }
     
             foreach (GameObject attachedPart in attachedWormParts)
             {
                 DuplicatePartForDeath(attachedPart);
-                attachedPart.gameObject.SetActive(false);
-                attachedPart.GetComponent<AttachablePart>().enabled = false;
+                DisablePartForDeath(attachedPart);
+            }
+
+            if (isOwner && owner == localPlayer)
+            {
+                playerSpawning.SetKinematicStateServer(true, this);
+            }
+        }
+
+        private void DisablePartForDeath(GameObject part)
+        {
+            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
+            Rigidbody rigidbody = part.GetComponent<Rigidbody>();
+            Collider collider = part.GetComponent<Collider>();
+            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+
+            if (meshrenderer != null)
+            {
+                meshrenderer.enabled = false;
+            }
+
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
+
+            if (creaturePart != null)
+            {
+                creaturePart.enabled = false;
+            }
+        }
+        
+        public void EnablePartForRespawn(GameObject part)
+        {
+            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
+            Rigidbody rigidbody = part.GetComponent<Rigidbody>();
+            Collider collider = part.GetComponent<Collider>();
+            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+
+            if (meshrenderer != null)
+            {
+                meshrenderer.enabled = true;
+            }
+
+            if (collider != null)
+            {
+                collider.enabled = true;
+            }
+
+            if (creaturePart != null)
+            {
+                creaturePart.enabled = true;
             }
         }
         

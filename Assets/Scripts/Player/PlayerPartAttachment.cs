@@ -124,8 +124,7 @@ namespace Player
             foreach (GameObject attachedPart in GetComponent<Player>().attachedWormParts)
             {
                 Debug.Log($"ReactivateAttachedParts: part instanceID={attachedPart.GetInstanceID()} name={attachedPart.name}");
-                attachedPart.SetActive(true);
-                attachedPart.GetComponent<AttachablePart>().enabled = true;
+                GetComponent<Player>().EnablePartForRespawn(attachedPart);
                 yield return StartCoroutine(attachedPart.GetComponent<AttachablePart>().ResetJoint());
             }
     
