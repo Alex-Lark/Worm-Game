@@ -5,6 +5,7 @@ namespace CreatureParts
     public class WormHead : CreaturePart
     {
         public GameObject visualHead;
+        public GameObject wormVisualHeadWithMaterial;
         
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -21,7 +22,7 @@ namespace CreatureParts
         public new void SetMaterial(Material material)
         {
             Debug.Log("setMaterial called on wormHead");
-            visualHead.GetComponent<MeshRenderer>().material = material;
+            wormVisualHeadWithMaterial.GetComponent<MeshRenderer>().material = material;
         }
         
     }
