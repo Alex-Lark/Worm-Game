@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Player;
 using UnityEngine;
@@ -16,6 +17,16 @@ namespace CreatureParts
         private Transform attachedEndPoint;
         private Vector3 savedAnchor;
         private Vector3 savedConnectedAnchor;
+
+        private void OnEnable()
+        {
+            
+        }
+
+        private void OnDisable()
+        {
+            
+        }
 
         public void CalculateConnection()
         {

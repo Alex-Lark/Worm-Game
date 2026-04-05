@@ -393,7 +393,7 @@ namespace Player
             foreach (GameObject attachedPart in attachedWormParts)
             {
                 DuplicatePartForDeath(attachedPart);
-                DisablePartForDeath(attachedPart);
+                attachedPart.SetActive(false);
             }
 
             if (isOwner && owner == localPlayer)
@@ -409,6 +409,7 @@ namespace Player
             Collider collider = part.GetComponent<Collider>();
             CreaturePart creaturePart = part.GetComponent<CreaturePart>();
             CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
+            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
 
             if (meshrenderer != null)
             {
@@ -429,6 +430,22 @@ namespace Player
             {
                 creatureBodySegment.visualBodySegment.SetActive(false);
             }
+
+            if (attachablePart != null)
+            {
+                for (int i = 0; i < part.transform.childCount; i++)
+                {
+                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
+                    if (childGameobject.GetComponent<MeshRenderer>() != null)
+                    {
+                        childGameobject.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                    if (childGameobject.GetComponent<Collider>() != null)
+                    {
+                        childGameobject.GetComponent<Collider>().enabled = false;
+                    }
+                }
+            }
         }
         
         public void EnablePartForRespawn(GameObject part)
@@ -437,6 +454,7 @@ namespace Player
             Collider collider = part.GetComponent<Collider>();
             CreaturePart creaturePart = part.GetComponent<CreaturePart>();
             CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
+            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
 
             if (meshrenderer != null)
             {
@@ -456,6 +474,22 @@ namespace Player
             if (creatureBodySegment != null)
             {
                 creatureBodySegment.visualBodySegment.SetActive(true);
+            }
+            
+            if (attachablePart != null)
+            {
+                for (int i = 0; i < part.transform.childCount; i++)
+                {
+                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
+                    if (childGameobject.GetComponent<MeshRenderer>() != null)
+                    {
+                        childGameobject.GetComponent<MeshRenderer>().enabled = true;
+                    }
+                    if (childGameobject.GetComponent<Collider>() != null)
+                    {
+                        childGameobject.GetComponent<Collider>().enabled = true;
+                    }
+                }
             }
         }
         
@@ -482,6 +516,11 @@ namespace Player
                     foreach (MeshRenderer renderer in copy.GetComponentsInChildren<MeshRenderer>())
                         renderer.material = DeadBodyPartMaterial;
             }
+            
+            foreach (Joint joint in copy.GetComponents<Joint>())
+                Destroy(joint);
+            foreach (Joint joint in copy.GetComponentsInChildren<Joint>())
+                Destroy(joint);
 
             return copy;
         }
