@@ -75,20 +75,6 @@ namespace Player
             SyncSpawnPointServer(spawnPoint, spawnRotation, player);
         }
         
-        [ServerRpc(runLocally: true)]
-        private void SyncSpawnPointServer(Vector3 position, Quaternion rotation, Player syncPlayer)
-        {
-            SyncSpawnPointObserver(position, rotation, syncPlayer);
-        }
-        
-        [ObserversRpc(runLocally: true)]
-        private void SyncSpawnPointObserver(Vector3 position, Quaternion rotation, Player syncPlayer)
-        {
-            if (syncPlayer != player) return;
-            spawnPoint = position;
-            spawnRotation = rotation;
-        }
-        
         public void SetWormInGameScene()
         {
             if (player.isOwner)
@@ -148,6 +134,21 @@ namespace Player
         }
         
         #endregion
+        
+        
+        [ServerRpc(runLocally: true)]
+        private void SyncSpawnPointServer(Vector3 position, Quaternion rotation, Player syncPlayer)
+        {
+            SyncSpawnPointObserver(position, rotation, syncPlayer);
+        }
+        
+        [ObserversRpc(runLocally: true)]
+        private void SyncSpawnPointObserver(Vector3 position, Quaternion rotation, Player syncPlayer)
+        {
+            if (syncPlayer != player) return;
+            spawnPoint = position;
+            spawnRotation = rotation;
+        }
         
         #region Private Methods
 
@@ -375,6 +376,7 @@ namespace Player
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             player.thirdPersonCamera = Camera.main?.gameObject;
             player.canDie = true;
+            player.currentPlayerHealth = player.maxPlayerHealth;
             
             SetKinematicStateServer(true, player);
             player.GetComponent<WormConstructor>().ConstructWorm();
