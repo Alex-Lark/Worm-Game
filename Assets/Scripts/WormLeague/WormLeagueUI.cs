@@ -41,7 +41,7 @@ namespace WormLeague
             
             titleText.text = playerName + " Scored!";
             titleText.alpha = 1f;
-            titleText.DoFade(0f, GameParameters.ScoreFadeTime).SetDelay(GameParameters.ScoreShowTime);
+            titleText.DOFade(0f, GameParameters.ScoreFadeTime).SetDelay(GameParameters.ScoreShowTime);
         }
         
         private void DisplayTeam()
@@ -66,7 +66,7 @@ namespace WormLeague
             }
 
             titleText.alpha = 1f;
-            titleText.DoFade(0f, GameParameters.TeamFadeTime).SetDelay(GameParameters.TeamShowTime);
+            titleText.DOFade(0f, GameParameters.TeamFadeTime).SetDelay(GameParameters.TeamShowTime);
         }
 
         private void DisplayTitleScreen()
@@ -75,7 +75,7 @@ namespace WormLeague
             
             titleText.alpha = 1f;
             
-            titleText.DoFade(0f, GameParameters.TitleFadeTime).SetDelay(GameParameters.TitleShowTime).OnComplete(DisplayTeam);
+            titleText.DOFade(0f, GameParameters.TitleFadeTime).SetDelay(GameParameters.TitleShowTime).OnComplete(DisplayTeam);
         }
     }
 }

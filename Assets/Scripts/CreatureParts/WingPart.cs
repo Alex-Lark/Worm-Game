@@ -45,7 +45,10 @@ namespace CreatureParts
                 if (localPlayer != owner) return;
                 
                 //wingAnimation.Stop();
-                wingAnimation.Play();
+                if (wingAnimation != null)
+                {
+                    wingAnimation.Play();
+                }
                 ApplyThrust();
             }
         }

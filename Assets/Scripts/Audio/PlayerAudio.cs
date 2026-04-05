@@ -28,6 +28,8 @@ namespace Audio
 
         void OnDestroy()
         {
+            player = GetComponent<Player.Player>();
+            
             player.OnWormMoveForwardStart -= OnWormForwardStart;
             player.OnWormMoveForwardEnd -= OnWormForwardEnd;
             player.OnWormJump -= OnWormJump;

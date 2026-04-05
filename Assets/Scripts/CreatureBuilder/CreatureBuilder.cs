@@ -71,17 +71,11 @@ namespace CreatureBuilder
         private void OnDisable()
         {
             LocalPlayer.Instance.GetComponent<PlayerPartAttachment>().AttachCreatureParts(parts, partPairs);
-            ReturnAllCardsToPlayerInventory();
         }
 
         #endregion
 
         #region public methods
-        
-        public void OnWormReady()
-        {
-            StartCoroutine(AddAlreadyAttachedPartsDelayed());
-        }
         
         public void SwitchFromCardTo3DPart(GameObject cardPrefab, InventoryItem card)
         {
@@ -134,98 +128,17 @@ namespace CreatureBuilder
             }
         }
         
-        #endregion
-        
-        #region private methods
-        
-        private IEnumerator AddAlreadyAttachedPartsDelayed()
-        {
-            Debug.Log("adding already attached parts, LocalPlayer owner: " + LocalPlayer.Instance.owner);
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForSeconds(0.5f);
-
-            foreach (GameObject part in LocalPlayer.Instance.attachedWormParts)
-            {
-                Debug.Log("adding already attached part " + part.name);
-                AddAlreadyAttachedPart(part);
-            }
-            
-            player.GetComponent<PlayerPartAttachment>().ClearAttachedParts(player);
-        }
-
-        private void AddAlreadyAttachedPart(GameObject part)
-        {
-            var netRb = part.GetComponent<NetworkRigidbody>();
-            if (netRb != null) netRb.enabled = false;
-            
-            PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
-            GameObject prefab = partDraggingComponent.Prefab;
-
-            if (prefab == null)
-            {
-                Debug.LogWarning($"Prefab reference is null for {part.name}");
-                return;
-            }
-    
-            // Check for LegPart component directly
-            LegPart legPart = part.GetComponent<LegPart>();
-            if (legPart != null)
-            {
-                Player.LocalPlayer.Instance.MaxVelocity -= GameParameters.LegMaxVelocityIncrease;
-                legPart.enabled = false;
-            }
-    
-            CreateDuplicatePart(part, prefab);
-        }
-
-        private void CreateDuplicatePart(GameObject part, GameObject prefab)
-        {
-            Vector3 worldPosition = part.transform.position;
-            Quaternion worldRotation = part.transform.rotation;
-            Vector3 worldScale = part.transform.lossyScale;
-
-            GameObject newPart = UnityProxy.InstantiateDirectly(prefab, worldPosition, worldRotation);
-            newPart.GetComponent<NetworkRigidbody>().enabled = false;
-            newPart.GetComponent<Rigidbody>().isKinematic = true;
-            newPart.GetComponent<Rigidbody>().useGravity = false;
-            
-            AttachablePart newAttachablePart = newPart.GetComponent<AttachablePart>();
-            AttachablePart oldAttachablePart = part.GetComponent<AttachablePart>();
-            newAttachablePart.attachedSegmentRigidbody = oldAttachablePart.attachedSegmentRigidbody;
-            newAttachablePart.attachmentPosition = oldAttachablePart.attachmentPosition;
-            newAttachablePart.attachmentRotation = oldAttachablePart.attachmentRotation;
-            
-            DontDestroyOnLoad(newPart);
-            newPart.name = prefab.name;
-            newPart.transform.localScale = worldScale;
-                
-            PartDragging partDragging = newPart.GetComponent<PartDragging>();
-            
-            if (partDragging != null)
-            {
-                partDragging.enabled = true;
-                ResetPartDragging(partDragging);
-                partDragging.Clamp();
-            }
-            
-            LegPart legPart = newPart.GetComponent<LegPart>();
-            if (legPart != null)
-            {
-                legPart.enabled = false;
-            }
-
-            parts.Add(newPart);
-            player.GetComponent<PlayerPartAttachment>().DestroyPart(part);
-        }
-
-        private void ResetPartDragging(PartDragging partDragging)
+        public void ResetPartDragging(PartDragging partDragging)
         {
             partDragging.targetCamera = targetCamera;
             partDragging.creatureBuilderWindow = creatureBuilderWindow;
             partDragging.dragDistance = spawnDistance;
             partDragging.axisVisual.SetActive(false);
         }
+        
+        #endregion
+        
+        #region private methods
 
         private void InitializePrefabMapping()
         {
@@ -236,40 +149,6 @@ namespace CreatureBuilder
                 {
                     string cardName = pair.cardPrefab.name;
                     prefabMapping[cardName] = pair.part3DPrefab;
-                }
-            }
-        }
-        
-        public void ReturnAllCardsToPlayerInventory()
-        {
-            Debug.Log("returning all cards");
-            CreatureBuilderPartInventory inventory = FindFirstObjectByType<CreatureBuilderPartInventory>();
-            
-            if (inventory == null)
-            {
-                Debug.LogWarning("Creature builder inventory not found");
-                return;
-            }
-            
-            InventorySlot[] slots = inventory.GetComponentsInChildren<InventorySlot>();
-            
-            foreach (var slot in slots)
-            {
-                if (slot.currentItem != null)
-                {
-                    GameObject cardInstance = slot.currentItem.gameObject;
-                    string cardName = cardInstance.name.Replace("(Clone)", "").Trim();
-                    
-                    foreach (var pair in partPairs)
-                    {
-                        if (pair.cardPrefab != null && pair.cardPrefab.name == cardName)
-                        {
-                            Player.LocalPlayer.Instance.wormPartsInInventory.Add(pair.cardPrefab);
-                            break;
-                        }
-                    }
-                    
-                    Destroy(cardInstance);
                 }
             }
         }

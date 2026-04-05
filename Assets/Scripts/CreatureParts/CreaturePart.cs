@@ -104,7 +104,7 @@ namespace CreatureParts
 
         protected override void OnOwnerChanged(PlayerID? previousOwner, PlayerID? newOwner, bool asServer)
         {
-            Debug.Log($"[WormSegment] OnOwnerChanged '{gameObject.name}' | asServer={asServer} | prev={previousOwner} | new={newOwner}");
+            //Debug.Log($"[WormSegment] OnOwnerChanged '{gameObject.name}' | asServer={asServer} | prev={previousOwner} | new={newOwner}");
         }
 
         #endregion
@@ -174,23 +174,18 @@ namespace CreatureParts
         private void OnCollisionEnter(Collision other)
         {
             if (LocalPlayer.Instance == null) return;
-    
-            bool isMySegment = LocalPlayer.Instance.wormBodySegments.Any(s => s.gameObject == gameObject)
-                               || LocalPlayer.Instance.wormHead.gameObject == gameObject
-                               || LocalPlayer.Instance.attachedWormParts.Contains(gameObject);
-        
-            if (!isMySegment) return;
 
-            if (LocalPlayer.Instance.wormBodySegments.Any(s => s.gameObject == other.gameObject) || 
-                LocalPlayer.Instance.attachedWormParts.Contains(other.gameObject))
-                return;
+            if (!isOwner) return; 
+            
+            if ((other.gameObject.GetComponent<CreaturePart>() != null) &&
+                (other.gameObject.GetComponent<CreaturePart>().owner != owner))
+            {
+                Player.Player thisPlayer = gameObject.GetComponentInParent<Player.Player>();
+                Player.Player otherPlayer = other.gameObject.GetComponentInParent<Player.Player>();
+                //Debug.Log("collision with other player. This player: " + thisPlayer.PlayerName + " " + gameObject.name + " Other player: " + otherPlayer.PlayerName + " " + other.gameObject.name + " force: " + other.impulse.magnitude);
+            }
 
             LocalPlayer.Instance.DamagePlayer(other, gameObject);
-        }
-
-        void OnCollisionStay(Collision collision)
-        {
-            //Debug.Log("segment collision. Gameobject " + gameObject + "is being hit by " + collision.gameObject);
         }
         
         #endregion

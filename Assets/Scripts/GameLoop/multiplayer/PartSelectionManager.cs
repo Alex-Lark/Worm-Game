@@ -69,12 +69,11 @@ public class PartSelectionManager : PurrMonoBehaviour
                     print("Sending card to: "+packet.receiver);
                     Network.instance.manager.Send<ResentCardPacket>(packet.receiver, packet, Channel.ReliableOrdered);
                     
-                    yield return StartCoroutine(Network.pinger.Ping());
-                    
-                    GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
                     
  
                 }
+                yield return StartCoroutine(Network.pinger.Ping());
+                GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
                 break;
             }
         }
@@ -83,8 +82,11 @@ public class PartSelectionManager : PurrMonoBehaviour
     private (int, int) Pick2RandomCards()
     {
         int card1Index = Random.Range(0, GameLoop.GameLoop.Instance.partCards.Count);
-        int card2Index = Random.Range(0, GameLoop.GameLoop.Instance.partCards.Count);
-
+        int card2Index = Random.Range(0, GameLoop.GameLoop.Instance.partCards.Count - 1);
+        
+        if (card2Index >= card1Index)
+            card2Index++;
+        
         return (card1Index, card2Index);
     }
 

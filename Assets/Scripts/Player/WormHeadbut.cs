@@ -22,7 +22,7 @@ namespace Player
         private void Start()
         {
             player = GetComponent<Player>();
-            wormParts = player.wormBodySegments;
+            wormParts = player.wormBodySegments.list;
             wormHead = player.wormHead.GetComponent<NetworkRigidbody>();
             wormHeadNetworkedPhysicsObject = player.wormHead.GetComponent<NetworkedPhysicsObject>();
         }

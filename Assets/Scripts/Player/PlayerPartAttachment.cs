@@ -88,7 +88,8 @@ namespace Player
             if (endPoint == null)
                 return;
 
-            ap.ConfigureHingeJoint(endPoint);
+            if (isOwner && owner == localPlayer) ap.ConfigureHingeJoint(endPoint);
+            
             partPlayer.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, ap.attachedSegmentRigidbody.transform);
         }
         
@@ -125,8 +126,7 @@ namespace Player
             {
                 Debug.Log($"ReactivateAttachedParts: part instanceID={attachedPart.GetInstanceID()} name={attachedPart.name}");
                 attachedPart.SetActive(true);
-                attachedPart.GetComponent<AttachablePart>().enabled = true;
-                attachedPart.GetComponent<AttachablePart>().ResetJoint();
+                if (isOwner && owner == localPlayer) yield return StartCoroutine(attachedPart.GetComponent<AttachablePart>().ResetJoint());
             }
     
             GetComponent<WormPhysics>().IgnoreWormSelfCollision();
@@ -137,7 +137,24 @@ namespace Player
         {
             ClearAttachedPartsObserverSide(player);
         }
+        
+        public void AddAlreadyAttachedParts()
+        {
+            if (!isOwner) return;
+            
+            Debug.Log("adding already attached parts, LocalPlayer owner: " + LocalPlayer.Instance.owner);
 
+            foreach (GameObject part in LocalPlayer.Instance.attachedWormParts)
+            {
+                Debug.Log("adding already attached part " + part.name);
+                AddAlreadyAttachedPart(part);
+            }
+            
+            ClearAttachedParts(GetComponent<Player>());
+        }
+        
+        #region Private Methods
+        
         [ObserversRpc]
         private void ClearAttachedPartsObserverSide(Player player)
         {
@@ -146,8 +163,6 @@ namespace Player
                 player.attachedWormParts.Clear();
             }
         }
-        
-        #region Private Methods
         
         private void AddPartToWorm(GameObject creaturePart)
         {
@@ -179,6 +194,72 @@ namespace Player
             }
             
             Destroy(part);
+        }
+
+        private void AddAlreadyAttachedPart(GameObject part)
+        {
+            var netRb = part.GetComponent<NetworkRigidbody>();
+            if (netRb != null) netRb.enabled = false;
+            
+            PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
+            GameObject prefab = partDraggingComponent.Prefab;
+
+            if (prefab == null)
+            {
+                Debug.LogWarning($"Prefab reference is null for {part.name}");
+                return;
+            }
+    
+            // Check for LegPart component directly
+            LegPart legPart = part.GetComponent<LegPart>();
+            if (legPart != null)
+            {
+                GetComponent<Player>().MaxVelocity -= GameParameters.LegMaxVelocityIncrease;
+                legPart.enabled = false;
+            }
+    
+            CreateDuplicatePart(part, prefab);
+        }
+
+        private void CreateDuplicatePart(GameObject part, GameObject prefab)
+        {
+            Vector3 position = part.GetComponent<AttachablePart>().attachmentPosition;
+            Quaternion rotation = part.GetComponent<AttachablePart>().attachmentRotation;
+
+            GameObject newPart = UnityProxy.InstantiateDirectly(prefab, position, rotation);
+            newPart.GetComponent<NetworkRigidbody>().enabled = false;
+            newPart.GetComponent<Rigidbody>().isKinematic = true;
+            newPart.GetComponent<Rigidbody>().useGravity = false;
+            
+            AttachablePart newAttachablePart = newPart.GetComponent<AttachablePart>();
+            AttachablePart oldAttachablePart = part.GetComponent<AttachablePart>();
+            newAttachablePart.attachedSegmentRigidbody = oldAttachablePart.attachedSegmentRigidbody;
+            newAttachablePart.attachmentPosition = oldAttachablePart.attachmentPosition;
+            newAttachablePart.attachmentRotation = oldAttachablePart.attachmentRotation;
+            
+            DontDestroyOnLoad(newPart);
+            newPart.name = prefab.name;
+            newPart.transform.localScale = part.transform.localScale;
+                
+            PartDragging partDragging = newPart.GetComponent<PartDragging>();
+
+            CreatureBuilder.CreatureBuilder creatureBuilder = FindFirstObjectByType<CreatureBuilder.CreatureBuilder>();
+            
+            if (partDragging != null)
+            {
+                partDragging.enabled = true;
+                creatureBuilder.ResetPartDragging(partDragging);
+                partDragging.Clamp();
+            }
+            
+            LegPart legPart = newPart.GetComponent<LegPart>();
+            if (legPart != null)
+            {
+                legPart.enabled = false;
+            }
+
+            creatureBuilder.parts.Add(newPart);
+            DestroyPart(part);
         }
         
         #endregion

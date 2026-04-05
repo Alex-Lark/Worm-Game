@@ -92,8 +92,14 @@ namespace GameLoop.GameLobby
                 float alpha = available ? 1f : 0.3f;
 
                 colorButtons[i].interactable = available;
+                
+                if (pair.bodyMaterial == null || pair.headMaterial == null)
+                {
+                    Debug.LogWarning($"Material at index {i} is null or destroyed!");
+                    continue;
+                }
 
-                Color body = pair.bodyMaterial.GetColor("_Base_Color");
+                Color body = pair.bodyMaterial.color;
                 body.a = alpha;
                 colorButtons[i].image.color = body;
 

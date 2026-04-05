@@ -7,6 +7,7 @@ namespace CreatureParts
     public class CreatureBodySegment : CreaturePart
     {
         public bool IsScrunched { get; private set; }
+        public GameObject visualBodySegment;
 
         public CreaturePart previousSegment;
         public CreaturePart nextSegment;
@@ -89,6 +90,21 @@ namespace CreatureParts
             {
                 renderer.material = material;
             }
+        }
+        
+        public void ResetJointPhysics()
+        {
+            ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
+            if (joint == null) return;
+
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            joint.targetPosition = Vector3.zero;
+            joint.targetVelocity = Vector3.zero;
+            joint.targetAngularVelocity = Vector3.zero;
+            joint.targetRotation = Quaternion.identity;
         }
 
         private SoftJointLimit CreateLimit(float angle)
