@@ -116,7 +116,7 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   defaultConnectedAnchor: {x: 0, y: 0, z: 0}
-  projectilePrefab: {fileID: 7968567117374109913, guid: ea957425f5405434e812a52c7e708f93, type: 3}
+  projectilePrefab: {fileID: 198168287099874531, guid: 4e614a4540a5eb34c9290b44043a8a4c, type: 3}
   firePoint: {fileID: 3325075056196703905}
   recoilForce: 1000
   fireCooldown: 0.5
