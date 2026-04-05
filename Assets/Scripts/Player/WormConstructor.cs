@@ -46,6 +46,8 @@ namespace Player
             Vector3 backDir = -player.wormHead.forward;
             Rigidbody previousRb = player.wormHead.GetComponent<Rigidbody>();
 
+            //Debug.Log($"Construct worm called on {player.PlayerName}");
+            
             for (int i = 0; i < player.wormBodySegments.Count; i++)
             {
                 currentPos += backDir * player.MaxPartDistance;
@@ -53,6 +55,7 @@ namespace Player
                 segment.position = currentPos;
                 segment.rotation = player.wormHead.rotation;
                 previousRb = segment.GetComponent<CreatureBodySegment>().AddJoint(segment, previousRb);
+                //Debug.Log($"positioning segment {segment}");
             }
         }
     }
