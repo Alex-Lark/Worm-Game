@@ -4,14 +4,15 @@ using PurrNet;
 using PurrNet.Packing;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 using Random = UnityEngine.Random;
 
 public class PlayerRegister : PurrMonoBehaviour
 {
     public static Dictionary<PlayerID, PlayerData> Players = new Dictionary<PlayerID, PlayerData>();
-    public static event Action<PlayerID,bool> OnPlayerRegisterChanged;
-    public static event System.Action<PlayerID> OnPlayerRegistered;
+    public static UnityEvent<PlayerID, bool> OnPlayerRegisterChanged = new UnityEvent<PlayerID, bool>();
+    public static UnityEvent OnPlayerRegistered = new UnityEvent();
 
     public static PlayerRegister Instance;
 
@@ -42,6 +43,7 @@ public class PlayerRegister : PurrMonoBehaviour
 
     public enum Team : byte
     {
+        None = 0,
         Red = 1,
         Blue = 2
     }
@@ -58,23 +60,27 @@ public class PlayerRegister : PurrMonoBehaviour
     
     private void OnPlayerDataRequest(PlayerID playerID, PlayerData player, bool asServer)
     {
-        print("Recived from "+player.name);
+        if (String.IsNullOrEmpty(player.name))
+        {
+            Debug.LogWarning("Player packet recived with no name!");
+        }
+        if (player.team != 0)
+        {
+            Debug.LogWarning("Team found!");
+        }
         if (asServer)
         {
-            player.playerID = playerID;
-            bool isUpdate = Players.ContainsKey(playerID) && !string.IsNullOrEmpty(Players[playerID].name);
+            bool isUpdate = Players.ContainsKey(player.playerID) && !string.IsNullOrEmpty(Players[player.playerID].name);
 
             if (isUpdate)
             {
-                PlayerData existing = Players[playerID];
-                player.name = existing.name;
-                player.score = existing.score;
+                //Players[playerID] = player;
                 
             }
             else
             {
                 // Store the sender's ID and validate name
-                RejoinLogic(playerID, player.name);
+                RejoinLogic(player.playerID, player.name);
                 player.name = FixUserName(player.name);
             }
             
@@ -96,7 +102,7 @@ public class PlayerRegister : PurrMonoBehaviour
     private void RegisterPlayerData(PlayerData player, PlayerID playerID)
     {
         Players[player.playerID] = player;
-        OnPlayerRegisterChanged?.Invoke(playerID, true);
+        OnPlayerRegisterChanged.Invoke(playerID, true);
         Debug.Log("Recived Player Data for player "+player.playerID.id+ " Name: "+player.name);
     }
     
@@ -107,7 +113,7 @@ public class PlayerRegister : PurrMonoBehaviour
         playerData.isDisconected = true;
         Players[playerID] = playerData;
         
-        OnPlayerRegisterChanged?.Invoke(playerID,false);
+        OnPlayerRegisterChanged.Invoke(playerID,false);
     }
     
     public static void RegisterClient(PlayerID playerID, bool firstJoin, bool _)
@@ -118,7 +124,7 @@ public class PlayerRegister : PurrMonoBehaviour
         playerData.isDisconected = false;
         Players[playerID] = playerData;
     
-        OnPlayerRegistered?.Invoke(playerID);
+        OnPlayerRegistered?.Invoke();
     }
 
     private static void RejoinLogic(PlayerID playerID, string newName)
@@ -183,5 +189,10 @@ public class PlayerRegister : PurrMonoBehaviour
         Network.instance.manager.SendToServer(myData);
 
         Debug.Log($"Updated {myData.name} colorIndex to {colorIndex}");
+    }
+
+    private void OnDestroy()
+    {
+        Debug.LogError("REGISTER DESTROYED!!!!!!!!!!!");
     }
 }

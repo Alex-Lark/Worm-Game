@@ -35,8 +35,8 @@ namespace GameLoop.GameLobby
         {
             Debug.Log("Game Lobby start method called");
             playerRegister = Network.instance.gameObject.GetOrAddComponent<PlayerRegister>();
-            PlayerRegister.OnPlayerRegisterChanged += OnPlayerRegisterChanged;
-            PlayerRegister.OnPlayerRegistered += OnPlayerRegistered;
+            PlayerRegister.OnPlayerRegisterChanged.AddListener(OnPlayerRegisterChanged);
+            PlayerRegister.OnPlayerRegistered.AddListener(OnPlayerRegistered);
 
             if (Player.LocalPlayer.Instance != null)
             {
@@ -57,8 +57,11 @@ namespace GameLoop.GameLobby
 
         private void RegisterLocalPlayer()
         {
-            PlayerRegister.PlayerData name = new PlayerRegister.PlayerData();
+            PlayerRegister.PlayerData name;
+            if (PlayerRegister.Players.ContainsKey(Network.instance.manager.localPlayer)) name = PlayerRegister.Players[Network.instance.manager.localPlayer];
+            else name = new PlayerRegister.PlayerData();
             name.name = Player.LocalPlayer.Instance.PlayerName;
+            name.playerID = Network.instance.manager.localPlayer;
             if (Network.instance != null)
             {
                 Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(name);
@@ -67,16 +70,16 @@ namespace GameLoop.GameLobby
 
         private void OnDestroy()
         {
-            PlayerRegister.OnPlayerRegisterChanged -= OnPlayerRegisterChanged;
-            PlayerRegister.OnPlayerRegistered -= OnPlayerRegistered;
+            PlayerRegister.OnPlayerRegisterChanged.RemoveListener(OnPlayerRegisterChanged);
             Player.LocalPlayer.OnLocalPlayerReady -= OnLocalPlayerReady; // safety cleanup
+            PlayerRegister.OnPlayerRegistered.RemoveListener(OnPlayerRegistered);
         }
 
         #endregion
         
         #region Multiplayer Events
         
-        public void OnPlayerRegistered(PlayerID playerID)
+        public void OnPlayerRegistered()
         {
             RefreshColorSelection();
             colorSelection.SetInitialColor();

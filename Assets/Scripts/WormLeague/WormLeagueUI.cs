@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using PurrNet;
 using PurrNet.Packing;
@@ -20,16 +21,19 @@ namespace WormLeague
         
         private void Start()
         {
-            DisplayTitleScreen();
+            //DisplayTitleScreen();
 
-            PlayerRegister.OnPlayerRegisterChanged += UpdateUI;
+            PlayerRegister.OnPlayerRegisterChanged.AddListener(UpdateUI);
+            UpdateUI(new PlayerID(), false);
         }
 
-        private void UpdateUI(PlayerID arg1, bool arg2)
+        private void UpdateUI(PlayerID player, bool _)
         {
             PlayerID ThisPlayer = Network.instance.manager.localPlayer;
+            if(PlayerRegister.Players[ThisPlayer].team == 0 || !String.IsNullOrEmpty(team)) return;
             if(PlayerRegister.Players[ThisPlayer].team==PlayerRegister.Team.Red)SetTeam("red");
             else if(PlayerRegister.Players[ThisPlayer].team==PlayerRegister.Team.Blue)SetTeam("blue");
+            DisplayTitleScreen();
             
             
         }

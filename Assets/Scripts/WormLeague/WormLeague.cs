@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -40,6 +41,8 @@ namespace WormLeague
                 Destroy(this);
                 return;
             }
+
+            //StartCoroutine(Ddebug());
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
         }
@@ -158,14 +161,25 @@ namespace WormLeague
                         playerData.team = PlayerRegister.Team.Blue;
                         //PlayerRegister.Players[players[random]] = playerData;
                         Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
-                    print(playerData.name +" is on "+playerData.team);
-                        
+                        print(playerData.name +" is on "+playerData.team);
                     }
                     
                     players.RemoveAt(random);
                 }
             }
             
+        }
+
+        private IEnumerator Ddebug()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                PlayerRegister.PlayerData playerData = new PlayerRegister.PlayerData();
+                playerData.name = "DEBUG PLS WORK";
+                Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                
+            }
         }
         
         private void AssignPlayerSpawnPoints()
