@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -35,6 +36,7 @@ namespace WormLeague
     
         void Start()
         {
+            //StartCoroutine(Ddebug());
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
         }
@@ -53,16 +55,26 @@ namespace WormLeague
             if (team == "blue")
             {
                 teamRedScore++;
-                wormLeagueUI.GoalScored("red", scoringPlayer.name);
+                //wormLeagueUI.GoalScored("red", scoringPlayer.name);
+                WormLeagueUI.GoalScoredPacket packet;
+                packet.playerName = scoringPlayer.name;
+                packet.goalName = "red";
+                Network.instance.manager.SendToAll(packet);
 
             }
             else if (team == "red")
             {
                 teamBlueScore++;
-                wormLeagueUI.GoalScored("blue", scoringPlayer.name);
+                //wormLeagueUI.GoalScored("blue", scoringPlayer.name);
+                
+                WormLeagueUI.GoalScoredPacket packet;
+                packet.playerName = scoringPlayer.name;
+                packet.goalName = "blue";
+                Network.instance.manager.SendToAll(packet);
             }
 
             PlayerRegister.Players[scoringPlayer.playerID] = scoringPlayer;
+            Network.instance.manager.SendToAll(scoringPlayer);
         }
 
         public void OnDestroy()
@@ -123,16 +135,44 @@ namespace WormLeague
             {
                 int random =  Random.Range(0, players.Count);
                 teamRed.Add(players[random]);
-                
-                wormLeagueUI.SetTeam("red");
+
+                {
+                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[players[random]];
+                    playerData.team = PlayerRegister.Team.Red;
+                    //PlayerRegister.Players[players[random]] = playerData;
+                    Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                    print(playerData.name +" is on "+playerData.team);
+                }
+
                 players.RemoveAt(random);
                 if (players.Count > 0)
                 {
                     random =  Random.Range(0, players.Count);
                     teamBlue.Add(players[random]);
-                    wormLeagueUI.SetTeam("blue");
+                    
+                    {
+                        PlayerRegister.PlayerData playerData = PlayerRegister.Players[players[random]];
+                        playerData.team = PlayerRegister.Team.Blue;
+                        //PlayerRegister.Players[players[random]] = playerData;
+                        Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                        print(playerData.name +" is on "+playerData.team);
+                    }
+                    
                     players.RemoveAt(random);
                 }
+            }
+            
+        }
+
+        private IEnumerator Ddebug()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                PlayerRegister.PlayerData playerData = new PlayerRegister.PlayerData();
+                playerData.name = "DEBUG PLS WORK";
+                Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                
             }
         }
         

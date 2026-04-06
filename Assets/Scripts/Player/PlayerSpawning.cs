@@ -350,7 +350,16 @@ namespace Player
             GetComponent<WormRenderer>().Restart();
             
             player.EnablePartForRespawn(player.wormHead.gameObject);
-            player.wormVisualHead.gameObject.SetActive(true);
+
+            if (player.wormVisualHead.GetComponent<MeshRenderer>() != null) player.wormVisualHead.GetComponent<MeshRenderer>().enabled = true;
+            GameObject visualHeadWithMaterial = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
+            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = true;
+            
+            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = true;
+            }
+            
             foreach (Transform bodySegment in player.wormBodySegments)
                 player.EnablePartForRespawn(bodySegment.gameObject);
             
