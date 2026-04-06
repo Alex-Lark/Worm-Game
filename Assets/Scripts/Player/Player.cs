@@ -110,6 +110,7 @@ namespace Player
         private void FixedUpdate()
         {
             PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
+            //Debug.Log(RegisterData.name);
             
             if (!isPlayerActive) return;
             
