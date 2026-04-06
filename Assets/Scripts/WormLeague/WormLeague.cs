@@ -36,12 +36,6 @@ namespace WormLeague
     
         void Start()
         {
-            if (!isHost && !isServer)
-            {
-                Destroy(this);
-                return;
-            }
-
             //StartCoroutine(Ddebug());
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();

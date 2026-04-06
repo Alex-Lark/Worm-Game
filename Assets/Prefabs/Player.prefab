@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9022103432884987436
 Transform:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
   thirdPersonCamera: {fileID: 0}
   wormSegmentPrefab: {fileID: 7684568371119374336, guid: 90ca0af0a8270184f8d4d43014413c78, type: 3}
   wormHead: {fileID: 8071018323496679240}
-  wormVisualHead: {fileID: 4665594383874748790}
+  wormVisualHead: {fileID: 9022103432884987436}
   wormBodySegments:
     _ownerAuth: 0
     _sendIntervalInSeconds: 0
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   visualHead: {fileID: 321674048429313736}
-  wormVisualHeadWithMaterial: {fileID: 8973842099988163069}
+  wormVisualHeadWithMaterial: {fileID: 321674048429313736}
 --- !u!23 &2946591719419874529
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1459,7 +1459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4665594383874748790
 Transform:
   m_ObjectHideFlags: 0
