@@ -351,7 +351,7 @@ namespace Player
             
             player.EnablePartForRespawn(player.wormHead.gameObject);
 
-            player.wormVisualHead.GetComponent<MeshRenderer>().enabled = true;
+            if (player.wormVisualHead.GetComponent<MeshRenderer>() != null) player.wormVisualHead.GetComponent<MeshRenderer>().enabled = true;
             GameObject visualHeadWithMaterial = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
             
             for (int i = 0; i < visualHeadWithMaterial.transform.childCount; i++)

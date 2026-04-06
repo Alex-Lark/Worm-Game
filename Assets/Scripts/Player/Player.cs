@@ -384,7 +384,7 @@ namespace Player
             wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
             DisablePartForDeath(wormHead.gameObject);
 
-            wormVisualHead.GetComponent<MeshRenderer>().enabled = false;
+            if (wormVisualHead.GetComponent<MeshRenderer>() != null) wormVisualHead.GetComponent<MeshRenderer>().enabled = false;
             GameObject visualHeadWithMaterial = wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
             for (int i = 0; i < visualHeadWithMaterial.transform.childCount; i++)
             {
