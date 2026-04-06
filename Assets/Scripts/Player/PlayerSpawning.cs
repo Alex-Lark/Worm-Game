@@ -353,14 +353,11 @@ namespace Player
 
             if (player.wormVisualHead.GetComponent<MeshRenderer>() != null) player.wormVisualHead.GetComponent<MeshRenderer>().enabled = true;
             GameObject visualHeadWithMaterial = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
+            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = true;
             
-            for (int i = 0; i < visualHeadWithMaterial.transform.childCount; i++)
+            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
             {
-                GameObject childGameobject = visualHeadWithMaterial.transform.GetChild(i).gameObject;
-                if (childGameobject.GetComponent<MeshRenderer>() != null)
-                {
-                    childGameobject.GetComponent<MeshRenderer>().enabled = true;
-                }
+                mr.enabled = true;
             }
             
             foreach (Transform bodySegment in player.wormBodySegments)
