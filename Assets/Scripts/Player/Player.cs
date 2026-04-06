@@ -518,11 +518,14 @@ namespace Player
                 copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DeadPartVelocityMultiplier;
                 copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DeadPartVelocityMultiplier;
             }
-
+            
             if (!original.TryGetComponent<AttachablePart>(out _))
             {
                 if (copy.TryGetComponent<CreatureBodySegment>(out var segment))
+                {
                     segment.SetMaterial(DeadBodyPartMaterial);
+                    segment.visualBodySegment.GetComponent<MeshRenderer>().enabled = true;
+                }
                 else
                     foreach (MeshRenderer renderer in copy.GetComponentsInChildren<MeshRenderer>())
                         renderer.material = DeadBodyPartMaterial;
