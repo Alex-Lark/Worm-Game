@@ -36,12 +36,6 @@ namespace WormLeague
     
         void Start()
         {
-            if (!isHost && !isServer)
-            {
-                Destroy(this);
-                return;
-            }
-
             //StartCoroutine(Ddebug());
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
@@ -65,6 +59,10 @@ namespace WormLeague
                 WormLeagueUI.GoalScoredPacket packet;
                 packet.playerName = scoringPlayer.name;
                 packet.goalName = "red";
+                
+                if (Network.instance == null) return;
+                if (Network.instance.manager == null) return;
+                
                 Network.instance.manager.SendToAll(packet);
 
             }
@@ -76,6 +74,10 @@ namespace WormLeague
                 WormLeagueUI.GoalScoredPacket packet;
                 packet.playerName = scoringPlayer.name;
                 packet.goalName = "blue";
+                
+                if (Network.instance == null) return;
+                if (Network.instance.manager == null) return;
+                
                 Network.instance.manager.SendToAll(packet);
             }
 

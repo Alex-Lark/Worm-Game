@@ -105,8 +105,11 @@ namespace CreatureBuilder
                 {
                     GameObject cardInstance = slot.currentItem.gameObject;
                     var cardPrefab = slot.currentItem.prefab;
-                    
-                    LocalPlayer.Instance.wormPartsInInventory.Add(cardPrefab);
+
+                    if (!slot.currentItem.GetComponent<InventoryItem>().infiniteSlot)
+                    {
+                        LocalPlayer.Instance.wormPartsInInventory.Add(cardPrefab);
+                    }
                     
                     Destroy(cardInstance);
                 }

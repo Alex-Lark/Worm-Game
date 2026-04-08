@@ -21,7 +21,7 @@ namespace WormLeague
         
         private void Start()
         {
-            //DisplayTitleScreen();
+            DisplayTitleScreen();
 
             PlayerRegister.OnPlayerRegisterChanged.AddListener(UpdateUI);
             UpdateUI(new PlayerID(), false);
@@ -29,10 +29,17 @@ namespace WormLeague
 
         private void UpdateUI(PlayerID player, bool _)
         {
-            PlayerID ThisPlayer = Network.instance.manager.localPlayer;
-            if(PlayerRegister.Players[ThisPlayer].team == 0 || !String.IsNullOrEmpty(team)) return;
-            if(PlayerRegister.Players[ThisPlayer].team==PlayerRegister.Team.Red)SetTeam("red");
-            else if(PlayerRegister.Players[ThisPlayer].team==PlayerRegister.Team.Blue)SetTeam("blue");
+            if (Network.instance == null) return;
+            if (Network.instance.manager == null) return;
+            if (Network.instance.manager.localPlayer == null) return;
+            
+            PlayerID thisPlayer = Network.instance.manager.localPlayer;
+            
+            if (!PlayerRegister.Players.ContainsKey(thisPlayer)) return;
+            if(PlayerRegister.Players[thisPlayer].team == 0 || !String.IsNullOrEmpty(team)) return;
+            
+            if(PlayerRegister.Players[thisPlayer].team==PlayerRegister.Team.Red)SetTeam("red");
+            else if(PlayerRegister.Players[thisPlayer].team==PlayerRegister.Team.Blue)SetTeam("blue");
             DisplayTitleScreen();
             
             

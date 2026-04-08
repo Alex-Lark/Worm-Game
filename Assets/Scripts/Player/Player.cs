@@ -383,7 +383,14 @@ namespace Player
     
             wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
             DisablePartForDeath(wormHead.gameObject);
-            wormVisualHead.gameObject.SetActive(false);
+
+            if (wormVisualHead.GetComponent<MeshRenderer>() != null) wormVisualHead.GetComponent<MeshRenderer>().enabled = false;
+            GameObject visualHeadWithMaterial = wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
+            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = false;
+            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = false;
+            }
 
             foreach (Transform bodySegment in wormBodySegments)
             {
@@ -508,11 +515,14 @@ namespace Player
                 copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DeadPartVelocityMultiplier;
                 copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DeadPartVelocityMultiplier;
             }
-
+            
             if (!original.TryGetComponent<AttachablePart>(out _))
             {
                 if (copy.TryGetComponent<CreatureBodySegment>(out var segment))
+                {
                     segment.SetMaterial(DeadBodyPartMaterial);
+                    segment.visualBodySegment.GetComponent<MeshRenderer>().enabled = true;
+                }
                 else
                     foreach (MeshRenderer renderer in copy.GetComponentsInChildren<MeshRenderer>())
                         renderer.material = DeadBodyPartMaterial;
