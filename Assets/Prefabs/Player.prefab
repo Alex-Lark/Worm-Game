@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9022103432884987436
 Transform:
   m_ObjectHideFlags: 0
@@ -1519,7 +1519,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8973842099988163069}
-  m_Mesh: {fileID: 4711208715938537054, guid: 094131477154c0d429f1937854211fb5, type: 3}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &7460636816380708904
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -64,9 +64,9 @@ public class PlayerRegister : PurrMonoBehaviour
         {
             Debug.LogWarning("Player packet recived with no name!");
         }
-        if (player.team != 0)
+        if (player.score != 0)
         {
-            Debug.LogWarning("Team found!");
+            Debug.LogWarning("Score found! "+player.score+" "+player.name);
         }
         if (asServer)
         {

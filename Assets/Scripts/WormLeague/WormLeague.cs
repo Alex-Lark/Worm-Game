@@ -97,6 +97,8 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 10;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
+                    
                     
                 }
             }
@@ -107,6 +109,8 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 10;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
+                    
                 }
             }
             else
@@ -116,6 +120,7 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 5;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
                     
                 }
                 foreach (PlayerID player in teamRed)
@@ -123,6 +128,7 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 5;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
                     
                 }
             }
