@@ -29,7 +29,7 @@ namespace Player
         private bool hasBeenSetup = false;
         private bool spawnPointSet = false;
 
-        private float TimeToWaitForSpawnpointSet = 5f;
+        private float TimeToWaitForSpawnpointSet = 1f;
 
         public event Action OnWormRespawn;
 
@@ -378,7 +378,6 @@ namespace Player
             if (!spawnPointSet)
             {
                 Debug.LogWarning("SpawnAtSpawnPoint timed out waiting for spawn point to be set.");
-                yield break;
             }
             
             yield return null;
