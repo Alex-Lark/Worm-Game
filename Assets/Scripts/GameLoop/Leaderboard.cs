@@ -7,7 +7,7 @@ namespace GameLoop
     {
         public GameObject leaderboardBackground;
         public GameObject textPrefab;
-    
+
         void Start()
         {
             PopulateLeaderboard();
@@ -17,11 +17,16 @@ namespace GameLoop
         {
             foreach (PlayerRegister.PlayerData player in PlayerRegister.Players.Values)
             {
-                string text = player.name + ": " + player.score;
-            
                 GameObject textObject = Instantiate(textPrefab, leaderboardBackground.transform);
-            
-                textObject.GetComponent<TextMeshProUGUI>().text = text;
+
+                TextMeshProUGUI tmp = textObject.GetComponentInChildren<TextMeshProUGUI>();
+
+                //replace with old score whenever we get that saving/loading between scenes in idk
+                tmp.text = player.name + ": 0";
+
+                ScoreAnimator animator = textObject.AddComponent<ScoreAnimator>();
+                animator.duration = 0.5f;
+                animator.AnimateScore(tmp, player.name, 0, player.score);
             }
         }
     }

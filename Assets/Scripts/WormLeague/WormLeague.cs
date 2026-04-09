@@ -32,6 +32,19 @@ namespace WormLeague
         #endregion
         
         #region Built-In Methods
+
+        //for leaderboard testing purposes
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                BlueScore();
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                RedScore();
+            }
+        }
     
         void Start()
         {
@@ -151,6 +164,18 @@ namespace WormLeague
             LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
         }
         
+        #endregion
+        
+        #region button cheats
+
+        public void RedScore()
+        {
+            OnGoalScored("red");
+        }
+        public void BlueScore()
+        {
+            OnGoalScored("blue");
+        }
         #endregion
     }
 }
