@@ -1,11 +1,14 @@
+using System;
 using DG.Tweening;
+using PurrNet;
+using PurrNet.Packing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace WormLeague
 {
-    public class WormLeagueUI : MonoBehaviour
+    public class WormLeagueUI : PurrMonoBehaviour
     {
         public WormLeague wormLeague;
         
@@ -15,10 +18,31 @@ namespace WormLeague
         public TextMeshProUGUI blueScore;
 
         private string team;
-
+        
         private void Start()
         {
             DisplayTitleScreen();
+
+            PlayerRegister.OnPlayerRegisterChanged.AddListener(UpdateUI);
+            UpdateUI(new PlayerID(), false);
+        }
+
+        private void UpdateUI(PlayerID player, bool _)
+        {
+            if (Network.instance == null) return;
+            if (Network.instance.manager == null) return;
+            if (Network.instance.manager.localPlayer == null) return;
+            
+            PlayerID thisPlayer = Network.instance.manager.localPlayer;
+            
+            if (!PlayerRegister.Players.ContainsKey(thisPlayer)) return;
+            if(PlayerRegister.Players[thisPlayer].team == 0 || !String.IsNullOrEmpty(team)) return;
+            
+            if(PlayerRegister.Players[thisPlayer].team==PlayerRegister.Team.Red)SetTeam("red");
+            else if(PlayerRegister.Players[thisPlayer].team==PlayerRegister.Team.Blue)SetTeam("blue");
+            DisplayTitleScreen();
+            
+            
         }
 
         public void SetTeam(string inputTeam)
@@ -41,7 +65,7 @@ namespace WormLeague
             
             titleText.text = playerName + " Scored!";
             titleText.alpha = 1f;
-            titleText.DoFade(0f, GameParameters.ScoreFadeTime).SetDelay(GameParameters.ScoreShowTime);
+            titleText.DOFade(0f, GameParameters.ScoreFadeTime).SetDelay(GameParameters.ScoreShowTime);
         }
         
         private void DisplayTeam()
@@ -66,7 +90,7 @@ namespace WormLeague
             }
 
             titleText.alpha = 1f;
-            titleText.DoFade(0f, GameParameters.TeamFadeTime).SetDelay(GameParameters.TeamShowTime);
+            titleText.DOFade(0f, GameParameters.TeamFadeTime).SetDelay(GameParameters.TeamShowTime);
         }
 
         private void DisplayTitleScreen()
@@ -75,7 +99,29 @@ namespace WormLeague
             
             titleText.alpha = 1f;
             
-            titleText.DoFade(0f, GameParameters.TitleFadeTime).SetDelay(GameParameters.TitleShowTime).OnComplete(DisplayTeam);
+            titleText.DOFade(0f, GameParameters.TitleFadeTime).SetDelay(GameParameters.TitleShowTime).OnComplete(DisplayTeam);
+        }
+
+        public override void Subscribe(NetworkManager manager, bool asServer)
+        {
+            manager.Subscribe<GoalScoredPacket>(OnGoalScoredPacket, asServer);
+
+        }
+
+        public override void Unsubscribe(NetworkManager manager, bool asServer)
+        {
+            manager.Unsubscribe<GoalScoredPacket>(OnGoalScoredPacket, asServer);
+        }
+
+        private void OnGoalScoredPacket(PlayerID player, GoalScoredPacket data, bool asServer)
+        {
+            GoalScored(data.goalName,data.playerName);
+        }
+        
+        public struct GoalScoredPacket : IPackedAuto
+        {
+            public string playerName;
+            public string goalName;
         }
     }
 }

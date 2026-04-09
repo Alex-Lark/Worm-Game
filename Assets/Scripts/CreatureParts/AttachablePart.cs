@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Player;
 using UnityEngine;
 
@@ -9,12 +11,22 @@ namespace CreatureParts
         public Vector3 attachmentPosition;
         public Quaternion attachmentRotation;
         public Rigidbody attachedSegmentRigidbody;
+        public Vector3 localPositionOnAttach;
+        public Quaternion localRotationOnAttach;
         
         private Transform attachedEndPoint;
-        private Vector3 localPositionOnAttach;
-        private Quaternion localRotationOnAttach;
         private Vector3 savedAnchor;
         private Vector3 savedConnectedAnchor;
+
+        private void OnEnable()
+        {
+            
+        }
+
+        private void OnDisable()
+        {
+            
+        }
 
         public void CalculateConnection()
         {
@@ -23,9 +35,23 @@ namespace CreatureParts
             attachmentRotation = transform.rotation; 
         }
         
-        public void ResetJoint()
+        public IEnumerator ResetJoint()
         {
             Debug.Log($"ResetJoint called on {gameObject.name} | attachedEndPoint: {attachedEndPoint} | attachedSegmentRigidbody: {attachedSegmentRigidbody}");
+
+            float elapsed = 0f;
+            while (((attachedSegmentRigidbody.isKinematic == true) || (gameObject.GetComponent<Rigidbody>().isKinematic == true)) && elapsed < 3f)
+            {
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
+            }
+            
+            Rigidbody partRb = gameObject.GetComponent<Rigidbody>();
+            partRb.linearVelocity = Vector3.zero;
+            partRb.angularVelocity = Vector3.zero;
+            
+            attachedSegmentRigidbody.linearVelocity = Vector3.zero;
+            attachedSegmentRigidbody.angularVelocity = Vector3.zero;
             
             HingeJoint existing = GetComponent<HingeJoint>();
             Debug.Log($"Existing hinge: {existing}");
@@ -37,6 +63,7 @@ namespace CreatureParts
 
             HingeJoint hinge = gameObject.AddComponent<HingeJoint>();
             hinge.connectedBody = attachedSegmentRigidbody;
+            hinge.autoConfigureConnectedAnchor = false;
             
             hinge.anchor = savedAnchor;
             hinge.connectedAnchor = savedConnectedAnchor;

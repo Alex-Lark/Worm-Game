@@ -55,13 +55,12 @@ namespace Player
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
         public Transform wormVisualHead;
-        public List<Transform> wormBodySegments;
+        public SyncList<Transform> wormBodySegments = new(false);
         public List<GameObject> attachedWormParts;
         public List<GameObject> wormPartsInInventory;
 
         public PlayerSpawning playerSpawning;
         public WormForwardMovement wormForwardMovement;
-        public WormConstructor wormConstructor;
         
         public GameObject wormHeadCopy;
         
@@ -111,6 +110,7 @@ namespace Player
         private void FixedUpdate()
         {
             PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
+            //Debug.Log(RegisterData.name);
             
             if (!isPlayerActive) return;
             
@@ -188,6 +188,12 @@ namespace Player
         {
             if (!isOwner) return;
             
+            if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
+                attachedWormParts.Contains(hitGameObject))
+            {
+                return;
+            }
+            
             float collisionForce = other.impulse.magnitude;
             
             if (other.gameObject.CompareTag("Untagged"))
@@ -247,7 +253,7 @@ namespace Player
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
-                Debug.Log("Blunt collision between " + hitGameObject  + " and " + other.gameObject + " with force: " + collisionForce);
+                Debug.Log($"Blunt collision between {hitGameObject.name} and {other.gameObject.name} with force: {collisionForce}", other.gameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
                 if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
             }
@@ -308,6 +314,7 @@ namespace Player
             {
                 return;
             }
+            
             if (CurrentState == WormState.Dead) return;
             if (!canDie)
             {
@@ -375,19 +382,122 @@ namespace Player
                 Destroy(transform.Find("WormMesh").gameObject);
     
             wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
-            wormHead.gameObject.SetActive(false);
+            DisablePartForDeath(wormHead.gameObject);
+
+            if (wormVisualHead.GetComponent<MeshRenderer>() != null) wormVisualHead.GetComponent<MeshRenderer>().enabled = false;
+            GameObject visualHeadWithMaterial = wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
+            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = false;
+            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = false;
+            }
 
             foreach (Transform bodySegment in wormBodySegments)
             {
                 DuplicatePartForDeath(bodySegment.gameObject);
-                bodySegment.gameObject.SetActive(false);
+                DisablePartForDeath(bodySegment.gameObject);
             }
     
             foreach (GameObject attachedPart in attachedWormParts)
             {
                 DuplicatePartForDeath(attachedPart);
-                attachedPart.gameObject.SetActive(false);
-                attachedPart.GetComponent<AttachablePart>().enabled = false;
+                attachedPart.SetActive(false);
+            }
+
+            if (isOwner && owner == localPlayer)
+            {
+                playerSpawning.SetKinematicStateServer(true, this);
+            }
+        }
+
+        private void DisablePartForDeath(GameObject part)
+        {
+            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
+            Rigidbody rigidbody = part.GetComponent<Rigidbody>();
+            Collider collider = part.GetComponent<Collider>();
+            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
+            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
+
+            if (meshrenderer != null)
+            {
+                meshrenderer.enabled = false;
+            }
+
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
+
+            if (creaturePart != null)
+            {
+                creaturePart.enabled = false;
+            }
+
+            if (creatureBodySegment != null)
+            {
+                creatureBodySegment.visualBodySegment.SetActive(false);
+            }
+
+            if (attachablePart != null)
+            {
+                for (int i = 0; i < part.transform.childCount; i++)
+                {
+                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
+                    if (childGameobject.GetComponent<MeshRenderer>() != null)
+                    {
+                        childGameobject.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                    if (childGameobject.GetComponent<Collider>() != null)
+                    {
+                        childGameobject.GetComponent<Collider>().enabled = false;
+                    }
+                }
+            }
+        }
+        
+        public void EnablePartForRespawn(GameObject part)
+        {
+            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
+            Collider collider = part.GetComponent<Collider>();
+            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
+            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
+
+            if (meshrenderer != null)
+            {
+                meshrenderer.enabled = true;
+            }
+
+            if (collider != null)
+            {
+                collider.enabled = true;
+            }
+
+            if (creaturePart != null)
+            {
+                creaturePart.enabled = true;
+            }
+            
+            if (creatureBodySegment != null)
+            {
+                creatureBodySegment.visualBodySegment.SetActive(true);
+            }
+            
+            if (attachablePart != null)
+            {
+                for (int i = 0; i < part.transform.childCount; i++)
+                {
+                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
+                    if (childGameobject.GetComponent<MeshRenderer>() != null)
+                    {
+                        childGameobject.GetComponent<MeshRenderer>().enabled = true;
+                    }
+                    if (childGameobject.GetComponent<Collider>() != null)
+                    {
+                        childGameobject.GetComponent<Collider>().enabled = true;
+                    }
+                }
             }
         }
         
@@ -400,18 +510,28 @@ namespace Player
     
             if (originalRb != null && copyRb != null)
             {
+                copyRb.isKinematic = false;
+                copyRb.useGravity = true;
                 copyRb.linearVelocity = originalRb.linearVelocity * GameParameters.DeadPartVelocityMultiplier;
                 copyRb.angularVelocity = originalRb.angularVelocity * GameParameters.DeadPartVelocityMultiplier;
             }
-
+            
             if (!original.TryGetComponent<AttachablePart>(out _))
             {
                 if (copy.TryGetComponent<CreatureBodySegment>(out var segment))
+                {
                     segment.SetMaterial(DeadBodyPartMaterial);
+                    segment.visualBodySegment.GetComponent<MeshRenderer>().enabled = true;
+                }
                 else
                     foreach (MeshRenderer renderer in copy.GetComponentsInChildren<MeshRenderer>())
                         renderer.material = DeadBodyPartMaterial;
             }
+            
+            foreach (Joint joint in copy.GetComponents<Joint>())
+                Destroy(joint);
+            foreach (Joint joint in copy.GetComponentsInChildren<Joint>())
+                Destroy(joint);
 
             return copy;
         }

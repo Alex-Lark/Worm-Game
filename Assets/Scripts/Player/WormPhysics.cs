@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CreatureParts;
 using PurrNet;
 using UnityEngine;
 
@@ -45,14 +46,53 @@ namespace Player
         
             IgnoreWormSelfCollision();
         }
-    
-        public void ResetWormPhysics()
+
+        public void ToggleWormKinematics(bool isKinematic)
         {
-            Debug.Log("Reset worm physics called\n" + StackTraceUtility.ExtractStackTrace());
+            if (isKinematic)
+            {
+                MakeWormKinematic();
+            }
+            else
+            {
+                MakeWormUnkinematic();
+            }
+        }
+    
+        public void MakeWormKinematic()
+        {
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {
                 SetSegmentPhysics(segment, isKinematic: true, useGravity: false);
+            }
+
+            foreach (Transform part in player.wormBodySegments)
+            {
+                SetSegmentPhysics(part, isKinematic: true, useGravity: false);
+            }
+        }
+
+        public void MakeWormUnkinematic()
+        {
+            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
+            if (headRb != null)
+            {
+                headRb.useGravity = true;
+                headRb.isKinematic = false;
+                headRb.linearVelocity = Vector3.zero;
+                headRb.angularVelocity = Vector3.zero;
+            }
+            
+            foreach (Transform segment in player.wormBodySegments)
+            {
+                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
+                segmentRb.useGravity = true;
+                segmentRb.isKinematic = false;
+                segmentRb.linearVelocity = Vector3.zero;
+                segmentRb.angularVelocity = Vector3.zero;
+                
+                segment.GetComponent<CreatureBodySegment>().ResetJointPhysics();
             }
         }
 
@@ -82,34 +122,6 @@ namespace Player
                 currentPosition += backDirection * GameParameters.SegmentMaxPartDistance;
                 player.wormBodySegments[i].position = currentPosition;
                 player.wormBodySegments[i].rotation = player.wormHead.rotation;
-            }
-        }
-        
-        public void ResetPlayerPhysics()
-        {
-            Debug.Log("resetting player physics");
-            player.wormHead.GetComponent<Rigidbody>().isKinematic = false;
-            player.wormHead.GetComponent<Rigidbody>().useGravity = true;
-            player.wormHead.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-            player.wormHead.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-            foreach (Transform segment in player.wormBodySegments)
-            {
-                Rigidbody rb = segment.GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.useGravity = true;
-            }
-
-            foreach (GameObject part in player.attachedWormParts)
-            {
-                Debug.Log("resetting attached part physics");
-                Rigidbody rb = part.GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.useGravity = true;
             }
         }
         

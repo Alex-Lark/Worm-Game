@@ -88,7 +88,8 @@ namespace Player
             if (endPoint == null)
                 return;
 
-            ap.ConfigureHingeJoint(endPoint);
+            if (isOwner && owner == localPlayer) ap.ConfigureHingeJoint(endPoint);
+            
             partPlayer.GetComponent<WormPhysics>().IgnorePartCollisionWithWorm(part, ap.attachedSegmentRigidbody.transform);
         }
         
@@ -125,8 +126,7 @@ namespace Player
             {
                 Debug.Log($"ReactivateAttachedParts: part instanceID={attachedPart.GetInstanceID()} name={attachedPart.name}");
                 attachedPart.SetActive(true);
-                attachedPart.GetComponent<AttachablePart>().enabled = true;
-                attachedPart.GetComponent<AttachablePart>().ResetJoint();
+                if (isOwner && owner == localPlayer) yield return StartCoroutine(attachedPart.GetComponent<AttachablePart>().ResetJoint());
             }
     
             GetComponent<WormPhysics>().IgnoreWormSelfCollision();

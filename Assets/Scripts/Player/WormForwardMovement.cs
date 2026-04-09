@@ -69,7 +69,7 @@ namespace Player
     
         public void MoveWormBody()
         {
-            List<Transform> wormParts = player.wormBodySegments;
+            List<Transform> wormParts = player.wormBodySegments.list;
 
             // Calculate constraint forces for all segments
             for (int i = 0; i < wormParts.Count; i++)

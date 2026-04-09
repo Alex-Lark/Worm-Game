@@ -42,7 +42,7 @@ public class Network : MonoBehaviour
     public void StartServer()
     {
         //targetAddress = "127.0.0.1"; //uncomment this for UDP transport
-        targetAddress = "BattleWorms";
+        targetAddress = "BattleWorms2";
         StartCommon();
         manager.StartHost();
     }
@@ -77,7 +77,7 @@ public class Network : MonoBehaviour
             {
                 purrTransport = manager.transport as PurrTransport;
                 
-                if(targetAddress==""||targetAddress==null)targetAddress = "BattleWorms";
+                if(targetAddress==""||targetAddress==null)targetAddress = "BattleWorms2";
                 instance.purrTransport.roomName = targetAddress;
             }
             else

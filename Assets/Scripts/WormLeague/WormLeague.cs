@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -48,11 +49,7 @@ namespace WormLeague
     
         void Start()
         {
-            if (!isHost && !isServer)
-            {
-                Destroy(this);
-                return;
-            }
+            //StartCoroutine(Ddebug());
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
         }
@@ -71,16 +68,34 @@ namespace WormLeague
             if (team == "blue")
             {
                 teamRedScore++;
-                wormLeagueUI.GoalScored("red", scoringPlayer.name);
+                //wormLeagueUI.GoalScored("red", scoringPlayer.name);
+                WormLeagueUI.GoalScoredPacket packet;
+                packet.playerName = scoringPlayer.name;
+                packet.goalName = "red";
+                
+                if (Network.instance == null) return;
+                if (Network.instance.manager == null) return;
+                
+                Network.instance.manager.SendToAll(packet);
 
             }
             else if (team == "red")
             {
                 teamBlueScore++;
-                wormLeagueUI.GoalScored("blue", scoringPlayer.name);
+                //wormLeagueUI.GoalScored("blue", scoringPlayer.name);
+                
+                WormLeagueUI.GoalScoredPacket packet;
+                packet.playerName = scoringPlayer.name;
+                packet.goalName = "blue";
+                
+                if (Network.instance == null) return;
+                if (Network.instance.manager == null) return;
+                
+                Network.instance.manager.SendToAll(packet);
             }
 
             PlayerRegister.Players[scoringPlayer.playerID] = scoringPlayer;
+            Network.instance.manager.SendToAll(scoringPlayer);
         }
 
         public void OnDestroy()
@@ -97,6 +112,8 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 10;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
+                    
                     
                 }
             }
@@ -107,6 +124,8 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 10;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
+                    
                 }
             }
             else
@@ -116,6 +135,7 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 5;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
                     
                 }
                 foreach (PlayerID player in teamRed)
@@ -123,6 +143,7 @@ namespace WormLeague
                     PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                     playerData.score += 5;
                     PlayerRegister.Players[playerData.playerID] = playerData;
+                    Network.instance.manager.SendToAll(playerData);
                     
                 }
             }
@@ -141,16 +162,44 @@ namespace WormLeague
             {
                 int random =  Random.Range(0, players.Count);
                 teamRed.Add(players[random]);
-                
-                wormLeagueUI.SetTeam("red");
+
+                {
+                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[players[random]];
+                    playerData.team = PlayerRegister.Team.Red;
+                    //PlayerRegister.Players[players[random]] = playerData;
+                    Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                    print(playerData.name +" is on "+playerData.team);
+                }
+
                 players.RemoveAt(random);
                 if (players.Count > 0)
                 {
                     random =  Random.Range(0, players.Count);
                     teamBlue.Add(players[random]);
-                    wormLeagueUI.SetTeam("blue");
+                    
+                    {
+                        PlayerRegister.PlayerData playerData = PlayerRegister.Players[players[random]];
+                        playerData.team = PlayerRegister.Team.Blue;
+                        //PlayerRegister.Players[players[random]] = playerData;
+                        Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                        print(playerData.name +" is on "+playerData.team);
+                    }
+                    
                     players.RemoveAt(random);
                 }
+            }
+            
+        }
+
+        private IEnumerator Ddebug()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1);
+                PlayerRegister.PlayerData playerData = new PlayerRegister.PlayerData();
+                playerData.name = "DEBUG PLS WORK";
+                Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                
             }
         }
         
@@ -160,8 +209,8 @@ namespace WormLeague
             //TODO: make it by player, make each spawnpoint assigned only once, maybe go in order of spawnpoints and randomize players so no random positions
             
             GameObject spawnpoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-
-            LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
+            
+            if (LocalPlayer.Instance != null) LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
         }
         
         #endregion
