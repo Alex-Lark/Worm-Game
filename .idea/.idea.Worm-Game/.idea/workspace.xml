@@ -4,8 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="score increase animation added and background to text updated">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="added colors to false leaderboard">
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1049.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1049.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1051.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1051.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1052.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1052.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1053.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1053.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1054.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1054.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1055.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/LeaderboardAssets/IMG_1055.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,15 +233,7 @@
       <workItem from="1774311395709" duration="19062000" />
       <workItem from="1774574244284" duration="3146000" />
       <workItem from="1774722257770" duration="5274000" />
-      <workItem from="1775712286047" duration="6895000" />
-    </task>
-    <task id="LOCAL-00057" summary="worm orientation resets when going back to creature builder">
-      <option name="closed" value="true" />
-      <created>1763598112023</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1763598112023</updated>
+      <workItem from="1775712286047" duration="7333000" />
     </task>
     <task id="LOCAL-00058" summary="can move parts from a previous round around">
       <option name="closed" value="true" />
@@ -616,7 +619,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775716878638</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="false leaderboard scene added+animated">
+      <option name="closed" value="true" />
+      <created>1775719423956</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1775719423956</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -680,8 +691,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed numerous grounding errors" />
-    <MESSAGE value="fixed parts being in slightly wrong place on second round in creature builder" />
     <MESSAGE value="fixed leg part dragging being weird" />
     <MESSAGE value="improved legAttachement" />
     <MESSAGE value="trying to refactor partAttachment to better store positions" />
@@ -705,7 +714,9 @@
     <MESSAGE value="color selection updates implemented" />
     <MESSAGE value="added leaderboard assets to files" />
     <MESSAGE value="score increase animation added and background to text updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="score increase animation added and background to text updated" />
+    <MESSAGE value="false leaderboard scene added+animated" />
+    <MESSAGE value="added colors to false leaderboard" />
+    <option name="LAST_COMMIT_MESSAGE" value="added colors to false leaderboard" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
