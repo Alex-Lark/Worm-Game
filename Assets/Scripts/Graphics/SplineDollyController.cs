@@ -11,7 +11,7 @@ namespace Graphics
         [HideInInspector] public bool isPlaying = false;
         [HideInInspector] public float playbackSpeed = 1f;
         [HideInInspector] public bool autoPlayOnStart = false;
-        [HideInInspector] public EndBehaviour endBehaviour = EndBehaviour.Stop;
+        [HideInInspector] public EndBehaviour endBehaviour = EndBehaviour.Loop;
 
         private CinemachineSplineDolly _dolly;
         private float _startPosition = 0f;
