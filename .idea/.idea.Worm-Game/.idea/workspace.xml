@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="score increase animation added and background to text updated">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/leaderboardText.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/leaderboardText.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RenderTexture/RecordingTexture.renderTexture" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game Scenes/Worm League.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoop/Leaderboard.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoop/Leaderboard.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParameters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WormLeague/WormLeague.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,8 +56,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkRigidBodyDebugger.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/NetworkedPhysicsObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/PartSelectionManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/ScoreAnimator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameLoop/multiplayer/UIElementMover.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/angel/RiderProjects/Worm-Game/Assets/Scripts/GameParameters.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PhysicsDebugHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/DeathScreenUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/LocalPlayer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -230,15 +222,7 @@
       <workItem from="1774311395709" duration="19062000" />
       <workItem from="1774574244284" duration="3146000" />
       <workItem from="1774722257770" duration="5274000" />
-      <workItem from="1775712286047" duration="4391000" />
-    </task>
-    <task id="LOCAL-00056" summary="wormLeague wip">
-      <option name="closed" value="true" />
-      <created>1763532540849</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1763532540850</updated>
+      <workItem from="1775712286047" duration="6895000" />
     </task>
     <task id="LOCAL-00057" summary="worm orientation resets when going back to creature builder">
       <option name="closed" value="true" />
@@ -624,7 +608,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775545129593</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="score increase animation added and background to text updated">
+      <option name="closed" value="true" />
+      <created>1775716878638</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1775716878638</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -688,7 +680,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fixed parts not spawning for host player" />
     <MESSAGE value="fixed numerous grounding errors" />
     <MESSAGE value="fixed parts being in slightly wrong place on second round in creature builder" />
     <MESSAGE value="fixed leg part dragging being weird" />
@@ -713,7 +704,8 @@
     <MESSAGE value="added additional coloring" />
     <MESSAGE value="color selection updates implemented" />
     <MESSAGE value="added leaderboard assets to files" />
-    <option name="LAST_COMMIT_MESSAGE" value="added leaderboard assets to files" />
+    <MESSAGE value="score increase animation added and background to text updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="score increase animation added and background to text updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
