@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="New Head model">
+    <list default="true" id="1b73adb2-f803-4475-a0fa-33e007192545" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worm-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,14 +226,7 @@
       <workItem from="1775145946168" duration="7000" />
       <workItem from="1775373647187" duration="3959000" />
       <workItem from="1775685531218" duration="345000" />
-    </task>
-    <task id="LOCAL-00039" summary="parts while dragging have outline">
-      <option name="closed" value="true" />
-      <created>1762304566126</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1762304566126</updated>
+      <workItem from="1775685908380" duration="1067000" />
     </task>
     <task id="LOCAL-00040" summary="can drag parts around in gui">
       <option name="closed" value="true" />
@@ -620,7 +612,15 @@
       <option name="project" value="LOCAL" />
       <updated>1775482267102</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="New Head model">
+      <option name="closed" value="true" />
+      <created>1775685962546</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1775685962547</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -668,7 +668,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="worm parts are more stable and don't collide with body segments" />
     <MESSAGE value="wormParts no longer rotate towards the exact center" />
     <MESSAGE value="dragging imrpoved but rotation is broken again" />
     <MESSAGE value="dragging improved" />
@@ -693,7 +692,8 @@
     <MESSAGE value="New Head and Pivots for rotation" />
     <MESSAGE value="Re-pushed fixes to Builder 3D space and pivots" />
     <MESSAGE value="Fixed head with less Polygons, and leg model" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed head with less Polygons, and leg model" />
+    <MESSAGE value="New Head model" />
+    <option name="LAST_COMMIT_MESSAGE" value="New Head model" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
