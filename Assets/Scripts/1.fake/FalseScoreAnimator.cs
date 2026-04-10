@@ -7,6 +7,7 @@ public class FalseScoreAnimator : MonoBehaviour
     public Text text;
     public int targetScore = 100;
     public float duration = 1.5f;
+    public float delay = 1f;
 
     private void Start()
     {
@@ -16,6 +17,13 @@ public class FalseScoreAnimator : MonoBehaviour
     private IEnumerator CountUp(Text text, int start, int end)
     {
         float time = 0f;
+        while (time < delay)
+        {
+            time += Time.deltaTime;
+            yield return null;
+        }
+        
+        time = 0f;
 
         while (time < duration)
         {
