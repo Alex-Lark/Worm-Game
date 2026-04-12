@@ -705,6 +705,7 @@ GameObject:
   - component: {fileID: 7348436228205291943}
   - component: {fileID: 7240195490169425931}
   - component: {fileID: 2594117777905851401}
+  - component: {fileID: 5730482949323111769}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1145,6 +1146,24 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
+--- !u!114 &5730482949323111769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3857149077806430327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c31272e238d4b14a869773cb4ee05c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerHitEffect
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  hitColorIntensity: 1
+  hitEffectDuration: 0.2
+  baseColor: {r: 0, g: 0, b: 0, a: 0}
+  wormRenderer: {fileID: 6853179217322600570}
+  player: {fileID: 7294720926454559192}
 --- !u!1 &3919673278736660677
 GameObject:
   m_ObjectHideFlags: 0
