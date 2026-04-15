@@ -39,6 +39,8 @@ namespace WormLeague
             //StartCoroutine(Ddebug());
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
+            
+            LoadingScreenManager.LoadingScreenForSelf(false);
         }
 
         #endregion

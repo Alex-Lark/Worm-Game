@@ -41,6 +41,7 @@ namespace GameLoop.GameLobby
             if (Player.LocalPlayer.Instance != null)
             {
                 RegisterLocalPlayer();
+                LoadingScreenManager.LoadingScreenForSelf(false);
             }
             else
             {
@@ -53,6 +54,8 @@ namespace GameLoop.GameLobby
         {
             Player.LocalPlayer.OnLocalPlayerReady -= OnLocalPlayerReady;
             RegisterLocalPlayer();
+            LoadingScreenManager.LoadingScreenForSelf(false);
+            
         }
 
         private void RegisterLocalPlayer()
@@ -124,6 +127,7 @@ namespace GameLoop.GameLobby
 
         public void StartGame()
         {
+            LoadingScreenManager.LoadingScreenForSelf(true);
             GameLoop.Instance.StartGame();
             OnGameStart?.Invoke();
         }

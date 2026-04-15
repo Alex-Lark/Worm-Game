@@ -46,11 +46,12 @@ namespace GameLoop
             Instance = this;
             partCards = GameLoop.partCardsStatic;
             gameObject.GetOrAddComponent<PartSelectionManager>();
+            
+            GameLoop.gameLoopTimer.TimeExpired.AddListener(EndCardSelection);
         }
 
         private void Update()
         {
-            GameLoop.gameLoopTimer.TimeExpired.AddListener(EndCardSelection);
         }
 
         void OnDestroy()
@@ -74,10 +75,12 @@ namespace GameLoop
             card2Name.text = card2.GetComponent<PartCard>().cardName;
             
             print("card1Name: " + card1Name.name + " card2Name: " + card2Name.name);
+            LoadingScreenManager.LoadingScreenForSelf(false);
         }
 
         public void EndCardSelection()
         {
+            LoadingScreenManager.LoadingScreenForSelf(true);
             //if no card was selected, auto select card 1
             if (currentCard == null)
             {

@@ -41,6 +41,7 @@ public class Network : MonoBehaviour
 
     public void StartServer()
     {
+        LoadingScreenManager.LoadingScreenForSelf(true);
         //targetAddress = "127.0.0.1"; //uncomment this for UDP transport
         targetAddress = "BattleWorms2";
         StartCommon();
