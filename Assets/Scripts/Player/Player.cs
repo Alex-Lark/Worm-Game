@@ -365,9 +365,9 @@ namespace Player
 
         public void SetPlayerTeam(string team)
         {
+            Debug.Log("setPlayerTeamCalled with team " + team);
             playerTeam = team;
             OnPlayerTeamChanged?.Invoke(team);
-            Debug.Log("setPlayerTeamCalled with team ");
         }
         
         #endregion

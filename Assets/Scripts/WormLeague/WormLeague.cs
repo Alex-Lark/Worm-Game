@@ -144,6 +144,7 @@ namespace WormLeague
     
         private void AssignPlayerTeams()
         {
+            List<Player.Player> playerObjects = new List<Player.Player>(FindObjectsByType<Player.Player>(FindObjectsSortMode.None));
 
             //currently this always assigns the first random player to team red, so worm is always red with 1 player
             List<PlayerID> players = new List<PlayerID>(PlayerRegister.Players.Keys.AsReadOnlyList());
@@ -157,6 +158,8 @@ namespace WormLeague
                     playerData.team = PlayerRegister.Team.Red;
                     //PlayerRegister.Players[players[random]] = playerData;
                     Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
+                    
+                    
                     print(playerData.name +" is on "+playerData.team);
                 }
 

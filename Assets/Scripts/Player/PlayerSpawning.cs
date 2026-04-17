@@ -99,6 +99,9 @@ namespace Player
             Debug.Log($"Setting worm {player.PlayerName} in game scene as owner");
             StartCoroutine(SpawnAtSpawnPoint());
             player.ActivatePlayer();
+            
+            string team = PlayerRegister.Players[player.playerID].team.ToString();
+            player.SetPlayerTeam(team);
         }
 
         private void SetWormInGameSceneAsNonOwner()

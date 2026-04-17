@@ -101,11 +101,11 @@ namespace Player
         private void HandleTeamChanged(string team)
         {
             Color teamColor = Color.white;
-            if (team == "red")
+            if (team == "Red")
             {
                 teamColor = Color.red;
             }
-            else if (team == "blue")
+            else if (team == "Blue")
             {
                 teamColor = Color.blue;
             }
