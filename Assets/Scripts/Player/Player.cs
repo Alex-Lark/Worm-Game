@@ -187,6 +187,8 @@ namespace Player
         public void DamagePlayer(Collision other, GameObject hitGameObject)
         {
             if (!isOwner) return;
+
+            if (GameParameters.IsInvincible) return;
             
             if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
                 attachedWormParts.Contains(hitGameObject))
