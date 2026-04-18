@@ -70,7 +70,7 @@ namespace Player
         public readonly int WormSegmentCount = GameParameters.WormSegmentCount;
         public readonly float MaxPartDistance = GameParameters.SegmentMaxPartDistance;
 
-        public string playerTeam;
+        public SyncVar<String> playerTeam = new SyncVar<string>("");
         
         public Material DeadBodyPartMaterial;
         
@@ -145,8 +145,12 @@ namespace Player
         #region Public Methods
         
         public void ActivatePlayer() => isPlayerActive = true;
-        public void DeactivatePlayer() => isPlayerActive = false;
-        
+        public void DeactivatePlayer()
+        {
+            playerTeam.value = null;
+            isPlayerActive = false;
+        }
+
         public void SetPlayernameFromLobby(string username, PlayerID playerID)
         {
             if (playerID == owner)
@@ -366,7 +370,7 @@ namespace Player
         public void SetPlayerTeam(string team)
         {
             Debug.Log("setPlayerTeamCalled with team " + team);
-            playerTeam = team;
+            playerTeam.value = team;
             OnPlayerTeamChanged?.Invoke(team);
         }
         
