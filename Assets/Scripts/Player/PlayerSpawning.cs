@@ -99,8 +99,15 @@ namespace Player
             Debug.Log($"Setting worm {player.PlayerName} in game scene as owner");
             StartCoroutine(SpawnAtSpawnPoint());
             player.ActivatePlayer();
+
+            StartCoroutine(AssignPlayerTeam());
+        }
+
+        public IEnumerator AssignPlayerTeam()
+        {
+            yield return new WaitUntil(() => player.RegisterData.team.ToString() != "None" && player.RegisterData.team.ToString() != "");
             
-            string team = PlayerRegister.Players[player.playerID].team.ToString();
+            string team = player.RegisterData.team.ToString();
             player.SetPlayerTeam(team);
         }
 
