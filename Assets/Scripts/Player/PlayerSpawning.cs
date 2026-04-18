@@ -337,6 +337,7 @@ namespace Player
             deathScreenUI.DisableDeathUI();
             
             yield return StartCoroutine(SpawnAtSpawnPoint());
+            StartCoroutine(AssignPlayerTeam());
         }
 
         [ServerRpc]
