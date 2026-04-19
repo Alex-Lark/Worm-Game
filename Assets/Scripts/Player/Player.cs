@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CreatureParts;
+using DG.Tweening;
 using PurrNet;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -54,6 +55,7 @@ namespace Player
         public event Action<float> OnTakeDamage;
 
         public GameObject thirdPersonCamera;
+        public CinemachineImpulseSource screenShakeImpulseSource;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
         public Transform wormVisualHead;
@@ -213,16 +215,19 @@ namespace Player
                 {
                     collisionForce *= GameParameters.HeadbutDamageReductionOnHead;
 
-                    if (other.gameObject.GetComponent<Ball>() != null)
+                    if (other.gameObject.TryGetComponent(out Ball ball))
                     {
+                        ApplyHeadbuttScreenShake(other.impulse);
                         OnWormHeadbutHitBall?.Invoke();
                     }
-                    else if (other.gameObject.GetComponent<ShellPart>() != null)
+                    else if (other.gameObject.TryGetComponent(out ShellPart shellPart) && shellPart.ParentPlayer != this)
                     {
+                        ApplyHeadbuttScreenShake(other.impulse);
                         OnWormHeadbutHitShell?.Invoke();
                     }
-                    else if (other.gameObject.GetComponent<CreaturePart>() != null)
+                    else if (other.gameObject.TryGetComponent(out CreaturePart creaturePart) && creaturePart.ParentPlayer != this)
                     {
+                        ApplyHeadbuttScreenShake(other.impulse);
                         OnWormHeadbutHitPlayer?.Invoke();
                     }
                     else
@@ -269,6 +274,14 @@ namespace Player
                     OnPlayerDeath();
                 }
             } 
+        }
+
+        private void ApplyHeadbuttScreenShake(Vector3 velocity)
+        {
+            velocity *= GameParameters.HeadButtScreenShakeMultiplier;
+            print($"{velocity.magnitude} ");
+            velocity = velocity.normalized * Mathf.Min(velocity.magnitude, GameParameters.MaxHeadbuttScreenShake);
+            screenShakeImpulseSource.GenerateImpulseWithVelocity(velocity);
         }
 
         public void Jump()
@@ -376,15 +389,11 @@ namespace Player
         
         #region Private Methods
 
-        [ContextMenu("Yeowch")]
-        private void Yeowch()
-        {
-            TakeDamage(5);
-        }
-
         private void TakeDamage(float damage)
         {
             currentPlayerHealth -= damage;
+            // Only invoke damage screenShake locally
+            screenShakeImpulseSource.GenerateImpulseWithVelocity(Vector3.down * GameParameters.TakeDamageScreenShakeIntensity);
             ObserversOnTakeDamage(damage);
         }
 

@@ -159,6 +159,14 @@ public static class GameParameters
     public static readonly float MaxCameraTurnAngle = 90f;
     
     #endregion
+    
+    #region Screen Shake
+    
+    public static readonly float TakeDamageScreenShakeIntensity = 0.05f;
+    public static readonly float HeadButtScreenShakeMultiplier = 0.005f;
+    public static readonly float MaxHeadbuttScreenShake = 0.06f;
+    
+    #endregion
 
     #region Jump Pad
     [Header("Jump Pad")] 
