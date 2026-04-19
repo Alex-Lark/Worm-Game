@@ -12,15 +12,14 @@ namespace Player
         [SerializeField] private float hitEffectDuration;
         [SerializeField] private WormRenderer wormRenderer;
         [SerializeField] private Player player;
+        [SerializeField] private MeshRenderer headMeshRenderer;
 
         private Coroutine hitEffectCoroutine;
-        private MeshRenderer headMeshRenderer;
 
         private IEnumerator Start()
         {
             // Wait a frame for the material to be initialized
             yield return null;
-            headMeshRenderer = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial.GetComponent<MeshRenderer>();
             SetEmissionColor(Color.black);
             player.OnTakeDamage += OnTakeDamage;
         }

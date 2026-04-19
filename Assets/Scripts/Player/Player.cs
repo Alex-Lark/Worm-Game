@@ -50,7 +50,9 @@ namespace Player
         public int playerScore = 1;
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
-        
+
+        public event Action<float> OnTakeDamage;
+
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
@@ -242,7 +244,7 @@ namespace Player
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-                    if (isOwner) currentPlayerHealth -= damage;
+                    TakeDamage(damage);
                 }
             }
             if (other.gameObject.GetComponent<FiredProjectile>() != null)
@@ -250,14 +252,14 @@ namespace Player
                 if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;
-                    if (isOwner) currentPlayerHealth -= damage;
+                    TakeDamage(damage);
                 }
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
                 Debug.Log($"Blunt collision between {hitGameObject.name} and {other.gameObject.name} with force: {collisionForce}", other.gameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
-                if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
+                if (LocalPlayer.Instance == this) TakeDamage(damage);
             }
 
             if (isOwner)
@@ -373,7 +375,25 @@ namespace Player
         #endregion
         
         #region Private Methods
-        
+
+        [ContextMenu("Yeowch")]
+        private void Yeowch()
+        {
+            TakeDamage(5);
+        }
+
+        private void TakeDamage(float damage)
+        {
+            currentPlayerHealth -= damage;
+            ObserversOnTakeDamage(damage);
+        }
+
+        [ObserversRpc(runLocally: true)]
+        private void ObserversOnTakeDamage(float damage)
+        {
+            OnTakeDamage?.Invoke(damage);
+        }
+
         [ObserversRpc(runLocally: true)]
         private void ObserversSideDeath()
         {
