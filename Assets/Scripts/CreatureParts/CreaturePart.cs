@@ -18,7 +18,22 @@ namespace CreatureParts
         public GameObject GroundObject { get; private set; }
         public Vector3 GroundNormal { get; private set; }
         public float TimeSinceLastGrounded { get; private set; }
-        
+
+        public Player.Player ParentPlayer
+        {
+            get
+            {
+                if (parentPlayer == null)
+                {
+                    parentPlayer = GetComponentInParent<Player.Player>();
+                    if (parentPlayer == null) throw new Exception($"Could not get Parent Player of Creature Part {gameObject}");
+                } 
+                return parentPlayer;
+            }
+        }
+
+        private Player.Player parentPlayer;
+
         #endregion
 
         #region Private Variables
@@ -29,7 +44,7 @@ namespace CreatureParts
         private readonly Collider[] results = new Collider[GameParameters.GroundColliderMaxHeldCollisions];
         private readonly float verticalDetectionOffset = GameParameters.GroundingColliderVerticalDetectionOffset;
         private readonly float detectionRadiusScale = GameParameters.GroundColliderDetectionRadiusScale;
-        
+
         #endregion
 
         #region Built-In Methods
@@ -54,16 +69,14 @@ namespace CreatureParts
                 return;
             }
 
-            var parentPlayer = GetComponentInParent<Player.Player>();
-
-            if (parentPlayer == null)
+            if (ParentPlayer == null)
             {
                 return;
             }
 
-            if (parentPlayer.owner.HasValue)
+            if (ParentPlayer.owner.HasValue)
             {
-                GiveOwnership(parentPlayer.owner.Value);
+                GiveOwnership(ParentPlayer.owner.Value);
             }
             else
             {
@@ -73,17 +86,14 @@ namespace CreatureParts
 
         private IEnumerator WaitForParentAndClaimOwnership()
         {
-            Player.Player parentPlayer = null;
             PlayerID? parentOwner = null;
 
             float elapsed = 0f;
             while (elapsed < 3f)
             {
-                parentPlayer = GetComponentInParent<Player.Player>();
-
-                if (parentPlayer != null && parentPlayer.owner.HasValue)
+                if (ParentPlayer != null && ParentPlayer.owner.HasValue)
                 {
-                    parentOwner = parentPlayer.owner;
+                    parentOwner = ParentPlayer.owner;
                     break;
                 }
 
