@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerHitEffect : MonoBehaviour
+    public class PlayerHitEffects : MonoBehaviour
     {
         private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
         
@@ -13,6 +13,7 @@ namespace Player
         [SerializeField] private WormRenderer wormRenderer;
         [SerializeField] private Player player;
         [SerializeField] private MeshRenderer headMeshRenderer;
+        [SerializeField] private ParticleSystem hitParticles;
 
         private Coroutine hitEffectCoroutine;
 
@@ -22,6 +23,12 @@ namespace Player
             yield return null;
             SetEmissionColor(Color.black);
             player.OnTakeDamage += OnTakeDamage;
+            player.OnWormHeadbutHitBall += OnHitBall;
+        }
+
+        private void OnHitBall(Vector3 point)
+        {
+            PlayParticlesAtPoint(point);
         }
 
         private void OnDestroy()
@@ -29,11 +36,19 @@ namespace Player
             player.OnTakeDamage -= OnTakeDamage;
         }
 
-        private void OnTakeDamage(float damageTaken)
+        private void OnTakeDamage(HitInfo hitInfo)
         {
             if (hitEffectCoroutine != null) StopCoroutine(hitEffectCoroutine);
 
+            PlayParticlesAtPoint(hitInfo.contactPoint);
+
             hitEffectCoroutine = StartCoroutine(HitEffectCoroutine());
+        }
+
+        private void PlayParticlesAtPoint(Vector3 point)
+        {
+            hitParticles.transform.position = point;
+            hitParticles.Play();
         }
 
         private IEnumerator HitEffectCoroutine()

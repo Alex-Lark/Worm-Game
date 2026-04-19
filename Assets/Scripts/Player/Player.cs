@@ -22,6 +22,13 @@ namespace Player
         Dead
     }
 
+    public struct HitInfo
+    {
+        public float damage;
+        public Vector3 contactPoint;
+        public Vector3 direction;
+    }
+
     public class Player : NetworkBehaviour
     {
         
@@ -52,7 +59,7 @@ namespace Player
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
 
-        public event Action<float> OnTakeDamage;
+        public event Action<HitInfo> OnTakeDamage;
 
         public GameObject thirdPersonCamera;
         public CinemachineImpulseSource screenShakeImpulseSource;
@@ -91,7 +98,7 @@ namespace Player
         
         public event Action OnWormHeadbutLaunch;
         
-        public event Action OnWormHeadbutHitBall;
+        public event Action<Vector3> OnWormHeadbutHitBall;
         
         public event Action OnWormHeadbutHitPlayer;
         
@@ -218,7 +225,7 @@ namespace Player
                     if (other.gameObject.TryGetComponent(out Ball ball))
                     {
                         ApplyHeadbuttScreenShake(other.impulse);
-                        OnWormHeadbutHitBall?.Invoke();
+                        OnWormHeadbutHitBall?.Invoke(other.GetContact(0).point);
                     }
                     else if (other.gameObject.TryGetComponent(out ShellPart shellPart) && shellPart.ParentPlayer != this)
                     {
@@ -244,12 +251,15 @@ namespace Player
             {
                 collisionForce *= GameParameters.ShellDamageReduction;
             }
+            Vector3 contactPoint = other.GetContact(0).point;
+            Vector3 hitDirection = other.impulse.normalized;
+
             if (other.gameObject.GetComponent<SpikePart>() != null)
             {
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-                    TakeDamage(damage);
+                    TakeDamage(new HitInfo { damage = damage, contactPoint = contactPoint, direction = hitDirection });
                 }
             }
             if (other.gameObject.GetComponent<FiredProjectile>() != null)
@@ -257,14 +267,14 @@ namespace Player
                 if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;
-                    TakeDamage(damage);
+                    TakeDamage(new HitInfo { damage = damage, contactPoint = contactPoint, direction = hitDirection });
                 }
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
                 Debug.Log($"Blunt collision between {hitGameObject.name} and {other.gameObject.name} with force: {collisionForce}", other.gameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
-                if (LocalPlayer.Instance == this) TakeDamage(damage);
+                if (LocalPlayer.Instance == this) TakeDamage(new HitInfo { damage = damage, contactPoint = contactPoint, direction = hitDirection });
             }
 
             if (isOwner)
@@ -389,18 +399,18 @@ namespace Player
         
         #region Private Methods
 
-        private void TakeDamage(float damage)
+        private void TakeDamage(HitInfo hitInfo)
         {
-            currentPlayerHealth -= damage;
+            currentPlayerHealth -= hitInfo.damage;
             // Only invoke damage screenShake locally
             screenShakeImpulseSource.GenerateImpulseWithVelocity(Vector3.down * GameParameters.TakeDamageScreenShakeIntensity);
-            ObserversOnTakeDamage(damage);
+            ObserversOnTakeDamage(hitInfo);
         }
 
         [ObserversRpc(runLocally: true)]
-        private void ObserversOnTakeDamage(float damage)
+        private void ObserversOnTakeDamage(HitInfo hitInfo)
         {
-            OnTakeDamage?.Invoke(damage);
+            OnTakeDamage?.Invoke(hitInfo);
         }
 
         [ObserversRpc(runLocally: true)]
