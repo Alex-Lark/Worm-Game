@@ -1,4 +1,5 @@
 using System.Collections;
+using CreatureParts;
 using UnityEngine;
 
 namespace Player
@@ -8,17 +9,18 @@ namespace Player
         private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
         
         [SerializeField] private Color hitColor = Color.red;
-        [SerializeField] private float hitColorIntensity = 1;
-        [SerializeField] private float hitEffectDuration = 0;
+        [SerializeField] private float hitEffectDuration;
         [SerializeField] private WormRenderer wormRenderer;
         [SerializeField] private Player player;
 
         private Coroutine hitEffectCoroutine;
+        private MeshRenderer headMeshRenderer;
 
         private IEnumerator Start()
         {
-            // Wait a frame for the 
+            // Wait a frame for the material to be initialized
             yield return null;
+            headMeshRenderer = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial.GetComponent<MeshRenderer>();
             SetEmissionColor(Color.black);
             player.OnTakeDamage += OnTakeDamage;
         }
@@ -54,6 +56,7 @@ namespace Player
         private void SetEmissionColor(Color color)
         {
             wormRenderer.wormMaterial.SetColor(EmissionColor, color);
+            headMeshRenderer.material.SetColor(EmissionColor, color);
         }
     }
 }
