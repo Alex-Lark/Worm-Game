@@ -23,15 +23,16 @@ namespace Player
 
     public class Player : NetworkBehaviour
     {
-
+        
         #region Public Properties
+        [Header("Public Properties")]
 
-        [Header("Public Properties")] public string PlayerName = "";
+        public string PlayerName = "";
 
         public PlayerID playerID;
-
+        
         public WormState CurrentState { get; set; }
-
+        
         public bool IsWormGrounded { get; set; }
         public bool IsWormGroundedBySegments { get; set; }
         public float MaxVelocity { get; set; }
@@ -40,18 +41,16 @@ namespace Player
         public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
 
         public bool canDie = false;
-
+        
         #endregion
-
+        
         #region public variables
 
         public PlayerRegister.PlayerData RegisterData;
         public int playerScore = 1;
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
-
-        public event Action<float> OnTakeDamage;
-
+        
         public GameObject thirdPersonCamera;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
@@ -62,59 +61,59 @@ namespace Player
 
         public PlayerSpawning playerSpawning;
         public WormForwardMovement wormForwardMovement;
-
+        
         public GameObject wormHeadCopy;
-
+        
         public WormJump wormJump;
         public WormHeadBut wormHeadBut;
-
+    
         public readonly int WormSegmentCount = GameParameters.WormSegmentCount;
         public readonly float MaxPartDistance = GameParameters.SegmentMaxPartDistance;
 
         public string playerTeam;
-
+        
         public Material DeadBodyPartMaterial;
-
+        
         #endregion
-
+        
         #region Events
-
+        
         public event Action<string> OnPlayerTeamChanged;
         public event Action OnWormMoveForwardStart;
         public event Action OnWormMoveForwardEnd;
         public event Action OnWormJump;
-
+        
         public event Action OnWormHeadbutCharge;
-
+        
         public event Action OnWormHeadbutLaunch;
-
+        
         public event Action OnWormHeadbutHitBall;
-
+        
         public event Action OnWormHeadbutHitPlayer;
-
+        
         public event Action OnWormHeadbutHitShell;
         public event Action OnWormHeadbutHitOther;
-
+        
         public event Action OnWormDeath;
-
+        
         #endregion
-
+        
         #region private variables
 
         private bool isPlayerActive = false;
-
+        
         #endregion
-
+    
         #region Built-In Methods
-
-
+        
+        
         private void FixedUpdate()
         {
             PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
             //Debug.Log(RegisterData.name);
-
+            
             if (!isPlayerActive) return;
-
+            
             SetWormGrounding();
 
             if (thirdPersonCamera != null)
@@ -140,14 +139,14 @@ namespace Player
                 }
             }
         }
-
+        
         #endregion
 
         #region Public Methods
-
+        
         public void ActivatePlayer() => isPlayerActive = true;
         public void DeactivatePlayer() => isPlayerActive = false;
-
+        
         public void SetPlayernameFromLobby(string username, PlayerID playerID)
         {
             if (playerID == owner)
@@ -155,28 +154,27 @@ namespace Player
                 PlayerName = username;
             }
         }
-
+        
         public void StartWormMoving()
         {
             if (CurrentState == WormState.Dead) return;
             CurrentState = WormState.Moving;
-
+            
             OnWormMoveForwardStart?.Invoke();
         }
-
+        
         public void StopWormMoving()
         {
             if (CurrentState == WormState.Dead) return;
             CurrentState = WormState.Idle;
-
+            
             OnWormMoveForwardEnd?.Invoke();
         }
-
+        
         public void MoveForward()
         {
-            if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown ||
-                CurrentState == WormState.Dead) return;
-
+            if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
+            
             wormForwardMovement.MoveHead();
             wormForwardMovement.MoveWormBody();
 
@@ -190,14 +188,16 @@ namespace Player
         {
             if (!isOwner) return;
 
-            if (wormBodySegments.Any(s => s.gameObject == hitGameObject) ||
+            if (GameParameters.IsInvincible) return;
+            
+            if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
                 attachedWormParts.Contains(hitGameObject))
             {
                 return;
             }
-
+            
             float collisionForce = other.impulse.magnitude;
-
+            
             if (other.gameObject.CompareTag("Untagged"))
             {
                 //okay so the source of the mystery damage was in fact walls/ground and not the wings
@@ -233,36 +233,31 @@ namespace Player
                     collisionForce *= GameParameters.HeadDamageMultiplier;
                 }
             }
-
             if (other.gameObject.GetComponent<ShellPart>() != null)
             {
                 collisionForce *= GameParameters.ShellDamageReduction;
             }
-
             if (other.gameObject.GetComponent<SpikePart>() != null)
             {
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-                    TakeDamage(damage);
+                    if (isOwner) currentPlayerHealth -= damage;
                 }
             }
-
             if (other.gameObject.GetComponent<FiredProjectile>() != null)
             {
                 if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;
-                    TakeDamage(damage);
+                    if (isOwner) currentPlayerHealth -= damage;
                 }
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
-                Debug.Log(
-                    $"Blunt collision between {hitGameObject.name} and {other.gameObject.name} with force: {collisionForce}",
-                    other.gameObject);
+                Debug.Log($"Blunt collision between {hitGameObject.name} and {other.gameObject.name} with force: {collisionForce}", other.gameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
-                if (LocalPlayer.Instance == this) TakeDamage(damage);
+                if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
             }
 
             if (isOwner)
@@ -271,26 +266,26 @@ namespace Player
                 {
                     OnPlayerDeath();
                 }
-            }
+            } 
         }
 
         public void Jump()
         {
             if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
-
+            
             wormJump.Jump();
             foreach (var part in attachedWormParts)
             {
                 part.GetComponent<CreaturePart>().Jump();
             }
-
+            
             OnWormJump?.Invoke();
         }
 
         public void Attack()
         {
             if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
-
+            
             CurrentState = WormState.Attacking;
             StartCoroutine(AttackSequence());
         }
@@ -301,20 +296,19 @@ namespace Player
             {
                 Destroy(part);
             }
-
             attachedWormParts.Clear();
 
             foreach (GameObject part in wormPartsInInventory)
             {
                 Destroy(part);
             }
-
+            
             wormPartsInInventory.Clear();
-
+            
             CurrentState = WormState.Idle;
             DeactivatePlayer();
         }
-
+        
         public void OnPlayerDeath()
         {
             Debug.Log("Player died");
@@ -322,15 +316,15 @@ namespace Player
             {
                 return;
             }
-
+            
             if (CurrentState == WormState.Dead) return;
             if (!canDie)
             {
                 return;
             }
-
+            
             OnWormDeath?.Invoke();
-
+            
             CurrentState = WormState.Dead;
             if (isOwner) currentPlayerHealth = 0;
 
@@ -344,9 +338,9 @@ namespace Player
             {
                 playerSpawning.deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             }
-
+            
             ServerSideDeath();
-
+            
             playerSpawning.TryToRespawn();
         }
 
@@ -359,7 +353,7 @@ namespace Player
             {
                 wormSegment.GetComponent<CreatureBodySegment>().SetMaterial(bodyMaterial);
             }
-
+            
             GetComponent<WormRenderer>().SetMaterial(bodyMaterial);
         }
 
@@ -371,33 +365,15 @@ namespace Player
 
         public void SetPlayerTeam(string team)
         {
+            Debug.Log("setPlayerTeamCalled with team " + team);
             playerTeam = team;
             OnPlayerTeamChanged?.Invoke(team);
-            Debug.Log("setPlayerTeamCalled with team ");
         }
-
+        
         #endregion
-
+        
         #region Private Methods
-
-        [ContextMenu("Yeowch")]
-        private void Yeowch()
-        {
-            TakeDamage(5);
-        }
-
-        private void TakeDamage(float damage)
-        {
-            currentPlayerHealth -= damage;
-            ObserversOnTakeDamage(damage);
-        }
-
-        [ObserversRpc(runLocally: true)]
-        private void ObserversOnTakeDamage(float damage)
-        {
-            OnTakeDamage?.Invoke(damage);
-        }
-
+        
         [ObserversRpc(runLocally: true)]
         private void ObserversSideDeath()
         {

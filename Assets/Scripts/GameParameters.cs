@@ -9,7 +9,7 @@ public static class GameParameters
     public static readonly int DefaultNumberOfPartsPerRound = 1; //not including discarded card(s)
     public static readonly int DefaultTimePerPartSelection = 5;
     public static readonly int DefaultTimePerCreatureBuilding = 30;
-    public static readonly int DefaultTimePerMinigame = 100;
+    public static readonly int DefaultTimePerMinigame = 60;
     
     public static readonly int TimeForLeaderboard = 5;
     
@@ -168,6 +168,8 @@ public static class GameParameters
     #endregion
     
     #region HealthSystem
+
+    public static readonly bool IsInvincible = false;
     
     public static readonly float DefaultPlayerHealth = 100f;
     public static readonly float PlayerHealthRegen = 0.01f;

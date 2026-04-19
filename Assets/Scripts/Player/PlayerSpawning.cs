@@ -99,6 +99,16 @@ namespace Player
             Debug.Log($"Setting worm {player.PlayerName} in game scene as owner");
             StartCoroutine(SpawnAtSpawnPoint());
             player.ActivatePlayer();
+
+            StartCoroutine(AssignPlayerTeam());
+        }
+
+        public IEnumerator AssignPlayerTeam()
+        {
+            yield return new WaitUntil(() => player.RegisterData.team.ToString() != "None" && player.RegisterData.team.ToString() != "");
+            
+            string team = player.RegisterData.team.ToString();
+            player.SetPlayerTeam(team);
         }
 
         private void SetWormInGameSceneAsNonOwner()
@@ -327,6 +337,7 @@ namespace Player
             deathScreenUI.DisableDeathUI();
             
             yield return StartCoroutine(SpawnAtSpawnPoint());
+            StartCoroutine(AssignPlayerTeam());
         }
 
         [ServerRpc]

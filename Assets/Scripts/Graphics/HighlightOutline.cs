@@ -17,6 +17,9 @@ namespace Graphics
                 if (!partRenderer.enabled) continue;
 
                 var materials = partRenderer.sharedMaterials.ToList();
+                
+                if (materials.Any(m => m != null && m.shader.name == "Custom/Outline"))
+                    continue;
 
                 Material outlineMat = new Material(Shader.Find("Custom/Outline"));
                 outlineMat.SetColor("_OutlineColor", outlineColor);

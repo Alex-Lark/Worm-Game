@@ -15,6 +15,7 @@ namespace GameLoop
         public void LoadMainMenuScene()
         {
             SceneManager.LoadScene("MainMenuScene");
+            LoadingScreenManager.LoadingScreenForSelf(false);
             GameLoop.Instance?.Reset();
             Destroy(Network.instance);
             if(GameLoop.Instance!=null)Destroy(GameLoop.Instance?.gameObject);
