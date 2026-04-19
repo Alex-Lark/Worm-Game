@@ -23,6 +23,7 @@ namespace Player
         public float minSegmentDistance = 0.05f;
 
         private LineRenderer lineRenderer;
+        public LineRenderer LineRenderer => lineRenderer;
         private MeshFilter meshFilter;
         private MeshRenderer meshRenderer;
 
