@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using GameLoop.multiplayer;
 using Player;
@@ -28,6 +29,14 @@ namespace GameLoop.GameLobby
 
         public void SetInitialColor()
         {
+            
+            string print = "";
+            foreach (var index in takenIndices)
+            {
+                print += index + " ";
+            }
+            Debug.Log(print);
+            
             // Try to claim the color matching the worm's current material
             for (int i = 0; i < availableColors.Count; i++)
             {
@@ -61,7 +70,7 @@ namespace GameLoop.GameLobby
             
             selectColorButtonColor.color = availableColors[colorIndex].headMaterial.color;
 
-            FindFirstObjectByType<ColorSync>().SendColorUpdate(colorIndex, LocalPlayer.Instance);
+            StartCoroutine(FindFirstObjectByType<ColorSync>().SendColorUpdate(colorIndex, LocalPlayer.Instance));
             GetComponent<GameLobby>().CloseColorSelectionPanel();
         }
 

@@ -85,7 +85,7 @@ namespace GameLoop.GameLobby
         public void OnPlayerRegistered()
         {
             RefreshColorSelection();
-            colorSelection.SetInitialColor();
+            //colorSelection.SetInitialColor();
         }
 
         public void OnPlayerRegisterChanged(PlayerID playerID, bool connected)

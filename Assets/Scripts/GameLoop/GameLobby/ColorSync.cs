@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GameLoop.GameLobby;
@@ -16,13 +17,9 @@ namespace GameLoop.multiplayer
             => manager.Unsubscribe<ColorUpdateMessage>(OnColorUpdate, asServer);
 
         // Called locally by ColorSelection — passes the local player explicitly
-        public void SendColorUpdate(int colorIndex, Player.Player localPlayer)
+        public IEnumerator SendColorUpdate(int colorIndex, Player.Player localPlayer)
         {
-            if (localPlayer == null)
-            {
-                Debug.LogWarning("SendColorUpdate: no local player.");
-                return;
-            }
+            yield return new WaitUntil(() => localPlayer != null);
 
             Network.instance.manager.SendToServer(new ColorUpdateMessage
             {
