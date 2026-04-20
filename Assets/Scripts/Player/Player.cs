@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CreatureParts;
+using DG.Tweening;
 using PurrNet;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -19,6 +20,13 @@ namespace Player
         Attacking,
         AttackCooldown,
         Dead
+    }
+
+    public struct HitInfo
+    {
+        public float damage;
+        public Vector3 contactPoint;
+        public Vector3 direction;
     }
 
     public class Player : NetworkBehaviour
@@ -50,8 +58,11 @@ namespace Player
         public int playerScore = 1;
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
-        
+
+        public event Action<HitInfo> OnTakeDamage;
+
         public GameObject thirdPersonCamera;
+        public CinemachineImpulseSource screenShakeImpulseSource;
         public GameObject wormSegmentPrefab;
         public Transform wormHead;
         public Transform wormVisualHead;
@@ -87,7 +98,7 @@ namespace Player
         
         public event Action OnWormHeadbutLaunch;
         
-        public event Action OnWormHeadbutHitBall;
+        public event Action<Vector3> OnWormHeadbutHitBall;
         
         public event Action OnWormHeadbutHitPlayer;
         
@@ -211,16 +222,19 @@ namespace Player
                 {
                     collisionForce *= GameParameters.HeadbutDamageReductionOnHead;
 
-                    if (other.gameObject.GetComponent<Ball>() != null)
+                    if (other.gameObject.TryGetComponent(out Ball ball))
                     {
-                        OnWormHeadbutHitBall?.Invoke();
+                        ApplyHeadbuttScreenShake(other.impulse);
+                        OnWormHeadbutHitBall?.Invoke(other.GetContact(0).point);
                     }
-                    else if (other.gameObject.GetComponent<ShellPart>() != null)
+                    else if (other.gameObject.TryGetComponent(out ShellPart shellPart) && shellPart.ParentPlayer != this)
                     {
+                        ApplyHeadbuttScreenShake(other.impulse);
                         OnWormHeadbutHitShell?.Invoke();
                     }
-                    else if (other.gameObject.GetComponent<CreaturePart>() != null)
+                    else if (other.gameObject.TryGetComponent(out CreaturePart creaturePart) && creaturePart.ParentPlayer != this)
                     {
+                        ApplyHeadbuttScreenShake(other.impulse);
                         OnWormHeadbutHitPlayer?.Invoke();
                     }
                     else
@@ -237,12 +251,15 @@ namespace Player
             {
                 collisionForce *= GameParameters.ShellDamageReduction;
             }
+            Vector3 contactPoint = other.GetContact(0).point;
+            Vector3 hitDirection = other.impulse.normalized;
+
             if (other.gameObject.GetComponent<SpikePart>() != null)
             {
                 if (collisionForce > GameParameters.MinSpikeCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.SpikeForceToDamageMultiplier;
-                    if (isOwner) currentPlayerHealth -= damage;
+                    TakeDamage(new HitInfo { damage = damage, contactPoint = contactPoint, direction = hitDirection });
                 }
             }
             if (other.gameObject.GetComponent<FiredProjectile>() != null)
@@ -250,14 +267,14 @@ namespace Player
                 if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;
-                    if (isOwner) currentPlayerHealth -= damage;
+                    TakeDamage(new HitInfo { damage = damage, contactPoint = contactPoint, direction = hitDirection });
                 }
             }
             else if (collisionForce > GameParameters.MinBluntCollisionForceToDamage)
             {
                 Debug.Log($"Blunt collision between {hitGameObject.name} and {other.gameObject.name} with force: {collisionForce}", other.gameObject);
                 float damage = collisionForce * GameParameters.BluntForceToDamageMultiplier;
-                if (LocalPlayer.Instance == this) currentPlayerHealth -= damage;
+                if (LocalPlayer.Instance == this) TakeDamage(new HitInfo { damage = damage, contactPoint = contactPoint, direction = hitDirection });
             }
 
             if (isOwner)
@@ -267,6 +284,14 @@ namespace Player
                     OnPlayerDeath();
                 }
             } 
+        }
+
+        private void ApplyHeadbuttScreenShake(Vector3 velocity)
+        {
+            velocity *= GameParameters.HeadButtScreenShakeMultiplier;
+            print($"{velocity.magnitude} ");
+            velocity = velocity.normalized * Mathf.Min(velocity.magnitude, GameParameters.MaxHeadbuttScreenShake);
+            screenShakeImpulseSource.GenerateImpulseWithVelocity(velocity);
         }
 
         public void Jump()
@@ -373,7 +398,21 @@ namespace Player
         #endregion
         
         #region Private Methods
-        
+
+        private void TakeDamage(HitInfo hitInfo)
+        {
+            currentPlayerHealth -= hitInfo.damage;
+            // Only invoke damage screenShake locally
+            screenShakeImpulseSource.GenerateImpulseWithVelocity(Vector3.down * GameParameters.TakeDamageScreenShakeIntensity);
+            ObserversOnTakeDamage(hitInfo);
+        }
+
+        [ObserversRpc(runLocally: true)]
+        private void ObserversOnTakeDamage(HitInfo hitInfo)
+        {
+            OnTakeDamage?.Invoke(hitInfo);
+        }
+
         [ObserversRpc(runLocally: true)]
         private void ObserversSideDeath()
         {

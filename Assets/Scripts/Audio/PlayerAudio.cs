@@ -70,7 +70,7 @@ namespace Audio
             //stop whooshing headbut sound, play hitPlayer sound
         }
 
-        private void OnWormHeadbutHitBall()
+        private void OnWormHeadbutHitBall(Vector3 vector3)
         {
             //stop whooshing headbut sound, play hitBall sound
         }
