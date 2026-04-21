@@ -118,7 +118,7 @@ namespace Player
             Debug.Log($"Setting worm {player.PlayerName} in game scene as non owner");
             EnableWormVisually();
         }
-        
+         
         public IEnumerator SetWormInCreatureBuilderScene()
         {
             if (owner == localPlayer)
@@ -430,6 +430,8 @@ namespace Player
             player.canDie = true;
             player.currentPlayerHealth = player.maxPlayerHealth;
             OnPlayerSpawnedInGameScene?.Invoke();
+            
+            yield return new WaitForSeconds(0.5f); // let physics settle
             SetKinematicStateServer(false, player);
             player.IsInvincible = false;
         }

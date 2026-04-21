@@ -123,12 +123,14 @@ namespace Player
         {
             if (player != gameObject) return;
             
-            GameObject wormMesh = transform.Find("WormMesh").gameObject;
-            if (wormMesh == null)
+            Transform wormMeshTransform = transform.Find("WormMesh");
+            if (wormMeshTransform == null)
             {
                 Debug.LogWarning($"WormMesh not found on {gameObject.name}, skipping outline.");
                 return;
             }
+            GameObject wormMesh = wormMeshTransform.gameObject;
+            
             if (playerOutline == null) playerOutline = wormMesh.AddComponent<HighlightOutline>();
             playerOutline.HighlightPart(teamColor, 0.1f);
         }
