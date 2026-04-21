@@ -213,8 +213,15 @@ namespace Player
         {
             Debug.Log("spawning with position: " + spawnPosition);
             if (player.wormHead == null) return;
-        
+
             player.wormHead.position = spawnPosition;
+            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
+            if (headRb != null)
+            {
+                headRb.position = spawnPosition;
+                headRb.linearVelocity = Vector3.zero;
+                headRb.angularVelocity = Vector3.zero;
+            }
 
             Vector3 currentPos = player.wormHead.position;
             Vector3 backDir = -player.wormHead.forward;
@@ -225,6 +232,15 @@ namespace Player
                 Transform segment = player.wormBodySegments[i];
                 segment.position = currentPos;
                 segment.rotation = player.wormHead.rotation;
+
+                Rigidbody rb = segment.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.position = currentPos;
+                    rb.rotation = player.wormHead.rotation;
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                }
             }
         }
         
@@ -423,7 +439,7 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
-            yield return new WaitForSeconds(0.5f); // let physics settle
+            //yield return new WaitForSeconds(0.5f); // let physics settle
             
             deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             player.thirdPersonCamera = Camera.main?.gameObject;
@@ -431,7 +447,7 @@ namespace Player
             player.currentPlayerHealth = player.maxPlayerHealth;
             OnPlayerSpawnedInGameScene?.Invoke();
             
-            yield return new WaitForSeconds(0.5f); // let physics settle
+            //yield return new WaitForSeconds(0.5f); // let physics settle
             SetKinematicStateServer(false, player);
             player.IsInvincible = false;
         }
