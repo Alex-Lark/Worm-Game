@@ -153,8 +153,11 @@ namespace Player
             return v.normalized;
         }
     
-        private void SnapHeadRotation() {
-            Vector3 camDir = global::Player.LocalPlayer.Instance.thirdPersonCamera.transform.forward.normalized;
+        private void SnapHeadRotation()
+        {
+            if (LocalPlayer.Instance.thirdPersonCamera == null) return;
+            
+            Vector3 camDir = LocalPlayer.Instance.thirdPersonCamera.transform.forward.normalized;
             float pitch = CalculatePitch(camDir);
     
             // Clamp pitch to the allowed range
