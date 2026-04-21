@@ -13,6 +13,8 @@ TagManager:
   - TranslationHandle
   - Axis
   - RecordingCamera
+  - FxTemporaire
+  - DontDestroyEver
   layers:
   - Default
   - TransparentFX
@@ -23,8 +25,6 @@ TagManager:
   - FalseWormBody
   - CreaturePart
   - WormRagdoll
-  - 
-  - 
   - 
   - 
   - 
