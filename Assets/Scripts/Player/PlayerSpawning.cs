@@ -212,8 +212,13 @@ namespace Player
         {
             Debug.Log("spawning with position: " + spawnPosition);
             if (player.wormHead == null) return;
-        
+
             player.wormHead.position = spawnPosition;
+            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
+            if (headRb != null)
+            {
+                headRb.position = spawnPosition;
+            }
 
             Vector3 currentPos = player.wormHead.position;
             Vector3 backDir = -player.wormHead.forward;
@@ -224,6 +229,13 @@ namespace Player
                 Transform segment = player.wormBodySegments[i];
                 segment.position = currentPos;
                 segment.rotation = player.wormHead.rotation;
+
+                Rigidbody rb = segment.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.position = currentPos;
+                    rb.rotation = player.wormHead.rotation;
+                }
             }
         }
         
