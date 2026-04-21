@@ -33,6 +33,7 @@ namespace Player
         private float TimeToWaitForSpawnpointSet = 1f;
 
         public event Action OnWormRespawn;
+        public event Action OnPlayerSpawnedInGameScene;
 
         #endregion
 
@@ -412,11 +413,6 @@ namespace Player
             }
             
             yield return null;
-
-            deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
-            player.thirdPersonCamera = Camera.main?.gameObject;
-            player.canDie = true;
-            player.currentPlayerHealth = player.maxPlayerHealth;
             
             SetKinematicStateServer(true, player);
             player.GetComponent<WormConstructor>().ConstructWorm();
@@ -427,6 +423,13 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
+            yield return new WaitForSeconds(0.5f); // let physics settle
+            
+            deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
+            player.thirdPersonCamera = Camera.main?.gameObject;
+            player.canDie = true;
+            player.currentPlayerHealth = player.maxPlayerHealth;
+            OnPlayerSpawnedInGameScene?.Invoke();
             SetKinematicStateServer(false, player);
             player.IsInvincible = false;
         }

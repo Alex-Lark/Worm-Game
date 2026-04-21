@@ -124,6 +124,11 @@ namespace Player
             if (player != gameObject) return;
             
             GameObject wormMesh = transform.Find("WormMesh").gameObject;
+            if (wormMesh == null)
+            {
+                Debug.LogWarning($"WormMesh not found on {gameObject.name}, skipping outline.");
+                return;
+            }
             if (playerOutline == null) playerOutline = wormMesh.AddComponent<HighlightOutline>();
             playerOutline.HighlightPart(teamColor, 0.1f);
         }

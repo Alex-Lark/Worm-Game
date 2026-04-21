@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -89,12 +90,16 @@ namespace Player
             Debug.Log("Local player is ready");
             if (LocalPlayer.Instance != null)
             {
-                cam.Follow = LocalPlayer.Instance.wormVisualHead;
-                cam.LookAt = LocalPlayer.Instance.wormVisualHead;
-
+                LocalPlayer.Instance.GetComponent<PlayerSpawning>().OnPlayerSpawnedInGameScene += HandlePlayerSpawnedInGameScene;
             }
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+
+        private void HandlePlayerSpawnedInGameScene()
+        {
+            gameObject.GetComponent<CinemachineCamera>().Follow = LocalPlayer.Instance.wormVisualHead;
+            gameObject.GetComponent<CinemachineCamera>().LookAt = LocalPlayer.Instance.wormVisualHead;
         }
     }
 }
