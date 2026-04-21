@@ -48,7 +48,7 @@ namespace CreatureBuilder
             {
                 InitializePrefabMapping();
                 player = LocalPlayer.Instance;
-                cinemachineCamera.Follow = player.transform;
+                //cinemachineCamera.Follow = player.transform;
             }
             LoadingScreenManager.LoadingScreenForSelf(false);
         }
@@ -57,7 +57,7 @@ namespace CreatureBuilder
         {
             InitializePrefabMapping();
             player = LocalPlayer.Instance;
-            cinemachineCamera.Follow = player.transform;
+            //cinemachineCamera.Follow = player.transform;
             
         }
         

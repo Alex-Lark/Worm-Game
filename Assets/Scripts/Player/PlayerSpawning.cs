@@ -20,7 +20,7 @@ namespace Player
         public DeathScreenUI deathScreenUI;
 
         public Vector3 spawnPoint = new Vector3(); //default
-        private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, 2, 0);
+        private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, -98, 0);
         private Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
         private Quaternion headRotationInCreatureBuilder = Quaternion.Euler(0, 0, 0);
 
