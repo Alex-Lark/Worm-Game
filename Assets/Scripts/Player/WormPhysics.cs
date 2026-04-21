@@ -69,6 +69,7 @@ namespace Player
 
             foreach (Transform part in player.wormBodySegments)
             {
+                //TODO: update to attachedParts?
                 SetSegmentPhysics(part, isKinematic: true, useGravity: false);
             }
         }

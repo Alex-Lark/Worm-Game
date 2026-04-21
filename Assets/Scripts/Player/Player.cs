@@ -208,13 +208,6 @@ namespace Player
             }
             
             float collisionForce = other.impulse.magnitude;
-            
-            if (other.gameObject.CompareTag("Untagged"))
-            {
-                //okay so the source of the mystery damage was in fact walls/ground and not the wings
-                //for now i've just turned it off but if we want fall damage we can do multipliers here
-                //return;
-            }
 
             if (hitGameObject.GetComponent<WormHead>() != null)
             {
@@ -416,23 +409,11 @@ namespace Player
         [ObserversRpc(runLocally: true)]
         private void ObserversSideDeath()
         {
-            GetComponent<WormRenderer>().enabled = false;
-            GetComponent<LineRenderer>().enabled = false;
-    
-            if (transform.Find("WormMesh") != null)
-                Destroy(transform.Find("WormMesh").gameObject);
+            playerSpawning.DisableWormVisually();
     
             wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
             DisablePartForDeath(wormHead.gameObject);
-
-            if (wormVisualHead.GetComponent<MeshRenderer>() != null) wormVisualHead.GetComponent<MeshRenderer>().enabled = false;
-            GameObject visualHeadWithMaterial = wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
-            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = false;
-            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
-            {
-                mr.enabled = false;
-            }
-
+            
             foreach (Transform bodySegment in wormBodySegments)
             {
                 DuplicatePartForDeath(bodySegment.gameObject);

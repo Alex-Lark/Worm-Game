@@ -114,33 +114,59 @@ namespace Player
         private void SetWormInGameSceneAsNonOwner()
         {
             Debug.Log($"Setting worm {player.PlayerName} in game scene as non owner");
-            GetComponent<WormRenderer>().EnableRendering();
-            player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = true;
+            EnableWormVisually();
         }
         
         public IEnumerator SetWormInCreatureBuilderScene()
         {
-            LocalPlayer.Instance.canDie = false;
-            Debug.Log("setting worm in creature builder");
-            yield return null;
-    
-            var wormPhysics = GetComponent<WormPhysics>();
-            wormPhysics.MakeWormKinematic();
-            yield return null;
-            wormPhysics.ResetWormOrientation();
-            wormPhysics.PositionWormSegments(CreatureBuildingSpawnPoint);
-            yield return null;
-            yield return null;
-    
-            player.DeactivatePlayer();
-
-            if (owner != localPlayer)
+            if (owner == localPlayer)
             {
-                GetComponent<WormRenderer>().DisableRendering();
-                player.wormHead.GetComponent<WormHead>().visualHead.GetComponent<MeshRenderer>().enabled = false;
+                LocalPlayer.Instance.canDie = false;
+                Debug.Log("setting worm in creature builder as owner");
+                var wormPhysics = GetComponent<WormPhysics>();
+                wormPhysics.MakeWormKinematic();
+                wormPhysics.ResetWormOrientation();
+                wormPhysics.PositionWormSegments(CreatureBuildingSpawnPoint);
+                player.DeactivatePlayer();
+                GetComponent<PlayerPartAttachment>().AddAlreadyAttachedParts();
             }
+            else
+            {
+                DisableWormVisually();
+            }
+            yield return null;
+        }
+        
+        public void DisableWormVisually()
+        {
+            GetComponent<WormRenderer>().DisableRendering();
+            player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = false;
+            
+            if (transform.Find("WormMesh") != null) Destroy(transform.Find("WormMesh").gameObject);
+            if (player.wormVisualHead.GetComponent<MeshRenderer>() != null) player.wormVisualHead.GetComponent<MeshRenderer>().enabled = false;
+            
+            GameObject visualHeadWithMaterial = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
+            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = false;
+            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = false;
+            }
+        }
 
-            GetComponent<PlayerPartAttachment>().AddAlreadyAttachedParts();
+        public void EnableWormVisually()
+        {
+            GetComponent<WormRenderer>().enabled = true;
+            GetComponent<WormRenderer>().Restart();
+            
+            if (player.wormVisualHead.GetComponent<MeshRenderer>() != null) player.wormVisualHead.GetComponent<MeshRenderer>().enabled = true;
+            GameObject visualHeadWithMaterial = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
+            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = true;
+            
+            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = true;
+            }
+            
         }
         
         #endregion
@@ -356,20 +382,10 @@ namespace Player
 
         private void RespawnPlayerAsNonOwner()
         {
+            EnableWormVisually();
             Debug.Log("Respawning player as Nonowner" + player.PlayerName);
-            GetComponent<WormRenderer>().enabled = true;
-            GetComponent<WormRenderer>().Restart();
             
             player.EnablePartForRespawn(player.wormHead.gameObject);
-
-            if (player.wormVisualHead.GetComponent<MeshRenderer>() != null) player.wormVisualHead.GetComponent<MeshRenderer>().enabled = true;
-            GameObject visualHeadWithMaterial = player.wormHead.GetComponent<WormHead>().wormVisualHeadWithMaterial;
-            visualHeadWithMaterial.GetComponent<MeshRenderer>().enabled = true;
-            
-            foreach (MeshRenderer mr in visualHeadWithMaterial.GetComponentsInChildren<MeshRenderer>())
-            {
-                mr.enabled = true;
-            }
             
             foreach (Transform bodySegment in player.wormBodySegments)
                 player.EnablePartForRespawn(bodySegment.gameObject);
