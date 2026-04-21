@@ -22,6 +22,7 @@ namespace Player
         public Vector3 spawnPoint = new Vector3(); //default
         private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, 2, 0);
         private Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
+        private Quaternion headRotationInCreatureBuilder = Quaternion.Euler(0, 0, 0);
 
         private Coroutine respawnCoroutine;
 
@@ -129,6 +130,7 @@ namespace Player
                 wormPhysics.PositionWormSegments(CreatureBuildingSpawnPoint);
                 player.DeactivatePlayer();
                 GetComponent<PlayerPartAttachment>().AddAlreadyAttachedParts();
+                player.wormVisualHead.rotation = headRotationInCreatureBuilder;
             }
             else
             {
