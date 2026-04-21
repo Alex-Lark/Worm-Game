@@ -18,7 +18,6 @@ namespace Player
         
         void Start()
         {
-            SceneManager.sceneLoaded += OnSceneLoaded;
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
