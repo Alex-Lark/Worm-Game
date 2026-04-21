@@ -289,7 +289,7 @@ namespace Player
         private void ApplyHeadbuttScreenShake(Vector3 velocity)
         {
             velocity *= GameParameters.HeadButtScreenShakeMultiplier;
-            print($"{velocity.magnitude} ");
+            //print($"{velocity.magnitude} ");
             velocity = velocity.normalized * Mathf.Min(velocity.magnitude, GameParameters.MaxHeadbuttScreenShake);
             screenShakeImpulseSource.GenerateImpulseWithVelocity(velocity);
         }

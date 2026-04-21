@@ -66,50 +66,49 @@ namespace CreatureParts
             
             if (owner != null)
             {
+                //Debug.Log($"Part owner is not null, owner: {owner}");
                 return;
             }
 
             if (ParentPlayer == null)
             {
+                Debug.Log($"Parent player is null, owner: {owner}");
                 return;
             }
 
             if (ParentPlayer.owner.HasValue)
             {
+                Debug.Log($"giving ownership to parentPlayer owner. Old owner: {owner} new owner: {parentPlayer.owner}" );
                 GiveOwnership(ParentPlayer.owner.Value);
             }
             else
             {
+                Debug.Log($"waiting for ownership parent to give ownership. Old owner: {owner}" );
                 StartCoroutine(WaitForParentAndClaimOwnership());
             }
         }
-
-        private IEnumerator WaitForParentAndClaimOwnership()
+        
+        private void OnCollisionEnter(Collision other)
         {
-            PlayerID? parentOwner = null;
+            if (LocalPlayer.Instance == null) return;
 
-            float elapsed = 0f;
-            while (elapsed < 3f)
+            if (!isOwner) return; 
+            
+            if ((other.gameObject.GetComponent<CreaturePart>() != null))
             {
-                if (ParentPlayer != null && ParentPlayer.owner.HasValue)
+                if (other.gameObject.GetComponent<CreaturePart>().owner == owner)
                 {
-                    parentOwner = ParentPlayer.owner;
-                    break;
+                    return;
                 }
-
-                yield return new WaitForSeconds(0.1f);
-                elapsed += 0.1f;
+                else
+                {
+                    Player.Player thisPlayer = gameObject.GetComponentInParent<Player.Player>();
+                    Player.Player otherPlayer = other.gameObject.GetComponentInParent<Player.Player>();
+                    //Debug.Log("collision with other player. This player: " + thisPlayer.PlayerName + " " + gameObject.name + " Other player: " + otherPlayer.PlayerName + " " + other.gameObject.name + " force: " + other.impulse.magnitude);
+                }
             }
 
-            if (parentOwner == null)
-            {
-                yield break;
-            }
-
-            if (owner == null)
-            {
-                GiveOwnership(parentOwner.Value);
-            }
+            LocalPlayer.Instance.DamagePlayer(other, gameObject);
         }
 
         protected override void OnOwnerChanged(PlayerID? previousOwner, PlayerID? newOwner, bool asServer)
@@ -181,21 +180,32 @@ namespace CreatureParts
             return Vector3.up;
         }
         
-        private void OnCollisionEnter(Collision other)
+        private IEnumerator WaitForParentAndClaimOwnership()
         {
-            if (LocalPlayer.Instance == null) return;
+            PlayerID? parentOwner = null;
 
-            if (!isOwner) return; 
-            
-            if ((other.gameObject.GetComponent<CreaturePart>() != null) &&
-                (other.gameObject.GetComponent<CreaturePart>().owner != owner))
+            float elapsed = 0f;
+            while (elapsed < 3f)
             {
-                Player.Player thisPlayer = gameObject.GetComponentInParent<Player.Player>();
-                Player.Player otherPlayer = other.gameObject.GetComponentInParent<Player.Player>();
-                //Debug.Log("collision with other player. This player: " + thisPlayer.PlayerName + " " + gameObject.name + " Other player: " + otherPlayer.PlayerName + " " + other.gameObject.name + " force: " + other.impulse.magnitude);
+                if (ParentPlayer != null && ParentPlayer.owner.HasValue)
+                {
+                    parentOwner = ParentPlayer.owner;
+                    break;
+                }
+
+                yield return new WaitForSeconds(0.1f);
+                elapsed += 0.1f;
             }
 
-            LocalPlayer.Instance.DamagePlayer(other, gameObject);
+            if (parentOwner == null)
+            {
+                yield break;
+            }
+
+            if (owner == null)
+            {
+                GiveOwnership(parentOwner.Value);
+            }
         }
         
         #endregion

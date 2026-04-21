@@ -25,10 +25,12 @@ namespace Player
             for (int i = 0; i < player.WormSegmentCount; i++)
             {
                 GameObject newSegment = Object.Instantiate(player.wormSegmentPrefab, transform);
+                newSegment.GetComponent<CreatureBodySegment>().GiveOwnership(player.owner);
                 newSegment.name = "Worm segment " + i;
                 newSegment.GetComponent<CreatureBodySegment>().previousSegment = previousSegment;
                 player.wormBodySegments.Add(newSegment.transform);
                 previousSegment = newSegment.GetComponent<CreatureBodySegment>();
+                //Debug.Log($"Creating worm segment as {player.owner}, segment: {newSegment.name}, segment owner: {newSegment.GetComponent<CreatureBodySegment>().owner}");
             }
             
             for (int i = 0; i < player.wormBodySegments.Count - 1; i++)

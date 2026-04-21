@@ -228,6 +228,7 @@ namespace Player
             
             if (owner == localPlayer && !asServer)
             {
+                Debug.Log($"Initial spawning as owner: | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer} | asServer: {asServer}");
                 StartCoroutine(InitialSpawnAsOwner());
             }
             else //already spawned worm
@@ -238,7 +239,6 @@ namespace Player
 
         private IEnumerator InitialSpawnAsOwner()
         {
-            Debug.Log("setting up as owner == localPlayer");
             LocalPlayer.Register(player);
                 
             player.CurrentState = WormState.Idle;
@@ -248,8 +248,7 @@ namespace Player
             player.wormForwardMovement = GetComponent<WormForwardMovement>();
             player.wormJump = GetComponent<WormJump>();
             player.wormHeadBut = GetComponent<WormHeadBut>();
-
-            yield return new WaitForFixedUpdate();
+            
             yield return StartCoroutine(SpawnAsServer(player));
             
             GetComponent<WormConstructor>().ConstructWorm();
@@ -269,12 +268,13 @@ namespace Player
         [ServerRpc]
         private IEnumerator SpawnAsServer(Player playerToSpawn)
         {
+            Debug.Log($"Trying to spawn player {playerToSpawn.owner} as server, this player: {player.owner}.");
             if (playerToSpawn != player) yield break;
             
-            Debug.Log($"Spawning player {player.PlayerName} as server");
+            Debug.Log($"Spawning player {player.PlayerName} as server.");
             
-            player.wormBodySegments.Clear();
-            GetComponent<WormConstructor>().CreateWormSegments();
+            playerToSpawn.wormBodySegments.Clear();
+            playerToSpawn.GetComponent<WormConstructor>().CreateWormSegments();
 
             yield return null;
         }
