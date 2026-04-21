@@ -314,7 +314,7 @@ namespace Player
         
         public void TryToRespawn()
         {
-            if (canRespawn && GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            if (canRespawn)
             {
                 respawnCoroutine = StartCoroutine(RespawnTimer());
             }
@@ -322,32 +322,29 @@ namespace Player
         
         public IEnumerator RespawnTimer()
         {
-            if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                yield break;
-            }
-            
-            float timeLeft = GameParameters.PlayerRespawnTimeInSeconds;
+                float timeLeft = GameParameters.PlayerRespawnTimeInSeconds;
     
-            while (timeLeft > 0)
-            {
-                deathScreenUI.respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
-                yield return new WaitForSeconds(1f);
-                timeLeft -= 1f;
-            }
+                while (timeLeft > 0)
+                {
+                    deathScreenUI.respawnText.text = "Respawning in " + Mathf.Ceil(timeLeft);
+                    yield return new WaitForSeconds(1f);
+                    timeLeft -= 1f;
+                }
     
-            deathScreenUI.respawnText.text = "Respawning...";
-            StartCoroutine(RespawnPlayer());
+                deathScreenUI.respawnText.text = "Respawning...";
+                
+                StartCoroutine(RespawnPlayer());
+            }
         }
 
         private IEnumerator RespawnPlayer()
         {
-            if (!GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
-                yield break;
+                OnWormRespawn?.Invoke();
             }
-
-            OnWormRespawn?.Invoke();
 
             if (player == LocalPlayer.Instance)
             {
@@ -362,11 +359,15 @@ namespace Player
             Debug.Log("Respawning player as Owner" + player.PlayerName);
             player.CurrentState = WormState.Idle;
             player.currentPlayerHealth = GameParameters.DefaultPlayerHealth;
-            player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
-            deathScreenUI.DisableDeathUI();
+            
+            if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
+            {
+                player.thirdPersonCamera.GetComponent<CinemachineBrain>().enabled = true;
+                deathScreenUI.DisableDeathUI();
+                StartCoroutine(AssignPlayerTeam());
+            }
             
             yield return StartCoroutine(SpawnAtSpawnPoint());
-            StartCoroutine(AssignPlayerTeam());
         }
 
         [ServerRpc]
