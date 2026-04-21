@@ -240,6 +240,7 @@ namespace Player
             }
             else
             {
+                player.IsInvincible = true;
                 GetComponent<Player>().DeactivatePlayer();
             }
         }
@@ -426,6 +427,7 @@ namespace Player
             SetWormSpawnPosition(spawnPoint);
             
             SetKinematicStateServer(false, player);
+            player.IsInvincible = false;
         }
 
         #endregion

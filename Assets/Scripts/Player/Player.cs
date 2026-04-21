@@ -47,6 +47,8 @@ namespace Player
         public bool IsWormJumping => CurrentState == WormState.Jumping;
         public bool IsWormAttacking => CurrentState == WormState.Attacking;
         public bool IsWormInAttackCooldown => CurrentState == WormState.AttackCooldown;
+        
+        public bool IsInvincible { get; set; }
 
         public bool canDie = false;
         
@@ -199,7 +201,9 @@ namespace Player
         {
             if (!isOwner) return;
 
-            if (GameParameters.IsInvincible) return;
+            if (IsInvincible) return;
+
+            if (GameParameters.IsInvincibleInGame) return;
             
             if (wormBodySegments.Any(s => s.gameObject == hitGameObject) || 
                 attachedWormParts.Contains(hitGameObject))
@@ -356,6 +360,8 @@ namespace Player
             {
                 playerSpawning.deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
             }
+
+            IsInvincible = true;
             
             ServerSideDeath();
             

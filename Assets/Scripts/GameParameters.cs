@@ -177,7 +177,7 @@ public static class GameParameters
     
     #region HealthSystem
 
-    public static readonly bool IsInvincible = false;
+    public static readonly bool IsInvincibleInGame = false;
     
     public static readonly float DefaultPlayerHealth = 100f;
     public static readonly float PlayerHealthRegen = 0.01f;
