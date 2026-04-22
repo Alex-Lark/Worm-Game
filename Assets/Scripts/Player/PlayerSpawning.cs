@@ -219,8 +219,12 @@ namespace Player
             if (headRb != null)
             {
                 headRb.position = spawnPosition;
-                headRb.linearVelocity = Vector3.zero;
-                headRb.angularVelocity = Vector3.zero;
+
+                if (headRb.isKinematic == false)
+                {
+                    headRb.linearVelocity = Vector3.zero;
+                    headRb.angularVelocity = Vector3.zero;
+                }
             }
 
             Vector3 currentPos = player.wormHead.position;
@@ -238,8 +242,12 @@ namespace Player
                 {
                     rb.position = currentPos;
                     rb.rotation = player.wormHead.rotation;
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
+
+                    if (rb.isKinematic == false)
+                    {
+                        rb.linearVelocity = Vector3.zero;
+                        rb.angularVelocity = Vector3.zero;
+                    }
                 }
             }
         }
