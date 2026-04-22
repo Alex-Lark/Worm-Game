@@ -2,7 +2,7 @@ using PurrNet;
 using PurrNet.Packing;
 using UnityEngine;
 
-public class LoadingScreenManager : PurrMonoBehaviour
+public class LoadingScreenManager : MonoBehaviour
 {
     public static LoadingScreenManager instance;
     private Canvas canvas;
@@ -37,20 +37,5 @@ public class LoadingScreenManager : PurrMonoBehaviour
         LoadingScreenRequest request;
         request.display = display;
         Network.instance.manager.SendToAll<LoadingScreenRequest>(request);
-    }
-
-    struct LoadingScreenRequest : IPackedAuto
-    {
-        public bool display;
-    }
-    
-    public override void Subscribe(NetworkManager manager, bool asServer)
-    {
-        manager.Subscribe<LoadingScreenRequest>(OnLoadingScreenRequest, asServer);
-    }
-
-    public override void Unsubscribe(NetworkManager manager, bool asServer)
-    {
-        manager.Unsubscribe<LoadingScreenRequest>(OnLoadingScreenRequest, asServer);
     }
 }

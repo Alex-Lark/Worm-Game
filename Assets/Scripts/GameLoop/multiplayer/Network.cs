@@ -41,9 +41,7 @@ public class Network : MonoBehaviour
 
     public void StartServer()
     {
-        LoadingScreenManager.LoadingScreenForSelf(true);
-        //targetAddress = "127.0.0.1"; //uncomment this for UDP transport
-        targetAddress = "BattleWorms2";
+        LoadingScreenManager.LoadingScreenForSelf(true); 
         StartCommon();
         manager.StartHost();
     }
@@ -72,13 +70,13 @@ public class Network : MonoBehaviour
                 
                 if(targetAddress==""||targetAddress==null)targetAddress = "127.0.0.1";
                 instance.udpTransport.address = targetAddress;
-                udpTransport.serverPort = 5001;
+                udpTransport.serverPort = 5000;
             }
             else if (manager.transport as PurrTransport != null)
             {
                 purrTransport = manager.transport as PurrTransport;
                 
-                if(targetAddress==""||targetAddress==null)targetAddress = "BattleWorms2";
+                if(targetAddress==""||targetAddress==null)targetAddress = "BattleWorms20";
                 instance.purrTransport.roomName = targetAddress;
             }
             else

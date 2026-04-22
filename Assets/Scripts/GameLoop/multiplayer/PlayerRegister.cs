@@ -16,14 +16,17 @@ public class PlayerRegister : PurrMonoBehaviour
 
     public static PlayerRegister Instance;
 
+    private void Awake()
+    {
+        OnPlayerRegisterChanged = new UnityEvent<PlayerID, bool>();
+        OnPlayerRegistered = new UnityEvent();
+    }
+    
     private void Start()
     { 
         Players = new Dictionary<PlayerID, PlayerData>();
         DontDestroyOnLoad(this);
         Instance = this;
-        
-        OnPlayerRegisterChanged = new UnityEvent<PlayerID, bool>();
-        OnPlayerRegistered = new UnityEvent();
     }
 
     private string FixUserName(string newName)

@@ -20,7 +20,7 @@ namespace Player
         
         void Start()
         {
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            //SceneManager.sceneLoaded += OnSceneLoaded;
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
@@ -46,6 +46,11 @@ namespace Player
             
             GetComponent<Player>().OnWormDeath -= OnPlayerDeath;
             GetComponent<PlayerSpawning>().OnWormRespawn -= OnWormRespawn;
+        }
+
+        void OnDestroy()
+        {
+            //SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         private void OnPlayerDeath()

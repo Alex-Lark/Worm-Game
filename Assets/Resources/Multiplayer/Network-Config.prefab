@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.Transports.UDPTransport
   _automaticCloudSetups:
     _adaptToEdgegap: 1
-  _serverPort: 5000
+  _serverPort: 5001
   _maxConnections: 100
   _address: 127.0.0.1
   _timeoutInSeconds: 5
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.Transports.PurrTransport
   _masterServer: https://purrtransport.purrservers.com/
-  _roomName: BattleWorms
+  _roomName: BattleWorms42069
   _region: nj-us
   _host: purrtransport-nj-us.purrservers.com
   _timeoutInSeconds: 5
