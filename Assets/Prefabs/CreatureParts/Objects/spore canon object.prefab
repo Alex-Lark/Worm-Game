@@ -129,6 +129,7 @@ MonoBehaviour:
   fireCooldown: 0.5
   shootForce: 1
   shootKey: 114
+  animator: {fileID: 5394509618330601399}
 --- !u!54 &3071394148231509528
 Rigidbody:
   m_ObjectHideFlags: 0
