@@ -172,6 +172,25 @@ public class PlayerRegister : PurrMonoBehaviour
         Network.instance.manager.onPlayerLeft += RemoveClient;
     }
     
+   public static void ClearPlayerTeams()
+    {
+        List<PlayerID> keys = new List<PlayerID>(Players.Keys);
+        foreach (PlayerID key in keys)
+        {
+            PlayerData playerData = Players[key];
+            playerData.team = Team.None;
+            Players[key] = playerData;
+        }
+
+        if (Network.instance?.manager != null)
+        {
+            foreach (PlayerData playerData in Players.Values)
+            {
+                Network.instance.manager.SendToAll(playerData);
+            }
+        }
+    }
+    
     public static void UpdateColor(int colorIndex)
     {
         PlayerID localPlayerID = Network.instance.manager.localPlayer;

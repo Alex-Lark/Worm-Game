@@ -42,6 +42,12 @@ namespace WormLeague
             
             LoadingScreenManager.LoadingScreenForSelf(false);
         }
+        
+        public void OnDestroy()
+        {
+            PlayerRegister.ClearPlayerTeams();
+            GameOver();
+        }
 
         #endregion
         
@@ -85,11 +91,6 @@ namespace WormLeague
 
             PlayerRegister.Players[scoringPlayer.playerID] = scoringPlayer;
             Network.instance.manager.SendToAll(scoringPlayer);
-        }
-
-        public void OnDestroy()
-        {
-            GameOver();
         }
 
         public void GameOver()
