@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CreatureParts;
 using PurrNet;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player
@@ -151,6 +152,24 @@ namespace Player
                     {
                         Physics.IgnoreCollision(allWormColliders[i], allWormColliders[j], true);
                     }
+                }
+            }
+        }
+
+        public void ToggleWormCollisions(bool canCollide)
+        {
+            player.wormHead.GetComponent<Collider>().enabled = canCollide;
+
+            foreach (Transform bodySegment in player.wormBodySegments)
+            {
+                bodySegment.GetComponent<Collider>().enabled = canCollide;
+            }
+
+            foreach (GameObject attachedPart in player.attachedWormParts)
+            {
+                foreach (Collider col in attachedPart.GetComponentsInChildren<Collider>(false))
+                {
+                    col.enabled = canCollide;
                 }
             }
         }

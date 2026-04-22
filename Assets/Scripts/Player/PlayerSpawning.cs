@@ -29,6 +29,7 @@ namespace Player
         private bool isRegistered = false;
         private bool hasBeenSetup = false;
         private bool spawnPointSet = false;
+        private bool hasBeenVisuallyEnabledInGameScene = false;
 
         private float TimeToWaitForSpawnpointSet = 1f;
 
@@ -78,7 +79,7 @@ namespace Player
         
         public void SetWormInGameScene()
         {
-            DisableWormVisually();
+            if (!hasBeenVisuallyEnabledInGameScene) DisableWormVisually();
             
             if (player.isOwner)
             {
@@ -245,6 +246,9 @@ namespace Player
             else
             {
                 player.IsInvincible = true;
+                hasBeenVisuallyEnabledInGameScene = false;
+                GetComponent<WormPhysics>().ToggleWormCollisions(false);
+                //TODO: ensure collisions are enabled in lobby
                 GetComponent<Player>().DeactivatePlayer();
             }
         }
@@ -431,24 +435,26 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
-            EnableWormVisuallyServerRPC(player);
+            EnableWormServerRPC(player);
             
             SetKinematicStateServer(false, player);
             player.IsInvincible = false;
         }
 
         [ServerRpc]
-        private void EnableWormVisuallyServerRPC(Player playerToEnable)
+        private void EnableWormServerRPC(Player playerToEnable)
         {
-            EnableWormVisuallyObserverRPC(playerToEnable);
+            EnableWormObserverRPC(playerToEnable);
         }
 
         [ObserversRpc]
-        private void EnableWormVisuallyObserverRPC(Player playerToEnable)
+        private void EnableWormObserverRPC(Player playerToEnable)
         {
             if (playerToEnable == player)
             {
+                hasBeenVisuallyEnabledInGameScene = true;
                 EnableWormVisually();
+                GetComponent<WormPhysics>().ToggleWormCollisions(true);
             }
         }
 
