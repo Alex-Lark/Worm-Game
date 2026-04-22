@@ -36,7 +36,7 @@ public class PartSelectionManager : PurrMonoBehaviour
         List<PlayerID> players = new List<PlayerID>(Network.instance.manager.players);
         while (players.Count > 0)
         {
-            (packet.Card1Index, packet.Card2Index) = Pick2RandomCards();
+            (packet.Card1Index, packet.Card2Index) = RigTheElection();//Pick2RandomCards();
             packet.receiver = players[0];
             SentSelectionPackets.Add(packet);
             Network.instance.manager.Send<SelectableCardsPacket>(packet.receiver, packet, Channel.ReliableOrdered);
@@ -155,7 +155,21 @@ public class PartSelectionManager : PurrMonoBehaviour
         LocalPlayer.Instance.wormPartsInInventory.Add(GameLoop.GameLoop.partCardsStatic[data.CardIndex]);
         print("Recived resent packet");
     }
-    
+
+    private static int[] dummyCards = new[] { 1, 3, 5, 4, 2, 0, 3, 1, 2, 0, 2, 4, 1, 3, 5, 4, 1, 0, 3, 5, 0, 3, 2 };
+    private static int RigIndex = 0;
+    private (int, int) RigTheElection()
+    {
+        int card1Index = dummyCards[RigIndex];
+        RigIndex++;
+        if (RigIndex >= dummyCards.Length) RigIndex = 0;
+        int card2Index = dummyCards[RigIndex];
+        RigIndex++;
+        if (RigIndex >= dummyCards.Length) RigIndex = 0;
+        
+        
+        return (card1Index, card2Index);
+    }
     
     public static void Shuffle<T>(List<T> list)
     {
