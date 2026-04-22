@@ -55,12 +55,12 @@ namespace WormLeague
             if (goalTeam == "blue")
             {
                 titleText.color = Color.blue;
-                blueScore.text = "Blue Score: " + wormLeague.teamBlueScore;
+                blueScore.text = "" + wormLeague.teamBlueScore;
             }
             else if (goalTeam == "red")
             {
                 titleText.color = Color.red;
-                redScore.text = "Red Score: " + wormLeague.teamRedScore;
+                redScore.text = "" + wormLeague.teamRedScore;
             }
             
             titleText.text = playerName + " Scored!";
