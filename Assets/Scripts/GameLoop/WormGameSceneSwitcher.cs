@@ -14,13 +14,16 @@ namespace GameLoop
     
         public void LoadMainMenuScene()
         {
+            LoadingScreenManager.LoadingScreenForSelf(true);
+            
+            GameObject[] objs = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+            foreach (GameObject obj in objs)
+            {
+                if(!obj.CompareTag("MainCamera")&&!obj.CompareTag("DontDestroyEver"))Destroy(obj);
+            }
+            
             SceneManager.LoadScene("MainMenuScene");
             LoadingScreenManager.LoadingScreenForSelf(false);
-            GameLoop.Instance?.Reset();
-            Destroy(Network.instance);
-            if(GameLoop.Instance!=null)Destroy(GameLoop.Instance?.gameObject);
-            if(LocalPlayer.Instance)Destroy(LocalPlayer.Instance?.gameObject);
-            if(PlayerRegister.Instance != null)Destroy(PlayerRegister.Instance);
         }
 
         public void LoadSettingsScene()

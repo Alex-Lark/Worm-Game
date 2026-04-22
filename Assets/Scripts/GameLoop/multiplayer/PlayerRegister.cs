@@ -10,14 +10,21 @@ using Random = UnityEngine.Random;
 
 public class PlayerRegister : PurrMonoBehaviour
 {
-    public static Dictionary<PlayerID, PlayerData> Players = new Dictionary<PlayerID, PlayerData>();
-    public static UnityEvent<PlayerID, bool> OnPlayerRegisterChanged = new UnityEvent<PlayerID, bool>();
-    public static UnityEvent OnPlayerRegistered = new UnityEvent();
+    public static Dictionary<PlayerID, PlayerData> Players;
+    public static UnityEvent<PlayerID, bool> OnPlayerRegisterChanged;
+    public static UnityEvent OnPlayerRegistered;
 
     public static PlayerRegister Instance;
 
+    private void Awake()
+    {
+        OnPlayerRegisterChanged = new UnityEvent<PlayerID, bool>();
+        OnPlayerRegistered = new UnityEvent();
+    }
+    
     private void Start()
     { 
+        Players = new Dictionary<PlayerID, PlayerData>();
         DontDestroyOnLoad(this);
         Instance = this;
     }
@@ -212,6 +219,6 @@ public class PlayerRegister : PurrMonoBehaviour
 
     private void OnDestroy()
     {
-        Debug.LogError("REGISTER DESTROYED!!!!!!!!!!!");
+        Players = null;
     }
 }

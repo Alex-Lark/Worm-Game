@@ -9,6 +9,11 @@ public class LoadingScreenManager : PurrMonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         DontDestroyOnLoad(this);
         instance = this;
         canvas = GetComponent<Canvas>();

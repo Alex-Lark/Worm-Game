@@ -124,7 +124,8 @@ namespace WormLeague
             {
                 foreach (PlayerID player in teamBlue)
                 {
-                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
+                    if(!PlayerRegister.Players.TryGetValue(player, out var playerData))continue;
+                    
                     playerData.score += 5;
                     PlayerRegister.Players[playerData.playerID] = playerData;
                     Network.instance.manager.SendToAll(playerData);
@@ -132,7 +133,8 @@ namespace WormLeague
                 }
                 foreach (PlayerID player in teamRed)
                 {
-                    PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
+                    if(!PlayerRegister.Players.TryGetValue(player, out var playerData))continue;
+                    
                     playerData.score += 5;
                     PlayerRegister.Players[playerData.playerID] = playerData;
                     Network.instance.manager.SendToAll(playerData);

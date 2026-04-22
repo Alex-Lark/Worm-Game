@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using CreatureBuilder;
 using Graphics;
 using PurrNet;
@@ -19,6 +20,7 @@ namespace Player
         
         void Start()
         {
+            //SceneManager.sceneLoaded += OnSceneLoaded;
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
@@ -83,8 +85,16 @@ namespace Player
 
         private void EnterGameScene()
         {
-            usernameText.enabled = true;
+
             if (mainCamera == null) mainCamera = Camera.main;
+
+            StartCoroutine(SetUserNameTag());
+        }
+
+        IEnumerator SetUserNameTag()
+        {
+            yield return new WaitUntil(() => usernameText != null);
+            usernameText.enabled = true;
             usernameText.text = "<mark=#000000aa>" + GetComponent<Player>().PlayerName + "</mark>";
         }
 
