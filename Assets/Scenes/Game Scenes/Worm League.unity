@@ -1075,7 +1075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 177755188}
   m_Layer: 0
-  m_Name: spawnpoint 7
+  m_Name: spawnpoint - blue 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1415,7 +1415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 222876206}
   m_Layer: 0
-  m_Name: spawnpoint 4
+  m_Name: spawnpoint - red 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1808,7 +1808,7 @@ GameObject:
   m_Component:
   - component: {fileID: 462658580}
   m_Layer: 0
-  m_Name: spawnpoint 5
+  m_Name: spawnpoint - blue 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1946,7 +1946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 552214790}
   m_Layer: 0
-  m_Name: spawnpoint 2
+  m_Name: spawnpoint - red 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2533,7 +2533,7 @@ GameObject:
   m_Component:
   - component: {fileID: 797430689}
   m_Layer: 0
-  m_Name: spawnpoint 10
+  m_Name: spawnpoint - red 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4211,7 +4211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1126669341}
   m_Layer: 0
-  m_Name: spawnpoint 6
+  m_Name: spawnpoint - red 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4242,7 +4242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1136558889}
   m_Layer: 0
-  m_Name: spawnpoint
+  m_Name: spawnpoint - blue 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4513,7 +4513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1238098125}
   m_Layer: 0
-  m_Name: spawnpoint 9
+  m_Name: spawnpoint - blue 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4598,7 +4598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1354218179}
   m_Layer: 0
-  m_Name: spawnpoint 8
+  m_Name: spawnpoint - red 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5312,7 +5312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1615075565}
   m_Layer: 0
-  m_Name: spawnpoint 3
+  m_Name: spawnpoint - blue 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6085,6 +6085,18 @@ MonoBehaviour:
   - {fileID: 1354218178}
   - {fileID: 1238098124}
   - {fileID: 797430688}
+  redSpawnPoints:
+  - {fileID: 552214789}
+  - {fileID: 222876205}
+  - {fileID: 1126669340}
+  - {fileID: 1354218178}
+  - {fileID: 797430688}
+  blueSpawnPoints:
+  - {fileID: 1136558888}
+  - {fileID: 1615075564}
+  - {fileID: 462658579}
+  - {fileID: 177755187}
+  - {fileID: 1238098124}
 --- !u!4 &1950704530
 Transform:
   m_ObjectHideFlags: 0

@@ -179,6 +179,7 @@ namespace Player
             if (syncPlayer != player) return;
             spawnPoint = position;
             spawnRotation = rotation;
+            spawnPointSet = true;
         }
         
         #region Private Methods

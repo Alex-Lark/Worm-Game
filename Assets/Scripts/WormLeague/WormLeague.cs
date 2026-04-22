@@ -22,6 +22,8 @@ namespace WormLeague
         public int teamBlueScore = 0;
 
         public List<GameObject> spawnPoints;
+        public List<GameObject> redSpawnPoints;
+        public List<GameObject> blueSpawnPoints;
         
         #endregion
         
@@ -198,12 +200,49 @@ namespace WormLeague
         
         private void AssignPlayerSpawnPoints()
         {
-            Debug.Log("Assigning spawnpoint to player " + localPlayer);
-            //TODO: make it by player, make each spawnpoint assigned only once, maybe go in order of spawnpoints and randomize players so no random positions
+            //TODO: improve logic because the double for loop feels gross
+            if (!isServer) return;
             
-            GameObject spawnpoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+            List<Player.Player> playerObjects = new List<Player.Player>(FindObjectsByType<Player.Player>(FindObjectsSortMode.None));
+            Debug.Log("Assigning spawnpoint to player as server");
+
+            List<PlayerID> teamRedCopy = teamRed;
+            Debug.Log($"redcopy length: {teamRedCopy.Count}");
+            foreach(GameObject redSpawnPoint in redSpawnPoints)
+            {
+                if (teamRedCopy.Count == 0) break;
+    
+                int random = Random.Range(0, teamRedCopy.Count);
+                PlayerID randomPlayer = teamRedCopy[random];
+                teamRedCopy.RemoveAt(random);
+                
+                Debug.Log($"assigning {redSpawnPoint} to {randomPlayer}");
+                foreach (Player.Player player in playerObjects)
+                {
+                    if (player.owner == randomPlayer)
+                    {
+                        player.GetComponent<PlayerSpawning>().SetSpawnPoint(redSpawnPoint);
+                    }
+                }
+            }
             
-            if (LocalPlayer.Instance != null) LocalPlayer.Instance.GetComponent<PlayerSpawning>().SetSpawnPoint(spawnpoint);
+            List<PlayerID> teamBlueCopy = teamBlue;
+            foreach(GameObject blueSpawnPoint in blueSpawnPoints)
+            {
+                if (teamBlueCopy.Count == 0) break;
+    
+                int random = Random.Range(0, teamBlueCopy.Count);
+                PlayerID randomPlayer = teamBlueCopy[random];
+                teamBlueCopy.RemoveAt(random);
+                
+                foreach (Player.Player player in playerObjects)
+                {
+                    if (player.owner == randomPlayer)
+                    {
+                        player.GetComponent<PlayerSpawning>().SetSpawnPoint(blueSpawnPoint);
+                    }
+                }
+            }
         }
         
         #endregion
