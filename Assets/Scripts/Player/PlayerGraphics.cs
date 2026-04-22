@@ -1,3 +1,4 @@
+using System.Collections;
 using CreatureBuilder;
 using Graphics;
 using PurrNet;
@@ -122,8 +123,32 @@ namespace Player
         private void ObserverHandleTeamChanged(GameObject player, Color teamColor)
         {
             if (player != gameObject) return;
-            
-            GameObject wormMesh = transform.Find("WormMesh").gameObject;
+            StartCoroutine(HandleTeamChanged(player, teamColor));
+        }
+
+        private IEnumerator HandleTeamChanged(GameObject player, Color teamColor)
+        {
+            Transform wormMeshTransform = null;
+            float timeout = 5f;
+            float elapsed = 0f;
+
+            while (wormMeshTransform == null)
+            {
+                wormMeshTransform = transform.Find("WormMesh");
+
+                if (wormMeshTransform == null)
+                {
+                    if (elapsed >= timeout)
+                    {
+                        Debug.LogWarning($"WormMesh not found on {gameObject.name} after {timeout}s, skipping outline.");
+                        yield break;
+                    }
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+            }
+
+            GameObject wormMesh = wormMeshTransform.gameObject;
             if (playerOutline == null) playerOutline = wormMesh.AddComponent<HighlightOutline>();
             playerOutline.HighlightPart(teamColor, 0.1f);
         }
