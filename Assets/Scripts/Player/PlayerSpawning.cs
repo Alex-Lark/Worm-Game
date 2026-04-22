@@ -414,10 +414,7 @@ namespace Player
             EnableWormVisually();
             Debug.Log("Respawning player as Nonowner" + player.PlayerName);
             
-            player.EnablePartForRespawn(player.wormHead.gameObject);
-            
-            foreach (Transform bodySegment in player.wormBodySegments)
-                player.EnablePartForRespawn(bodySegment.gameObject);
+            GetComponent<WormPhysics>().EnablePartsForRespawn();
             
             StartCoroutine(GetComponent<PlayerPartAttachment>().ReactivateAttachedParts());
         }

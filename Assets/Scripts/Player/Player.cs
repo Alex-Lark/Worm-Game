@@ -418,13 +418,13 @@ namespace Player
             playerSpawning.DisableWormVisually();
     
             wormHeadCopy = DuplicatePartForDeath(wormHead.gameObject);
-            DisablePartForDeath(wormHead.gameObject);
             
             foreach (Transform bodySegment in wormBodySegments)
             {
                 DuplicatePartForDeath(bodySegment.gameObject);
-                DisablePartForDeath(bodySegment.gameObject);
             }
+            
+            GetComponent<WormPhysics>().DisablePartsForDeath();
     
             foreach (GameObject attachedPart in attachedWormParts)
             {
@@ -435,97 +435,6 @@ namespace Player
             if (isOwner && owner == localPlayer)
             {
                 playerSpawning.SetKinematicStateServer(true, this);
-            }
-        }
-
-        private void DisablePartForDeath(GameObject part)
-        {
-            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
-            Rigidbody rigidbody = part.GetComponent<Rigidbody>();
-            Collider collider = part.GetComponent<Collider>();
-            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
-            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
-            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
-
-            if (meshrenderer != null)
-            {
-                meshrenderer.enabled = false;
-            }
-
-            if (collider != null)
-            {
-                collider.enabled = false;
-            }
-
-            if (creaturePart != null)
-            {
-                creaturePart.enabled = false;
-            }
-
-            if (creatureBodySegment != null)
-            {
-                creatureBodySegment.visualBodySegment.SetActive(false);
-            }
-
-            if (attachablePart != null)
-            {
-                for (int i = 0; i < part.transform.childCount; i++)
-                {
-                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
-                    if (childGameobject.GetComponent<MeshRenderer>() != null)
-                    {
-                        childGameobject.GetComponent<MeshRenderer>().enabled = false;
-                    }
-                    if (childGameobject.GetComponent<Collider>() != null)
-                    {
-                        childGameobject.GetComponent<Collider>().enabled = false;
-                    }
-                }
-            }
-        }
-        
-        public void EnablePartForRespawn(GameObject part)
-        {
-            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
-            Collider collider = part.GetComponent<Collider>();
-            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
-            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
-            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
-
-            if (meshrenderer != null)
-            {
-                meshrenderer.enabled = true;
-            }
-
-            if (collider != null)
-            {
-                collider.enabled = true;
-            }
-
-            if (creaturePart != null)
-            {
-                creaturePart.enabled = true;
-            }
-            
-            if (creatureBodySegment != null)
-            {
-                creatureBodySegment.visualBodySegment.SetActive(true);
-            }
-            
-            if (attachablePart != null)
-            {
-                for (int i = 0; i < part.transform.childCount; i++)
-                {
-                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
-                    if (childGameobject.GetComponent<MeshRenderer>() != null)
-                    {
-                        childGameobject.GetComponent<MeshRenderer>().enabled = true;
-                    }
-                    if (childGameobject.GetComponent<Collider>() != null)
-                    {
-                        childGameobject.GetComponent<Collider>().enabled = true;
-                    }
-                }
             }
         }
         

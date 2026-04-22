@@ -154,36 +154,112 @@ namespace Player
                 }
             }
         }
-        
-        public void ResetWormPosition()
+
+        public void DisablePartsForDeath()
         {
-            if (player.wormHead == null) return;
-            
-            player.wormHead.position = new Vector3(0, 2, 0);
-            Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
-            if (headRb != null)
+            DisablePartForDeath(player.wormHead.gameObject);
+            foreach (Transform bodySegment in player.wormBodySegments)
             {
-                headRb.useGravity = true;
-                headRb.isKinematic = false;
-                headRb.linearVelocity = Vector3.zero;
-                headRb.angularVelocity = Vector3.zero;
+                DisablePartForDeath(bodySegment.gameObject);
+            }
+        }
+
+        public void EnablePartsForRespawn()
+        {
+            EnablePartForRespawn(player.wormHead.gameObject);
+            
+            foreach (Transform bodySegment in player.wormBodySegments)
+                EnablePartForRespawn(bodySegment.gameObject);
+        }
+
+        public void DisablePartForDeath(GameObject part)
+        {
+            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
+            Rigidbody rigidbody = part.GetComponent<Rigidbody>();
+            Collider collider = part.GetComponent<Collider>();
+            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
+            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
+
+            if (meshrenderer != null)
+            {
+                meshrenderer.enabled = false;
+            }
+
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
+
+            if (creaturePart != null)
+            {
+                creaturePart.enabled = false;
+            }
+
+            if (creatureBodySegment != null)
+            {
+                creatureBodySegment.visualBodySegment.SetActive(false);
+            }
+
+            if (attachablePart != null)
+            {
+                for (int i = 0; i < part.transform.childCount; i++)
+                {
+                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
+                    if (childGameobject.GetComponent<MeshRenderer>() != null)
+                    {
+                        childGameobject.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                    if (childGameobject.GetComponent<Collider>() != null)
+                    {
+                        childGameobject.GetComponent<Collider>().enabled = false;
+                    }
+                }
+            }
+        }
+        
+        public void EnablePartForRespawn(GameObject part)
+        {
+            MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
+            Collider collider = part.GetComponent<Collider>();
+            CreaturePart creaturePart = part.GetComponent<CreaturePart>();
+            CreatureBodySegment creatureBodySegment = part.GetComponent<CreatureBodySegment>();
+            AttachablePart attachablePart = part.GetComponent<AttachablePart>();
+
+            if (meshrenderer != null)
+            {
+                meshrenderer.enabled = true;
+            }
+
+            if (collider != null)
+            {
+                collider.enabled = true;
+            }
+
+            if (creaturePart != null)
+            {
+                creaturePart.enabled = true;
             }
             
-            Vector3 currentPos = player.wormHead.position;
-            Vector3 backDir = -player.wormHead.forward;
-            
-            for (int i = 0; i < player.wormBodySegments.Count; i++)
+            if (creatureBodySegment != null)
             {
-                currentPos += backDir * GameParameters.SegmentMaxPartDistance;
-                Transform segment = player.wormBodySegments[i];
-                segment.position = currentPos;
-                segment.rotation = player.wormHead.rotation;
+                creatureBodySegment.visualBodySegment.SetActive(true);
+            }
             
-                Rigidbody segmentRb = segment.GetComponent<Rigidbody>();
-                segmentRb.useGravity = true;
-                segmentRb.isKinematic = false;
-                segmentRb.linearVelocity = Vector3.zero;
-                segmentRb.angularVelocity = Vector3.zero;
+            if (attachablePart != null)
+            {
+                for (int i = 0; i < part.transform.childCount; i++)
+                {
+                    GameObject childGameobject = part.transform.GetChild(i).gameObject;
+                    if (childGameobject.GetComponent<MeshRenderer>() != null)
+                    {
+                        childGameobject.GetComponent<MeshRenderer>().enabled = true;
+                    }
+                    if (childGameobject.GetComponent<Collider>() != null)
+                    {
+                        childGameobject.GetComponent<Collider>().enabled = true;
+                    }
+                }
             }
         }
         
