@@ -48,11 +48,6 @@ namespace Player
             GetComponent<PlayerSpawning>().OnWormRespawn -= OnWormRespawn;
         }
 
-        void OnDestroy()
-        {
-            //SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-
         private void OnPlayerDeath()
         {
             usernameText.enabled = false;
