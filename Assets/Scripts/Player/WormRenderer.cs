@@ -386,8 +386,8 @@ namespace Player
 
         public void DisableRendering()
         {
-            meshRenderer.enabled = false;
-            lineRenderer.enabled = false;
+            if (meshRenderer != null) meshRenderer.enabled = false;
+            if (lineRenderer != null) lineRenderer.enabled = false;
         }
         
         public void EnableRendering()

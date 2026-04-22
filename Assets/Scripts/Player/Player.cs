@@ -438,7 +438,7 @@ namespace Player
             }
         }
 
-        private void DisablePartForDeath(GameObject part)
+        public void DisablePartForDeath(GameObject part)
         {
             MeshRenderer meshrenderer = part.GetComponent<MeshRenderer>();
             Rigidbody rigidbody = part.GetComponent<Rigidbody>();

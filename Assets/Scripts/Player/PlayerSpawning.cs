@@ -78,13 +78,11 @@ namespace Player
         
         public void SetWormInGameScene()
         {
+            DisableWormVisually();
+            
             if (player.isOwner)
             {
                 SetWormInGameSceneAsOwner();
-            }
-            else
-            {
-                SetWormInGameSceneAsNonOwner();
             }
             
         }
@@ -110,12 +108,6 @@ namespace Player
             
             string team = player.RegisterData.team.ToString();
             player.SetPlayerTeam(team);
-        }
-
-        private void SetWormInGameSceneAsNonOwner()
-        {
-            Debug.Log($"Setting worm {player.PlayerName} in game scene as non owner");
-            EnableWormVisually();
         }
         
         public IEnumerator SetWormInCreatureBuilderScene()
@@ -439,8 +431,25 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
+            EnableWormVisuallyServerRPC(player);
+            
             SetKinematicStateServer(false, player);
             player.IsInvincible = false;
+        }
+
+        [ServerRpc]
+        private void EnableWormVisuallyServerRPC(Player playerToEnable)
+        {
+            EnableWormVisuallyObserverRPC(playerToEnable);
+        }
+
+        [ObserversRpc]
+        private void EnableWormVisuallyObserverRPC(Player playerToEnable)
+        {
+            if (playerToEnable == player)
+            {
+                EnableWormVisually();
+            }
         }
 
         #endregion
