@@ -7,7 +7,8 @@ namespace Audio
     public class PlayerAudio : MonoBehaviour
     {
         public AudioSource playerAudioSource;
-        public float audioSourceVolume = 0.1f;
+        public float audioSourceVolume = 0.25f;
+        public float jumpAudioVolume = 0.1f;
 
         public AudioClip jumpAudio;
         public AudioClip headbuttChargeAudio;
@@ -134,7 +135,7 @@ namespace Audio
         {
             // use isWormGroundedbysegments to determine jump sound effect
 
-            playerAudioSource.volume = audioSourceVolume;
+            playerAudioSource.volume = jumpAudioVolume;
             playerAudioSource.clip = jumpAudio;
             playerAudioSource.Play();
         }
