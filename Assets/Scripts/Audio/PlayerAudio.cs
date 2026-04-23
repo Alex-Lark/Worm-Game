@@ -16,6 +16,8 @@ namespace Audio
         public AudioClip headbuttHitPlayer;
         public AudioClip headbuttHitShell;
         public AudioClip headbuttHitOther;
+        public AudioClip wormDie;
+        public AudioClip wormRespawn;
         
         private Player.Player player;
         
@@ -58,12 +60,16 @@ namespace Audio
 
         private void OnWormRespawn()
         {
-            //respawn sound effect
+            playerAudioSource.volume = audioSourceVolume;
+            playerAudioSource.clip = wormRespawn;
+            playerAudioSource.Play();
         }
 
         private void OnWormDeath()
         {
-            //death sound effect
+            playerAudioSource.volume = audioSourceVolume;
+            playerAudioSource.clip = wormDie;
+            playerAudioSource.Play();
         }
 
         private void OnWormHeadbutHitOther()

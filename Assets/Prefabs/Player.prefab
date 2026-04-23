@@ -963,6 +963,8 @@ MonoBehaviour:
   headbuttHitPlayer: {fileID: 8300000, guid: 014257e7899ba084c91c9828f029ecc7, type: 3}
   headbuttHitShell: {fileID: 8300000, guid: e2957624f0c03e64c980e929f23684f5, type: 3}
   headbuttHitOther: {fileID: 8300000, guid: e3530f7073621724e9148d59f53c42d2, type: 3}
+  wormDie: {fileID: 8300000, guid: cfd4cf8ec4b017a4abcae946b80381f7, type: 3}
+  wormRespawn: {fileID: 8300000, guid: ff036c6eca281f844b79dc33b2905568, type: 3}
 --- !u!114 &2594117777905851401
 MonoBehaviour:
   m_ObjectHideFlags: 0
