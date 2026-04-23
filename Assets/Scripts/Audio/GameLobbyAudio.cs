@@ -5,6 +5,8 @@ namespace Audio
 {
     public class GameLobbyAudio : MonoBehaviour
     {
+        public AudioSource audioSource;
+        
         void Start()
         {
             GetComponent<GameLobby>().OnGameStart += OnGameStart;
@@ -17,7 +19,7 @@ namespace Audio
 
         private void OnGameStart()
         {
-            //play audio
+            audioSource.Play();
         }
     }
 }
