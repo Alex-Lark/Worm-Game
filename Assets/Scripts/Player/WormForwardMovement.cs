@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace Player
 {
-    public class WormForwardMovement : MonoBehaviour
+    public class WormForwardMovement : NetworkBehaviour
     {
         public float finCount = 0;
         
@@ -52,6 +52,12 @@ namespace Player
             }
         }
 
+        public void MoveWormInGame()
+        {
+            MoveHead();
+            MoveWormBody();
+        }
+
         public void MoveHead()
         {
             float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
@@ -63,8 +69,16 @@ namespace Player
             }
             
             Vector3 direction = player.thirdPersonCamera.transform.forward;
+            
+            MoveHeadServerRPC(rotationSpeed, direction);
             RotateHeadGrounded(rotationSpeed, direction);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
+        }
+
+        [ServerRpc]
+        private void MoveHeadServerRPC(float rotationSpeed, Vector3 diretion)
+        {
+            
         }
         
         public void MoveHeadTowardsPosition(Vector3 position)

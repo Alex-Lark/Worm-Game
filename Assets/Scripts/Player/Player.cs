@@ -192,8 +192,7 @@ namespace Player
         {
             if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
             
-            wormForwardMovement.MoveHead();
-            wormForwardMovement.MoveWormBody();
+            wormForwardMovement.MoveWormInGame();
 
             foreach (var part in attachedWormParts)
             {
