@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class WormHeadBut : MonoBehaviour
+    public class WormHeadBut : NetworkBehaviour
     {
         #region Private Variables
         
@@ -67,6 +67,27 @@ namespace Player
         public void EndHeadBut()
         {
             SnapHeadRotation();
+            EndHeadbuttLocally();
+            if (player.owner.HasValue) EndHeadbuttServerRPC(player.owner.Value);
+        }
+        
+        [ServerRpc]
+        private void EndHeadbuttServerRPC(PlayerID target)
+        {
+            EndHeadbuttObserverRPC(target);
+        }
+
+        [ObserversRpc]
+        private void EndHeadbuttObserverRPC(PlayerID target)
+        {
+            if (target != player.owner) return;
+            if (target == localPlayer) return; //already called immediately on self, don't duplicate
+            Debug.Log($"ending headbut for player {target} vis rpcs");
+            EndHeadbuttLocally();
+        }
+
+        private void EndHeadbuttLocally()
+        {
             wormHeadNetworkedPhysicsObject.AddForce(wormHead.transform.forward * GameParameters.WormHeadButHeadForce);
             for (int i = 0; i < wormParts.Count; i++)
             {

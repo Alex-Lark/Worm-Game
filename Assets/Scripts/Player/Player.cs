@@ -320,7 +320,7 @@ namespace Player
             if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
             
             CurrentState = WormState.Attacking;
-            StartCoroutine(AttackSequence());
+            StartCoroutine(HeadbuttSequence());
         }
 
         public void ResetPlayer()
@@ -575,7 +575,7 @@ namespace Player
             return copy;
         }
         
-        private IEnumerator AttackSequence()
+        private IEnumerator HeadbuttSequence()
         {
             OnWormHeadbutCharge?.Invoke();
             yield return new WaitForSeconds(GameParameters.WormHeadbutTime);
