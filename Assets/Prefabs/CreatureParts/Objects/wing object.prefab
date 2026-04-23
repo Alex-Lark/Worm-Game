@@ -1263,7 +1263,7 @@ MonoBehaviour:
   wingForceDebuff: 10000
   forcePointA: {fileID: 2235340025057413709}
   forcePointB: {fileID: 3737734610599756257}
-  wingAnimation: {fileID: 0}
+  animator: {fileID: 2165498738965223795}
 --- !u!54 &222566401525659213
 Rigidbody:
   m_ObjectHideFlags: 0

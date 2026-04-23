@@ -13,7 +13,7 @@ namespace CreatureParts
         [SerializeField] private float wingForceDebuff;
         [SerializeField] private Transform forcePointA;
         [SerializeField] private Transform forcePointB;
-        [SerializeField] private Animation wingAnimation;
+        [SerializeField] private Animator animator;
 
         private Rigidbody wormRb;
         private float currentForce;
@@ -43,11 +43,11 @@ namespace CreatureParts
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (localPlayer != owner) return;
-                
-                //wingAnimation.Stop();
-                if (wingAnimation != null)
+
+                if (animator != null)
                 {
-                    wingAnimation.Play();
+                    animator.ResetTrigger("PlayAnimation");
+                    animator.SetTrigger("PlayAnimation");
                 }
                 ApplyThrust();
             }

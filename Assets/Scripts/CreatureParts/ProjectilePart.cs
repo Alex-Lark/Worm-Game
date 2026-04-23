@@ -13,11 +13,13 @@ namespace CreatureParts
         public float fireCooldown = 0.5f;
         public float shootForce = 0.05f;
         public KeyCode shootKey = KeyCode.R;
+        [SerializeField] private Animator animator;
         
         public event Action OnCannonShoot;
         
         private float lastFireTime;
         private Rigidbody wormRb;
+        
         
         private void Awake()
         {
@@ -35,6 +37,11 @@ namespace CreatureParts
                 Input.GetKeyDown(shootKey) &&
                 Time.time >= lastFireTime + fireCooldown)
             {
+                if (animator != null)
+                {
+                    animator.ResetTrigger("PlayAnimation");
+                    animator.SetTrigger("PlayAnimation");
+                }
                 Shoot();
                 lastFireTime = Time.time;
             }
