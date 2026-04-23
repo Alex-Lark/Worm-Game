@@ -20,9 +20,9 @@ namespace Player
         public DeathScreenUI deathScreenUI;
 
         public Vector3 spawnPoint = new Vector3(); //default
-        private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, 2, 0);
+        private Vector3 CreatureBuildingSpawnPoint = new Vector3(0, 2, 0f);
         private Quaternion spawnRotation = Quaternion.Euler(0, 90, 0); // default
-        private Quaternion headRotationInCreatureBuilder = Quaternion.Euler(0, 0, 0);
+        private Quaternion headRotationInCreatureBuilder = Quaternion.Euler(0, 180, 0);
 
         private Coroutine respawnCoroutine;
 
@@ -119,7 +119,7 @@ namespace Player
                 Debug.Log("setting worm in creature builder as owner");
                 var wormPhysics = GetComponent<WormPhysics>();
                 wormPhysics.MakeWormKinematic();
-                wormPhysics.ResetWormOrientation();
+                SetWormSpawnRotation(headRotationInCreatureBuilder);
                 wormPhysics.PositionWormSegments(CreatureBuildingSpawnPoint);
                 player.DeactivatePlayer();
                 GetComponent<PlayerPartAttachment>().AddAlreadyAttachedParts();
