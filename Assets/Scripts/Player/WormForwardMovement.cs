@@ -56,6 +56,7 @@ namespace Player
         {
             MoveHead();
             MoveWormBody();
+            if (player.owner.HasValue) MoveWormBodyServerRPC(player.owner.Value);
         }
 
         public void MoveHead()
@@ -70,15 +71,36 @@ namespace Player
             
             Vector3 direction = player.thirdPersonCamera.transform.forward;
             
-            MoveHeadServerRPC(rotationSpeed, direction);
             RotateHeadGrounded(rotationSpeed, direction);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
+            if (player.owner.HasValue) MoveHeadServerRPC(player.owner.Value, rotationSpeed, direction);
         }
 
         [ServerRpc]
-        private void MoveHeadServerRPC(float rotationSpeed, Vector3 diretion)
+        private void MoveHeadServerRPC(PlayerID target, float rotationSpeed, Vector3 direction)
         {
-            
+            MoveHeadTargetRPC(target, rotationSpeed, direction);
+        }
+
+        [TargetRpc]
+        private void MoveHeadTargetRPC(PlayerID target, float rotationSpeed, Vector3 direction)
+        {
+            if (target == localPlayer) return; //already called immediately on self, don't duplicate
+            RotateHeadGrounded(rotationSpeed, direction);
+            MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
+        }
+        
+        [ServerRpc]
+        private void MoveWormBodyServerRPC(PlayerID target)
+        {
+            MoveWormBodyTargetRPC(target);
+        }
+        
+        [TargetRpc]
+        private void MoveWormBodyTargetRPC(PlayerID target)
+        {
+            if (target == localPlayer) return; //already called immediately on self, don't duplicate
+            MoveWormBody();
         }
         
         public void MoveHeadTowardsPosition(Vector3 position)
