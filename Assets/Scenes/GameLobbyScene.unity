@@ -155,8 +155,8 @@ Camera:
   m_GameObject: {fileID: 62629972}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0.666821, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3539,7 +3539,6 @@ GameObject:
   - component: {fileID: 1979447293}
   - component: {fileID: 1979447294}
   - component: {fileID: 1979447295}
-  - component: {fileID: 1979447296}
   - component: {fileID: 1979447297}
   m_Layer: 0
   m_Name: GameLobby
@@ -3645,18 +3644,6 @@ MonoBehaviour:
   - bodyMaterial: {fileID: 2100000, guid: 0d90539dbe6fd9448bc04f6c343a3b94, type: 2}
     headMaterial: {fileID: 2100000, guid: 9dacd71002f4eed4c89bf01415274492, type: 2}
     deadMaterial: {fileID: 2100000, guid: a32d060d304ca644fbde745b930f5bf0, type: 2}
---- !u!114 &1979447296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979447291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd432f220c4693842aa531c176dcc445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameLoop.multiplayer.ColorSync
 --- !u!114 &1979447297
 MonoBehaviour:
   m_ObjectHideFlags: 0
