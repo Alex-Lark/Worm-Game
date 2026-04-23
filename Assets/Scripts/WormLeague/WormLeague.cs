@@ -7,6 +7,7 @@ using GameLoop;
 using Player;
 using PurrNet;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 namespace WormLeague
 {
@@ -44,7 +45,12 @@ namespace WormLeague
             
             LoadingScreenManager.LoadingScreenForSelf(false);
         }
-        
+
+        private void Update()
+        {
+            if(Input.GetKey(KeyCode.B))ball.transform.position = new Vector3(0f, 1f, 0f);
+        }
+
         public void OnDestroy()
         {
             PlayerRegister.ClearPlayerTeams();
