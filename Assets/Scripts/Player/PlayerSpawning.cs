@@ -244,6 +244,10 @@ namespace Player
                 
                 SetWormInGameScene();
             }
+            else if (scene.name == "GameLobbyScene")
+            {
+                SpawnPlayerInLobbyScene();
+            }
             else
             {
                 player.IsInvincible = true;
@@ -299,10 +303,22 @@ namespace Player
                 SetWormInGameScene();
             else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
                 StartCoroutine(SetWormInCreatureBuilderScene());
+            else if (SceneManager.GetActiveScene().name == "GameLobbyScene")
+            {
+                SpawnPlayerInLobbyScene();
+            }
             
             yield return null;
         }
-        
+
+        private void SpawnPlayerInLobbyScene()
+        {
+            player.IsInvincible = true;
+            hasBeenVisuallyEnabledInGameScene = false;
+            
+            SetKinematicStateServer(false, player);
+        }
+
         [ServerRpc]
         private IEnumerator SpawnAsServer(Player playerToSpawn)
         {
