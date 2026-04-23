@@ -64,7 +64,7 @@ namespace WormLeague
             
             if (team == "blue")
             {
-                teamRedScore++;
+                //teamRedScore++;
                 //wormLeagueUI.GoalScored("red", scoringPlayer.name);
                 WormLeagueUI.GoalScoredPacket packet;
                 packet.playerName = scoringPlayer.name;
@@ -78,7 +78,7 @@ namespace WormLeague
             }
             else if (team == "red")
             {
-                teamBlueScore++;
+                //teamBlueScore++;
                 //wormLeagueUI.GoalScored("blue", scoringPlayer.name);
                 
                 WormLeagueUI.GoalScoredPacket packet;
