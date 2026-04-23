@@ -6,6 +6,9 @@ namespace Audio
 {
     public class GoalAudio : MonoBehaviour
     {
+        public AudioSource audioSource;
+        public AudioClip goalScored;
+        
         void Start()
         {
             GetComponent<Goal>().OnGoalScored += OnGoalScored;
@@ -18,7 +21,8 @@ namespace Audio
 
         private void OnGoalScored()
         {
-            //goal scored audio
+            audioSource.clip = goalScored;
+            audioSource.Play();
         }
     }
 }
