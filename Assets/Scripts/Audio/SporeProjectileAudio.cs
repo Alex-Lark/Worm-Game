@@ -5,6 +5,9 @@ namespace Audio
 {
     public class SporeProjectileAudio : MonoBehaviour
     {
+        public AudioSource audioSource;
+        public AudioClip projectileHitAudio;
+        
         void Start()
         {
             GetComponent<FiredProjectile>().OnProjectileHit += OnProjectileHit;
@@ -17,7 +20,8 @@ namespace Audio
 
         private void OnProjectileHit()
         {
-            //projectile hit audio
+            audioSource.clip = projectileHitAudio;
+            audioSource.Play();
         }
     }
 }
