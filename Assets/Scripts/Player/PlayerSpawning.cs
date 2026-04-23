@@ -244,6 +244,10 @@ namespace Player
                 
                 SetWormInGameScene();
             }
+            else if (scene.name == "GameLobbyScene")
+            {
+                SpawnPlayerInLobbyScene();
+            }
             else
             {
                 player.IsInvincible = true;
@@ -269,9 +273,9 @@ namespace Player
                 Debug.Log($"Initial spawning as owner: | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer} | asServer: {asServer}");
                 StartCoroutine(InitialSpawnAsOwner());
             }
-            else //already spawned worm
+            else if (!asServer && SceneManager.GetActiveScene().name == "GameLobbyScene")
             {
-                //GetComponent<WormConstructor>().AddSegmentJoints();
+                SpawnPlayerInLobbyScene();
             }
         }
 
@@ -299,10 +303,31 @@ namespace Player
                 SetWormInGameScene();
             else if (SceneManager.GetActiveScene().name == "CreatureBuilderScene" && gameObject.activeSelf)
                 StartCoroutine(SetWormInCreatureBuilderScene());
+            else if (SceneManager.GetActiveScene().name == "GameLobbyScene")
+            {
+                SpawnPlayerInLobbyScene();
+            }
             
             yield return null;
         }
-        
+
+        private void SpawnPlayerInLobbyScene()
+        {
+            if (isOwner)
+            {
+                Debug.Log($"spawning player in lobby: {player.owner}" );
+                player.IsInvincible = true;
+                hasBeenVisuallyEnabledInGameScene = false;
+            
+                SetKinematicStateServer(false, player);
+            }
+            else //hard coded as all players are non kinematic in lobby
+            {
+                GetComponent<WormPhysics>().ToggleWormKinematics(false);
+            }
+            
+        }
+
         [ServerRpc]
         private IEnumerator SpawnAsServer(Player playerToSpawn)
         {

@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using System.Linq;
+using Player;
 
 namespace GameLoop.GameLobby
 {
@@ -26,7 +27,14 @@ namespace GameLoop.GameLobby
 
         public ColorSelection colorSelection;
         
+        public Camera mainCamera;
+        public LayerMask groundLayer;
+        [HideInInspector] public Vector3 mouseWorldPosition;
+        public GameObject cursorSphere;
+        public Vector3 groundAnchorPoint = Vector3.zero;
+        
         public event Action OnGameStart;
+        
         #endregion
 
         #region Built-In Methods
@@ -48,6 +56,37 @@ namespace GameLoop.GameLobby
                 // Wait for the local player to finish spawning and registering
                 Player.LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
             }
+        }
+
+        void Update()
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
+            {
+                mouseWorldPosition = hit.point;
+            }
+            else
+            {
+                // Find the closest point on the ground by raycasting straight down
+                // along the ray's direction extended to the ground plane
+                Plane groundPlane = new Plane(Vector3.up, groundAnchorPoint);
+                if (groundPlane.Raycast(ray, out float enter))
+                {
+                    Vector3 pointOnPlane = ray.GetPoint(enter);
+
+                    // Snap that point to the nearest valid ground surface
+                    if (Physics.Raycast(pointOnPlane + Vector3.up * 100f, Vector3.down, out RaycastHit groundHit, Mathf.Infinity, groundLayer))
+                        mouseWorldPosition = groundHit.point;
+                    else
+                        mouseWorldPosition = pointOnPlane; // fallback if no ground found below
+                }
+            }
+
+            if (cursorSphere != null)
+                cursorSphere.transform.position = mouseWorldPosition;
+
+            if (LocalPlayer.Instance != null) LocalPlayer.Instance.MoveInLobby(mouseWorldPosition);
         }
 
         private void OnLocalPlayerReady()

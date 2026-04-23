@@ -122,7 +122,11 @@ namespace Player
         
         private void FixedUpdate()
         {
-            PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
+            if (PlayerRegister.Players != null)
+            {
+                PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
+            }
+            
             //Debug.Log(RegisterData.name);
             
             if (!isPlayerActive) return;
@@ -195,6 +199,14 @@ namespace Player
             {
                 part.GetComponent<CreaturePart>().MoveForward();
             }
+        }
+
+        public void MoveInLobby(Vector3 movePosition)
+        {
+            if (!GetComponent<PlayerSpawning>().isSetup) return;
+            
+            wormForwardMovement.MoveHeadTowardsPosition(movePosition);
+            wormForwardMovement.MoveWormBody();
         }
 
         public void DamagePlayer(Collision other, GameObject hitGameObject)

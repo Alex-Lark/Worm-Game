@@ -66,9 +66,26 @@ namespace Player
             RotateHeadGrounded(rotationSpeed, direction);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
         }
+        
+        public void MoveHeadTowardsPosition(Vector3 position)
+        {
+            if (wormHeadNetworkRigidbody == null) return;
+            float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
+            float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
+            if (finCount >= 1)
+            {
+                float finMultiplier = 2 * finCount;
+                rotationSpeed = rotationSpeed * finMultiplier;
+            }
+
+            Vector3 direction = (position - wormHead.position).normalized;
+            RotateHeadGrounded(rotationSpeed, direction);
+            MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
+        }
     
         public void MoveWormBody()
         {
+            if (player == null) return;
             List<Transform> wormParts = player.wormBodySegments.list;
 
             // Calculate constraint forces for all segments
