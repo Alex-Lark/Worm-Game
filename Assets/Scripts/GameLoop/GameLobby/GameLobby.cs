@@ -26,7 +26,13 @@ namespace GameLoop.GameLobby
 
         public ColorSelection colorSelection;
         
+        public Camera mainCamera;
+        public LayerMask groundLayer;
+        [HideInInspector] public Vector3 mouseWorldPosition;
+        public GameObject cursorSphere;
+        
         public event Action OnGameStart;
+        
         #endregion
 
         #region Built-In Methods
@@ -47,6 +53,19 @@ namespace GameLoop.GameLobby
             {
                 // Wait for the local player to finish spawning and registering
                 Player.LocalPlayer.OnLocalPlayerReady += OnLocalPlayerReady;
+            }
+        }
+
+        void FixedUpdate()
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+    
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
+            {
+                mouseWorldPosition = hit.point;
+
+                if (cursorSphere != null)
+                    cursorSphere.transform.position = mouseWorldPosition;
             }
         }
 
