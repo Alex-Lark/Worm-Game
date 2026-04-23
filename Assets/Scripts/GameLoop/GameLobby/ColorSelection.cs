@@ -17,11 +17,11 @@ namespace GameLoop.GameLobby
         public List<ColorPair> availableColors = new List<ColorPair>();
 
         private List<Button> colorButtons = new List<Button>();
-        private HashSet<int> takenIndices = new HashSet<int>();
+        private Dictionary<int,PlayerID> takenIndices = new Dictionary<int,PlayerID>();
 
         void Start() => CreateColorButtons();
 
-        public void RefreshTakenColors(HashSet<int> taken)
+        public void RefreshTakenColors(Dictionary<int,PlayerID> taken)
         {
             takenIndices = taken;
             UpdateColorButtons();
@@ -30,17 +30,12 @@ namespace GameLoop.GameLobby
         public void SetInitialColor()
         {
             
-            string print = "";
-            foreach (var index in takenIndices)
-            {
-                print += index + " ";
-            }
-            Debug.Log(print);
-            
             // Try to claim the color matching the worm's current material
             for (int i = 0; i < availableColors.Count; i++)
             {
-                if (availableColors[i].bodyMaterial == wormMaterial && !takenIndices.Contains(i))
+                if(takenIndices.ContainsKey(i)&&takenIndices[i]==LocalPlayer.Instance.playerID)return;
+                
+                if (availableColors[i].bodyMaterial == wormMaterial && !takenIndices.ContainsKey(i))
                 {
                     SetColor(i);
                     return;
@@ -50,7 +45,7 @@ namespace GameLoop.GameLobby
             // Fall back to first available
             for (int i = 0; i < availableColors.Count; i++)
             {
-                if (!takenIndices.Contains(i))
+                if (!takenIndices.ContainsKey(i))
                 {
                     SetColor(i);
                     return;
@@ -62,7 +57,7 @@ namespace GameLoop.GameLobby
 
         public void SetColor(int colorIndex)
         {
-            if (takenIndices.Contains(colorIndex))
+            if (takenIndices.ContainsKey(colorIndex))
             {
                 Debug.LogWarning("Color already taken.");
                 return;
@@ -70,7 +65,9 @@ namespace GameLoop.GameLobby
             
             selectColorButtonColor.color = availableColors[colorIndex].headMaterial.color;
 
-            StartCoroutine(FindFirstObjectByType<ColorSync>().SendColorUpdate(colorIndex, LocalPlayer.Instance));
+            PlayerRegister.PlayerData player = PlayerRegister.Players[Network.instance.manager.localPlayer];
+            player.colorIndex = colorIndex;
+            Network.instance.manager.SendToServer(player);
             GetComponent<GameLobby>().CloseColorSelectionPanel();
         }
 
@@ -97,7 +94,7 @@ namespace GameLoop.GameLobby
             for (int i = 0; i < colorButtons.Count; i++)
             {
                 ColorPair pair = availableColors[i];
-                bool available = !takenIndices.Contains(i);
+                bool available = !takenIndices.ContainsKey(i);
                 float alpha = available ? 1f : 0.3f;
 
                 colorButtons[i].interactable = available;

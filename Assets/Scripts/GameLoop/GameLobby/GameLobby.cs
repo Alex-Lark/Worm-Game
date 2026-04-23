@@ -141,11 +141,15 @@ namespace GameLoop.GameLobby
         
         private void RefreshColorSelection()
         {
-            HashSet<int> taken = new HashSet<int>(
-                PlayerRegister.Players.Values
-                    .Where(p => p.colorIndex >= 0 && p.colorIndex < colorSelection.availableColors.Count)
-                    .Select(p => p.colorIndex)
-            );
+            Dictionary<int, PlayerID> taken = new Dictionary<int, PlayerID>();
+            foreach (PlayerRegister.PlayerData player in PlayerRegister.Players.Values)
+            {
+                if (player.colorIndex >= 0 && player.colorIndex < colorSelection.availableColors.Count)
+                {
+                    taken.Add(player.colorIndex, player.playerID);
+                }
+            }
+            
             colorSelection.RefreshTakenColors(taken);
         }
         

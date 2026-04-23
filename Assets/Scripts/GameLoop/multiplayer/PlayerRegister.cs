@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GameLoop.GameLobby;
 using PurrNet;
 using PurrNet.Packing;
 using Unity.VisualScripting;
@@ -79,12 +80,7 @@ public class PlayerRegister : PurrMonoBehaviour
         {
             bool isUpdate = Players.ContainsKey(player.playerID) && !string.IsNullOrEmpty(Players[player.playerID].name);
 
-            if (isUpdate)
-            {
-                //Players[playerID] = player;
-                
-            }
-            else
+            if (!isUpdate)
             {
                 // Store the sender's ID and validate name
                 RejoinLogic(player.playerID, player.name);
@@ -109,6 +105,7 @@ public class PlayerRegister : PurrMonoBehaviour
     private void RegisterPlayerData(PlayerData player, PlayerID playerID)
     {
         Players[player.playerID] = player;
+        ColorUpdate(player);
         OnPlayerRegisterChanged.Invoke(playerID, true);
         Debug.Log("Recived Player Data for player "+player.playerID.id+ " Name: "+player.name);
     }
@@ -197,28 +194,49 @@ public class PlayerRegister : PurrMonoBehaviour
             }
         }
     }
-    
-    public static void UpdateColor(int colorIndex)
-    {
-        PlayerID localPlayerID = Network.instance.manager.localPlayer;
-
-        if (!Players.ContainsKey(localPlayerID))
-        {
-            Debug.LogError("Local player not found in Players dictionary!");
-            return;
-        }
-
-        PlayerData myData = Players[localPlayerID];
-        myData.colorIndex = colorIndex;
-        Players[localPlayerID] = myData;
-
-        Network.instance.manager.SendToServer(myData);
-
-        Debug.Log($"Updated {myData.name} colorIndex to {colorIndex}");
-    }
 
     private void OnDestroy()
     {
         Players = null;
+    }
+    
+    private void ColorUpdate(PlayerData data)
+    {
+
+        // Find the Player component that belongs to senderID and apply the color
+        Player.Player targetPlayer = FindPlayerByID(data.playerID);
+        if (targetPlayer == null)
+        {
+            Debug.LogWarning($"OnColorUpdate: could not find Player object for {data.playerID}");
+            return;
+        }
+
+        ColorSelection colorSelection = FindFirstObjectByType<ColorSelection>();
+        if (colorSelection == null || data.colorIndex < 0 || data.colorIndex >= colorSelection.availableColors.Count)
+            return;
+
+        targetPlayer.SetColor(colorSelection.availableColors[data.colorIndex].bodyMaterial, colorSelection.availableColors[data.colorIndex].headMaterial, colorSelection.availableColors[data.colorIndex].deadMaterial);
+
+        // Rebuild the set of taken indices and push to the UI
+        Dictionary<int, PlayerID> taken = new Dictionary<int, PlayerID>();
+        foreach (PlayerRegister.PlayerData player in PlayerRegister.Players.Values)
+        {
+            if (player.colorIndex >= 0 && player.colorIndex < colorSelection.availableColors.Count)
+            {
+                taken.Add(player.colorIndex, player.playerID);
+            }
+        }
+            
+        colorSelection.RefreshTakenColors(taken);
+    }
+    
+    public static Player.Player FindPlayerByID(PlayerID id)
+    {
+        foreach (Player.Player p in FindObjectsByType<Player.Player>(FindObjectsSortMode.None))
+        {
+            if (p.owner == id)
+                return p;
+        }
+        return null;
     }
 }
