@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using System.Linq;
+using Player;
 
 namespace GameLoop.GameLobby
 {
@@ -56,7 +57,7 @@ namespace GameLoop.GameLobby
             }
         }
 
-        void FixedUpdate()
+        void Update()
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
     
@@ -66,6 +67,8 @@ namespace GameLoop.GameLobby
 
                 if (cursorSphere != null)
                     cursorSphere.transform.position = mouseWorldPosition;
+                
+                LocalPlayer.Instance.MoveInLobby(mouseWorldPosition);
             }
         }
 

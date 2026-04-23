@@ -201,6 +201,12 @@ namespace Player
             }
         }
 
+        public void MoveInLobby(Vector3 movePosition)
+        {
+            wormForwardMovement.MoveHeadTowardsPosition(movePosition);
+            wormForwardMovement.MoveWormBody();
+        }
+
         public void DamagePlayer(Collision other, GameObject hitGameObject)
         {
             if (!isOwner) return;
