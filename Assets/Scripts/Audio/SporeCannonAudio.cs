@@ -5,6 +5,9 @@ namespace Audio
 {
     public class SporeCannonAudio : MonoBehaviour
     {
+        public AudioSource audioSource;
+        public AudioClip cannonFireAudio;
+        
         void Start()
         {
             GetComponent<ProjectilePart>().OnCannonShoot += OnCannonShoot;
@@ -17,7 +20,8 @@ namespace Audio
 
         private void OnCannonShoot()
         {
-            //play shoot audio
+            audioSource.clip = cannonFireAudio;
+            audioSource.Play();
         }
     }
 }

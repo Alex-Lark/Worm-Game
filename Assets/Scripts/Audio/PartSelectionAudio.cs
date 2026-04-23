@@ -1,20 +1,25 @@
 using GameLoop;
 using UnityEngine;
 
-public class PartSelectionAudio : MonoBehaviour
+namespace Audio
 {
-    void Start()
+    public class PartSelectionAudio : MonoBehaviour
     {
-        GetComponent<PartSelection>().OnCardSelected += OnCardSelected;
-    }
+        public AudioSource audioSource;
+        
+        void Start()
+        {
+            GetComponent<PartSelection>().OnCardSelected += OnCardSelected;
+        }
 
-    void OnDisable()
-    {
-        GetComponent<PartSelection>().OnCardSelected -= OnCardSelected;
-    }
+        void OnDisable()
+        {
+            GetComponent<PartSelection>().OnCardSelected -= OnCardSelected;
+        }
 
-    private void OnCardSelected()
-    {
-        //play sound
+        private void OnCardSelected()
+        {
+            audioSource.Play();
+        }
     }
 }

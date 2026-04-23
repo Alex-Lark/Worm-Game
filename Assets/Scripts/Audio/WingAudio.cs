@@ -5,6 +5,9 @@ namespace Audio
 {
     public class WingAudio : MonoBehaviour
     {
+        public AudioSource audioSource;
+        public AudioClip wingAudio;
+        
         void Start()
         {
             GetComponent<WingPart>().OnWingFlap += OnWingFlap;
@@ -17,7 +20,8 @@ namespace Audio
         
         private void OnWingFlap()
         {
-            //wing flap audio
+            audioSource.clip = wingAudio;
+            audioSource.Play();
         }
     }
 }
