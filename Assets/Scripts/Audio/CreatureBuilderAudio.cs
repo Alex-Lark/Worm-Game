@@ -4,6 +4,8 @@ namespace Audio
 {
     public class CreatureBuilderAudio : MonoBehaviour
     {
+        public AudioSource audioSource;
+        
         void Start()
         {
             GetComponent<CreatureBuilder.CreatureBuilder>().OnPartTo3D += OnPartTo3D;
@@ -16,7 +18,7 @@ namespace Audio
 
         private void OnPartTo3D()
         {
-            //play audio
+            audioSource.Play();
         }
     }
 }

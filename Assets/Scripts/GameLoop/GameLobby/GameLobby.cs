@@ -60,7 +60,13 @@ namespace GameLoop.GameLobby
 
         void Update()
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            // Clamp mouse position to screen bounds before raycasting
+            Vector2 clampedMousePos = new Vector2(
+                Mathf.Clamp(Input.mousePosition.x, 0, Screen.width),
+                Mathf.Clamp(Input.mousePosition.y, 0, Screen.height)
+            );
+
+            Ray ray = mainCamera.ScreenPointToRay(clampedMousePos);
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
             {
@@ -68,18 +74,15 @@ namespace GameLoop.GameLobby
             }
             else
             {
-                // Find the closest point on the ground by raycasting straight down
-                // along the ray's direction extended to the ground plane
                 Plane groundPlane = new Plane(Vector3.up, groundAnchorPoint);
                 if (groundPlane.Raycast(ray, out float enter))
                 {
                     Vector3 pointOnPlane = ray.GetPoint(enter);
 
-                    // Snap that point to the nearest valid ground surface
                     if (Physics.Raycast(pointOnPlane + Vector3.up * 100f, Vector3.down, out RaycastHit groundHit, Mathf.Infinity, groundLayer))
                         mouseWorldPosition = groundHit.point;
                     else
-                        mouseWorldPosition = pointOnPlane; // fallback if no ground found below
+                        mouseWorldPosition = pointOnPlane;
                 }
             }
 
