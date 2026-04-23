@@ -203,6 +203,8 @@ namespace Player
 
         public void MoveInLobby(Vector3 movePosition)
         {
+            if (!GetComponent<PlayerSpawning>().isSetup) return;
+            
             wormForwardMovement.MoveHeadTowardsPosition(movePosition);
             wormForwardMovement.MoveWormBody();
         }

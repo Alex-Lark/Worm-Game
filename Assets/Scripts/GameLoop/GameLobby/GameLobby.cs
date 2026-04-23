@@ -86,7 +86,7 @@ namespace GameLoop.GameLobby
             if (cursorSphere != null)
                 cursorSphere.transform.position = mouseWorldPosition;
 
-            LocalPlayer.Instance.MoveInLobby(mouseWorldPosition);
+            if (LocalPlayer.Instance != null) LocalPlayer.Instance.MoveInLobby(mouseWorldPosition);
         }
 
         private void OnLocalPlayerReady()

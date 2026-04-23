@@ -69,6 +69,7 @@ namespace Player
         
         public void MoveHeadTowardsPosition(Vector3 position)
         {
+            if (wormHeadNetworkRigidbody == null) return;
             float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
             if (finCount >= 1)
@@ -84,6 +85,7 @@ namespace Player
     
         public void MoveWormBody()
         {
+            if (player == null) return;
             List<Transform> wormParts = player.wormBodySegments.list;
 
             // Calculate constraint forces for all segments
