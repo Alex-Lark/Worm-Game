@@ -21,7 +21,8 @@ namespace GameLoop
             
                 GameObject textObject = Instantiate(textPrefab, leaderboardBackground.transform);
             
-                textObject.GetComponentInChildren<TextMeshProUGUI>().text = text;
+                LeaderboardEntryUI entryUI = textObject.GetComponent<LeaderboardEntryUI>();
+                entryUI.SetData(player.name, player.score);
             }
         }
     }
