@@ -46,7 +46,7 @@ public class PartSelectionManager : PurrMonoBehaviour
     }
     
     private static int[] dummyResendCards = new[] {
-        1, 3, 0, 5, 
+        , 3, 0, 5, 
         5, 3, 0, 4, 
         2, 4, 0, 2};
 
@@ -182,7 +182,7 @@ public class PartSelectionManager : PurrMonoBehaviour
     }
 
     private static int[] dummyCards = new[] {1,0,  0,3,  0,0,  1,5,
-                                             4,0,  1,3,  0,0,  1,4, 
+                                             0,4,  1,3,  0,0,  1,4, 
                                              3,2,  1,4,  0,0,  4,2};
     private static int RigIndex;
     private (int, int) RigTheElection()
