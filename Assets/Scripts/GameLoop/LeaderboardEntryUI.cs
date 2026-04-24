@@ -1,6 +1,9 @@
 using System.Collections;
+using CreatureParts;
+using Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LeaderboardEntryUI : MonoBehaviour
 {
@@ -11,6 +14,9 @@ public class LeaderboardEntryUI : MonoBehaviour
     public float moveDuration = 1.5f;
 
     public PlayerRegister.PlayerData playerData;
+
+    public Image background;
+    public Image iconBackground;
 
     private RectTransform rt;
     private Vector2 targetPosition;
@@ -24,6 +30,16 @@ public class LeaderboardEntryUI : MonoBehaviour
     {
         playerData = data;
         usernameText.text = data.name;
+
+        foreach (Player.Player player in FindObjectsByType<Player.Player>(FindObjectsSortMode.None)) //TODO: find a better way of doing this
+        {
+            if (player.owner == data.playerID)
+            {
+                Color color = player.gameObject.GetComponent<WormRenderer>().wormMaterial.color;
+                background.color = color;
+                iconBackground.color = color;
+            }
+        }
 
         StopAllCoroutines();
         StartCoroutine(CountUp(0, data.score));

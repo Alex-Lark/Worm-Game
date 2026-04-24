@@ -43,7 +43,6 @@ namespace GameLoop
 
                 LeaderboardEntryUI entryUI = textObject.GetComponent<LeaderboardEntryUI>();
                 entryUI.SetData(player);
-
                 entries.Add(entryUI);
 
                 index++;

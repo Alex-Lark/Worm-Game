@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 6720064561374250735}
   - component: {fileID: 6284399388410545509}
   m_Layer: 5
-  m_Name: LeaderboardText
+  m_Name: leaderboardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,6 +304,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LeaderboardEntryUI
   usernameText: {fileID: 4451024120487562619}
   scoreText: {fileID: 6795987622169220677}
+  scoreDuration: 1.5
+  moveDuration: 1.5
+  background: {fileID: 6720064561374250735}
+  iconBackground: {fileID: 3250068571678185653}
 --- !u!1 &6509057672373533792
 GameObject:
   m_ObjectHideFlags: 0
