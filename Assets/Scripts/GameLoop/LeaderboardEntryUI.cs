@@ -31,7 +31,7 @@ public class LeaderboardEntryUI : MonoBehaviour
         playerData = data;
         usernameText.text = data.name;
 
-        foreach (Player.Player player in FindObjectsByType<Player.Player>(FindObjectsSortMode.None)) //TODO: find a better way of doing this
+        foreach (Player.Player player in FindObjectsByType<Player.Player>(FindObjectsSortMode.None))
         {
             if (player.owner == data.playerID)
             {
@@ -40,9 +40,12 @@ public class LeaderboardEntryUI : MonoBehaviour
                 iconBackground.color = color;
             }
         }
+        int startScore = ScoreManager.Instance.GetPreviousScore(data.name);
 
         StopAllCoroutines();
-        StartCoroutine(CountUp(0, data.score));
+        StartCoroutine(CountUp(startScore, data.score));
+
+        ScoreManager.Instance.SetScore(data.name, data.score);
     }
 
     public void SetTargetPosition(Vector2 pos)
