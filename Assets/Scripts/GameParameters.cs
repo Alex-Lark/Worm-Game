@@ -8,8 +8,8 @@ public static class GameParameters
     public static readonly int DefaultNumberOfRounds = 3;
     public static readonly int DefaultNumberOfPartsPerRound = 1; //not including discarded card(s)
     public static readonly int DefaultTimePerPartSelection = 5;
-    public static readonly int DefaultTimePerCreatureBuilding = 30;
-    public static readonly int DefaultTimePerMinigame = 6000;
+    public static readonly int DefaultTimePerCreatureBuilding = 20;
+    public static readonly int DefaultTimePerMinigame = 60;
     
     public static readonly int TimeForLeaderboard = 5;
     
@@ -62,11 +62,11 @@ public static class GameParameters
     #region Worm Movement
     [Header("Worm Movement")]
     
-    public static readonly float MaxWormTurnAngle = 1000f;
+    public static readonly float MaxWormTurnAngle = 500f;
     public static readonly float WormMoveForce = 300f;
     public static readonly float WormCorrectionForceMultiplier = 1f;
-    public static readonly float WormHeadRotationSpeed = 2.5f;
-    public static readonly float WormMaxVelocity = 6.5f;
+    public static readonly float WormHeadRotationSpeed = 1.5f;
+    public static readonly float WormMaxVelocity = 6f;
     public static readonly float MaxSlopeAngle = 45f;
     public static readonly float MaxStepHeight = 0.5f;
     public static readonly float StepDetectionDistance = 0.3f;
