@@ -9,9 +9,9 @@ namespace CreatureParts
     { 
         public GameObject projectilePrefab;
         public Transform firePoint;
-        public float recoilForce = 0.5f;
+        public float recoilForce = 0.25f;
         public float fireCooldown = 0.5f;
-        public float shootForce = 0.05f;
+        public float shootForce = 0.03f;
         public KeyCode shootKey = KeyCode.R;
         [SerializeField] private Animator animator;
         

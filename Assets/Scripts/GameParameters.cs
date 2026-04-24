@@ -95,7 +95,7 @@ public static class GameParameters
     #region Worm Attack
     [Header("Worm Attack")]
     
-    public static readonly float WormHeadbutTime = 0.5f;
+    public static readonly float WormHeadbutTime = 0.25f;
     public static readonly float WormHeadButCoolDown = 0.25f;
     
     public static readonly float WormHeadbutGroundingForce = 250f;
@@ -185,8 +185,8 @@ public static class GameParameters
     public static readonly float MinSpikeCollisionForceToDamage = 50f;
     public static readonly float SpikeForceToDamageMultiplier = 0.04f;
     
-    public static readonly float MinProjectileCollisionForceToDamage = 50f;
-    public static readonly float ProjectileForceToDamageMultiplier = 0.04f;
+    public static readonly float MinProjectileCollisionForceToDamage = 10f;
+    public static readonly float ProjectileForceToDamageMultiplier = 0.1f;
 
     public static readonly float MinBluntCollisionForceToDamage = 200f;
     public static readonly float BluntForceToDamageMultiplier = 0.02f;
