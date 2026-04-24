@@ -1,11 +1,17 @@
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 namespace GameLoop
 {
     public class GameEndScene : MonoBehaviour
     {
-        public GameObject gameEndText;
+        public GameObject gameFirstText;
+        public GameObject gameSecondText;
+        public GameObject gameThirdText;
+        
+        public GameObject secondPlaceWorm;
+        public GameObject thirdPlaceWorm;
     
         void Start()
         {
@@ -14,19 +20,36 @@ namespace GameLoop
 
         private void ShowWinner()
         {
-            PlayerRegister.PlayerData topPlayer = new PlayerRegister.PlayerData();
-            int highestScore = int.MinValue;
-
-            foreach (PlayerRegister.PlayerData player in PlayerRegister.Players.Values)
+            var players = PlayerRegister.Players.Values.OrderByDescending(p => p.score).ToList();
+            
+            if (players.Count >= 1)
             {
-                if (player.score > highestScore)
-                {
-                    highestScore = player.score;
-                    topPlayer = player;
-                }
+                gameFirstText.GetComponent<TextMeshProUGUI>().text = players[0].name;
             }
 
-            gameEndText.GetComponent<TextMeshProUGUI>().text = "Winner: " + topPlayer.name;
+            if (players.Count >= 2)
+            {
+                gameSecondText.GetComponent<TextMeshProUGUI>().text = players[1].name;
+
+                secondPlaceWorm.SetActive(true);
+            }
+            else
+            {
+                gameSecondText.GetComponent<TextMeshProUGUI>().text = "";
+                secondPlaceWorm.SetActive(false);
+            }
+            
+            if (players.Count >= 3)
+            {
+                gameThirdText.GetComponent<TextMeshProUGUI>().text = players[2].name;
+
+                thirdPlaceWorm.SetActive(true);
+            }
+            else
+            {
+                gameThirdText.GetComponent<TextMeshProUGUI>().text = "";
+                thirdPlaceWorm.SetActive(false);
+            }
         }
     }
 }
