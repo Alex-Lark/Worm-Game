@@ -65,8 +65,8 @@ public static class GameParameters
     public static readonly float MaxWormTurnAngle = 500f;
     public static readonly float WormMoveForce = 300f;
     public static readonly float WormCorrectionForceMultiplier = 1f;
-    public static readonly float WormHeadRotationSpeed = 2.5f;
-    public static readonly float WormMaxVelocity = 7f;
+    public static readonly float WormHeadRotationSpeed = 3f;
+    public static readonly float WormMaxVelocity = 6f;
     public static readonly float MaxSlopeAngle = 45f;
     public static readonly float MaxStepHeight = 0.5f;
     public static readonly float StepDetectionDistance = 0.3f;
