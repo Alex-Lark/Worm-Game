@@ -168,6 +168,9 @@ namespace WormLeague
             {
                 PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
                 playerData.team = (PlayerRegister.Team)riggedList[pointer++];
+                if(playerData.team == PlayerRegister.Team.Red)teamRed.Add(playerData.playerID);
+                if(playerData.team == PlayerRegister.Team.Blue)teamBlue.Add(playerData.playerID);
+                
                 if (pointer >= riggedList.Length) pointer = 0;
                 Network.instance.manager.SendToServer<PlayerRegister.PlayerData>(playerData);
             }

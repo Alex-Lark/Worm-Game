@@ -56,7 +56,8 @@ namespace Player
         
         #region public variables
 
-        public PlayerRegister.PlayerData RegisterData;
+        public PlayerRegister.PlayerData RegisterData => PlayerRegister.Players[playerID];
+        
         public int playerScore = 1;
         public float maxPlayerHealth = GameParameters.DefaultPlayerHealth;
         public float currentPlayerHealth = GameParameters.DefaultPlayerHealth;
@@ -122,10 +123,6 @@ namespace Player
         
         private void FixedUpdate()
         {
-            if (PlayerRegister.Players != null)
-            {
-                PlayerRegister.Players.TryGetValue(playerID, out RegisterData);
-            }
             
             //Debug.Log(RegisterData.name);
             
