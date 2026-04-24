@@ -207,6 +207,9 @@ namespace Player
             
             wormForwardMovement.MoveHeadTowardsPosition(movePosition);
             wormForwardMovement.MoveWormBody();
+            wormForwardMovement.MoveHeadTowardsPosition(movePosition);
+            wormForwardMovement.MoveWormBody();
+            
         }
 
         public void DamagePlayer(Collision other, GameObject hitGameObject)

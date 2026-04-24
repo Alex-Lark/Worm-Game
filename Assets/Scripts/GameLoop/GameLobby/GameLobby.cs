@@ -32,7 +32,8 @@ namespace GameLoop.GameLobby
         [HideInInspector] public Vector3 mouseWorldPosition;
         public GameObject cursorSphere;
         public Vector3 groundAnchorPoint = Vector3.zero;
-        
+
+        public GameObject FakeoutTitleScreen;
         public event Action OnGameStart;
         
         #endregion
@@ -60,6 +61,8 @@ namespace GameLoop.GameLobby
 
         void Update()
         {
+            if(Input.GetKey(KeyCode.N))FakeoutTitleScreen.SetActive(true);
+            
             // Clamp mouse position to screen bounds before raycasting
             Vector2 clampedMousePos = new Vector2(
                 Mathf.Clamp(Input.mousePosition.x, 0, Screen.width),
@@ -88,7 +91,10 @@ namespace GameLoop.GameLobby
 
             if (cursorSphere != null)
                 cursorSphere.transform.position = mouseWorldPosition;
+        }
 
+        private void FixedUpdate()
+        {
             if (LocalPlayer.Instance != null) LocalPlayer.Instance.MoveInLobby(mouseWorldPosition);
         }
 
