@@ -276,6 +276,8 @@ namespace Player
             }
             if (other.gameObject.GetComponent<FiredProjectile>() != null)
             {
+                if (other.gameObject.GetComponent<FiredProjectile>().firingPlayer == gameObject) return;
+                
                 if (collisionForce > GameParameters.MinProjectileCollisionForceToDamage)
                 {
                     float damage = collisionForce * GameParameters.ProjectileForceToDamageMultiplier;

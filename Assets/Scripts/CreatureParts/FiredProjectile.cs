@@ -6,6 +6,7 @@ namespace CreatureParts
     public class FiredProjectile : MonoBehaviour
     {
         private bool canCollide = false;
+        public GameObject firingPlayer;
         
         public event Action OnProjectileHit;
 

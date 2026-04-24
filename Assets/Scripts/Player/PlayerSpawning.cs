@@ -161,6 +161,11 @@ namespace Player
             {
                 mr.enabled = true;
             }
+
+            foreach (GameObject attachedPart in player.attachedWormParts)
+            {
+                //FIND all renderers that are children of the attached part, as long as the object itself is enabled
+            }
             
         }
         

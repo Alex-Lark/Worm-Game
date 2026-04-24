@@ -57,6 +57,8 @@ namespace CreatureParts
                 firePoint.rotation
             );
 
+            projectile.GetComponent<FiredProjectile>().firingPlayer = GetComponentInParent<Player.Player>().gameObject;
+
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             
 
