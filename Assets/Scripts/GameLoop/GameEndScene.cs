@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using Player;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace GameLoop
 {
@@ -10,6 +13,10 @@ namespace GameLoop
         public GameObject gameSecondText;
         public GameObject gameThirdText;
         
+        public GameObject secondPlacePodium;
+        public GameObject thirdPlacePodium;
+        
+        public GameObject firstPlaceWorm;
         public GameObject secondPlaceWorm;
         public GameObject thirdPlaceWorm;
     
@@ -25,30 +32,56 @@ namespace GameLoop
             if (players.Count >= 1)
             {
                 gameFirstText.GetComponent<TextMeshProUGUI>().text = players[0].name;
+                foreach (Player.Player player in FindObjectsByType<Player.Player>(FindObjectsSortMode.None)) //TODO: find a better way of doing this
+                {
+                    if (player.owner == players[0].playerID)
+                    {
+                        Color color = player.gameObject.GetComponent<WormRenderer>().wormMaterial.color;
+                        firstPlaceWorm.GetComponent<Image>().color = color;
+                    }
+                }
             }
 
             if (players.Count >= 2)
             {
                 gameSecondText.GetComponent<TextMeshProUGUI>().text = players[1].name;
 
-                secondPlaceWorm.SetActive(true);
+                secondPlacePodium.SetActive(true);
+                
+                foreach (Player.Player player in FindObjectsByType<Player.Player>(FindObjectsSortMode.None)) //TODO: find a better way of doing this
+                {
+                    if (player.owner == players[1].playerID)
+                    {
+                        Color color = player.gameObject.GetComponent<WormRenderer>().wormMaterial.color;
+                        secondPlaceWorm.GetComponent<Image>().color = color;
+                    }
+                }
             }
             else
             {
                 gameSecondText.GetComponent<TextMeshProUGUI>().text = "";
-                secondPlaceWorm.SetActive(false);
+                secondPlacePodium.SetActive(false);
             }
             
             if (players.Count >= 3)
             {
                 gameThirdText.GetComponent<TextMeshProUGUI>().text = players[2].name;
 
-                thirdPlaceWorm.SetActive(true);
+                thirdPlacePodium.SetActive(true);
+                
+                foreach (Player.Player player in FindObjectsByType<Player.Player>(FindObjectsSortMode.None)) //TODO: find a better way of doing this
+                {
+                    if (player.owner == players[2].playerID)
+                    {
+                        Color color = player.gameObject.GetComponent<WormRenderer>().wormMaterial.color;
+                        thirdPlaceWorm.GetComponent<Image>().color = color;
+                    }
+                }
             }
             else
             {
                 gameThirdText.GetComponent<TextMeshProUGUI>().text = "";
-                thirdPlaceWorm.SetActive(false);
+                thirdPlacePodium.SetActive(false);
             }
         }
     }
