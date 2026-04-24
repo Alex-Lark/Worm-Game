@@ -157,8 +157,8 @@ namespace WormLeague
 
         private static int[] riggedList = new[]
         {
+            1, 2, 1, 2,
             1, 1, 2, 2,
-            2, 1, 2, 1,
             2, 2, 1, 1
         };
         private void RigPlayerTeams()

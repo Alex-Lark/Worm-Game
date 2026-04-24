@@ -44,12 +44,37 @@ public class PartSelectionManager : PurrMonoBehaviour
         }
         
     }
+    
+    private static int[] dummyResendCards = new[] {
+        1, 3, 0, 5, 
+        5, 3, 0, 4, 
+        2, 4, 0, 2};
+
+    private static int resendPointer;
+
+    void RigResendCards()
+    {
+        foreach (PlayerID player in PlayerRegister.Players.Keys)
+        {
+            ResentCardPacket packet = new ResentCardPacket();
+            packet.CardIndex = dummyResendCards[resendPointer++];
+            
+            packet.receiver = player;
+            
+            Network.instance.manager.Send<ResentCardPacket>(packet.receiver, packet, Channel.ReliableOrdered);
+            
+        }
+    }
 
     IEnumerator ResendCards()
     {
         while (true)
         {
             yield return new WaitUntil(() => Network.instance.AllClientsReady());
+            RigResendCards();
+            yield return StartCoroutine(Network.pinger.Ping());
+            GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
+            break;
             if (ReturnedCardIdexes.Count >= SentSelectionPackets.Count)
             {
                 Shuffle(ReturnedCardIdexes);
