@@ -181,9 +181,9 @@ public class PartSelectionManager : PurrMonoBehaviour
         print("Recived resent packet");
     }
 
-    private static int[] dummyCards = new[] {1,3,  0,3,  0,0,  1,5,
-                                             0,5,  1,3,  0,0,  1,4, 
-                                             4,2,  1,4,  0,0,  4,2};
+    private static int[] dummyCards = new[] {1,0,  0,3,  0,0,  1,5,
+                                             4,0,  1,3,  0,0,  1,4, 
+                                             3,2,  1,4,  0,0,  4,2};
     private static int RigIndex;
     private (int, int) RigTheElection()
     {
