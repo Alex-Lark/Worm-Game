@@ -152,9 +152,33 @@ namespace WormLeague
         #endregion
         
         #region Private Methods
+
+        private static int pointer;
+
+        private static int[] riggedList = new[]
+        {
+            1, 1, 2, 2,
+            2, 1, 2, 1,
+            2, 2, 1, 1
+        };
+        private void RigPlayerTeams()
+        {
+            
+            foreach (PlayerID player in  PlayerRegister.Players.Keys)
+            {
+                PlayerRegister.PlayerData playerData = PlayerRegister.Players[player];
+                playerData.team = (PlayerRegister.Team)riggedList[pointer++];
+                if (pointer >= riggedList.Length) pointer = 0;
+                Network.instance.manager.SendToAll<PlayerRegister.PlayerData>(playerData);
+            }
+        }
     
         private void AssignPlayerTeams()
         {
+            if(!isServer||!isHost)return;
+            RigPlayerTeams();
+            return;
+            
             List<Player.Player> playerObjects = new List<Player.Player>(FindObjectsByType<Player.Player>(FindObjectsSortMode.None));
 
             //currently this always assigns the first random player to team red, so worm is always red with 1 player
