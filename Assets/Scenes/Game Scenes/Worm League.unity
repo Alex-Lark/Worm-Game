@@ -2026,7 +2026,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &422120760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7463,8 +7463,18 @@ MonoBehaviour:
   - {fileID: 1354218178}
   - {fileID: 1238098124}
   - {fileID: 797430688}
-  redSpawnPoints: []
-  blueSpawnPoints: []
+  redSpawnPoints:
+  - {fileID: 552214789}
+  - {fileID: 222876205}
+  - {fileID: 1126669340}
+  - {fileID: 1354218178}
+  - {fileID: 797430688}
+  blueSpawnPoints:
+  - {fileID: 1136558888}
+  - {fileID: 1615075564}
+  - {fileID: 462658579}
+  - {fileID: 177755187}
+  - {fileID: 1238098124}
 --- !u!4 &1950704530
 Transform:
   m_ObjectHideFlags: 0
