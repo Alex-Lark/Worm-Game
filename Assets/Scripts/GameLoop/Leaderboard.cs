@@ -24,21 +24,24 @@ namespace GameLoop
             List<LeaderboardEntryUI> entries = new List<LeaderboardEntryUI>();
 
             spawnPositions.Clear();
-            
-            int count = players.Count;
+
             float spacing = 150f;
-            float centerOffset = (count - 1) / 2f;
+            float startY = -250f;
             int index = 0;
-            
+
             foreach (var player in players)
             {
                 GameObject textObject = Instantiate(textPrefab, leaderboardBackground.transform);
 
                 RectTransform rt = textObject.GetComponent<RectTransform>();
                 
-                Vector2 pos = new Vector2(0, -(index - centerOffset) * spacing);
+                rt.anchorMin = new Vector2(0.5f, 1f);
+                rt.anchorMax = new Vector2(0.5f, 1f);
+                rt.pivot = new Vector2(0.5f, 0.5f);
+
+                Vector2 pos = new Vector2(0, startY - index * spacing);
                 rt.anchoredPosition = pos;
-                
+
                 spawnPositions.Add(pos);
 
                 LeaderboardEntryUI entryUI = textObject.GetComponent<LeaderboardEntryUI>();

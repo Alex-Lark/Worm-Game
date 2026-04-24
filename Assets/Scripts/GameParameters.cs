@@ -11,7 +11,7 @@ public static class GameParameters
     public static readonly int DefaultTimePerCreatureBuilding = 5;
     public static readonly int DefaultTimePerMinigame = 60;
     
-    public static readonly int TimeForLeaderboard = 5;
+    public static readonly int TimeForLeaderboard = 3;
     
     #endregion
     
