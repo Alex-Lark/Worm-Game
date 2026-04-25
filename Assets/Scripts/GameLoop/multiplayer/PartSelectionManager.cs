@@ -36,7 +36,7 @@ public class PartSelectionManager : PurrMonoBehaviour
         List<PlayerID> players = new List<PlayerID>(Network.instance.manager.players);
         while (players.Count > 0)
         {
-            (packet.Card1Index, packet.Card2Index) = RigTheElection();//Pick2RandomCards();
+            (packet.Card1Index, packet.Card2Index) = Pick2RandomCards(); //RigTheElection();
             packet.receiver = players[0];
             SentSelectionPackets.Add(packet);
             Network.instance.manager.Send<SelectableCardsPacket>(packet.receiver, packet, Channel.ReliableOrdered);
@@ -71,10 +71,10 @@ public class PartSelectionManager : PurrMonoBehaviour
         while (true)
         {
             yield return new WaitUntil(() => Network.instance.AllClientsReady());
-            RigResendCards();
-            yield return StartCoroutine(Network.pinger.Ping());
-            GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
-            break;
+            //RigResendCards();
+            //yield return StartCoroutine(Network.pinger.Ping());
+            //GameLoop.GameLoop.Instance.StartCreatureBuildingCoroutine();
+            //break;
             if (ReturnedCardIdexes.Count >= SentSelectionPackets.Count)
             {
                 Shuffle(ReturnedCardIdexes);

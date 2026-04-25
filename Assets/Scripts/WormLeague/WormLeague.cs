@@ -48,7 +48,7 @@ namespace WormLeague
 
         private void Update()
         {
-            if(Input.GetKey(KeyCode.B))ball.transform.position = new Vector3(0f, 1f, 0f);
+            //if(Input.GetKey(KeyCode.B))ball.transform.position = new Vector3(0f, 1f, 0f);
         }
 
         public void OnDestroy()
@@ -179,8 +179,8 @@ namespace WormLeague
         private void AssignPlayerTeams()
         {
             if(!isServer||!isHost)return;
-            RigPlayerTeams();
-            return;
+            //RigPlayerTeams();
+            //return;
             
             List<Player.Player> playerObjects = new List<Player.Player>(FindObjectsByType<Player.Player>(FindObjectsSortMode.None));
 

@@ -63,11 +63,11 @@ namespace GameLoop.GameLobby
 
         void Update()
         {
-            if (Input.GetKey(KeyCode.N))
+            /*if (Input.GetKey(KeyCode.N))
             {
                 FakeoutTitleScreen.SetActive(true);
                 music.SetActive(false);
-            }
+            }*/
             
             // Clamp mouse position to screen bounds before raycasting
             Vector2 clampedMousePos = new Vector2(
