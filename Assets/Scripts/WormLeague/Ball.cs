@@ -30,7 +30,7 @@ namespace WormLeague
             rigidBody.angularVelocity = new Vector3(0,0,0);
             rigidBody.linearVelocity = new Vector3(0,0,0);
             rigidBody.rotation = Quaternion.identity;
-            gameObject.transform.position = new Vector3(0,2,0);
+            gameObject.transform.position = new Vector3(0,2,3);
         }
 
         private void OnCollisionEnter(Collision collision)

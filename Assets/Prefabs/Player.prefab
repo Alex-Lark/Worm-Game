@@ -891,7 +891,7 @@ MonoBehaviour:
   _interpolateSettings: 7
   _minBufferSize: 1
   _maxBufferSize: 2
-  _characterControllerPatch: 0
+  _characterControllerPatch: 1
   _ownerAuth: 0
   _interpolationTiming: 0
 --- !u!114 &4446911218883556763
@@ -956,6 +956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Audio.PlayerAudio
   playerAudioSource: {fileID: 5532910215605130113}
   audioSourceVolume: 0.1
+  jumpAudioVolume: 0.1
   jumpAudio: {fileID: 8300000, guid: a595b8f0334dfe447b8a27e4c26df9bc, type: 3}
   headbuttChargeAudio: {fileID: 0}
   headbuttLaunchAudio: {fileID: 8300000, guid: 961da363cdade47428366007e6e1ae9f, type: 3}

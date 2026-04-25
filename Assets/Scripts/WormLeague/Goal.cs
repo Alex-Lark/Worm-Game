@@ -17,6 +17,7 @@ namespace WormLeague
     
         private void OnTriggerEnter(Collider other)
         {
+            if(!(isServer||isHost))return;
             if (other.CompareTag("ball"))
             {
                 OnGoalScored?.Invoke();

@@ -48,7 +48,7 @@ namespace WormLeague
 
         private void Update()
         {
-            if(Input.GetKey(KeyCode.B))ball.transform.position = new Vector3(0f, 1f, 0f);
+            if(Input.GetKey(KeyCode.B))ball.transform.position = new Vector3(0f, 1f, 3f);
         }
 
         public void OnDestroy()
@@ -62,7 +62,9 @@ namespace WormLeague
 
         public void OnGoalScored(string team)
         {
-            PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
+            if (!(isHost||isServer))return;
+
+        PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
             scoringPlayer.score += 1;
             
             ball.Reset();
