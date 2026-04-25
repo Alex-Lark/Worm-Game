@@ -7,6 +7,10 @@ namespace WormLeague
 {
     public class Ball : NetworkBehaviour
     {
+        public Player.Player LastTouchingPlayer { get; private set; }
+
+        public String lastTouchingPlayerName;
+        
         void Start()
         {
             if (!isServer && !isHost)
@@ -14,7 +18,6 @@ namespace WormLeague
                 Destroy(this);
             }
         }
-        public Player.Player LastTouchingPlayer { get; private set; }
 
         protected override void OnSpawned(bool asServer)
         {
@@ -40,7 +43,8 @@ namespace WormLeague
                 return;
             
             LastTouchingPlayer = collision.gameObject.GetComponentInParent<Player.Player>();
-            
+            lastTouchingPlayerName = LastTouchingPlayer.PlayerName;
+
         }
     }
 }

@@ -104,6 +104,13 @@ public class PlayerRegister : PurrMonoBehaviour
 
     private void RegisterPlayerData(PlayerData player, PlayerID playerID)
     {
+        
+        if (string.IsNullOrEmpty(player.name))
+        {
+            Debug.LogWarning($"Blocked registration of nameless player with ID {player.playerID}");
+            return;
+        }
+        
         Players[player.playerID] = player;
         ColorUpdate(player);
         OnPlayerRegisterChanged.Invoke(playerID, true);

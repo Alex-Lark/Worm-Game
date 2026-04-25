@@ -53,8 +53,12 @@ namespace WormLeague
 
         public void OnDestroy()
         {
-            PlayerRegister.ClearPlayerTeams();
-            GameOver();
+
+            if (isServer)
+            {
+                PlayerRegister.ClearPlayerTeams();
+                GameOver();
+            }
         }
 
         #endregion
@@ -63,6 +67,8 @@ namespace WormLeague
 
         public void OnGoalScored(string team)
         {
+            if (!isServer) return;
+            
             PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
             scoringPlayer.score += 1;
             
