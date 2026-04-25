@@ -62,12 +62,17 @@ namespace WormLeague
 
         public void OnGoalScored(string team)
         {
-            if (!(isHost||isServer))return;
+            if (ball.LastTouchingPlayer == null) return;
 
-        PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
-            scoringPlayer.score += 1;
+            if (ball.LastTouchingPlayer.owner is not { } ownerID) return;
+
+            if (!PlayerRegister.Players.ContainsKey(ownerID))
+            {
+                Debug.LogWarning($"Last touching player owner '{ownerID}' not in PlayerRegister.");
+                return;
+            }
             
-            ball.Reset();
+            PlayerRegister.PlayerData scoringPlayer = ball.LastTouchingPlayer.RegisterData;
             
             if (team == "blue")
             {
@@ -97,7 +102,23 @@ namespace WormLeague
                 
                 Network.instance.manager.SendToAll(packet);
             }
+            
+            ball.Reset();
+            
+            if (string.IsNullOrEmpty(scoringPlayer.name)) 
+            {
+                Debug.LogWarning("Scoring player has no name, skipping.");
+                return;
+            }
+            
+            scoringPlayer.score += 1;
 
+            if (!PlayerRegister.Players.ContainsKey(scoringPlayer.playerID)) 
+            {
+                Debug.LogWarning($"Scoring player {scoringPlayer.name} not found in PlayerRegister, skipping score update.");
+                return;
+            }
+            
             PlayerRegister.Players[scoringPlayer.playerID] = scoringPlayer;
             Network.instance.manager.SendToAll(scoringPlayer);
         }
