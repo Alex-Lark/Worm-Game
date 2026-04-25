@@ -53,7 +53,6 @@ namespace WormLeague
 
         public void OnDestroy()
         {
-            PlayerRegister.ClearPlayerTeams();
             GameOver();
         }
 
@@ -147,6 +146,7 @@ namespace WormLeague
                     
                 }
             }
+            PlayerRegister.ClearPlayerTeams();
         }
         
         #endregion
@@ -241,7 +241,7 @@ namespace WormLeague
             List<Player.Player> playerObjects = new List<Player.Player>(FindObjectsByType<Player.Player>(FindObjectsSortMode.None));
             Debug.Log("Assigning spawnpoint to player as server");
 
-            List<PlayerID> teamRedCopy = teamRed;
+            List<PlayerID> teamRedCopy = new List<PlayerID>(teamRed);
             Debug.Log($"redcopy length: {teamRedCopy.Count}");
             foreach(GameObject redSpawnPoint in redSpawnPoints)
             {
@@ -261,7 +261,7 @@ namespace WormLeague
                 }
             }
             
-            List<PlayerID> teamBlueCopy = teamBlue;
+            List<PlayerID> teamBlueCopy = new List<PlayerID>(teamBlue);
             foreach(GameObject blueSpawnPoint in blueSpawnPoints)
             {
                 if (teamBlueCopy.Count == 0) break;
