@@ -10,7 +10,7 @@ namespace Audio
         public AudioClip introClip;
         public AudioClip loopClip;
 
-        void Start()
+        void OnEnable()
         {
             double introStartTime = AudioSettings.dspTime;
             introSource.clip = introClip;

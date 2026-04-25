@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using System.Linq;
+using Audio;
 using Player;
 
 namespace GameLoop.GameLobby
@@ -34,6 +35,7 @@ namespace GameLoop.GameLobby
         public Vector3 groundAnchorPoint = Vector3.zero;
 
         public GameObject FakeoutTitleScreen;
+        public GameObject music;
         public event Action OnGameStart;
         
         #endregion
@@ -61,7 +63,11 @@ namespace GameLoop.GameLobby
 
         void Update()
         {
-            if(Input.GetKey(KeyCode.N))FakeoutTitleScreen.SetActive(true);
+            if (Input.GetKey(KeyCode.N))
+            {
+                FakeoutTitleScreen.SetActive(true);
+                music.SetActive(false);
+            }
             
             // Clamp mouse position to screen bounds before raycasting
             Vector2 clampedMousePos = new Vector2(
