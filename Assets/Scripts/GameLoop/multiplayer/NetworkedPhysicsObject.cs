@@ -1,5 +1,6 @@
 using System;
 using PurrNet;
+using PurrNet.Prediction;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,11 +8,11 @@ namespace GameLoop.multiplayer
 {
     public class NetworkedPhysicsObject : NetworkBehaviour
     {
-        private NetworkRigidbody networkRigidbody;
+        private PredictedRigidbody networkRigidbody;
 
         private void Awake()
         {
-            networkRigidbody = GetComponent<NetworkRigidbody>();
+            networkRigidbody = GetComponent<PredictedRigidbody>();
         }
 
         public void AddForce(Vector3 impulse)
