@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CreatureParts;
 using GameLoop.multiplayer;
 using PurrNet;
+using PurrNet.Prediction;
 using UnityEngine;
 
 namespace Player
@@ -11,7 +12,7 @@ namespace Player
         #region Private Variables
         
         private List<Transform> wormParts;
-        private NetworkRigidbody wormHead;
+        private PredictedRigidbody wormHead;
         private NetworkedPhysicsObject wormHeadNetworkedPhysicsObject;
         private Player player;
         
@@ -23,7 +24,7 @@ namespace Player
         {
             player = GetComponent<Player>();
             wormParts = player.wormBodySegments.list;
-            wormHead = player.wormHead.GetComponent<NetworkRigidbody>();
+            wormHead = player.wormHead.GetComponent<PredictedRigidbody>();
             wormHeadNetworkedPhysicsObject = player.wormHead.GetComponent<NetworkedPhysicsObject>();
         }
         
@@ -47,7 +48,7 @@ namespace Player
             for (int i = 0; i < wormParts.Count; i++)
             {
                 Transform wormPart = wormParts[i];
-                NetworkRigidbody wormPartRigidBody = wormPart.GetComponent<NetworkRigidbody>();
+                PredictedRigidbody wormPartRigidBody = wormPart.GetComponent<PredictedRigidbody>();
                 NetworkedPhysicsObject wormPartNetworkedPhysicsObject = wormPart.GetComponent<NetworkedPhysicsObject>();
                 
                 if (i > segmentCount / 2)
@@ -70,7 +71,7 @@ namespace Player
             wormHeadNetworkedPhysicsObject.AddForce(wormHead.transform.forward * GameParameters.WormHeadButHeadForce);
             for (int i = 0; i < wormParts.Count; i++)
             {
-                NetworkRigidbody wormPartRigidBody = wormParts[i].GetComponent<NetworkRigidbody>();
+                PredictedRigidbody wormPartRigidBody = wormParts[i].GetComponent<PredictedRigidbody>();
                 NetworkedPhysicsObject wormPartNetworkedPhysicsObject = wormParts[i].GetComponent<NetworkedPhysicsObject>();
                 if (i < ((GameParameters.WormSegmentCount + 1) / 2))
                 {
@@ -89,7 +90,7 @@ namespace Player
             {
                 if (i > ((GameParameters.WormSegmentCount + 1) / 2))
                 {
-                    NetworkRigidbody wormPartRigidBody = wormParts[i].GetComponent<NetworkRigidbody>();
+                    PredictedRigidbody wormPartRigidBody = wormParts[i].GetComponent<PredictedRigidbody>();
                     NetworkedPhysicsObject wormPartNetworkedPhysicsObject = wormParts[i].GetComponent<NetworkedPhysicsObject>();
                     GroundBackSegment(wormPartRigidBody, wormPartNetworkedPhysicsObject);
                 }
@@ -100,7 +101,7 @@ namespace Player
         
         #region Private Methods
 
-        private void LiftFrontSegments(NetworkRigidbody wormPart, NetworkedPhysicsObject networkedPhysicsObject, int liftedSegment, int segmentCount)
+        private void LiftFrontSegments(PredictedRigidbody wormPart, NetworkedPhysicsObject networkedPhysicsObject, int liftedSegment, int segmentCount)
         {
             float maxSegmentHeight = GameParameters.WormMaxHeightPerSegment / liftedSegment;
 
@@ -112,7 +113,7 @@ namespace Player
         
         }
 
-        private void GroundBackSegment(NetworkRigidbody wormPart, NetworkedPhysicsObject networkedPhysicsObject) {
+        private void GroundBackSegment(PredictedRigidbody wormPart, NetworkedPhysicsObject networkedPhysicsObject) {
             CreatureBodySegment segment = wormPart.GetComponent<CreatureBodySegment>();
             if (segment.IsGrounded)
             {

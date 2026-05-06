@@ -252,7 +252,7 @@ MonoBehaviour:
   _floatAccuracy: 1
   _interpolationSettings: {fileID: 11400000, guid: 4a8aa8e44e23cfd4a8d4387ef3f36173, type: 2}
   _unparentGraphics: 0
-  _characterControllerPatch: 1
+  _characterControllerPatch: 0
 --- !u!114 &4702450539167127156
 MonoBehaviour:
   m_ObjectHideFlags: 0
