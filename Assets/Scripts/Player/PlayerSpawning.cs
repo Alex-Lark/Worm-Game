@@ -283,6 +283,7 @@ namespace Player
             }
             else if (!asServer && SceneManager.GetActiveScene().name == "GameLobbyScene")
             {
+                Debug.Log("spawning player directly in lobby");
                 SpawnPlayerInLobbyScene();
             }
         }

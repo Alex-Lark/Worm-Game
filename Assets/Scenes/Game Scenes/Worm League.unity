@@ -1911,7 +1911,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: PurrNet.Prediction::PurrNet.Prediction.PredictedPlayerSpawner
   _playerPrefab: {fileID: 3857149077806430327, guid: 84a4084e46c23274facf0350ed1ad874, type: 3}
   _destroyOnDisconnect: 0
-  spawnPoints: []
+  spawnPoints:
+  - {fileID: 1136558889}
 --- !u!1 &462658579
 GameObject:
   m_ObjectHideFlags: 0
