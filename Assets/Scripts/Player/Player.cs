@@ -55,7 +55,6 @@ namespace Player
         #endregion
         
         #region public variables
-
         public PlayerRegister.PlayerData RegisterData => PlayerRegister.Players[playerID];
         
         public int playerScore = 1;

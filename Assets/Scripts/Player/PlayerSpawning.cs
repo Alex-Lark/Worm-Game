@@ -286,6 +286,10 @@ namespace Player
                 Debug.Log("spawning player directly in lobby");
                 SpawnPlayerInLobbyScene();
             }
+            else
+            {
+                Debug.LogError("Player spawning failed");
+            }
         }
 
         private IEnumerator InitialSpawnAsOwner()
