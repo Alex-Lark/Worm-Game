@@ -42,8 +42,11 @@ namespace WormLeague
             //StartCoroutine(Ddebug());
             AssignPlayerTeams();
             AssignPlayerSpawnPoints();
-            
-            LoadingScreenManager.LoadingScreenForSelf(false);
+
+            if (LoadingScreenManager.instance != null)
+            {
+                LoadingScreenManager.LoadingScreenForSelf(false);
+            }
         }
 
         private void Update()

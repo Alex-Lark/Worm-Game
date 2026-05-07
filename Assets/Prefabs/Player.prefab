@@ -932,8 +932,8 @@ GameObject:
   - component: {fileID: 2946591719419874529}
   - component: {fileID: 1591429414908112517}
   - component: {fileID: 7502773944600098116}
-  - component: {fileID: 7461069633537571187}
-  - component: {fileID: 8069567794834024420}
+  - component: {fileID: 8075951811692346190}
+  - component: {fileID: 3541438279976310803}
   m_Layer: 0
   m_Name: Sphere - head
   m_TagString: WormBodySegment
@@ -1143,7 +1143,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
---- !u!114 &7461069633537571187
+--- !u!114 &8075951811692346190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1159,8 +1159,8 @@ MonoBehaviour:
   _floatAccuracy: 1
   _interpolationSettings: {fileID: 11400000, guid: 4a8aa8e44e23cfd4a8d4387ef3f36173, type: 2}
   _unparentGraphics: 0
-  _characterControllerPatch: 0
---- !u!114 &8069567794834024420
+  _characterControllerPatch: 1
+--- !u!114 &3541438279976310803
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

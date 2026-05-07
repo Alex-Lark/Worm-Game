@@ -23,7 +23,10 @@ namespace WormLeague
         {
             DisplayTitleScreen();
 
-            PlayerRegister.OnPlayerRegisterChanged.AddListener(UpdateUI);
+            if (PlayerRegister.Instance != null)
+            {
+                PlayerRegister.OnPlayerRegisterChanged.AddListener(UpdateUI);
+            }
             UpdateUI(new PlayerID(), false);
         }
 

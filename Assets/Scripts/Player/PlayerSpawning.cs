@@ -49,7 +49,10 @@ namespace Player
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
             {
                 deathScreenUI = FindFirstObjectByType<DeathScreenUI>();
-                LocalPlayer.Instance.canDie = true;
+                if (LocalPlayer.Instance != null)
+                {
+                    LocalPlayer.Instance.canDie = true;
+                }
             }
         }
 

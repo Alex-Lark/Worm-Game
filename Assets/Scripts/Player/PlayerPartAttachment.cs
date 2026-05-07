@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CreatureBuilder;
 using CreatureParts;
 using PurrNet;
+using PurrNet.Prediction;
 using UnityEngine;
 
 namespace Player
@@ -198,7 +199,7 @@ namespace Player
 
         private void AddAlreadyAttachedPart(GameObject part)
         {
-            var netRb = part.GetComponent<NetworkRigidbody>();
+            var netRb = part.GetComponent<PredictedRigidbody>();
             if (netRb != null) netRb.enabled = false;
             
             PartDragging partDraggingComponent = part.GetComponent<PartDragging>();
@@ -227,7 +228,7 @@ namespace Player
             Quaternion rotation = part.GetComponent<AttachablePart>().attachmentRotation;
 
             GameObject newPart = UnityProxy.InstantiateDirectly(prefab, position, rotation);
-            newPart.GetComponent<NetworkRigidbody>().enabled = false;
+            newPart.GetComponent<PredictedRigidbody>().enabled = false;
             newPart.GetComponent<Rigidbody>().isKinematic = true;
             newPart.GetComponent<Rigidbody>().useGravity = false;
             

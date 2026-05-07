@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using CreatureParts;
 using GameLoop.multiplayer;
 using PurrNet;
+using PurrNet.Prediction;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,7 +19,7 @@ namespace Player
         private new GameObject camera;
         private Transform wormHead;
         private NetworkedPhysicsObject wormHeadNetworkedPhysicsObject;
-        private NetworkRigidbody wormHeadNetworkRigidbody;
+        private PredictedRigidbody wormHeadPredictedRigidbody;
 
         private readonly RaycastHit[] stepHits = new RaycastHit[10];
         private readonly List<float> segmentMaxForwardForce = new List<float>();
@@ -43,7 +44,7 @@ namespace Player
             camera = player.thirdPersonCamera;
             wormHead = player.wormHead;
             wormHeadNetworkedPhysicsObject = wormHead.GetComponent<NetworkedPhysicsObject>();
-            wormHeadNetworkRigidbody = wormHead.GetComponent<NetworkRigidbody>();
+            wormHeadPredictedRigidbody = wormHead.GetComponent<PredictedRigidbody>();
             
             segmentMaxForwardForce.Clear();
             for (int i = 0; i < GameParameters.WormSegmentCount; i++)
@@ -54,7 +55,7 @@ namespace Player
 
         public void MoveHead()
         {
-            float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
+            float speedFactor = 1f + wormHeadPredictedRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
             if (finCount >= 1)
             {
@@ -69,8 +70,8 @@ namespace Player
         
         public void MoveHeadTowardsPosition(Vector3 position)
         {
-            if (wormHeadNetworkRigidbody == null) return;
-            float speedFactor = 1f + wormHeadNetworkRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
+            if (wormHeadPredictedRigidbody == null) return;
+            float speedFactor = 1f + wormHeadPredictedRigidbody.linearVelocity.magnitude / GameParameters.WormMoveForce;
             float rotationSpeed = GameParameters.WormHeadRotationSpeed * speedFactor;
             if (finCount >= 1)
             {
@@ -159,7 +160,7 @@ namespace Player
     
         private void MoveMiddleSegmentUp(Transform middlePart, int middleIndex)
         {
-            NetworkRigidbody rb = middlePart.GetComponent<NetworkRigidbody>();
+            PredictedRigidbody rb = middlePart.GetComponent<PredictedRigidbody>();
             
             if (rb.linearVelocity.magnitude > player.MaxVelocity) return;
 
@@ -200,7 +201,7 @@ namespace Player
         
         private bool CanMove(Transform part, CreaturePart creaturePart)
         {
-            NetworkRigidbody rb = part.GetComponent<NetworkRigidbody>();
+            PredictedRigidbody rb = part.GetComponent<PredictedRigidbody>();
             return (creaturePart.IsGrounded || creaturePart.TimeSinceLastGrounded < GameParameters.MaxTimeSinceLastGrounded) 
                    && rb.linearVelocity.magnitude <= player.MaxVelocity;
         }
@@ -252,7 +253,7 @@ namespace Player
 
         private float ConstrainWormAngle(Transform wormPart, float signedAngle, Vector3 partToPreviousPartVector, Vector3 backVector)
         {
-            NetworkRigidbody partRb = wormPart.GetComponent<NetworkRigidbody>();
+            PredictedRigidbody partRb = wormPart.GetComponent<PredictedRigidbody>();
         
             float excessAngle = Mathf.Abs(signedAngle) - GameParameters.MaxWormTurnAngle;
             float t = Mathf.Clamp01(excessAngle / 90f);
@@ -320,29 +321,14 @@ namespace Player
             if (targetDir.magnitude < 0.01f) return;
             
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
-            Quaternion newRotation = Quaternion.Slerp(wormHead.GetComponent<NetworkRigidbody>().rotation, targetRot, speed * Time.fixedDeltaTime);
+            Quaternion newRotation = Quaternion.Slerp(wormHead.GetComponent<PredictedRigidbody>().rotation, targetRot, speed * Time.fixedDeltaTime);
             
-            wormHead.GetComponent<NetworkRigidbody>().rotation = newRotation;
-
-            // if (player.isOwner)
-            // {
-            //     Debug.Log("setting head rotation");
-            //     player.SetHeadRotation(newRotation);
-            // }
+            wormHead.GetComponent<PredictedRigidbody>().rotation = newRotation;
         }
-        
-        // public void Update()
-        // {
-        //     if (Input.GetKey(KeyCode.R))
-        //     {
-        //         Quaternion extraRotation = Quaternion.Euler(0, 0, 15f);
-        //         wormHead.GetComponent<NetworkRigidbody>().rotation = wormHead.GetComponent<NetworkRigidbody>().rotation * extraRotation;
-        //     }
-        // }
 
         private void MoveHeadGrounded(CreaturePart part)
         {
-            if (wormHeadNetworkRigidbody.linearVelocity.magnitude > player.MaxVelocity) return;
+            if (wormHeadPredictedRigidbody.linearVelocity.magnitude > player.MaxVelocity) return;
 
             ApplyStepClimb(wormHead, wormHead.forward);
 

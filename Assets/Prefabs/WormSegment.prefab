@@ -103,8 +103,8 @@ GameObject:
   - component: {fileID: 8151722010977918196}
   - component: {fileID: 3191980782223653350}
   - component: {fileID: 9124720428447693280}
-  - component: {fileID: 6883882550597973837}
-  - component: {fileID: 4702450539167127156}
+  - component: {fileID: 657128712374151179}
+  - component: {fileID: 9064682357215990852}
   m_Layer: 0
   m_Name: WormSegment
   m_TagString: WormBodySegment
@@ -236,7 +236,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
---- !u!114 &6883882550597973837
+--- !u!114 &657128712374151179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,8 +252,8 @@ MonoBehaviour:
   _floatAccuracy: 1
   _interpolationSettings: {fileID: 11400000, guid: 4a8aa8e44e23cfd4a8d4387ef3f36173, type: 2}
   _unparentGraphics: 0
-  _characterControllerPatch: 0
---- !u!114 &4702450539167127156
+  _characterControllerPatch: 1
+--- !u!114 &9064682357215990852
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
