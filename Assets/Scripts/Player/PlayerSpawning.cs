@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CreatureBuilder;
 using CreatureParts;
 using PurrNet;
+using PurrNet.Prediction;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace Player
 {
-    public class PlayerSpawning : NetworkBehaviour
+    public class PlayerSpawning : MonoBehaviour
     {
         #region public variables
 
@@ -59,13 +60,14 @@ namespace Player
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (player != null) LocalPlayer.Unregister(player);
         }
 
-        protected override void OnDespawned()
-        {
-            LocalPlayer.Unregister(player);
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
+        // protected override void OnDespawned()
+        // {
+        //     LocalPlayer.Unregister(player);
+        //     SceneManager.sceneLoaded -= OnSceneLoaded;
+        // }
 
         #endregion
         
@@ -77,7 +79,6 @@ namespace Player
             spawnRotation = inputSpawnpoint.transform.rotation;
             spawnPointSet = true;
             Debug.Log("spawnpoint set with position: " + spawnPoint + " ,rotation: " + spawnRotation);
-            SyncSpawnPointServer(spawnPoint, spawnRotation, player);
         }
         
         public void SetWormInGameScene()
@@ -91,11 +92,11 @@ namespace Player
             
         }
         
-        [ServerRpc]
-        public void SetKinematicStateServer(bool isKinematic, Player playerToUpdate)
-        {
-            SetKinematicStateObserver(isKinematic, playerToUpdate);
-        }
+        // [ServerRpc]
+        // public void SetKinematicStateServer(bool isKinematic, Player playerToUpdate)
+        // {
+        //     SetKinematicStateObserver(isKinematic, playerToUpdate);
+        // }
 
         private void SetWormInGameSceneAsOwner()
         {
@@ -108,7 +109,12 @@ namespace Player
 
         public IEnumerator AssignPlayerTeam()
         {
-            yield return new WaitUntil(() => player.RegisterData.team.ToString() != "None" && player.RegisterData.team.ToString() != "");
+            Debug.Log($"AssignPlayerTeam | Players null: {PlayerRegister.Players == null} | playerID: {player.playerID} | owner: {player.owner}");
+            yield return new WaitUntil(() =>
+                PlayerRegister.Players != null &&
+                PlayerRegister.Players.ContainsKey(player.playerID) &&
+                player.RegisterData.team.ToString() != "None" &&
+                player.RegisterData.team.ToString() != "");
             
             string team = player.RegisterData.team.ToString();
             player.SetPlayerTeam(team);
@@ -116,7 +122,7 @@ namespace Player
         
         public IEnumerator SetWormInCreatureBuilderScene()
         {
-            if (owner == localPlayer)
+            if (player.owner == player.predictionManager.localPlayer)
             {
                 LocalPlayer.Instance.canDie = false;
                 Debug.Log("setting worm in creature builder as owner");
@@ -175,30 +181,30 @@ namespace Player
         #endregion
         
         
-        [ServerRpc(runLocally: true)]
-        private void SyncSpawnPointServer(Vector3 position, Quaternion rotation, Player syncPlayer)
-        {
-            SyncSpawnPointObserver(position, rotation, syncPlayer);
-        }
+        // [ServerRpc(runLocally: true)]
+        // private void SyncSpawnPointServer(Vector3 position, Quaternion rotation, Player syncPlayer)
+        // {
+        //     SyncSpawnPointObserver(position, rotation, syncPlayer);
+        // }
         
-        [ObserversRpc(runLocally: true)]
-        private void SyncSpawnPointObserver(Vector3 position, Quaternion rotation, Player syncPlayer)
-        {
-            if (syncPlayer != player) return;
-            spawnPoint = position;
-            spawnRotation = rotation;
-            spawnPointSet = true;
-        }
+        // [ObserversRpc(runLocally: true)]
+        // private void SyncSpawnPointObserver(Vector3 position, Quaternion rotation, Player syncPlayer)
+        // {
+        //     if (syncPlayer != player) return;
+        //     spawnPoint = position;
+        //     spawnRotation = rotation;
+        //     spawnPointSet = true;
+        // }
         
         #region Private Methods
 
-        [ObserversRpc]
-        private void SetKinematicStateObserver(bool isKinematic, Player playertoUpdate)
-        {
-            if (playertoUpdate != player) return;
-            
-            GetComponent<WormPhysics>().ToggleWormKinematics(isKinematic);
-        }
+        // [ObserversRpc]
+        // private void SetKinematicStateObserver(bool isKinematic, Player playertoUpdate)
+        // {
+        //     if (playertoUpdate != player) return;
+        //     
+        //     GetComponent<WormPhysics>().ToggleWormKinematics(isKinematic);
+        // }
         
         private void SetWormSpawnRotation(Quaternion orientation)
         {
@@ -270,25 +276,25 @@ namespace Player
         
         #region Initial Spawning
         
-        protected override void OnSpawned(bool asServer)
+        public void InitialSpawn()
         {
             if (player == null) player = GetComponent<Player>();
             isRegistered = true;
-            Debug.Log($"Player spawned | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer} | asServer: {asServer}");
+            Debug.Log($"Player spawned | owner: {player.owner} | isOwner: {player.isOwner} | localPlayer: {player.predictionManager.localPlayer}");
             
-            if (owner == localPlayer && !asServer)
+            if (player.owner == player.predictionManager.localPlayer)
             {
-                Debug.Log($"Initial spawning as owner: | owner: {owner} | isOwner: {isOwner} | localPlayer: {localPlayer} | asServer: {asServer}");
+                Debug.Log($"Initial spawning as owner: | owner: {player.owner} | isOwner: {player.isOwner} | localPlayer: {player.predictionManager.localPlayer}");
                 StartCoroutine(InitialSpawnAsOwner());
             }
-            else if (!asServer && SceneManager.GetActiveScene().name == "GameLobbyScene")
+            else if (SceneManager.GetActiveScene().name == "GameLobbyScene")
             {
-                Debug.Log("spawning player directly in lobby");
+                Debug.Log($"spawning player directly in lobby. owner: {player.owner} | isOwner: {player.isOwner} | localPlayer: {player.predictionManager.localPlayer}");
                 SpawnPlayerInLobbyScene();
             }
             else
             {
-                Debug.LogError("Player spawning failed");
+                Debug.LogError($"Player spawning failed. owner: {player.owner} | isOwner: {player.isOwner} | localPlayer: {player.predictionManager.localPlayer}");
             }
         }
 
@@ -304,13 +310,14 @@ namespace Player
             player.wormJump = GetComponent<WormJump>();
             player.wormHeadBut = GetComponent<WormHeadBut>();
             
-            yield return StartCoroutine(SpawnAsServer(player));
+            player.wormBodySegments.Clear();
+            GetComponent<WormConstructor>().CreateWormSegments();
             
             GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
             //GetComponent<WormConstructor>().AddSegmentJointsAsServer(player);
             GetComponent<WormConstructor>().AddSegmentJoints();
-            SetKinematicStateServer(true, player);
+            GetComponent<WormPhysics>().ToggleWormKinematics(true);
 
             if (GameSceneList.IsSceneAGameScene(SceneManager.GetActiveScene().name))
                 SetWormInGameScene();
@@ -326,13 +333,13 @@ namespace Player
 
         private void SpawnPlayerInLobbyScene()
         {
-            if (isOwner)
+            if (player.isOwner)
             {
                 Debug.Log($"spawning player in lobby: {player.owner}" );
                 player.IsInvincible = true;
                 hasBeenVisuallyEnabledInGameScene = false;
             
-                SetKinematicStateServer(false, player);
+                GetComponent<WormPhysics>().ToggleWormKinematics(true);
             }
             else //hard coded as all players are non kinematic in lobby
             {
@@ -341,19 +348,19 @@ namespace Player
             
         }
 
-        [ServerRpc]
-        private IEnumerator SpawnAsServer(Player playerToSpawn)
-        {
-            Debug.Log($"Trying to spawn player {playerToSpawn.owner} as server, this player: {player.owner}.");
-            if (playerToSpawn != player) yield break;
-            
-            Debug.Log($"Spawning player {player.PlayerName} as server.");
-            
-            playerToSpawn.wormBodySegments.Clear();
-            playerToSpawn.GetComponent<WormConstructor>().CreateWormSegments();
-
-            yield return null;
-        }
+        // [ServerRpc]
+        // private IEnumerator SpawnAsServer(Player playerToSpawn)
+        // {
+        //     Debug.Log($"Trying to spawn player {playerToSpawn.owner} as server, this player: {player.owner}.");
+        //     if (playerToSpawn != player) yield break;
+        //     
+        //     Debug.Log($"Spawning player {player.PlayerName} as server.");
+        //     
+        //     playerToSpawn.wormBodySegments.Clear();
+        //     playerToSpawn.GetComponent<WormConstructor>().CreateWormSegments();
+        //
+        //     yield return null;
+        // }
         
         #endregion
         
@@ -398,7 +405,7 @@ namespace Player
                 yield return StartCoroutine(RespawnPlayerAsOwner());
             }
 
-            RespawnPlayerAsNonOwnerServerRPC(player);
+            RespawnPlayerAsNonOwner();
         }
         
         private IEnumerator RespawnPlayerAsOwner()
@@ -417,21 +424,21 @@ namespace Player
             yield return StartCoroutine(SpawnAtSpawnPoint());
         }
 
-        [ServerRpc]
-        private void RespawnPlayerAsNonOwnerServerRPC(Player playerToRespawn)
-        {
-            RespawnPlayerAsNonOwnerObserversRPC(playerToRespawn);
-        }
+        // [ServerRpc]
+        // private void RespawnPlayerAsNonOwnerServerRPC(Player playerToRespawn)
+        // {
+        //     RespawnPlayerAsNonOwnerObserversRPC(playerToRespawn);
+        // }
         
-        [ObserversRpc]
-        private void RespawnPlayerAsNonOwnerObserversRPC(Player playerToRespawn)
-        {
-            if (playerToRespawn != player) return;
-            
-            RespawnPlayerAsNonOwner();
-        }
+        // [ObserversRpc]
+        // private void RespawnPlayerAsNonOwnerObserversRPC(Player playerToRespawn)
+        // {
+        //     if (playerToRespawn != player) return;
+        //     
+        //     RespawnPlayerAsNonOwner();
+        // }
 
-        private void RespawnPlayerAsNonOwner()
+        public void RespawnPlayerAsNonOwner()
         {
             EnableWormVisually();
             Debug.Log("Respawning player as Nonowner" + player.PlayerName);
@@ -465,7 +472,7 @@ namespace Player
             player.canDie = true;
             player.currentPlayerHealth = player.maxPlayerHealth;
             
-            SetKinematicStateServer(true, player);
+            GetComponent<WormPhysics>().ToggleWormKinematics(true);
             player.GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
 
@@ -474,27 +481,23 @@ namespace Player
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
-            EnableWormServerRPC(player);
+            EnableWormLocal();
             
-            SetKinematicStateServer(false, player);
+            GetComponent<WormPhysics>().ToggleWormKinematics(true);
             player.IsInvincible = false;
         }
 
-        [ServerRpc]
-        private void EnableWormServerRPC(Player playerToEnable)
+        // [ServerRpc]
+        // private void EnableWormServerRPC(Player playerToEnable)
+        // {
+        //     EnableWormObserverRPC(playerToEnable);
+        // }
+        
+        private void EnableWormLocal()
         {
-            EnableWormObserverRPC(playerToEnable);
-        }
-
-        [ObserversRpc]
-        private void EnableWormObserverRPC(Player playerToEnable)
-        {
-            if (playerToEnable == player)
-            {
-                hasBeenVisuallyEnabledInGameScene = true;
-                EnableWormVisually();
-                GetComponent<WormPhysics>().ToggleWormCollisions(true);
-            }
+            hasBeenVisuallyEnabledInGameScene = true;
+            EnableWormVisually();
+            GetComponent<WormPhysics>().ToggleWormCollisions(true);
         }
 
         #endregion

@@ -172,6 +172,12 @@ namespace Player
                 }
             }
         }
+
+        protected override void LateAwake()
+        {
+            this.GetComponent<PlayerSpawning>().InitialSpawn();
+            playerID = owner.Value;
+        }
         
         #endregion
 
@@ -219,7 +225,7 @@ namespace Player
 
         public void MoveInLobby(Vector3 movePosition)
         {
-            if (!GetComponent<PlayerSpawning>().isSetup) return;
+            //if (!GetComponent<PlayerSpawning>().isSetup) return;
             
             wormForwardMovement.MoveHeadTowardsPosition(movePosition);
             wormForwardMovement.MoveWormBody();
@@ -459,7 +465,7 @@ namespace Player
 
             if (isOwner && owner == predictionManager.localPlayer)
             {
-                playerSpawning.SetKinematicStateServer(true, this);
+                GetComponent<WormPhysics>().ToggleWormKinematics(true);
             }
         }
 
