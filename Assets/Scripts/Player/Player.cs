@@ -5,6 +5,7 @@ using System.Linq;
 using CreatureParts;
 using DG.Tweening;
 using PurrNet;
+using PurrNet.Prediction;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,8 +30,27 @@ namespace Player
         public Vector3 direction;
     }
 
-    public class Player : NetworkBehaviour
+    public class Player : PredictedIdentity<Player.Input, Player.State>
     {
+        
+        #region Purrdiction
+
+        protected override void Simulate(Input input, ref State state, float delta)
+        {
+            
+        }
+
+        public struct State : IPredictedData<State>
+        {
+            public void Dispose() {}
+        }
+
+        public struct Input : IPredictedData
+        { 
+            public void Dispose() {}
+        }
+        
+        #endregion
         
         #region Public Properties
         [Header("Public Properties")]
@@ -376,7 +396,7 @@ namespace Player
 
             IsInvincible = true;
             
-            ServerSideDeath();
+            this.GetComponent<PlayerNetwork>().RequestDeath();
             
             playerSpawning.TryToRespawn();
         }
@@ -393,11 +413,10 @@ namespace Player
             
             GetComponent<WormRenderer>().SetMaterial(bodyMaterial);
         }
-
-        [ServerRpc(requireOwnership: true)]
-        private void ServerSideDeath()
+        
+        public void RaiseTakeDamage(HitInfo hitInfo)
         {
-            ObserversSideDeath();
+            OnTakeDamage?.Invoke(hitInfo);
         }
 
         public void SetPlayerTeam(string team)
@@ -416,17 +435,10 @@ namespace Player
             currentPlayerHealth -= hitInfo.damage;
             // Only invoke damage screenShake locally
             screenShakeImpulseSource.GenerateImpulseWithVelocity(Vector3.down * GameParameters.TakeDamageScreenShakeIntensity);
-            ObserversOnTakeDamage(hitInfo);
+            this.GetComponent<PlayerNetwork>().ObserversOnTakeDamage(hitInfo);
         }
-
-        [ObserversRpc(runLocally: true)]
-        private void ObserversOnTakeDamage(HitInfo hitInfo)
-        {
-            OnTakeDamage?.Invoke(hitInfo);
-        }
-
-        [ObserversRpc(runLocally: true)]
-        private void ObserversSideDeath()
+        
+        public void HandleDeathObservers()
         {
             playerSpawning.DisableWormVisually();
     
@@ -445,7 +457,7 @@ namespace Player
                 attachedPart.SetActive(false);
             }
 
-            if (isOwner && owner == localPlayer)
+            if (isOwner && owner == predictionManager.localPlayer)
             {
                 playerSpawning.SetKinematicStateServer(true, this);
             }
