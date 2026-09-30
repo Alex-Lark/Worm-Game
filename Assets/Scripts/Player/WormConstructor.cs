@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CreatureParts;
 using GameLoop.multiplayer;
 using PurrNet;
+using PurrNet.Prediction;
 using UnityEngine;
 
 namespace Player
@@ -24,7 +25,10 @@ namespace Player
     
             for (int i = 0; i < player.WormSegmentCount; i++)
             {
-                GameObject newSegment = Object.Instantiate(player.wormSegmentPrefab, transform);
+                //GameObject newSegment = Object.Instantiate(player.wormSegmentPrefab, transform);
+                Vector3 segmentPosition = player.wormHead.position + -player.wormHead.forward * (player.MaxPartDistance * (i + 1));
+                var segmentID = player.predictionManager.hierarchy.Create(player.wormSegmentPrefab, segmentPosition, player.wormHead.rotation, player.owner);
+                GameObject newSegment = segmentID.GetGameObject(player.predictionManager);
                 newSegment.GetComponent<CreatureBodySegment>().GiveOwnership(player.owner);
                 newSegment.name = "Worm segment " + i;
                 newSegment.GetComponent<CreatureBodySegment>().previousSegment = previousSegment;
