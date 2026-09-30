@@ -475,15 +475,17 @@ namespace Player
             GetComponent<WormPhysics>().ToggleWormKinematics(true);
             player.GetComponent<WormConstructor>().ConstructWorm();
             GetComponent<WormPhysics>().AddCollidersToSegments();
+            Debug.Log("SAS: constructed");
 
             yield return new WaitForFixedUpdate();
+            Debug.Log("SAS: after fixed update");
 
             SetWormSpawnRotation(spawnRotation);
             SetWormSpawnPosition(spawnPoint);
             
             EnableWormLocal();
             
-            GetComponent<WormPhysics>().ToggleWormKinematics(true);
+            GetComponent<WormPhysics>().ToggleWormKinematics(false);
             player.IsInvincible = false;
         }
 

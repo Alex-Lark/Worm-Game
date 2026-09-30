@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using CreatureParts;
 using PurrNet;
@@ -50,6 +51,8 @@ namespace Player
 
         public void ToggleWormKinematics(bool isKinematic)
         {
+            Debug.Log("toggle worm kinematics called");
+            
             if (isKinematic)
             {
                 MakeWormKinematic();
@@ -62,6 +65,7 @@ namespace Player
     
         public void MakeWormKinematic()
         {
+            Debug.Log($"MakeWormKinematic on {player.PlayerName} | segments: {player.wormBodySegments.Count}", this);
             SetSegmentPhysics(player.wormHead, isKinematic: true, useGravity: false);
             foreach (Transform segment in player.wormBodySegments)
             {
@@ -77,6 +81,7 @@ namespace Player
 
         public void MakeWormUnkinematic()
         {
+            Debug.Log($"MakeWormUnkinematic on {player.PlayerName} | segments: {player.wormBodySegments.Count}", this);
             Rigidbody headRb = player.wormHead.GetComponent<Rigidbody>();
             if (headRb != null)
             {
