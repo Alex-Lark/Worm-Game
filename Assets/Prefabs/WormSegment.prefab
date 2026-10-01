@@ -48,7 +48,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2362888918827852152}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -203,15 +203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37c1d747845f75488f350baea6781eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormBodySegment
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
   visualBodySegment: {fileID: 2362888918827852152}
   previousSegment: {fileID: 0}
   nextSegment: {fileID: 0}

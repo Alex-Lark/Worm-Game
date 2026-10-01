@@ -160,6 +160,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7505438985572923784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3237000244680917212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8616667771191688465}
+  m_Layer: 0
+  m_Name: WormMeshObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8616667771191688465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237000244680917212}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7505438985572923784}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3378935721403069532
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +422,7 @@ Transform:
   - {fileID: 8071018323496679240}
   - {fileID: 1052716730484284803}
   - {fileID: 707760628019232653}
+  - {fileID: 8616667771191688465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7294720926454559192
@@ -553,6 +585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormRenderer
   wormMaterial: {fileID: 2100000, guid: 66fefb1b5a3c56e47985a1f410607097, type: 2}
+  wormMeshObject: {fileID: 3237000244680917212}
   tubeResolution: 12
   smoothingSubdivisions: 3
   capSubdivisions: 3
@@ -645,15 +678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e6dc4f0dbcdd74fac009c2f81fa3cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpawning
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
   player: {fileID: 0}
   canRespawn: 1
   deathScreenUI: {fileID: 0}
@@ -895,7 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98dbb08343eac044895b9b52872bcb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PurrNet.Prediction::PurrNet.Prediction.PredictedTransform
-  _graphics: {fileID: 0}
+  _graphics: {fileID: 8616667771191688465}
   _floatAccuracy: 1
   _interpolationSettings: {fileID: 11400000, guid: 4a8aa8e44e23cfd4a8d4387ef3f36173, type: 2}
   _unparentGraphics: 0
@@ -1065,15 +1089,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb83f687f93b434bb8e0742fc933964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.Head
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
   visualHead: {fileID: 8284898165621438582}
   wormVisualHeadWithMaterial: {fileID: 3234903475071676460}
 --- !u!23 &2946591719419874529
@@ -1157,15 +1172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7a0d81aa13e7342bce9d5821ef4ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WormPart
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
 --- !u!114 &8075951811692346190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1178,7 +1184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98dbb08343eac044895b9b52872bcb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PurrNet.Prediction::PurrNet.Prediction.PredictedTransform
-  _graphics: {fileID: 0}
+  _graphics: {fileID: 4665594383874748790}
   _floatAccuracy: 1
   _interpolationSettings: {fileID: 11400000, guid: 4a8aa8e44e23cfd4a8d4387ef3f36173, type: 2}
   _unparentGraphics: 0

@@ -9,6 +9,7 @@ namespace Player
     {
         [Header("Worm Visual Settings")]
         public Material wormMaterial;
+        public GameObject wormMeshObject;
         public int tubeResolution = 8;
         public int smoothingSubdivisions = 3;
         public int capSubdivisions = 4;
@@ -52,19 +53,44 @@ namespace Player
             lineRenderer.endWidth = GameParameters.WormBodyWidth;
             lineRenderer.useWorldSpace = true;
             lineRenderer.enabled = false;
+            
+            if (meshFilter != null && meshRenderer != null && wormMesh != null)
+                return;
 
-            if (meshFilter == null)
+            
+            if (wormMeshObject == null)
             {
-                GameObject meshObj = new GameObject("WormMesh");
-                meshObj.transform.SetParent(transform);
-
-                meshFilter = meshObj.AddComponent<MeshFilter>();
-                meshRenderer = meshObj.AddComponent<MeshRenderer>();
-                meshRenderer.material = wormMaterial;
-
-                wormMesh = new Mesh { name = "WormTube" };
-                meshFilter.mesh = wormMesh;
+                Transform existing = transform.Find("WormMesh");
+                if (existing != null)
+                {
+                    wormMeshObject = existing.gameObject;
+                }
+                else
+                {
+                    wormMeshObject = new GameObject("WormMesh");
+                    wormMeshObject.transform.SetParent(transform, false);
+                }
             }
+
+            
+            if (!wormMeshObject.TryGetComponent(out meshFilter))
+                meshFilter = wormMeshObject.AddComponent<MeshFilter>();
+
+            if (!wormMeshObject.TryGetComponent(out meshRenderer))
+                meshRenderer = wormMeshObject.AddComponent<MeshRenderer>();
+
+            
+            if (wormMesh == null)
+                wormMesh = meshFilter.sharedMesh;
+
+            if (wormMesh == null)
+                wormMesh = new Mesh { name = "WormTube" };
+
+            wormMesh.MarkDynamic();
+            meshFilter.sharedMesh = wormMesh;
+            
+            if (wormMaterial != null)
+                meshRenderer.sharedMaterial = wormMaterial;
         }
 
         void Update() => GenerateTubeMesh();
@@ -77,7 +103,7 @@ namespace Player
 
             var originalPositions = new List<Vector3> { player.wormHead.position };
             originalPositions.AddRange(player.wormBodySegments.list.ConvertAll(p => p.position));
-            
+    
             if (originalPositions.Count < 2) return;
 
             List<Vector3> positions  = GenerateSmoothCurve(originalPositions);
@@ -93,6 +119,12 @@ namespace Player
             GenerateTubeBody(positions, directions, vertices, uvs, triangles, arcV);
             // Tail cap stitches from the last ring written by the tube body.
             GenerateTailCap(positions, directions, vertices, uvs, triangles, arcV);
+
+            // Vertices were built in world space; the mesh object has its own transform,
+            // so convert to its local space. This handles position, rotation, scale and parents.
+            Transform meshT = meshFilter.transform;
+            for (int i = 0; i < vertices.Count; i++)
+                vertices[i] = meshT.InverseTransformPoint(vertices[i]);
 
             wormMesh.Clear();
             wormMesh.vertices  = vertices.ToArray();

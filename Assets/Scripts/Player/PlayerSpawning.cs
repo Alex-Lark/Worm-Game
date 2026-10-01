@@ -160,6 +160,7 @@ namespace Player
         public void EnableWormVisually()
         {
             GetComponent<WormRenderer>().enabled = true;
+            // GetComponent<PredictedTransform>().graphics = GetComponent<WormRenderer>().transform;
             GetComponent<WormRenderer>().Restart();
             
             if (player.wormVisualHead.GetComponent<MeshRenderer>() != null) player.wormVisualHead.GetComponent<MeshRenderer>().enabled = true;
