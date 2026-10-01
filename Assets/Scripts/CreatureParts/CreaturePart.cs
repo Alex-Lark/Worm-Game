@@ -3,13 +3,14 @@ using System.Collections;
 using System.Linq;
 using Player;
 using PurrNet;
+using PurrNet.Prediction;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CreatureParts
 {
-    public class CreaturePart : NetworkBehaviour
+    public class CreaturePart : StatelessPredictedIdentity
     {
         #region Public Variables
         [Header("Public Variables")]
@@ -60,33 +61,60 @@ namespace CreatureParts
             CheckGrounded();
         }
         
-        protected override void OnSpawned(bool asServer)
+        protected override void LateAwake()
         {
-            if (!asServer) return;
-            
-            if (owner != null)
-            {
-                //Debug.Log($"Part owner is not null, owner: {owner}");
-                return;
-            }
-
-            if (ParentPlayer == null)
-            {
-                Debug.Log($"Parent player is null, owner: {owner}");
-                return;
-            }
-
-            if (ParentPlayer.owner.HasValue)
-            {
-                Debug.Log($"giving ownership to parentPlayer owner. Old owner: {owner} new owner: {parentPlayer.owner}" );
-                GiveOwnership(ParentPlayer.owner.Value);
-            }
-            else
-            {
-                Debug.Log($"waiting for ownership parent to give ownership. Old owner: {owner}" );
-                StartCoroutine(WaitForParentAndClaimOwnership());
-            }
+            // //need to set owner here?
+            // if (owner != null)
+            // {
+            //     //Debug.Log($"Part owner is not null, owner: {owner}");
+            //     return;
+            // }
+            //
+            // if (ParentPlayer == null)
+            // {
+            //     Debug.Log($"Parent player is null, owner: {owner}");
+            //     return;
+            // }
+            //
+            // if (ParentPlayer.owner.HasValue)
+            // {
+            //     Debug.Log($"giving ownership to parentPlayer owner. Old owner: {owner}" );
+            //     //owner = (ParentPlayer.owner.Value);
+            // }
+            // else
+            // {
+            //     Debug.Log($"waiting for ownership parent to give ownership. Old owner: {owner}" );
+            //     StartCoroutine(WaitForParentAndClaimOwnership());
+            // }
         }
+        
+        // protected override void OnSpawned(bool asServer)
+        // {
+        //     if (!asServer) return;
+        //     
+        //     if (owner != null)
+        //     {
+        //         //Debug.Log($"Part owner is not null, owner: {owner}");
+        //         return;
+        //     }
+        //
+        //     if (ParentPlayer == null)
+        //     {
+        //         Debug.Log($"Parent player is null, owner: {owner}");
+        //         return;
+        //     }
+        //
+        //     if (ParentPlayer.owner.HasValue)
+        //     {
+        //         Debug.Log($"giving ownership to parentPlayer owner. Old owner: {owner} new owner: {parentPlayer.owner}" );
+        //         GiveOwnership(ParentPlayer.owner.Value);
+        //     }
+        //     else
+        //     {
+        //         Debug.Log($"waiting for ownership parent to give ownership. Old owner: {owner}" );
+        //         StartCoroutine(WaitForParentAndClaimOwnership());
+        //     }
+        // }
         
         private void OnCollisionEnter(Collision other)
         {
@@ -111,10 +139,10 @@ namespace CreatureParts
             LocalPlayer.Instance.DamagePlayer(other, gameObject);
         }
 
-        protected override void OnOwnerChanged(PlayerID? previousOwner, PlayerID? newOwner, bool asServer)
-        {
-            //Debug.Log($"[WormSegment] OnOwnerChanged '{gameObject.name}' | asServer={asServer} | prev={previousOwner} | new={newOwner}");
-        }
+        // protected override void OnOwnerChanged(PlayerID? previousOwner, PlayerID? newOwner, bool asServer)
+        // {
+        //     //Debug.Log($"[WormSegment] OnOwnerChanged '{gameObject.name}' | asServer={asServer} | prev={previousOwner} | new={newOwner}");
+        // }
 
         #endregion
         
@@ -204,7 +232,8 @@ namespace CreatureParts
 
             if (owner == null)
             {
-                GiveOwnership(parentOwner.Value);
+                Debug.LogWarning("Could not properly give ownership because of switch to purrdiction");
+                //GiveOwnership(parentOwner.Value);
             }
         }
         

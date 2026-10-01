@@ -29,7 +29,9 @@ namespace Player
                 Vector3 segmentPosition = player.wormHead.position + -player.wormHead.forward * (player.MaxPartDistance * (i + 1));
                 var segmentID = player.predictionManager.hierarchy.Create(player.wormSegmentPrefab, segmentPosition, player.wormHead.rotation, player.owner);
                 GameObject newSegment = segmentID.GetGameObject(player.predictionManager);
-                newSegment.GetComponent<CreatureBodySegment>().GiveOwnership(player.owner);
+                Debug.LogWarning("Could not properly give ownership because of switch to purrdiction");
+                newSegment.transform.SetParent(transform, true);
+                //newSegment.GetComponent<CreatureBodySegment>().GiveOwnership(player.owner);
                 newSegment.name = "Worm segment " + i;
                 newSegment.GetComponent<CreatureBodySegment>().previousSegment = previousSegment;
                 player.wormBodySegments.Add(newSegment.transform);

@@ -39,7 +39,8 @@ namespace Player
             networkedPart.GetComponent<AttachablePart>().attachedSegmentRigidbody = attachedSegment.GetComponent<Rigidbody>();
             networkedPart.GetComponent<AttachablePart>().attachmentPosition = position;
             networkedPart.GetComponent<AttachablePart>().attachmentRotation = rotation;
-            networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
+            Debug.LogWarning("Could not properly give ownership because of switch to purrdiction");
+            //networkedPart.GetComponent<AttachablePart>().GiveOwnership(player.GetComponent<NetworkTransform>().owner);
     
             AddAttachedPartForClients(networkedPart, player, partMass, attachedSegment, localPos, localRot);
             SyncLegOrderRpc(player);

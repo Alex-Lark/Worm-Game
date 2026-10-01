@@ -42,7 +42,7 @@ namespace CreatureParts
             
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (localPlayer != owner) return;
+                if (predictionManager.localPlayer != owner) return;
 
                 if (animator != null)
                 {
