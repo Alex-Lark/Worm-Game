@@ -37,7 +37,38 @@ namespace Player
 
         protected override void Simulate(Input input, ref State state, float delta)
         {
-            
+            if (!isPlayerActive) return;
+            inSimulate = true;
+
+            if (IsWormAttacking)
+            {
+                wormHeadBut.ReadyHeadbut();
+                attackTimer -= delta;
+                if (attackTimer <= 0f)
+                {
+                    CurrentState = WormState.AttackCooldown;
+                    attackTimer = GameParameters.WormHeadButCoolDown;
+                    wormHeadBut.EndHeadBut();
+                    OnWormHeadbutLaunch?.Invoke();
+                }
+            }
+            else if (IsWormInAttackCooldown)
+            {
+                wormHeadBut.WormheadbutCoolDown();
+                attackTimer -= delta;
+                if (attackTimer <= 0f) CurrentState = WormState.Idle;
+            }
+
+            if (CurrentState != WormState.Dead)
+            {
+                if (input.attack) Attack();
+                if (input.jump) Jump();
+                if (input.moveForward && CurrentState == WormState.Idle) StartWormMoving();
+                else if (!input.moveForward && CurrentState == WormState.Moving) StopWormMoving();
+                if (input.moveForward) MoveForward();
+            }
+
+            inSimulate = false;
         }
 
         public struct State : IPredictedData<State>
@@ -47,7 +78,15 @@ namespace Player
 
         public struct Input : IPredictedData
         { 
+            public bool moveForward, jump, attack;
             public void Dispose() {}
+        }
+        
+        protected override void UpdateInput(ref Input input)
+        {
+            input.moveForward = wantsMove;
+            input.jump   |= wantsJump;    wantsJump = false;
+            input.attack |= wantsAttack;  wantsAttack = false;
         }
         
         #endregion
@@ -71,6 +110,9 @@ namespace Player
         public bool IsInvincible { get; set; }
 
         public bool canDie = false;
+        
+        private bool wantsMove, wantsJump, wantsAttack, inSimulate;
+        private float attackTimer;
         
         #endregion
         
@@ -154,15 +196,15 @@ namespace Player
                 RotateVisualHead();
             }
 
-            if (IsWormAttacking)
-            {
-                wormHeadBut.ReadyHeadbut();
-            }
-
-            if (IsWormInAttackCooldown)
-            {
-                wormHeadBut.WormheadbutCoolDown();
-            }
+            // if (IsWormAttacking)
+            // {
+            //     wormHeadBut.ReadyHeadbut();
+            // }
+            //
+            // if (IsWormInAttackCooldown)
+            // {
+            //     wormHeadBut.WormheadbutCoolDown();
+            // }
 
             if (isOwner)
             {
@@ -196,6 +238,8 @@ namespace Player
         
         public void StartWormMoving()
         {
+            if (!inSimulate) { wantsMove = true;  return; }
+            
             if (CurrentState == WormState.Dead) return;
             CurrentState = WormState.Moving;
             
@@ -204,6 +248,12 @@ namespace Player
         
         public void StopWormMoving()
         {
+            if (!inSimulate)
+            {
+                wantsMove = false;
+                return;
+            }
+
             if (CurrentState == WormState.Dead) return;
             CurrentState = WormState.Idle;
             
@@ -213,6 +263,8 @@ namespace Player
         public void MoveForward()
         {
             if (!isPlayerActive || IsWormJumping || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
+            
+            if (!inSimulate) { wantsMove = true;  return; }
             
             wormForwardMovement.MoveHead();
             wormForwardMovement.MoveWormBody();
@@ -332,6 +384,8 @@ namespace Player
 
         public void Jump()
         {
+            if (!inSimulate) { wantsJump = true;  return; }
+            
             if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
             
             wormJump.Jump();
@@ -345,10 +399,17 @@ namespace Player
 
         public void Attack()
         {
+            if (!inSimulate)
+            {
+                wantsAttack = true;
+                return;
+            }
+
             if (!IsWormGrounded || IsWormAttacking || IsWormInAttackCooldown || CurrentState == WormState.Dead) return;
             
             CurrentState = WormState.Attacking;
-            StartCoroutine(AttackSequence());
+            attackTimer = GameParameters.WormHeadbutTime;
+            OnWormHeadbutCharge?.Invoke();
         }
 
         public void ResetPlayer()
@@ -595,16 +656,16 @@ namespace Player
             return copy;
         }
         
-        private IEnumerator AttackSequence()
-        {
-            OnWormHeadbutCharge?.Invoke();
-            yield return new WaitForSeconds(GameParameters.WormHeadbutTime);
-            CurrentState = WormState.AttackCooldown;
-            wormHeadBut.EndHeadBut();
-            OnWormHeadbutLaunch?.Invoke();
-            yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
-            CurrentState = WormState.Idle;
-        }
+        // private IEnumerator AttackSequence()
+        // {
+        //     OnWormHeadbutCharge?.Invoke();
+        //     yield return new WaitForSeconds(GameParameters.WormHeadbutTime);
+        //     CurrentState = WormState.AttackCooldown;
+        //     wormHeadBut.EndHeadBut();
+        //     OnWormHeadbutLaunch?.Invoke();
+        //     yield return new WaitForSeconds(GameParameters.WormHeadButCoolDown);
+        //     CurrentState = WormState.Idle;
+        // }
         
         private void SetWormGrounding()
         {

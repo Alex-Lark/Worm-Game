@@ -89,6 +89,13 @@ namespace Player
             {
                 SetWormInGameSceneAsOwner();
             }
+            else
+            {
+                player.ActivatePlayer();
+                EnableWormVisually();
+                GetComponent<WormPhysics>().ToggleWormCollisions(true);
+                GetComponent<WormPhysics>().ToggleWormKinematics(false);   // forces can't move kinematic bodies
+            }
             
         }
         
