@@ -34,9 +34,13 @@ namespace Player
     {
         
         #region Purrdiction
+        
+        private int ticksThisFrame, dbgFrames;
 
         protected override void Simulate(Input input, ref State state, float delta)
         {
+            ticksThisFrame++;
+            //if (Time.frameCount % 60 == 0) Debug.Log($"tick delta {delta:F4} vs fixed {Time.fixedDeltaTime:F4}");
             if (!isPlayerActive) return;
             inSimulate = true;
             
@@ -72,6 +76,7 @@ namespace Player
                 if (input.moveForward) MoveForward();
             }
 
+            state.movementPhase = wormForwardMovement.movementPhase;
             inSimulate = false;
         }
 
@@ -95,6 +100,12 @@ namespace Player
             input.attack |= wantsAttack;  wantsAttack = false;
             
             if (thirdPersonCamera != null) input.lookForward = thirdPersonCamera.transform.forward;
+        }
+        
+        private void LateUpdate()
+        {
+            if (isOwner && dbgFrames++ < 20) Debug.Log($"ticks this frame: {ticksThisFrame}");
+            ticksThisFrame = 0;
         }
         
         #endregion

@@ -101,6 +101,10 @@ namespace Player
             }
 
             (int startIndex, int count) = GetGroundedMiddleSegment(wormParts);
+            
+            //if (Time.frameCount % 30 == 0)
+                //Debug.Log($"MoveWormBody | parts {wormParts.Count} | groundedStart {startIndex} count {count} | phase {movementPhase:F2} | maxVel {player.MaxVelocity}");
+            
             if (startIndex == -1) return;
 
             int middleIndex = startIndex + (count / 2);
@@ -179,6 +183,7 @@ namespace Player
                 );
                 middlePart.GetComponent<PredictedRigidbody>().AddForce(Vector3.up * upwardForce);
                 middlePart.GetComponent<CreatureBodySegment>().SetIsScrunched();
+                //Debug.Log($"lift | phase {movementPhase:F2} | force {upwardForce:F1} | mass {middlePart.GetComponent<Rigidbody>().mass} | vy {rb.linearVelocity.y:F3}");
             }
         }
     

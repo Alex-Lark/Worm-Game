@@ -1375,15 +1375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e492c9f1621614db1cd68928d8e641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CreatureParts.WingPart
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
   defaultConnectedAnchor: {x: 0, y: 0, z: 0}
   attachmentPosition: {x: 0, y: 0, z: 0}
   attachmentRotation: {x: 0, y: 0, z: 0, w: 0}

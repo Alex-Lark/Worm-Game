@@ -56,9 +56,9 @@ namespace CreatureParts
             GroundObject = null;
         }
 
-        protected virtual void FixedUpdate()
+        protected override void Simulate(float delta)
         {
-            CheckGrounded();
+            CheckGrounded(delta);
         }
         
         protected override void LateAwake()
@@ -167,7 +167,7 @@ namespace CreatureParts
         
         #region Private Methods
 
-        private void CheckGrounded()
+        private void CheckGrounded(float delta)
         {
             Vector3 bottom = partCollider.bounds.center - new Vector3(0, partCollider.bounds.extents.y, 0);
             Vector3 checkPos = bottom + Vector3.down * verticalDetectionOffset;
@@ -186,14 +186,14 @@ namespace CreatureParts
                 {
                     IsGrounded = true;
                     GroundObject = hit.gameObject;
-                    GroundNormal = GetGroundNormal(hit);
+                    GroundNormal = GetGroundNormal(hit, delta);
                 
                     break;
                 }
             }
         }
     
-        private Vector3 GetGroundNormal(Collider groundCollider)
+        private Vector3 GetGroundNormal(Collider groundCollider, float delta)
         {
             if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f))
             {
@@ -204,7 +204,7 @@ namespace CreatureParts
                 }
             }
 
-            TimeSinceLastGrounded += Time.fixedDeltaTime;
+            TimeSinceLastGrounded += delta;
             return Vector3.up;
         }
         

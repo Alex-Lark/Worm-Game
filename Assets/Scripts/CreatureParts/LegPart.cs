@@ -42,9 +42,9 @@ namespace CreatureParts
             isInitialized = true;
         }
 
-        void FixedUpdate()
+        protected override void Simulate(float delta)
         {
-            base.FixedUpdate();
+            base.Simulate(delta);
 
             if (!isInitialized)
             {
