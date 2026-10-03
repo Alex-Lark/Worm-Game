@@ -39,6 +39,10 @@ namespace Player
         {
             if (!isPlayerActive) return;
             inSimulate = true;
+            
+            wormForwardMovement.TickDelta = delta;
+            wormForwardMovement.lookDirection = input.lookForward;
+            wormForwardMovement.movementPhase = state.movementPhase;
 
             if (IsWormAttacking)
             {
@@ -73,12 +77,14 @@ namespace Player
 
         public struct State : IPredictedData<State>
         {
+            public float movementPhase;
             public void Dispose() {}
         }
 
         public struct Input : IPredictedData
         { 
             public bool moveForward, jump, attack;
+            public Vector3 lookForward;
             public void Dispose() {}
         }
         
@@ -87,6 +93,8 @@ namespace Player
             input.moveForward = wantsMove;
             input.jump   |= wantsJump;    wantsJump = false;
             input.attack |= wantsAttack;  wantsAttack = false;
+            
+            if (thirdPersonCamera != null) input.lookForward = thirdPersonCamera.transform.forward;
         }
         
         #endregion

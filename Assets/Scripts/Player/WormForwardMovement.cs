@@ -12,18 +12,22 @@ namespace Player
     public class WormForwardMovement : MonoBehaviour
     {
         public float finCount = 0;
+        public Vector3 lookDirection;
+        public float TickDelta;
+        public float movementPhase;
+
+        private float Dt => TickDelta > 0f ? TickDelta : Dt;
         
         #region Private Variables
         
         private Player player;
         private new GameObject camera;
         private Transform wormHead;
-        private NetworkedPhysicsObject wormHeadNetworkedPhysicsObject;
+        // private NetworkedPhysicsObject wormHeadNetworkedPhysicsObject;
         private PredictedRigidbody wormHeadPredictedRigidbody;
 
         private readonly RaycastHit[] stepHits = new RaycastHit[10];
         private readonly List<float> segmentMaxForwardForce = new List<float>();
-        private float movementPhase;
         
         #endregion
 
@@ -43,7 +47,7 @@ namespace Player
             player = GetComponent<Player>();
             camera = player.thirdPersonCamera;
             wormHead = player.wormHead;
-            wormHeadNetworkedPhysicsObject = wormHead.GetComponent<NetworkedPhysicsObject>();
+            // wormHeadNetworkedPhysicsObject = wormHead.GetComponent<NetworkedPhysicsObject>();
             wormHeadPredictedRigidbody = wormHead.GetComponent<PredictedRigidbody>();
             
             segmentMaxForwardForce.Clear();
@@ -63,7 +67,7 @@ namespace Player
                 rotationSpeed = rotationSpeed * finMultiplier;
             }
             
-            Vector3 direction = player.thirdPersonCamera.transform.forward;
+            Vector3 direction = lookDirection;
             RotateHeadGrounded(rotationSpeed, direction);
             MoveHeadGrounded(wormHead.GetComponent<CreaturePart>());
         }
@@ -137,7 +141,7 @@ namespace Player
         
         private void UpdateMovementPhase()
         {
-            movementPhase += Time.fixedDeltaTime / GameParameters.WormForwardMovementLoopLength;
+            movementPhase += Dt / GameParameters.WormForwardMovementLoopLength;
             if (movementPhase > 1f) movementPhase = 0f;
         }
 
@@ -173,7 +177,7 @@ namespace Player
                     0f, 
                     GameParameters.WormScrunchForce
                 );
-                middlePart.GetComponent<NetworkedPhysicsObject>().AddForce(Vector3.up * upwardForce);
+                middlePart.GetComponent<PredictedRigidbody>().AddForce(Vector3.up * upwardForce);
                 middlePart.GetComponent<CreatureBodySegment>().SetIsScrunched();
             }
         }
@@ -210,10 +214,10 @@ namespace Player
         {
             if (DetectStep(part.position, forward, part.GetComponent<Collider>(), out float stepHeight))
             {
-                NetworkedPhysicsObject networkedPhysicsObject = part.GetComponent<NetworkedPhysicsObject>();
+                //NetworkedPhysicsObject networkedPhysicsObject = part.GetComponent<NetworkedPhysicsObject>();
                 float climbForce = GameParameters.WormStepClimbForce * (stepHeight / GameParameters.MaxStepHeight);
-                networkedPhysicsObject.AddForce(Vector3.up * climbForce);
-                networkedPhysicsObject.AddForce(forward * climbForce);
+                part.GetComponent<PredictedRigidbody>().AddForce(Vector3.up * climbForce);
+                part.GetComponent<PredictedRigidbody>().AddForce(forward * climbForce);
             }
         }
 
@@ -224,13 +228,13 @@ namespace Player
             
             if (groundObject == null) return;
 
-            NetworkedPhysicsObject partRb = part.GetComponent<NetworkedPhysicsObject>();
-            NetworkedPhysicsObject groundRb = groundObject.GetComponent<NetworkedPhysicsObject>();
+            // NetworkedPhysicsObject partRb = part.GetComponent<NetworkedPhysicsObject>();
+            // NetworkedPhysicsObject groundRb = groundObject.GetComponent<NetworkedPhysicsObject>();
             
-            if (groundRb != null)
-                groundRb.AddForceAtPosition(-segmentMaxForwardForce[segmentIndex] * moveDir, part.position);
+            if (groundObject.GetComponent<PredictedRigidbody>() != null)
+                groundObject.GetComponent<PredictedRigidbody>().AddForceAtPosition(-segmentMaxForwardForce[segmentIndex] * moveDir, part.position);
             else
-                partRb.AddForce(segmentMaxForwardForce[segmentIndex] * moveDir);
+                part.GetComponent<PredictedRigidbody>().AddForce(segmentMaxForwardForce[segmentIndex] * moveDir);
         }
         
         #endregion
@@ -268,7 +272,7 @@ namespace Player
                 GameParameters.WormMoveForce * GameParameters.WormCorrectionForceMultiplier
             );
             
-            wormPart.GetComponent<NetworkedPhysicsObject>().AddForce(correctionDir * forceMagnitude);
+            wormPart.GetComponent<PredictedRigidbody>().AddForce(correctionDir * forceMagnitude);
             return forceMagnitude;
         }
         
@@ -321,7 +325,7 @@ namespace Player
             if (targetDir.magnitude < 0.01f) return;
             
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
-            Quaternion newRotation = Quaternion.Slerp(wormHead.GetComponent<PredictedRigidbody>().rotation, targetRot, speed * Time.fixedDeltaTime);
+            Quaternion newRotation = Quaternion.Slerp(wormHead.GetComponent<PredictedRigidbody>().rotation, targetRot, speed * Dt);
             
             wormHead.GetComponent<PredictedRigidbody>().rotation = newRotation;
         }
@@ -333,12 +337,13 @@ namespace Player
             ApplyStepClimb(wormHead, wormHead.forward);
 
             Vector3 moveDir = AlignToSlope(wormHead.forward, part.GroundNormal);
-            NetworkedPhysicsObject groundRb = part.GroundObject?.GetComponent<NetworkedPhysicsObject>();
+            //NetworkedPhysicsObject groundRb = part.GroundObject?.GetComponent<NetworkedPhysicsObject>();
+            PredictedRigidbody groundRb = part.GroundObject?.GetComponent<PredictedRigidbody>();
 
             if (groundRb)
                 groundRb.AddForceAtPosition(-GameParameters.WormMoveForce * moveDir, wormHead.position);
             else
-                wormHeadNetworkedPhysicsObject.AddForce(GameParameters.WormMoveForce * moveDir);
+                wormHead.GetComponent<PredictedRigidbody>().AddForce(GameParameters.WormMoveForce * moveDir);
         }
         
         #endregion
